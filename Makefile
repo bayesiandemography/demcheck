@@ -3,7 +3,14 @@
 all: R/err-composite.R \
      R/err-member.R \
      R/err-single.R \
+     README.md \
      documentation
+
+## Create README
+
+README.md : README.rmd
+	Rscript -e 'knitr::knit("README.Rmd")'
+
 
 ## Create 'err' files
 

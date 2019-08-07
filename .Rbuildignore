@@ -4,3 +4,4 @@
 \.Rproj\.user
 ^Makefile$
 ^make_err\.awk$
+^README\.Rmd$
