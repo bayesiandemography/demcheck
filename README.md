@@ -8,6 +8,7 @@ output: github_document
 # demcheck
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.org/johnrbryant/demcheck.svg?branch=master)](https://travis-ci.org/johnrbryant/demcheck)
 <!-- badges: end -->
 
 demcheck contains checking functions used by the dem* packages. End-users would not normally use it directly.
@@ -19,3 +20,4 @@ You can install the released version of demcheck from GitHub with:
 ``` r
 devtools::install_github("demcheck")
 ```
+
