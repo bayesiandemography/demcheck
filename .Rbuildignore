@@ -1,0 +1,6 @@
+^LICENSE\.md$
+\.Rhistory
+\.RData
+\.Rproj\.user
+^Makefile$
+^make_err\.awk$
