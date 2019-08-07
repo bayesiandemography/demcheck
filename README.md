@@ -21,3 +21,12 @@ You can install the released version of demcheck from GitHub with:
 devtools::install_github("demcheck")
 ```
 
+## Usage
+
+```r
+library(devcheck)
+chk_is_string("mystring")
+chk_is_string(1)
+```
+
+
