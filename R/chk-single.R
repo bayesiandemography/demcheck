@@ -82,6 +82,15 @@ chk_is_length_1 <- function(x, name) {
 
 #' @export
 #' @rdname single
+chk_is_logical <- function(x, name) {
+    if (!is.logical(x))
+        return(gettextf("'%s' does not have type \"%s\"",
+                        name, "logical"))
+    TRUE
+}
+
+#' @export
+#' @rdname single
 chk_is_not_na_scalar <- function(x, name) {
     if (is.na(x))
         return(gettextf("'%s' is NA",

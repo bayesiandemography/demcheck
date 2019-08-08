@@ -31,6 +31,15 @@ err_is_integer_consec <- function(x, name) {
 
 #' @export
 #' @rdname composite
+err_is_logical_flag <- function(x, name) {
+    val <- chk_is_logical_flag(x, name)
+    if (is.character(val))
+        stop(val)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
 err_is_string <- function(x, name) {
     val <- chk_is_string(x, name)
     if (is.character(val))

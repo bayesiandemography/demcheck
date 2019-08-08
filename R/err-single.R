@@ -58,6 +58,15 @@ err_is_length_1 <- function(x, name) {
 
 #' @export
 #' @rdname single
+err_is_logical <- function(x, name) {
+    val <- chk_is_logical(x, name)
+    if (is.character(val))
+        stop(val)
+    TRUE
+}
+
+#' @export
+#' @rdname single
 err_is_not_na_scalar <- function(x, name) {
     val <- chk_is_not_na_scalar(x, name)
     if (is.character(val))

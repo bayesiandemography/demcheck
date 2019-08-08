@@ -8,6 +8,7 @@
 \alias{chk_is_integer}
 \alias{chk_is_integer_equiv}
 \alias{chk_is_length_1}
+\alias{chk_is_logical}
 \alias{chk_is_not_na_scalar}
 \alias{chk_is_not_na_vector}
 \alias{chk_is_not_na_list}
@@ -18,6 +19,7 @@
 \alias{err_is_integer}
 \alias{err_is_integer_equiv}
 \alias{err_is_length_1}
+\alias{err_is_logical}
 \alias{err_is_not_na_scalar}
 \alias{err_is_not_na_vector}
 \alias{err_is_not_na_list}
@@ -35,6 +37,8 @@ chk_is_integer(x, name)
 chk_is_integer_equiv(x, name)
 
 chk_is_length_1(x, name)
+
+chk_is_logical(x, name)
 
 chk_is_not_na_scalar(x, name)
 
@@ -55,6 +59,8 @@ err_is_integer(x, name)
 err_is_integer_equiv(x, name)
 
 err_is_length_1(x, name)
+
+err_is_logical(x, name)
 
 err_is_not_na_scalar(x, name)
 

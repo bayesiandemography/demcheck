@@ -69,6 +69,28 @@ test_that("'chk_is_integer_consec' returns expected message with invalid vector"
 })
 
 
+## chk_is_logical_flag
+
+test_that("'chk_is_logical_flag' returns TRUE with valid logical_flag", {
+    expect_true(chk_is_logical_flag(x = TRUE,
+                                    name = "x"))
+    expect_true(chk_is_logical_flag(x = FALSE,
+                                    name = "x"))
+})
+
+test_that("'chk_is_logical_flag' returns expected message with invalid argument", {
+    expect_identical(chk_is_logical_flag(x = 1,
+                                   name = "x"),
+                     "'x' does not have type \"logical\"")
+    expect_identical(chk_is_logical_flag(x = c(TRUE, FALSE),
+                                   name = "x"),
+                     "'x' does not have length 1")
+    expect_identical(chk_is_logical_flag(x = NA,
+                                   name = "x"),
+                     "'x' is NA")
+})
+
+
 ## chk_is_string
 
 test_that("'chk_is_string' returns TRUE with valid string", {

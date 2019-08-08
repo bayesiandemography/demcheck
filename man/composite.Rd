@@ -5,11 +5,13 @@
 \alias{chk_is_first_day_time_unit}
 \alias{chk_is_first_day_time_unit_consec}
 \alias{chk_is_integer_consec}
+\alias{chk_is_logical_flag}
 \alias{chk_is_string}
 \alias{chk_is_strictly_increasing}
 \alias{err_is_first_day_time_unit}
 \alias{err_is_first_day_time_unit_consec}
 \alias{err_is_integer_consec}
+\alias{err_is_logical_flag}
 \alias{err_is_string}
 \alias{err_is_strictly_increasing}
 \title{Checks of Composite Conditions}
@@ -20,6 +22,8 @@ chk_is_first_day_time_unit_consec(x, name, time_unit)
 
 chk_is_integer_consec(x, name)
 
+chk_is_logical_flag(x, name)
+
 chk_is_string(x, name)
 
 chk_is_strictly_increasing(x, name)
@@ -29,6 +33,8 @@ err_is_first_day_time_unit(x, name, time_unit)
 err_is_first_day_time_unit_consec(x, name, time_unit)
 
 err_is_integer_consec(x, name)
+
+err_is_logical_flag(x, name)
 
 err_is_string(x, name)
 
@@ -54,6 +60,20 @@ Functions to check for conditions that involve
 several attributes. For instance, \code{chk_is_integer_consec}
 checks whether \code{x} has type integer, whether \code{x}
 has no \code{NA}s, and whether \code{all(diff(x)) == 1L}.
+}
+\details{
+\code{chk_is_first_day_time_unit} checks whether a \code{x}
+consists of first days for the time unit supplied,
+eg values such \code{"2001-03-01"}, \code{"2001-05-01"}, or
+\code{"2000-09-01"} when \code{time_unit} is \code{"months"}.
+\code{chk_is_first_day_time_unit_consec} adds the condition
+that these dates be consecutive, eg
+\code{"2001-03-01"}, \code{"2001-04-01"}, \code{"2000-09-01"}.
+Separately checking for first days makes the job of
+\code{chk_is_first_day_time_unit_consec} much easier, which
+is why we have two functions.
+
+Most of the functions raise an error if \code{x} has \code{NA}s.
 }
 \seealso{
 \code{\link{single}}, \code{\link{member}}

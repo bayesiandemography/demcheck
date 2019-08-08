@@ -6,6 +6,19 @@
 #' checks whether \code{x} has type integer, whether \code{x}
 #' has no \code{NA}s, and whether \code{all(diff(x)) == 1L}.
 #'
+#' \code{chk_is_first_day_time_unit} checks whether a \code{x}
+#' consists of first days for the time unit supplied,
+#' eg values such \code{"2001-03-01"}, \code{"2001-05-01"}, or
+#' \code{"2000-09-01"} when \code{time_unit} is \code{"months"}.
+#' \code{chk_is_first_day_time_unit_consec} adds the condition
+#' that these dates be consecutive, eg
+#' \code{"2001-03-01"}, \code{"2001-04-01"}, \code{"2000-09-01"}.
+#' Separately checking for first days makes the job of
+#' \code{chk_is_first_day_time_unit_consec} much easier, which
+#' is why we have two functions.
+#'
+#' Most of the functions raise an error if \code{x} has \code{NA}s.
+#' 
 #' @param x The object being checked.
 #' @param name The name used in any message. Typically,
 #' but not always, the name of \code{x}.
@@ -25,8 +38,12 @@ NULL
 #' @export
 #' @rdname composite
 chk_is_first_day_time_unit <- function(x, name, time_unit) {
-    val <- chk_is_date(x = x, name = name)
+    n <- length(x)
+    if (n == 0L)
+        return(TRUE)
+    val <- chk_is_date_equiv(x = x, name = name)
     if (!isTRUE(val)) return(val)
+    x <- as.Date(x)
     val <- chk_member_time_unit(x = time_unit, name = "time_unit")
     if (!isTRUE(val)) return(val)
     year <- as.integer(format(x, "%Y"))
@@ -51,11 +68,16 @@ chk_is_first_day_time_unit <- function(x, name, time_unit) {
 #' @export
 #' @rdname composite
 chk_is_first_day_time_unit_consec <- function(x, name, time_unit) {
-    val <- chk_is_first_day_time_unit(x = x,
-                                        name = name,
-                                        time_unit = time_unit)
-    if (!isTRUE(val)) return(val)
     n <- length(x)
+    if (n == 0L)
+        return(TRUE)
+    val <- chk_is_date_equiv(x = x, name = name)
+    if (!isTRUE(val)) return(val)
+    x <- as.Date(x)
+    val <- chk_is_first_day_time_unit(x = x,
+                                      name = name,
+                                      time_unit = time_unit)
+    if (!isTRUE(val)) return(val)
     if (n >= 2L) {
         from <- x[[1L]]
         seq_expected <- seq.Date(from = from,     # Calculation using 'seq.Date' relies
@@ -91,6 +113,19 @@ chk_is_integer_consec <- function(x, name) {
                             i, x[[i]], i + 1L, x[[i + 1L]], name))
         }
     }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_is_logical_flag <- function(x, name) {
+    val <- chk_is_logical(x = x, name = name)
+    if (!isTRUE(val)) return(val)
+    val <- chk_is_length_1(x = x, name = name)
+    if (!isTRUE(val)) return(val)
+    val <- chk_is_not_na_scalar(x = x, name = name)
+    if (!isTRUE(val)) return(val)
     TRUE
 }
 
