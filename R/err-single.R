@@ -7,7 +7,7 @@
 err_is_character <- function(x, name) {
     val <- chk_is_character(x, name)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -16,7 +16,7 @@ err_is_character <- function(x, name) {
 err_is_date <- function(x, name) {
     val <- chk_is_date(x, name)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -25,7 +25,7 @@ err_is_date <- function(x, name) {
 err_is_date_equiv <- function(x, name) {
     val <- chk_is_date_equiv(x, name)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -34,7 +34,7 @@ err_is_date_equiv <- function(x, name) {
 err_is_integer <- function(x, name) {
     val <- chk_is_integer(x, name)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -43,7 +43,7 @@ err_is_integer <- function(x, name) {
 err_is_integer_equiv <- function(x, name) {
     val <- chk_is_integer_equiv(x, name)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -52,7 +52,7 @@ err_is_integer_equiv <- function(x, name) {
 err_is_length_1 <- function(x, name) {
     val <- chk_is_length_1(x, name)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -61,25 +61,7 @@ err_is_length_1 <- function(x, name) {
 err_is_logical <- function(x, name) {
     val <- chk_is_logical(x, name)
     if (is.character(val))
-        stop(val)
-    TRUE
-}
-
-#' @export
-#' @rdname single
-err_is_not_na_scalar <- function(x, name) {
-    val <- chk_is_not_na_scalar(x, name)
-    if (is.character(val))
-        stop(val)
-    TRUE
-}
-
-#' @export
-#' @rdname single
-err_is_not_na_vector <- function(x, name) {
-    val <- chk_is_not_na_vector(x, name)
-    if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -88,7 +70,25 @@ err_is_not_na_vector <- function(x, name) {
 err_is_not_na_list <- function(x, name) {
     val <- chk_is_not_na_list(x, name)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
+err_is_not_na_scalar <- function(x, name) {
+    val <- chk_is_not_na_scalar(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
+err_is_not_na_vector <- function(x, name) {
+    val <- chk_is_not_na_vector(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -97,7 +97,7 @@ err_is_not_na_list <- function(x, name) {
 err_is_numeric <- function(x, name) {
     val <- chk_is_numeric(x, name)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 

@@ -17,7 +17,7 @@ NR == 1 {
     printf("err_%s <- %s\n", base_name, $2)
     printf("    val <- chk_%s%s\n", base_name, args)
     print "    if (is.character(val))"
-    print "        stop(val)"
+    print "        stop(val, call. = FALSE)"
     print "    TRUE"
     print "}\n"	
 }

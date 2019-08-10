@@ -41,11 +41,16 @@ chk_is_first_day_time_unit <- function(x, name, time_unit) {
     n <- length(x)
     if (n == 0L)
         return(TRUE)
+    val <- chk_is_not_na_vector(x = x, name = name)
+    if (!isTRUE(val))
+        return(val)
     val <- chk_is_date_equiv(x = x, name = name)
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     x <- as.Date(x)
     val <- chk_member_time_unit(x = time_unit, name = "time_unit")
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     year <- as.integer(format(x, "%Y"))
     from <- as.Date(sprintf("%d-01-01", min(year)))
     to <- as.Date(sprintf("%d-01-01", max(year) + 1L))
@@ -71,13 +76,11 @@ chk_is_first_day_time_unit_consec <- function(x, name, time_unit) {
     n <- length(x)
     if (n == 0L)
         return(TRUE)
-    val <- chk_is_date_equiv(x = x, name = name)
-    if (!isTRUE(val)) return(val)
-    x <- as.Date(x)
     val <- chk_is_first_day_time_unit(x = x,
                                       name = name,
                                       time_unit = time_unit)
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     if (n >= 2L) {
         from <- x[[1L]]
         seq_expected <- seq.Date(from = from,     # Calculation using 'seq.Date' relies
@@ -101,9 +104,11 @@ chk_is_first_day_time_unit_consec <- function(x, name, time_unit) {
 #' @rdname composite
 chk_is_integer_consec <- function(x, name) {
     val <- chk_is_integer(x = x, name = name)
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     val <- chk_is_not_na_vector(x = x, name = name)
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     if (length(x) >= 2L) {
         diff <- diff(x)
         is_not_one <- diff != 1L
@@ -121,11 +126,14 @@ chk_is_integer_consec <- function(x, name) {
 #' @rdname composite
 chk_is_logical_flag <- function(x, name) {
     val <- chk_is_logical(x = x, name = name)
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     val <- chk_is_length_1(x = x, name = name)
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     val <- chk_is_not_na_scalar(x = x, name = name)
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     TRUE
 }
 
@@ -134,11 +142,14 @@ chk_is_logical_flag <- function(x, name) {
 #' @rdname composite
 chk_is_string <- function(x, name) {
     val <- chk_is_character(x = x, name = name)
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     val <- chk_is_length_1(x = x, name = name)
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     val <- chk_is_not_na_scalar(x = x, name = name)
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     TRUE
 }
 
@@ -147,9 +158,11 @@ chk_is_string <- function(x, name) {
 #' @rdname composite
 chk_is_strictly_increasing <- function(x, name) {
     val <- chk_is_numeric(x = x, name = name)
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     val <- chk_is_not_na_vector(x = x, name = name)
-    if (!isTRUE(val)) return(val)
+    if (!isTRUE(val))
+        return(val)
     if (length(x) >= 2L) {
         is_not_incr <- diff(x) <= 0L
         if (any(is_not_incr)) {

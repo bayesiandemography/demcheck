@@ -7,7 +7,7 @@
 err_is_first_day_time_unit <- function(x, name, time_unit) {
     val <- chk_is_first_day_time_unit(x, name, time_unit)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -16,7 +16,7 @@ err_is_first_day_time_unit <- function(x, name, time_unit) {
 err_is_first_day_time_unit_consec <- function(x, name, time_unit) {
     val <- chk_is_first_day_time_unit_consec(x, name, time_unit)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -25,7 +25,7 @@ err_is_first_day_time_unit_consec <- function(x, name, time_unit) {
 err_is_integer_consec <- function(x, name) {
     val <- chk_is_integer_consec(x, name)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -34,7 +34,7 @@ err_is_integer_consec <- function(x, name) {
 err_is_logical_flag <- function(x, name) {
     val <- chk_is_logical_flag(x, name)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -43,7 +43,7 @@ err_is_logical_flag <- function(x, name) {
 err_is_string <- function(x, name) {
     val <- chk_is_string(x, name)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 
@@ -52,7 +52,7 @@ err_is_string <- function(x, name) {
 err_is_strictly_increasing <- function(x, name) {
     val <- chk_is_strictly_increasing(x, name)
     if (is.character(val))
-        stop(val)
+        stop(val, call. = FALSE)
     TRUE
 }
 

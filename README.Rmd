@@ -22,7 +22,7 @@ demcheck contains checking functions used by the dem* packages. End-users would 
 
 ## Installation
 
-You can install the released version of demcheck from GitHub with:
+You can install from GitHub with:
 
 ``` r
 devtools::install_github("demcheck")

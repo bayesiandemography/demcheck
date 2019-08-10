@@ -9,9 +9,9 @@
 \alias{chk_is_integer_equiv}
 \alias{chk_is_length_1}
 \alias{chk_is_logical}
+\alias{chk_is_not_na_list}
 \alias{chk_is_not_na_scalar}
 \alias{chk_is_not_na_vector}
-\alias{chk_is_not_na_list}
 \alias{chk_is_numeric}
 \alias{err_is_character}
 \alias{err_is_date}
@@ -20,9 +20,9 @@
 \alias{err_is_integer_equiv}
 \alias{err_is_length_1}
 \alias{err_is_logical}
+\alias{err_is_not_na_list}
 \alias{err_is_not_na_scalar}
 \alias{err_is_not_na_vector}
-\alias{err_is_not_na_list}
 \alias{err_is_numeric}
 \title{Checks of Single Conditions}
 \usage{
@@ -40,11 +40,11 @@ chk_is_length_1(x, name)
 
 chk_is_logical(x, name)
 
+chk_is_not_na_list(x, name)
+
 chk_is_not_na_scalar(x, name)
 
 chk_is_not_na_vector(x, name)
-
-chk_is_not_na_list(x, name)
 
 chk_is_numeric(x, name)
 
@@ -62,11 +62,11 @@ err_is_length_1(x, name)
 
 err_is_logical(x, name)
 
+err_is_not_na_list(x, name)
+
 err_is_not_na_scalar(x, name)
 
 err_is_not_na_vector(x, name)
-
-err_is_not_na_list(x, name)
 
 err_is_numeric(x, name)
 }

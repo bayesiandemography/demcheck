@@ -43,10 +43,14 @@ chk_is_date <- function(x, name) {
 #' @export
 #' @rdname single
 chk_is_date_equiv <- function(x, name) {
-    x_date <- suppressWarnings(as.Date(x))
+    x_date <- tryCatch(error = function(cnd) cnd$message,
+                       as.Date(x))
+    if (is.character(x_date))
+        return(gettextf("'%s' [%s] not equivalent to dates : %s",
+                        name, string_subset_vec(x), x_date))
     is_not_equiv <- !is.na(x) & (is.na(x_date) | (x_date != x))
     if (any(is_not_equiv))
-        return(gettextf("value '%s' in '%s' not equivalent to integer",
+        return(gettextf("value '%s' in '%s' not equivalent to date",
                         x[is_not_equiv][[1L]], name))
     TRUE
 }
@@ -91,6 +95,18 @@ chk_is_logical <- function(x, name) {
 
 #' @export
 #' @rdname single
+chk_is_not_na_list <- function(x, name) {
+    for (i in seq_along(x)) {
+        element_i <- x[[i]]
+        if (any(is.na(element_i)))
+            return(gettextf("element %d of '%s' has NAs",
+                            i, name))
+    }                                
+    TRUE
+}
+
+#' @export
+#' @rdname single
 chk_is_not_na_scalar <- function(x, name) {
     if (is.na(x))
         return(gettextf("'%s' is NA",
@@ -104,18 +120,6 @@ chk_is_not_na_vector <- function(x, name) {
     if (any(is.na(x)))
         return(gettextf("'%s' has NAs",
                         name))
-    TRUE
-}
-
-#' @export
-#' @rdname single
-chk_is_not_na_list <- function(x, name) {
-    for (i in seq_along(x)) {
-        element_i <- x[[i]]
-        if (any(is.na(element_i)))
-            return(gettextf("element %d of '%s' has NAs",
-                            i, name))
-    }                                
     TRUE
 }
 
