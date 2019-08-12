@@ -12,7 +12,7 @@ README.md : README.rmd
 	Rscript -e 'knitr::knit("README.Rmd")'
 
 
-## Create 'err' files
+## Create 'err' files (note that there is no 'chk_tdy')
 
 R/err-composite.R : make_err.awk \
                     R/chk-composite.R

@@ -34,27 +34,26 @@ chk_is_character <- function(x, name) {
 #' @export
 #' @rdname single
 chk_is_date <- function(x, name) {
-    if (!methods::is(x, "Date"))
+    if (!inherits(x, "Date"))
         return(gettextf("'%s' does not have class \"%s\"",
                         name, "Date"))
     TRUE
 }
 
+## HAS_TESTS
 #' @export
 #' @rdname single
 chk_is_date_equiv <- function(x, name) {
-    x_date <- tryCatch(error = function(cnd) cnd$message,
-                       as.Date(x))
-    if (is.character(x_date))
-        return(gettextf("'%s' [%s] not equivalent to dates : %s",
-                        name, string_subset_vec(x), x_date))
-    is_not_equiv <- !is.na(x) & (is.na(x_date) | (x_date != x))
-    if (any(is_not_equiv))
-        return(gettextf("value '%s' in '%s' not equivalent to date",
-                        x[is_not_equiv][[1L]], name))
-    TRUE
+    val <- tryCatch(error = function(e) e,
+                    err_tdy_date(x = x,
+                                 name = name))
+    if (methods::is(val, "error"))
+        val$message
+    else
+        TRUE
 }
 
+## HAS_TESTS
 #' @export
 #' @rdname single
 chk_is_integer <- function(x, name) {
@@ -67,12 +66,13 @@ chk_is_integer <- function(x, name) {
 #' @export
 #' @rdname single
 chk_is_integer_equiv <- function(x, name) {
-    x_int <- suppressWarnings(as.integer(x))
-    is_not_equiv <- !is.na(x) & (is.na(x_int) | (x_int != x))
-    if (any(is_not_equiv))
-        return(gettextf("value '%s' in '%s' not equivalent to integer",
-                        x[is_not_equiv][[1L]], name))
-    TRUE
+    val <- tryCatch(error = function(e) e,
+                    err_tdy_integer(x = x,
+                                    name = name))
+    if (methods::is(val, "error"))
+        val$message
+    else
+        TRUE
 }
 
 #' @export
