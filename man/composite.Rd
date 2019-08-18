@@ -8,12 +8,14 @@
 \alias{chk_is_logical_flag}
 \alias{chk_is_string}
 \alias{chk_is_strictly_increasing}
+\alias{chk_length_same_or_1}
 \alias{err_is_first_day_time_unit}
 \alias{err_is_first_day_time_unit_consec}
 \alias{err_is_integer_consec}
 \alias{err_is_logical_flag}
 \alias{err_is_string}
 \alias{err_is_strictly_increasing}
+\alias{err_length_same_or_1}
 \title{Checks of Composite Conditions}
 \usage{
 chk_is_first_day_time_unit(x, name, time_unit)
@@ -28,6 +30,8 @@ chk_is_string(x, name)
 
 chk_is_strictly_increasing(x, name)
 
+chk_length_same_or_1(x1, x2, name1, name2)
+
 err_is_first_day_time_unit(x, name, time_unit)
 
 err_is_first_day_time_unit_consec(x, name, time_unit)
@@ -39,6 +43,8 @@ err_is_logical_flag(x, name)
 err_is_string(x, name)
 
 err_is_strictly_increasing(x, name)
+
+err_length_same_or_1(x1, x2, name1, name2)
 }
 \arguments{
 \item{x}{The object being checked.}
@@ -47,6 +53,14 @@ err_is_strictly_increasing(x, name)
 but not always, the name of \code{x}.}
 
 \item{time_unit}{Measurement units for time, eg \code{"month"}.}
+
+\item{x1}{The first of a pair of objects being checked.}
+
+\item{x2}{The second of a pair of objects being checked.}
+
+\item{name1}{The name of the first of the pair of objects.}
+
+\item{name2}{The name of the second of the pair of objects.}
 }
 \value{
 When \code{x} passes the test,

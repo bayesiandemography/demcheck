@@ -20,8 +20,12 @@
 #' Most of the functions raise an error if \code{x} has \code{NA}s.
 #' 
 #' @param x The object being checked.
+#' @param x1 The first of a pair of objects being checked.
+#' @param x2 The second of a pair of objects being checked.
 #' @param name The name used in any message. Typically,
 #' but not always, the name of \code{x}.
+#' @param name1 The name of the first of the pair of objects.
+#' @param name2 The name of the second of the pair of objects.
 #' @param time_unit Measurement units for time, eg \code{"month"}.
 #'
 #' @return When \code{x} passes the test,
@@ -173,3 +177,24 @@ chk_is_strictly_increasing <- function(x, name) {
     }
     TRUE
 }
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_length_same_or_1 <- function(x1, x2, name1, name2) {
+    n1 <- length(x1)
+    n2 <- length(x2)
+    if (n1 == 0L)
+        return(gettextf("'%s' has length %d",
+                        name1, 0L))
+    if (n2 == 0L)
+        return(gettextf("'%s' has length %d",
+                        name2, 0L))
+    if (n1 == n2)
+        return(TRUE)
+    if ((n1 == 1L) || (n2 == 1L))
+        return(TRUE)
+    gettextf("'%s' has length %d and '%s' has length %d : should have same lengths, or one should have length %d",
+             name1, n1, name2, n2, 1L)
+}
+

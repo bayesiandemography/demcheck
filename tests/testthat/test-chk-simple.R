@@ -23,7 +23,6 @@ test_that("'chk_is_date_equiv' returns expected string with invalid dates", {
 })
 
 
-
 ## chk_is_integer_equiv
 
 test_that("'chk_is_integer_equiv' returns TRUE with valid inputs", {

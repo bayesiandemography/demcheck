@@ -56,3 +56,12 @@ err_is_strictly_increasing <- function(x, name) {
     TRUE
 }
 
+#' @export
+#' @rdname composite
+err_length_same_or_1 <- function(x1, x2, name1, name2) {
+    val <- chk_length_same_or_1(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+

@@ -137,3 +137,43 @@ test_that("'chk_is_strictly_increasing' returns expected message with invalid ar
                                                 name = "x"),
                      "'x' is not strictly increasing : element 2 [3] is greater than or equal to element 3 [2]")
 })
+
+
+## chk_length_same_or_1
+
+test_that("'chk_length_same_or_1' returns TRUE with valid vector", {
+    expect_true(chk_length_same_or_1(x1 = 1:3,
+                                     x2 = 3:1,
+                                     name1 = "x1",
+                                     name2 = "x2"))
+    expect_true(chk_length_same_or_1(x1 = 1L,
+                                     x2 = 3:1,
+                                     name1 = "x1",
+                                     name2 = "x2"))
+    expect_true(chk_length_same_or_1(x1 = 1:3,
+                                     x2 = 3L,
+                                     name1 = "x1",
+                                     name2 = "x2"))
+    expect_true(chk_length_same_or_1(x1 = 1L,
+                                     x2 = 3L,
+                                     name1 = "x1",
+                                     name2 = "x2"))
+})
+
+test_that("'chk_length_same_or_1' returns expected message with invalid argument", {
+    expect_identical(chk_length_same_or_1(x1 = integer(),
+                                          x2 = 3L,
+                                          name1 = "x1",
+                                          name2 = "x2"),
+                     "'x1' has length 0")
+    expect_identical(chk_length_same_or_1(x1 = 1L,
+                                          x2 = integer(),
+                                          name1 = "x1",
+                                          name2 = "x2"),
+                     "'x2' has length 0")
+    expect_identical(chk_length_same_or_1(x1 = 1:2,
+                                          x2 = 3:1,
+                                          name1 = "x1",
+                                          name2 = "x2"),
+                     "'x1' has length 2 and 'x2' has length 3 : should have same lengths, or one should have length 1")
+})
