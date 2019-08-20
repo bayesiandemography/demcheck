@@ -2,11 +2,17 @@
 % Please edit documentation in R/err_tdy.R
 \name{err_tdy}
 \alias{err_tdy}
+\alias{err_tdy_breaks}
 \alias{err_tdy_date}
+\alias{err_tdy_min_max}
 \alias{err_tdy_unit}
 \title{Try to Tidy a Value}
 \usage{
+err_tdy_breaks(x, name)
+
 err_tdy_date(x, name)
+
+err_tdy_min_max(x1, x2, name1, name2)
 
 err_tdy_unit(x, name)
 }
@@ -15,6 +21,14 @@ err_tdy_unit(x, name)
 
 \item{name}{The name used in the error message. Typically,
 but not always, the name of \code{x}.}
+
+\item{x1}{The first of a pair of objects being checked.}
+
+\item{x2}{The second of a pair of objects being checked.}
+
+\item{name1}{The name of the first of the pair of objects.}
+
+\item{name2}{The name of the second of the pair of objects.}
 }
 \value{
 When err_tdy* can format \code{x} as required,

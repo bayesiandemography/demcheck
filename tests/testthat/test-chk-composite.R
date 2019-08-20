@@ -1,5 +1,5 @@
 
-context("composite")
+context("chk-composite")
 
 ## chk_is_first_day_time_unit
 

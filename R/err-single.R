@@ -31,6 +31,24 @@ err_is_date_equiv <- function(x, name) {
 
 #' @export
 #' @rdname single
+err_is_finite_scalar <- function(x, name) {
+    val <- chk_is_finite_scalar(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
+err_is_finite_vector <- function(x, name) {
+    val <- chk_is_finite_vector(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
 err_is_integer <- function(x, name) {
     val <- chk_is_integer(x, name)
     if (is.character(val))
@@ -40,8 +58,17 @@ err_is_integer <- function(x, name) {
 
 #' @export
 #' @rdname single
-err_is_integer_equiv <- function(x, name) {
-    val <- chk_is_integer_equiv(x, name)
+err_is_integer_equiv_scalar <- function(x, name) {
+    val <- chk_is_integer_equiv_scalar(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
+err_is_integer_equiv_vector <- function(x, name) {
+    val <- chk_is_integer_equiv_vector(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -96,6 +123,15 @@ err_is_not_na_vector <- function(x, name) {
 #' @rdname single
 err_is_numeric <- function(x, name) {
     val <- chk_is_numeric(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
+err_is_positive_length <- function(x, name) {
+    val <- chk_is_positive_length(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

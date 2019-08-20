@@ -19,14 +19,35 @@
 #' \code{NULL} is equivalent to \code{"year"}.
 #' 
 #' @param x The object being tidied.
+#' @param x1 The first of a pair of objects being checked.
+#' @param x2 The second of a pair of objects being checked.
 #' @param name The name used in the error message. Typically,
 #' but not always, the name of \code{x}.
+#' @param name1 The name of the first of the pair of objects.
+#' @param name2 The name of the second of the pair of objects.
 #'
 #' @return When err_tdy* can format \code{x} as required,
 #' it returns the value; otherwise it raises an error.
 #'
 #' @name err_tdy
 NULL
+
+## HAS_TESTS
+#' @export
+#' @rdname err_tdy
+err_tdy_breaks <- function(x, name) {
+    err_is_positive_length(x = x,
+                           name = name)
+    err_is_not_na_vector(x = x,
+                         name = name)
+    err_is_finite_vector(x = x,
+                         name = name)
+    x <- err_tdy_integer_vector(x = x,
+                         name = name)
+    err_is_strictly_increasing(x = x,
+                               name = name)
+    x
+}
 
 ## HAS_TESTS
 #' @export
@@ -47,13 +68,42 @@ err_tdy_date <- function(x, name) {
 ## HAS_TESTS
 #' @export
 #' @rdname single
-err_tdy_integer <- function(x, name) {
+err_tdy_integer_scalar <- function(x, name) {
+    err_is_length_1(x = x,
+                    name = name)
+    x_int <- suppressWarnings(as.integer(x))
+    is_not_equiv <- !is.na(x) && (is.na(x_int) || (x_int != x))
+    if (is_not_equiv)
+        stop(gettextf("'%s' [%s] not equivalent to integer",
+                      name, x))
+    x_int
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname single
+err_tdy_integer_vector <- function(x, name) {
     x_int <- suppressWarnings(as.integer(x))
     is_not_equiv <- !is.na(x) & (is.na(x_int) | (x_int != x))
     if (any(is_not_equiv))
         stop(gettextf("value '%s' in '%s' not equivalent to integer",
                       x[is_not_equiv][[1L]], name))
     x_int
+}
+
+#' @export
+#' @rdname err_tdy
+err_tdy_min_max <- function(x1, x2, name1, name2) {
+    x1 <- err_tdy_integer_scalar(x = x1,
+                                 name = name1)
+    x2 <- err_tdy_integer_scalar(x = x2,
+                                 name = name2)
+    if (x2 < x1)
+        stop(gettextf("'%s' [%d] is less than '%s' [%d]",
+                      name2, x2, name1, x1))
+    ans <- list(x1, x2)
+    names(ans) <- c(name1, name2)
+    ans
 }
 
 #' @export

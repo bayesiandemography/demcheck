@@ -1,5 +1,44 @@
 
-context("simple")
+context("err-tdy")
+
+## err_tdy_breaks
+
+test_that("'err_tdy_breaks' returns breaks with valid input", {
+    expect_identical(err_tdy_breaks(x = 0:4,
+                                    name = "x"),
+                     0:4)
+    expect_identical(err_tdy_breaks(x = c(0, 5),
+                                    name = "x"),
+                     c(0L, 5L))
+    expect_identical(err_tdy_breaks(x = c(-5, 0, 1),
+                                    name = "x"),
+                     c(-5L, 0L, 1L))
+    expect_identical(err_tdy_breaks(x = c(-5, 0, 1),
+                                    name = "x"),
+                     c(-5L, 0L, 1L))
+    expect_identical(err_tdy_breaks(x = 100,
+                                    name = "x"),
+                     100L)
+})
+    
+test_that("'err_tdy_breaks' raises expected error with invalid input", {
+    expect_error(err_tdy_breaks(x = integer(),
+                                name = "x"),
+                 "'x' has length 0")
+    expect_error(err_tdy_breaks(x = c(0L, NA),
+                                name = "x"),
+                 "'x' has NAs")
+    expect_error(err_tdy_breaks(x = c(0L, Inf),
+                                name = "x"),
+                 "'x' has infinite values")
+    expect_error(err_tdy_breaks(x = c(0L, 1.1),
+                                name = "x"),
+                 "value '1.1' in 'x' not equivalent to integer")
+    expect_error(err_tdy_breaks(x = c(1L, 0L),
+                                name = "x"),
+                 "'x' is not strictly increasing : element 1 \\[1\\] is greater than or equal to element 2 \\[0\\]")
+})    
+
 
 ## err_tdy_date
 
@@ -35,28 +74,66 @@ test_that("'err_tdy_date' raises expected error with invalid input", {
 })
 
 
-## err_tdy_integer
+## err_tdy_integer_scalar
 
-test_that("'err_tdy_integer' works with valid inputs", {
-    expect_identical(err_tdy_integer(x = c(1, NA, 22, -1), name = "x"),
+test_that("'err_tdy_integer_scalar' works with valid inputs", {
+    expect_identical(err_tdy_integer_scalar(x = 1, name = "x"),
+                     1L)
+    expect_identical(err_tdy_integer_scalar(x = NA, name = "x"),
+                     NA_integer_)
+})
+
+test_that("'err_tdy_integer_scalar' raises expected error with invalid input", {
+    expect_error(err_tdy_integer_scalar(x = 0.2,
+                                 name = "x"),
+                 "'x' \\[0.2\\] not equivalent to integer")
+    expect_error(err_tdy_integer_scalar(x = Inf,
+                                 name = "x"),
+                 "'x' \\[Inf\\] not equivalent to integer")
+    expect_error(err_tdy_integer_scalar(x = "a",
+                                 name = "x"),
+                 "'x' \\[a\\] not equivalent to integer")
+    expect_error(err_tdy_integer_scalar(x = character(), name = "x"),
+                 "'x' does not have length 1")
+})
+
+
+## err_tdy_integer_vector
+
+test_that("'err_tdy_integer_vector' works with valid inputs", {
+    expect_identical(err_tdy_integer_vector(x = c(1, NA, 22, -1), name = "x"),
                      c(1L, NA, 22L, -1L))
-    expect_identical(err_tdy_integer(x = character(), name = "x"),
+    expect_identical(err_tdy_integer_vector(x = character(), name = "x"),
                      integer())
 })
 
-test_that("'err_tdy_integer' raises expected error with invalid input", {
-    expect_error(err_tdy_integer(x = c(0.2, 3),
+test_that("'err_tdy_integer_vector' raises expected error with invalid input", {
+    expect_error(err_tdy_integer_vector(x = c(0.2, 3),
                                  name = "x"),
                  "value '0.2' in 'x' not equivalent to integer")
-    expect_error(err_tdy_integer(x = c(0, Inf),
+    expect_error(err_tdy_integer_vector(x = c(0, Inf),
                                  name = "x"),
                  "value 'Inf' in 'x' not equivalent to integer")
-    expect_error(err_tdy_integer(x = c(0, Inf, 0.1),
+    expect_error(err_tdy_integer_vector(x = c(0, Inf, 0.1),
                                  name = "x"),
                  "value 'Inf' in 'x' not equivalent to integer")
-    expect_error(err_tdy_integer(x = "a",
+    expect_error(err_tdy_integer_vector(x = "a",
                                  name = "x"),
                  "value 'a' in 'x' not equivalent to integer")
+})
+
+## err_tdy_min_max
+
+test_that("'err_tdy_min_max' works with valid inputs", {
+    expect_identical(err_tdy_min_max(x1 = 0, x2 = 100, name1 = "x1", name2 = "x2"),
+                     list(x1 = 0L, x2 = 100L))
+    expect_identical(err_tdy_min_max(x1 = 0, x2 = 0, name1 = "x1", name2 = "x2"),
+                     list(x1 = 0L, x2 = 0L))
+})
+
+test_that("'err_tdy_min_max' raises expected error with invalid input", {
+    expect_error(err_tdy_min_max(x1 = 2, x2 = 1, name1 = "x1", name2 = "x2"),
+                 "'x2' \\[1\\] is less than 'x1' \\[2\\]")
 })
 
 

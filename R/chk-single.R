@@ -53,6 +53,24 @@ chk_is_date_equiv <- function(x, name) {
         TRUE
 }
 
+#' @export
+#' @rdname single
+chk_is_finite_scalar <- function(x, name) {
+    if (is.infinite(x))
+        return(gettextf("'%s' is infinite",
+                        name))
+    TRUE
+}
+
+#' @export
+#' @rdname single
+chk_is_finite_vector <- function(x, name) {
+    if (any(is.infinite(x)))
+        return(gettextf("'%s' has infinite values",
+                        name))
+    TRUE
+}
+
 ## HAS_TESTS
 #' @export
 #' @rdname single
@@ -65,10 +83,23 @@ chk_is_integer <- function(x, name) {
 
 #' @export
 #' @rdname single
-chk_is_integer_equiv <- function(x, name) {
+chk_is_integer_equiv_scalar <- function(x, name) {
     val <- tryCatch(error = function(e) e,
-                    err_tdy_integer(x = x,
-                                    name = name))
+                    err_tdy_integer_scalar(x = x,
+                                           name = name))
+    if (methods::is(val, "error"))
+        val$message
+    else
+        TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname single
+chk_is_integer_equiv_vector <- function(x, name) {
+    val <- tryCatch(error = function(e) e,
+                    err_tdy_integer_vector(x = x,
+                                           name = name))
     if (methods::is(val, "error"))
         val$message
     else
@@ -129,5 +160,14 @@ chk_is_numeric <- function(x, name) {
     if (!is.numeric(x))
         return(gettextf("'%s' does not have type \"%s\"",
                         name, "numeric"))
+    TRUE
+}
+
+#' @export
+#' @rdname single
+chk_is_positive_length <- function(x, name) {
+    if (identical(length(x), 0L))
+        return(gettextf("'%s' has length %d",
+                        name, 0L))
     TRUE
 }
