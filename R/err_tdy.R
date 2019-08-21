@@ -19,13 +19,15 @@
 #' \code{NULL} is equivalent to \code{"year"}.
 #' 
 #' @param x The object being tidied.
-#' @param x1 The first of a pair of objects being checked.
-#' @param x2 The second of a pair of objects being checked.
+#' @param x1 The first object being tidied.
+#' @param x2 The second object being tidied.
+#' @param x3 The third object being tidied.
 #' @param name The name used in the error message. Typically,
 #' but not always, the name of \code{x}.
-#' @param name1 The name of the first of the pair of objects.
-#' @param name2 The name of the second of the pair of objects.
-#'
+#' @param name1 The name of the first object.
+#' @param name2 The name of the second object.
+#' @param name3 The name of the third object.
+#' 
 #' @return When err_tdy* can format \code{x} as required,
 #' it returns the value; otherwise it raises an error.
 #'
@@ -91,6 +93,7 @@ err_tdy_integer_vector <- function(x, name) {
     x_int
 }
 
+## HAS_TESTS
 #' @export
 #' @rdname err_tdy
 err_tdy_min_max <- function(x1, x2, name1, name2) {
@@ -133,3 +136,30 @@ err_tdy_unit <- function(x, name) {
     stop(gettextf("'%s' has invalid value [\"%s\"]",
                   name, x))
 }
+
+## HAS_TESTS
+#' @export
+#' @rdname err_tdy
+err_tdy_width <- function(x1, x2, x3, name1, name2, name3) {
+    x1 <- err_tdy_integer_scalar(x = x1,
+                                 name = name1)
+    l <- err_tdy_min_max(x1 = x2,
+                         x2 = x3,
+                         name1 = name2,
+                         name2 = name3)
+    x2 <- l[[name2]]
+    x3 <- l[[name3]]
+    diff <- x3 - x2
+    if (diff == 0L) {
+        if (x1 != 0L)
+            stop(gettextf("'%s' equals '%s' but '%s' does not equal %d",
+                          name2, name3, name1, 0L))
+    }
+    else {
+        if (diff %% x1 != 0L)
+            stop(gettextf("'%s' [%d] does not divide evenly into the difference between '%s' [%d] and '%s' [%d]",
+                          name1, x1, name3, x3, name2, x2))
+    }
+    x1
+}
+

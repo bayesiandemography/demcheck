@@ -6,6 +6,7 @@
 \alias{err_tdy_date}
 \alias{err_tdy_min_max}
 \alias{err_tdy_unit}
+\alias{err_tdy_width}
 \title{Try to Tidy a Value}
 \usage{
 err_tdy_breaks(x, name)
@@ -15,6 +16,8 @@ err_tdy_date(x, name)
 err_tdy_min_max(x1, x2, name1, name2)
 
 err_tdy_unit(x, name)
+
+err_tdy_width(x1, x2, x3, name1, name2, name3)
 }
 \arguments{
 \item{x}{The object being tidied.}
@@ -22,13 +25,17 @@ err_tdy_unit(x, name)
 \item{name}{The name used in the error message. Typically,
 but not always, the name of \code{x}.}
 
-\item{x1}{The first of a pair of objects being checked.}
+\item{x1}{The first object being tidied.}
 
-\item{x2}{The second of a pair of objects being checked.}
+\item{x2}{The second object being tidied.}
 
-\item{name1}{The name of the first of the pair of objects.}
+\item{name1}{The name of the first object.}
 
-\item{name2}{The name of the second of the pair of objects.}
+\item{name2}{The name of the second object.}
+
+\item{x3}{The third object being tidied.}
+
+\item{name3}{The name of the third object.}
 }
 \value{
 When err_tdy* can format \code{x} as required,

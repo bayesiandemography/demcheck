@@ -169,3 +169,23 @@ test_that("'err_tdy_unit' raises expected error with invalid input", {
                  "'x' has invalid value \\[\"-5 years\"\\] : number of years less than 1")
 })
 
+
+## err_tdy_width
+
+test_that("'err_tdy_width' works with valid inputs", {
+    expect_identical(err_tdy_width(x1 = 5, x2 = 0, x3 = 100,
+                                   name1 = "x1", name2 = "x2", name3 = "x3"),
+                     5L)
+    expect_identical(err_tdy_width(x1 = 0, x2 = 10, x3 = 10,
+                                   name1 = "x1", name2 = "x2", name3 = "x3"),
+                     0L)
+})
+
+test_that("'err_tdy_width' raises expected error with invalid input", {
+    expect_error(err_tdy_width(x1 = 3, x2 = 0, x3 = 100,
+                               name1 = "x1", name2 = "x2", name3 = "x3"),
+                 "'x1' \\[3\\] does not divide evenly into the difference between 'x3' \\[100\\] and 'x2' \\[0\\]")
+    expect_error(err_tdy_width(x1 = 1, x2 = 10, x3 = 10,
+                               name1 = "x1", name2 = "x2", name3 = "x3"),
+                 "'x2' equals 'x3' but 'x1' does not equal 0")
+})
