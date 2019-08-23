@@ -1,20 +1,20 @@
 
-#' Checks of Composite Conditions
+#' Checks of composite conditions
 #'
 #' Functions to check for conditions that involve
 #' several attributes. For instance, \code{chk_is_integer_consec}
 #' checks whether \code{x} has type integer, whether \code{x}
 #' has no \code{NA}s, and whether \code{all(diff(x)) == 1L}.
 #'
-#' \code{chk_is_first_day_time_unit} checks whether a \code{x}
+#' \code{chk_is_first_day_unit} checks whether a \code{x}
 #' consists of first days for the time unit supplied,
 #' eg values such \code{"2001-03-01"}, \code{"2001-05-01"}, or
-#' \code{"2000-09-01"} when \code{time_unit} is \code{"months"}.
-#' \code{chk_is_first_day_time_unit_consec} adds the condition
+#' \code{"2000-09-01"} when \code{unit} is \code{"months"}.
+#' \code{chk_is_first_day_unit_consec} adds the condition
 #' that these dates be consecutive, eg
 #' \code{"2001-03-01"}, \code{"2001-04-01"}, \code{"2000-09-01"}.
 #' Separately checking for first days makes the job of
-#' \code{chk_is_first_day_time_unit_consec} much easier, which
+#' \code{chk_is_first_day_unit_consec} much easier, which
 #' is why we have two functions.
 #'
 #' Most of the functions raise an error if \code{x} has \code{NA}s.
@@ -26,7 +26,13 @@
 #' but not always, the name of \code{x}.
 #' @param name1 The name of the first of the pair of objects.
 #' @param name2 The name of the second of the pair of objects.
-#' @param time_unit Measurement units for time, eg \code{"month"}.
+#' @param unit Measurement units for time, eg \code{"month"}.
+#' @param age Age, typically in years, but can be other unit.
+#' @param min Minimum age or time.
+#' @param max Maximum age or time.
+#' @param date Date on which event occurred or measurement made.
+#' Object of class "Date".
+#' @param dob Date of birth. Object of class "Date".
 #'
 #' @return When \code{x} passes the test,
 #' the \code{chk*} and \code{err*} functions both
@@ -41,7 +47,33 @@ NULL
 ## HAS_TESTS
 #' @export
 #' @rdname composite
-chk_is_first_day_time_unit <- function(x, name, time_unit) {
+chk_age_ge_min <- function(age, min, date, dob, unit) {
+    less_than_min <- !is.na(age) & (age < min)
+    if (any(less_than_min)) {
+        i <- match(TRUE, less_than_min)
+        return(gettextf("'%s' [\"%s\"] and '%s' [\"%s\"] imply an age of %d %ss, which is less than '%s' [%d %ss]",
+                        "date", date[[i]], "dob", dob[[i]], age[[i]], unit, "min", min, unit))
+    }
+    TRUE
+}
+
+## NO_TESTS
+#' @export
+#' @rdname composite
+chk_age_lt_max <- function(age, max, date, dob, unit) {
+    ge_max <- !is.na(age) & (age >= max)
+    if (any(ge_max)) {
+        i <- match(TRUE, ge_max)
+        return(gettextf("'%s' [\"%s\"] and '%s' [\"%s\"] imply an age of %d %ss, which is greater than or equal to '%s' [%d %ss]",
+                        "date", date[[i]], "dob", dob[[i]], age[[i]], unit, "max", max, unit))
+    }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_is_first_day_unit <- function(x, name, unit) {
     n <- length(x)
     if (n == 0L)
         return(TRUE)
@@ -52,7 +84,7 @@ chk_is_first_day_time_unit <- function(x, name, time_unit) {
     if (!isTRUE(val))
         return(val)
     x <- as.Date(x)
-    val <- chk_member_time_unit(x = time_unit, name = "time_unit")
+    val <- chk_member_unit(x = unit, name = "unit")
     if (!isTRUE(val))
         return(val)
     year <- as.integer(format(x, "%Y"))
@@ -60,7 +92,7 @@ chk_is_first_day_time_unit <- function(x, name, time_unit) {
     to <- as.Date(sprintf("%d-01-01", max(year) + 1L))
     seq_expected <- seq.Date(from = from,
                              to = to,
-                             by = time_unit)
+                             by = unit)
     is_not_in_seq <- !(x %in% seq_expected)
     if (any(is_not_in_seq)) {
         i <- match(TRUE, is_not_in_seq)
@@ -68,7 +100,7 @@ chk_is_first_day_time_unit <- function(x, name, time_unit) {
                         i,
                         format(x[[i]], "%Y-%m-%d"),
                         name,
-                        time_unit))
+                        unit))
     }
     TRUE
 }
@@ -76,19 +108,19 @@ chk_is_first_day_time_unit <- function(x, name, time_unit) {
 ## HAS_TESTS
 #' @export
 #' @rdname composite
-chk_is_first_day_time_unit_consec <- function(x, name, time_unit) {
+chk_is_first_day_unit_consec <- function(x, name, unit) {
     n <- length(x)
     if (n == 0L)
         return(TRUE)
-    val <- chk_is_first_day_time_unit(x = x,
+    val <- chk_is_first_day_unit(x = x,
                                       name = name,
-                                      time_unit = time_unit)
+                                      unit = unit)
     if (!isTRUE(val))
         return(val)
     if (n >= 2L) {
         from <- x[[1L]]
         seq_expected <- seq.Date(from = from,     # Calculation using 'seq.Date' relies
-                                 by = time_unit,  # on each date being the first day
+                                 by = unit,  # on each date being the first day
                                  length.out = n)  # of the month
         is_not_equal_to_seq <- x != seq_expected
         if (any(is_not_equal_to_seq)) {
@@ -97,8 +129,31 @@ chk_is_first_day_time_unit_consec <- function(x, name, time_unit) {
                             format(x[[i - 1L]], "%Y-%m-%d"),
                             format(x[[i]], "%Y-%m-%d"),
                             name,
-                            time_unit))
+                            unit))
         }
+    }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_is_ge_scalar <- function(x1, x2, name1, name2) {
+    if (!is.na(x1) && !is.na(x2) && (x1 < x2))
+        return(gettextf("'%s' [%s] is less than '%s' [%s]",
+                        name1, x1, name2, x2))
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_is_ge_vector <- function(x1, x2, name1, name2) {
+    is_lt <- !is.na(x1) & !is.na(x2) & (x1 < x2)
+    if (any(is_lt)) {
+        i <- match(TRUE, is_lt)
+        return(gettextf("element %d of '%s' [%s] is less than element %d of '%s' [%s]",
+                        i, name1, x1[[i]], i, name2, x2[[i]]))
     }
     TRUE
 }

@@ -1,50 +1,130 @@
 
 context("chk-composite")
 
-## chk_is_first_day_time_unit
+## chk_age_ge_min
 
-test_that("'chk_is_first_day_time_unit' returns TRUE with valid dates", {
-    expect_true(chk_is_first_day_time_unit(x = as.Date(c("2001-01-01", "2002-01-01")),
-                                           name = "x",
-                                           time_unit = "month"))
-    expect_true(chk_is_first_day_time_unit(x = as.Date(c("2001-10-01", "2002-01-01")),
-                                           name = "x",
-                                           time_unit = "quarter"))
+test_that("'chk_age_ge_min' returns TRUE with valid inputs", {
+    expect_true(chk_age_ge_min(age = 5L,
+                               min = 0L,
+                               date = as.Date("2005-01-02"),
+                               dob = as.Date("2000-01-01"),
+                               unit = "year"))
 })
 
-test_that("'chk_is_first_day_time_unit' returns expected message with invalid dates", {
-    expect_identical(chk_is_first_day_time_unit(x = as.Date(c("2001-01-01", "2002-01-02")),
+test_that("'chk_age_ge_min' returns expected message with invalid dates", {
+    expect_identical(chk_age_ge_min(age = 5L,
+                                    min = 10L,
+                                    date = as.Date("2005-01-02"),
+                                    dob = as.Date("2000-01-01"),
+                                    unit = "year"),
+                     "'date' [\"2005-01-02\"] and 'dob' [\"2000-01-01\"] imply an age of 5 years, which is less than 'min' [10 years]")
+})
+
+
+## chk_age_lt_max
+
+test_that("'chk_age_lt_max' returns TRUE with valid inputs", {
+    expect_true(chk_age_lt_max(age = 5L,
+                               max = 10L,
+                               date = as.Date("2005-01-02"),
+                               dob = as.Date("2000-01-01"),
+                               unit = "year"))
+})
+
+test_that("'chk_age_lt_max' returns expected message with invalid dates", {
+    expect_identical(chk_age_lt_max(age = 5L,
+                                    max = 5L,
+                                    date = as.Date("2005-01-02"),
+                                    dob = as.Date("2000-01-01"),
+                                    unit = "year"),
+                     "'date' [\"2005-01-02\"] and 'dob' [\"2000-01-01\"] imply an age of 5 years, which is greater than or equal to 'max' [5 years]")
+})
+
+
+## chk_is_ge_scalar
+
+test_that("'chk_is_ge_scalar' returns TRUE with inputs", {
+    expect_true(chk_is_ge_scalar(x1 = 3, x2 = 2.9, name1 = "x1", name2 = "x2"))
+    expect_true(chk_is_ge_scalar(x1 = as.Date("2001-10-01"), x2 = as.Date("2001-01-01"),
+                                 name1 = "x1", name2 = "x2"))
+    expect_true(chk_is_ge_scalar(x1 = NA, x2 = 2.9, name1 = "x1", name2 = "x2"))
+})
+
+test_that("'chk_is_ge_scalar' returns expected message with invalid inputs", {
+    expect_identical(chk_is_ge_scalar(x1 = 2, x2 = 2.9, name1 = "x1", name2 = "x2"),
+                     "'x1' [2] is less than 'x2' [2.9]")
+    expect_identical(chk_is_ge_scalar(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
+                                      name1 = "x1", name2 = "x2"),
+                     "'x1' [2000-10-01] is less than 'x2' [2001-01-01]")
+})
+
+
+## chk_is_ge_vector
+
+test_that("'chk_is_ge_vector' returns TRUE with inputs", {
+    expect_true(chk_is_ge_vector(x1 = 3:5, x2 = c(2.9, 4, 5), name1 = "x1", name2 = "x2"))
+    expect_true(chk_is_ge_vector(x1 = as.Date(c("2001-10-01", "2000-03-03")),
+                                 x2 = as.Date(c("2001-01-01", "2000-03-03")),
+                                 name1 = "x1", name2 = "x2"))
+    expect_true(chk_is_ge_vector(x1 = as.Date(c("2001-10-01", NA)),
+                                 x2 = as.Date(c("2001-01-01", "2000-03-03")),
+                                 name1 = "x1", name2 = "x2"))
+})
+
+test_that("'chk_is_ge_vector' returns expected message with invalid inputs", {
+    expect_identical(chk_is_ge_vector(x1 = c(2, 3), x2 = c(1, 4),
+                                      name1 = "x1", name2 = "x2"),
+                     "element 2 of 'x1' [3] is less than element 2 of 'x2' [4]")
+    expect_identical(chk_is_ge_vector(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
+                                      name1 = "x1", name2 = "x2"),
+                     "element 1 of 'x1' [2000-10-01] is less than element 1 of 'x2' [2001-01-01]")
+})
+
+
+## chk_is_first_day_unit
+
+test_that("'chk_is_first_day_unit' returns TRUE with valid dates", {
+    expect_true(chk_is_first_day_unit(x = as.Date(c("2001-01-01", "2002-01-01")),
+                                           name = "x",
+                                           unit = "month"))
+    expect_true(chk_is_first_day_unit(x = as.Date(c("2001-10-01", "2002-01-01")),
+                                           name = "x",
+                                           unit = "quarter"))
+})
+
+test_that("'chk_is_first_day_unit' returns expected message with invalid dates", {
+    expect_identical(chk_is_first_day_unit(x = as.Date(c("2001-01-01", "2002-01-02")),
                                                 name = "x",
-                                                time_unit = "month"),
+                                                unit = "month"),
                      "element 2 [\"2002-01-02\"] of 'x' is not the first day of the month")
-    expect_identical(chk_is_first_day_time_unit(x = as.Date(c("2001-01-01", "2001-02-01")),
+    expect_identical(chk_is_first_day_unit(x = as.Date(c("2001-01-01", "2001-02-01")),
                                                 name = "x",
-                                                time_unit = "quarter"),
+                                                unit = "quarter"),
                      "element 2 [\"2001-02-01\"] of 'x' is not the first day of the quarter")
 })
 
 
-## chk_is_first_day_time_unit_consec
+## chk_is_first_day_unit_consec
 
-test_that("'chk_is_first_day_time_unit_consec' returns TRUE with valid dates", {
-    expect_true(chk_is_first_day_time_unit_consec(x = as.Date(c("2001-01-01", "2001-02-01")),
+test_that("'chk_is_first_day_unit_consec' returns TRUE with valid dates", {
+    expect_true(chk_is_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-02-01")),
                                               name = "x",
-                                              time_unit = "month"))
-    expect_true(chk_is_first_day_time_unit_consec(x = as.Date(c("2001-01-01", "2001-04-01")),
+                                              unit = "month"))
+    expect_true(chk_is_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-04-01")),
                                               name = "x",
-                                              time_unit = "quarter"))
-    expect_true(chk_is_first_day_time_unit_consec(x = as.Date("2001-01-01"),
+                                              unit = "quarter"))
+    expect_true(chk_is_first_day_unit_consec(x = as.Date("2001-01-01"),
                                               name = "x",
-                                              time_unit = "quarter"))
-    expect_true(chk_is_first_day_time_unit_consec(x = as.Date(c("2000-10-1", "2001-01-01")),
+                                              unit = "quarter"))
+    expect_true(chk_is_first_day_unit_consec(x = as.Date(c("2000-10-1", "2001-01-01")),
                                               name = "x",
-                                              time_unit = "quarter"))
+                                              unit = "quarter"))
 })
 
-test_that("'chk_is_first_day_time_unit_consec' returns expected message with invalid dates", {
-    expect_identical(chk_is_first_day_time_unit_consec(x = as.Date(c("2001-01-01", "2001-03-01")),
+test_that("'chk_is_first_day_unit_consec' returns expected message with invalid dates", {
+    expect_identical(chk_is_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-03-01")),
                                                        name = "x",
-                                                       time_unit = "month"),
+                                                       unit = "month"),
                      "dates \"2001-01-01\" and \"2001-03-01\" in 'x' do not belong to consecutive months")
 })
 

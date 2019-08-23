@@ -2,25 +2,41 @@
 % Please edit documentation in R/chk-composite.R, R/err-composite.R
 \name{composite}
 \alias{composite}
-\alias{chk_is_first_day_time_unit}
-\alias{chk_is_first_day_time_unit_consec}
+\alias{chk_age_ge_min}
+\alias{chk_age_lt_max}
+\alias{chk_is_first_day_unit}
+\alias{chk_is_first_day_unit_consec}
+\alias{chk_is_ge_scalar}
+\alias{chk_is_ge_vector}
 \alias{chk_is_integer_consec}
 \alias{chk_is_logical_flag}
 \alias{chk_is_string}
 \alias{chk_is_strictly_increasing}
 \alias{chk_length_same_or_1}
-\alias{err_is_first_day_time_unit}
-\alias{err_is_first_day_time_unit_consec}
+\alias{err_age_ge_min}
+\alias{err_age_lt_max}
+\alias{err_is_first_day_unit}
+\alias{err_is_first_day_unit_consec}
+\alias{err_is_ge_scalar}
+\alias{err_is_ge_vector}
 \alias{err_is_integer_consec}
 \alias{err_is_logical_flag}
 \alias{err_is_string}
 \alias{err_is_strictly_increasing}
 \alias{err_length_same_or_1}
-\title{Checks of Composite Conditions}
+\title{Checks of composite conditions}
 \usage{
-chk_is_first_day_time_unit(x, name, time_unit)
+chk_age_ge_min(age, min, date, dob, unit)
 
-chk_is_first_day_time_unit_consec(x, name, time_unit)
+chk_age_lt_max(age, max, date, dob, unit)
+
+chk_is_first_day_unit(x, name, unit)
+
+chk_is_first_day_unit_consec(x, name, unit)
+
+chk_is_ge_scalar(x1, x2, name1, name2)
+
+chk_is_ge_vector(x1, x2, name1, name2)
 
 chk_is_integer_consec(x, name)
 
@@ -32,9 +48,17 @@ chk_is_strictly_increasing(x, name)
 
 chk_length_same_or_1(x1, x2, name1, name2)
 
-err_is_first_day_time_unit(x, name, time_unit)
+err_age_ge_min(age, min, date, dob, unit)
 
-err_is_first_day_time_unit_consec(x, name, time_unit)
+err_age_lt_max(age, max, date, dob, unit)
+
+err_is_first_day_unit(x, name, unit)
+
+err_is_first_day_unit_consec(x, name, unit)
+
+err_is_ge_scalar(x1, x2, name1, name2)
+
+err_is_ge_vector(x1, x2, name1, name2)
 
 err_is_integer_consec(x, name)
 
@@ -47,12 +71,23 @@ err_is_strictly_increasing(x, name)
 err_length_same_or_1(x1, x2, name1, name2)
 }
 \arguments{
+\item{age}{Age, typically in years, but can be other unit.}
+
+\item{min}{Minimum age or time.}
+
+\item{date}{Date on which event occurred or measurement made.
+Object of class "Date".}
+
+\item{dob}{Date of birth. Object of class "Date".}
+
+\item{unit}{Measurement units for time, eg \code{"month"}.}
+
+\item{max}{Maximum age or time.}
+
 \item{x}{The object being checked.}
 
 \item{name}{The name used in any message. Typically,
 but not always, the name of \code{x}.}
-
-\item{time_unit}{Measurement units for time, eg \code{"month"}.}
 
 \item{x1}{The first of a pair of objects being checked.}
 
@@ -76,15 +111,15 @@ checks whether \code{x} has type integer, whether \code{x}
 has no \code{NA}s, and whether \code{all(diff(x)) == 1L}.
 }
 \details{
-\code{chk_is_first_day_time_unit} checks whether a \code{x}
+\code{chk_is_first_day_unit} checks whether a \code{x}
 consists of first days for the time unit supplied,
 eg values such \code{"2001-03-01"}, \code{"2001-05-01"}, or
-\code{"2000-09-01"} when \code{time_unit} is \code{"months"}.
-\code{chk_is_first_day_time_unit_consec} adds the condition
+\code{"2000-09-01"} when \code{unit} is \code{"months"}.
+\code{chk_is_first_day_unit_consec} adds the condition
 that these dates be consecutive, eg
 \code{"2001-03-01"}, \code{"2001-04-01"}, \code{"2000-09-01"}.
 Separately checking for first days makes the job of
-\code{chk_is_first_day_time_unit_consec} much easier, which
+\code{chk_is_first_day_unit_consec} much easier, which
 is why we have two functions.
 
 Most of the functions raise an error if \code{x} has \code{NA}s.

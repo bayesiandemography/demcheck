@@ -1,5 +1,5 @@
 
-#' Checks of Single Conditions
+#' Checks of single conditions
 #'
 #' Functions to check single conditions.
 #' No sanity-checking of arguments is

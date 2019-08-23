@@ -2,13 +2,13 @@
 % Please edit documentation in R/chk-member.R, R/err-member.R
 \name{member}
 \alias{member}
-\alias{chk_member_time_unit}
-\alias{err_member_time_unit}
-\title{Checks of Membership}
+\alias{chk_member_unit}
+\alias{err_member_unit}
+\title{Checks of membership}
 \usage{
-chk_member_time_unit(x, name)
+chk_member_unit(x, name)
 
-err_member_time_unit(x, name)
+err_member_unit(x, name)
 }
 \arguments{
 \item{x}{The object being checked.}

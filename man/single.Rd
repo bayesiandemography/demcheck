@@ -34,7 +34,7 @@
 \alias{err_is_positive_length}
 \alias{err_tdy_integer_scalar}
 \alias{err_tdy_integer_vector}
-\title{Checks of Single Conditions}
+\title{Checks of single conditions}
 \usage{
 chk_is_character(x, name)
 

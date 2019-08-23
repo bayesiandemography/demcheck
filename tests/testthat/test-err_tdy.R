@@ -74,6 +74,17 @@ test_that("'err_tdy_date' raises expected error with invalid input", {
 })
 
 
+## err_tdy_date_dob
+
+test_that("'err_tdy_date_dob' returns dates with valid input", {
+    date <- as.Date(c("2001-01-01", "2002-01-01"))
+    dob <- as.Date("2000-06-30")
+    expect_identical(err_tdy_date_dob(date = date, dob = dob),
+                     list(date = as.POSIXlt(date),
+                          dob = rep(as.POSIXlt(dob), 2)))
+})
+
+
 ## err_tdy_integer_scalar
 
 test_that("'err_tdy_integer_scalar' works with valid inputs", {
@@ -125,15 +136,28 @@ test_that("'err_tdy_integer_vector' raises expected error with invalid input", {
 ## err_tdy_min_max
 
 test_that("'err_tdy_min_max' works with valid inputs", {
-    expect_identical(err_tdy_min_max(x1 = 0, x2 = 100, name1 = "x1", name2 = "x2"),
-                     list(x1 = 0L, x2 = 100L))
-    expect_identical(err_tdy_min_max(x1 = 0, x2 = 0, name1 = "x1", name2 = "x2"),
-                     list(x1 = 0L, x2 = 0L))
+    expect_identical(err_tdy_min_max(min = 0, max = 100),
+                     list(min = 0L, max = 100L))
 })
 
 test_that("'err_tdy_min_max' raises expected error with invalid input", {
-    expect_error(err_tdy_min_max(x1 = 2, x2 = 1, name1 = "x1", name2 = "x2"),
-                 "'x2' \\[1\\] is less than 'x1' \\[2\\]")
+    expect_error(err_tdy_min_max(min = 0, max = 0),
+                 "'max' \\[0\\] is less than or equal to 'min' \\[0\\]")
+    expect_error(err_tdy_min_max(min = 2, max = 1),
+                 "'max' \\[1\\] is less than or equal to 'min' \\[2\\]")
+})
+
+## err_tdy_same_length
+
+test_that("'err_tdy_same_length' works with valid inputs", {
+    expect_identical(err_tdy_same_length(x1 = 1L, x2 = 2, name1 = "x1", name2 = "x2"),
+                     list(x1 = 1L, x2 = 2))
+    expect_identical(err_tdy_same_length(x1 = 1L, x2 = 1:2, name1 = "x1", name2 = "x2"),
+                     list(x1 = c(1L, 1L), x2 = 1:2))
+    expect_identical(err_tdy_same_length(x1 = 1:2, x2 = 2, name1 = "x1", name2 = "x2"),
+                     list(x1 = 1:2, x2 = c(2, 2)))
+    expect_identical(err_tdy_same_length(x1 = 1:2, x2 = 2:1, name1 = "x1", name2 = "x2"),
+                     list(x1 = 1:2, x2 = 2:1))
 })
 
 
@@ -173,19 +197,13 @@ test_that("'err_tdy_unit' raises expected error with invalid input", {
 ## err_tdy_width
 
 test_that("'err_tdy_width' works with valid inputs", {
-    expect_identical(err_tdy_width(x1 = 5, x2 = 0, x3 = 100,
-                                   name1 = "x1", name2 = "x2", name3 = "x3"),
+    expect_identical(err_tdy_width(width = 5, min = 0, max = 100),
                      5L)
-    expect_identical(err_tdy_width(x1 = 0, x2 = 10, x3 = 10,
-                                   name1 = "x1", name2 = "x2", name3 = "x3"),
-                     0L)
 })
 
 test_that("'err_tdy_width' raises expected error with invalid input", {
-    expect_error(err_tdy_width(x1 = 3, x2 = 0, x3 = 100,
-                               name1 = "x1", name2 = "x2", name3 = "x3"),
-                 "'x1' \\[3\\] does not divide evenly into the difference between 'x3' \\[100\\] and 'x2' \\[0\\]")
-    expect_error(err_tdy_width(x1 = 1, x2 = 10, x3 = 10,
-                               name1 = "x1", name2 = "x2", name3 = "x3"),
-                 "'x2' equals 'x3' but 'x1' does not equal 0")
+    expect_error(err_tdy_width(width = 3, min = 0, max = 100),
+                 "'width' \\[3\\] does not divide evenly into the difference between 'max' \\[100\\] and 'min' \\[0\\]")
+    expect_error(err_tdy_width(width = 0, min = 10, max = 10),
+                 "'max' \\[10\\] is less than or equal to 'min' \\[10\\]")
 })

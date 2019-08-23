@@ -4,8 +4,8 @@
 
 #' @export
 #' @rdname composite
-err_is_first_day_time_unit <- function(x, name, time_unit) {
-    val <- chk_is_first_day_time_unit(x, name, time_unit)
+err_age_ge_min <- function(age, min, date, dob, unit) {
+    val <- chk_age_ge_min(age, min, date, dob, unit)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -13,8 +13,44 @@ err_is_first_day_time_unit <- function(x, name, time_unit) {
 
 #' @export
 #' @rdname composite
-err_is_first_day_time_unit_consec <- function(x, name, time_unit) {
-    val <- chk_is_first_day_time_unit_consec(x, name, time_unit)
+err_age_lt_max <- function(age, max, date, dob, unit) {
+    val <- chk_age_lt_max(age, max, date, dob, unit)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_is_first_day_unit <- function(x, name, unit) {
+    val <- chk_is_first_day_unit(x, name, unit)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_is_first_day_unit_consec <- function(x, name, unit) {
+    val <- chk_is_first_day_unit_consec(x, name, unit)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_is_ge_scalar <- function(x1, x2, name1, name2) {
+    val <- chk_is_ge_scalar(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_is_ge_vector <- function(x1, x2, name1, name2) {
+    val <- chk_is_ge_vector(x1, x2, name1, name2)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

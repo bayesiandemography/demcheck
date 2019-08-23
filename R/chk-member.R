@@ -1,5 +1,5 @@
 
-#' Checks of Membership
+#' Checks of membership
 #'
 #' Functions to check whether a string belongs to a
 #' set of values.  Includes a check of
@@ -23,7 +23,7 @@ NULL
 ## HAS_TESTS
 #' @export
 #' @rdname member
-chk_member_time_unit <- function(x, name) {
+chk_member_unit <- function(x, name) {
     valid_members <- c("month", "quarter")
     val <- chk_is_string(x = x, name = name)
     if (!isTRUE(val)) return(val)

@@ -4,8 +4,8 @@
 
 #' @export
 #' @rdname member
-err_member_time_unit <- function(x, name) {
-    val <- chk_member_time_unit(x, name)
+err_member_unit <- function(x, name) {
+    val <- chk_member_unit(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
