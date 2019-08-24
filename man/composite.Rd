@@ -21,6 +21,10 @@
 \alias{err_is_ge_vector}
 \alias{err_is_integer_consec}
 \alias{err_is_logical_flag}
+\alias{err_is_non_negative_scalar}
+\alias{err_is_non_negative_vector}
+\alias{err_is_positive_scalar}
+\alias{err_is_positive_vector}
 \alias{err_is_string}
 \alias{err_is_strictly_increasing}
 \alias{err_length_same_or_1}
@@ -63,6 +67,14 @@ err_is_ge_vector(x1, x2, name1, name2)
 err_is_integer_consec(x, name)
 
 err_is_logical_flag(x, name)
+
+err_is_non_negative_scalar(x, name)
+
+err_is_non_negative_vector(x, name)
+
+err_is_positive_scalar(x, name)
+
+err_is_positive_vector(x, name)
 
 err_is_string(x, name)
 

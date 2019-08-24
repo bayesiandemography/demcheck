@@ -171,6 +171,100 @@ test_that("'chk_is_logical_flag' returns expected message with invalid argument"
 })
 
 
+## chk_is_non_negative_scalar
+
+test_that("'chk_is_non_negative_scalar' returns TRUE with valid input", {
+    expect_true(chk_is_non_negative_scalar(x = 1L,
+                                           name = "x"))
+    expect_true(chk_is_non_negative_scalar(x = 0,
+                                           name = "x"))
+})
+
+test_that("'chk_is_non_negative_scalar' returns expected message with invalid argument", {
+    expect_identical(chk_is_non_negative_scalar(x = NA_integer_,
+                                            name = "x"),
+                     "'x' is NA")
+    expect_identical(chk_is_non_negative_scalar(x = c(1, 1),
+                                   name = "x"),
+                     "'x' does not have length 1")
+    expect_identical(chk_is_non_negative_scalar(x = "1",
+                                            name = "x"),
+                     "'x' does not have type \"numeric\"")
+    expect_identical(chk_is_non_negative_scalar(x = -0.001,
+                                                name = "x"),
+                     "'x' [-0.001] is negative")
+})
+
+
+## chk_is_non_negative_vector
+
+test_that("'chk_is_non_negative_vector' returns TRUE with valid input", {
+    expect_true(chk_is_non_negative_vector(x = c(0, 0.001),
+                                           name = "x"))
+    expect_true(chk_is_non_negative_vector(x = c(0.001, 0, Inf),
+                                       name = "x"))
+})
+
+test_that("'chk_is_non_negative_vector' returns expected message with invalid argument", {
+    expect_identical(chk_is_non_negative_vector(x = c(NA_integer_, 1L),
+                                            name = "x"),
+                     "'x' has NAs")
+    expect_identical(chk_is_non_negative_vector(x = c("1", "2"),
+                                            name = "x"),
+                     "'x' does not have type \"numeric\"")
+    expect_identical(chk_is_non_negative_vector(x = c(0.1, -0.1),
+                                            name = "x"),
+                     "element 2 of 'x' [-0.1] is negative")
+})
+
+
+## chk_is_positive_scalar
+
+test_that("'chk_is_positive_scalar' returns TRUE with valid input", {
+    expect_true(chk_is_positive_scalar(x = 1L,
+                                       name = "x"))
+    expect_true(chk_is_positive_scalar(x = 0.001,
+                                       name = "x"))
+})
+
+test_that("'chk_is_positive_scalar' returns expected message with invalid argument", {
+    expect_identical(chk_is_positive_scalar(x = NA_integer_,
+                                            name = "x"),
+                     "'x' is NA")
+    expect_identical(chk_is_positive_scalar(x = c(1, 1),
+                                   name = "x"),
+                     "'x' does not have length 1")
+    expect_identical(chk_is_positive_scalar(x = "1",
+                                            name = "x"),
+                     "'x' does not have type \"numeric\"")
+    expect_identical(chk_is_positive_scalar(x = 0,
+                                            name = "x"),
+                     "'x' [0] is non-positive")
+})
+
+
+## chk_is_positive_vector
+
+test_that("'chk_is_positive_vector' returns TRUE with valid input", {
+    expect_true(chk_is_positive_vector(x = c(1, 0.001),
+                                       name = "x"))
+    expect_true(chk_is_positive_vector(x = c(0.001, Inf),
+                                       name = "x"))
+})
+
+test_that("'chk_is_positive_vector' returns expected message with invalid argument", {
+    expect_identical(chk_is_positive_vector(x = c(NA_integer_, 1L),
+                                            name = "x"),
+                     "'x' has NAs")
+    expect_identical(chk_is_positive_vector(x = c("1", "2"),
+                                            name = "x"),
+                     "'x' does not have type \"numeric\"")
+    expect_identical(chk_is_positive_vector(x = c(0.1, 0),
+                                            name = "x"),
+                     "element 2 of 'x' [0] is non-positive")
+})
+
+
 ## chk_is_string
 
 test_that("'chk_is_string' returns TRUE with valid string", {

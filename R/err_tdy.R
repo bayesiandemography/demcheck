@@ -182,7 +182,7 @@ err_tdy_unit <- function(x, name) {
 #' @rdname err_tdy
 err_tdy_width <- function(width, min, max) {
     width <- err_tdy_integer_scalar(x = width,
-                                 name = "width")
+                                    name = "width")
     l <- err_tdy_min_max(min = min,
                          max = max)
     min <- l$min

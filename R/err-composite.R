@@ -76,6 +76,42 @@ err_is_logical_flag <- function(x, name) {
 
 #' @export
 #' @rdname composite
+err_is_non_negative_scalar <- function(x, name) {
+    val <- chk_is_non_negative_scalar(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_is_non_negative_vector <- function(x, name) {
+    val <- chk_is_non_negative_vector(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_is_positive_scalar <- function(x, name) {
+    val <- chk_is_positive_scalar(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_is_positive_vector <- function(x, name) {
+    val <- chk_is_positive_vector(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
 err_is_string <- function(x, name) {
     val <- chk_is_string(x, name)
     if (is.character(val))

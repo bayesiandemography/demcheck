@@ -57,7 +57,7 @@ chk_age_ge_min <- function(age, min, date, dob, unit) {
     TRUE
 }
 
-## NO_TESTS
+## HAS_TESTS
 #' @export
 #' @rdname composite
 chk_age_lt_max <- function(age, max, date, dob, unit) {
@@ -195,6 +195,93 @@ chk_is_logical_flag <- function(x, name) {
         return(val)
     TRUE
 }
+
+## HAS_TESTS
+#' @export
+#' @rdname single
+chk_is_non_negative_scalar <- function(x, name) {
+    val <- chk_is_length_1(x = x,
+                           name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_not_na_scalar(x = x,
+                                name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_numeric(x = x,
+                          name = name)
+    if (!isTRUE(val))
+        return(val)
+    if (x < 0L)
+        return(gettextf("'%s' [%s] is negative",
+                        name, x))
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname single
+chk_is_non_negative_vector <- function(x, name) {
+    val <- chk_is_not_na_vector(x = x,
+                                name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_numeric(x = x,
+                          name = name)
+    if (!isTRUE(val))
+        return(val)
+    is_neg <- x < 0L
+    if (any(is_neg)) {
+        i <- match(TRUE, is_neg)
+        return(gettextf("element %d of '%s' [%s] is negative",
+                        i, name, x[[i]]))
+    }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname single
+chk_is_positive_scalar <- function(x, name) {
+    val <- chk_is_length_1(x = x,
+                           name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_not_na_scalar(x = x,
+                                name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_numeric(x = x,
+                          name = name)
+    if (!isTRUE(val))
+        return(val)
+    if (x <= 0L)
+        return(gettextf("'%s' [%s] is non-positive",
+                        name, x))
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname single
+chk_is_positive_vector <- function(x, name) {
+    val <- chk_is_not_na_vector(x = x,
+                                name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_numeric(x = x,
+                          name = name)
+    if (!isTRUE(val))
+        return(val)
+    is_non_pos <- x <= 0L
+    if (any(is_non_pos)) {
+        i <- match(TRUE, is_non_pos)
+        return(gettextf("element %d of '%s' [%s] is non-positive",
+                        i, name, x[[i]]))
+    }
+    TRUE
+}
+
 
 ## HAS_TESTS
 #' @export
