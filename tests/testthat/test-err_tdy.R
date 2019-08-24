@@ -85,6 +85,41 @@ test_that("'err_tdy_date_dob' returns dates with valid input", {
 })
 
 
+## err_tdy_first_day
+
+test_that("'err_tdy_first_day' returns day and month with valid input", {
+    expect_identical(err_tdy_first_day("1 January"),
+                     list(mday = 1L,
+                          mon = 0L))
+    expect_identical(err_tdy_first_day("1 Jan"),
+                     list(mday = 1L,
+                          mon = 0L))
+    expect_identical(err_tdy_first_day("1-January"),
+                     list(mday = 1L,
+                          mon = 0L))
+    expect_identical(err_tdy_first_day("1-Jan"),
+                     list(mday = 1L,
+                          mon = 0L))
+    expect_identical(err_tdy_first_day("July 1"),
+                     list(mday = 1L,
+                          mon = 6L))
+    expect_identical(err_tdy_first_day("Jul 1"),
+                     list(mday = 1L,
+                          mon = 6L))
+    expect_identical(err_tdy_first_day("July-1"),
+                     list(mday = 1L,
+                          mon = 6L))
+    expect_identical(err_tdy_first_day("Jul-1"),
+                     list(mday = 1L,
+                          mon = 6L))
+})
+
+test_that("'err_tdy_first_day' raises expected error with invalid input", {
+    expect_error(err_tdy_first_day("wrong-1"),
+                 "invalid value for 'first_day' : \"wrong-1\"")
+})
+    
+
 ## err_tdy_integer_scalar
 
 test_that("'err_tdy_integer_scalar' works with valid inputs", {

@@ -5,6 +5,7 @@
 \alias{err_tdy_breaks}
 \alias{err_tdy_date}
 \alias{err_tdy_date_dob}
+\alias{err_tdy_first_day}
 \alias{err_tdy_min_max}
 \alias{err_tdy_same_length}
 \alias{err_tdy_unit}
@@ -16,6 +17,8 @@ err_tdy_breaks(x, name)
 err_tdy_date(x, name)
 
 err_tdy_date_dob(date, dob)
+
+err_tdy_first_day(first_day)
 
 err_tdy_min_max(min, max)
 
@@ -35,6 +38,10 @@ but not always, the name of \code{x}.}
 Object of class "Date".}
 
 \item{dob}{Date of birth. Object of class "Date".}
+
+\item{first_day}{A string specifying the first
+day of the year, for year-long periods, eg
+"1 January", "Jul-1".}
 
 \item{min}{Minimum age or time.}
 

@@ -20,6 +20,9 @@
 #'
 #' @inheritParams composite
 #' @param width The width of age or time intervals.
+#' @param first_day A string specifying the first
+#' day of the year, for year-long periods, eg
+#' "1 January", "Jul-1".
 #' 
 #' @return When err_tdy* can format \code{x} as required,
 #' it returns the value; otherwise it raises an error.
@@ -85,6 +88,34 @@ err_tdy_date_dob <- function(date, dob) {
     list(date = date,
          dob = dob)
 }
+
+## HAS_TESTS
+#' @export
+#' @rdname err_tdy
+err_tdy_first_day <- function(first_day) {
+    fmts <- c("%d %b %Y",
+              "%d %B %Y",
+              "%d-%b %Y",
+              "%d-%B %Y",
+              "%b %d %Y",
+              "%B %d %Y",
+              "%b-%d %Y",
+              "%B-%d %Y")
+    err_is_string(x = first_day,
+                  name = "first_day")
+    date <- tryCatch(error = function(e) e,
+                     as.Date(paste(first_day, "2001"),
+                             tryFormats = fmts))
+    if (inherits(date, "error"))
+        stop(gettextf("invalid value for '%s' : \"%s\"",
+                      "first_day", first_day))
+    date <- as.POSIXlt(date)
+    mday <- date$mday
+    mon <- date$mon
+    list(mday = mday,
+         mon = mon)
+}
+
 
 ## HAS_TESTS
 #' @export
