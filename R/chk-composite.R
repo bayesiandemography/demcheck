@@ -71,6 +71,32 @@ chk_age_lt_max <- function(age, max, date, dob, unit) {
 }
 
 ## HAS_TESTS
+## array has metadata required to uniquely identify
+## every cell, using only dimnames and names of
+## dimnames
+#' @export
+#' @rdname composite
+chk_array_metadata_complete <- function(x, name) {
+    val <- chk_has_dimnames(x = x,
+                            name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_has_names_dimnames(x = x,
+                                  name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_names_dimnames_complete(x = x,
+                                       name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_dimnames_complete(x = x,
+                                 name = name)
+    if (!isTRUE(val))
+        return(val)
+    TRUE
+}
+
+## HAS_TESTS
 #' @export
 #' @rdname composite
 chk_is_first_day_unit <- function(x, name, unit) {
@@ -339,4 +365,56 @@ chk_length_same_or_1 <- function(x1, x2, name1, name2) {
     gettextf("'%s' has length %d and '%s' has length %d : should have same lengths, or one should have length %d",
              name1, n1, name2, n2, 1L)
 }
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_dimnames_complete <- function(x, name) {
+    dimnames <- dimnames(x)
+    names <- names(dimnames)
+    dim <- dim(x)
+    for (i in seq_along(dimnames)) {
+        if (dim[[i]] > 0L) {
+            dimnames_i <- dimnames[[i]]
+            names_i <- names[[i]]
+            if (is.null(dimnames_i))
+                return(gettextf("\"%s\" dimension of '%s' does not have dimnames",
+                                names_i, name))
+            if (any(is.na(dimnames_i)))
+                return(gettextf("dimnames for \"%s\" dimension of '%s' have NAs",
+                                names_i, name))
+            if (!all(nzchar(dimnames_i)))
+                return(gettextf("dimnames for \"%s\" dimension of '%s' have blanks",
+                                names_i, name))
+            is_duplicated <- duplicated(dimnames_i)
+            if (any(is_duplicated)) {
+                j <- match(TRUE, is_duplicated)
+                return(gettextf("dimnames for \"%s\" dimension of '%s' have duplicate [\"%s\"]",
+                                names_i, name, dimnames_i[[j]]))
+            }
+        }
+    }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_names_dimnames_complete <- function(x, name) {
+    nms <- names(dimnames(x))
+    if (any(is.na(nms)))
+        return(gettextf("names for dimnames of '%s' have NAs",
+                        name))
+    if (!all(nzchar(nms)))
+        return(gettextf("names for dimnames of '%s' have blanks",
+                        name))
+    is_duplicated <- duplicated(nms)
+    if (any(is_duplicated)) {
+        i <- match(TRUE, is_duplicated)
+        return(gettextf("names for dimnames of '%s' have duplicate [\"%s\"]",
+                        name, nms[[i]]))
+    }
+    TRUE
+}
+
 

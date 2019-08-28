@@ -22,6 +22,15 @@ err_age_lt_max <- function(age, max, date, dob, unit) {
 
 #' @export
 #' @rdname composite
+err_array_metadata_complete <- function(x, name) {
+    val <- chk_array_metadata_complete(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
 err_is_first_day_unit <- function(x, name, unit) {
     val <- chk_is_first_day_unit(x, name, unit)
     if (is.character(val))
@@ -132,6 +141,24 @@ err_is_strictly_increasing <- function(x, name) {
 #' @rdname composite
 err_length_same_or_1 <- function(x1, x2, name1, name2) {
     val <- chk_length_same_or_1(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_dimnames_complete <- function(x, name) {
+    val <- chk_dimnames_complete(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_names_dimnames_complete <- function(x, name) {
+    val <- chk_names_dimnames_complete(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

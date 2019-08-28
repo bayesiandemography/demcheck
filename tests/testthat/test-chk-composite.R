@@ -41,6 +41,22 @@ test_that("'chk_age_lt_max' returns expected message with invalid dates", {
 })
 
 
+## chk_array_metadata_complete
+
+test_that("'chk_array_metadata_complete' returns TRUE with valid array", {
+    x <- array(0L,
+               dim = 2:3,
+               dimnames = list(A = 1:2, b = 1:3))
+    expect_true(chk_array_metadata_complete(x = x,
+                                            name = "x"))
+    x <- array(0L,
+               dim = c(0, 3),
+               dimnames = list(A = character(), b = 1:3))
+    expect_true(chk_array_metadata_complete(x = x,
+                                            name = "x"))
+})
+
+
 ## chk_is_ge_scalar
 
 test_that("'chk_is_ge_scalar' returns TRUE with inputs", {
@@ -351,3 +367,84 @@ test_that("'chk_length_same_or_1' returns expected message with invalid argument
                                           name2 = "x2"),
                      "'x1' has length 2 and 'x2' has length 3 : should have same lengths, or one should have length 1")
 })
+
+
+## chk_dimnames_complete
+
+test_that("'chk_dimnames_complete' returns TRUE with valid array", {
+    x <- array(0L,
+               dim = 2:3,
+               dimnames = list(A = 1:2, b = 1:3))
+    expect_true(chk_dimnames_complete(x = x,
+                                      name = "x"))
+    x <- array(0L,
+               dim = c(0, 3),
+               dimnames = list(A = character(), b = 1:3))
+    expect_true(chk_dimnames_complete(x = x,
+                                      name = "x"))
+})
+
+test_that("'chk_dimnames_complete' returns expected message with invalid argument", {
+    x <- array(0L,
+               dim = 2:3,
+               dimnames = list(A = 1:2, b = 1:3))
+    x_wrong <- x
+    dimnames(x_wrong)[1] <- list(NULL)
+    expect_identical(chk_dimnames_complete(x = x_wrong,
+                                                 name = "x"),
+                     "\"A\" dimension of 'x' does not have dimnames")
+    x_wrong <- x
+    dimnames(x_wrong)[[1]][1] <- NA
+    expect_identical(chk_dimnames_complete(x = x_wrong,
+                                                 name = "x"),
+                     "dimnames for \"A\" dimension of 'x' have NAs")
+    x_wrong <- x
+    dimnames(x_wrong)[[1]][1] <- ""
+    expect_identical(chk_dimnames_complete(x = x_wrong,
+                                                 name = "x"),
+                     "dimnames for \"A\" dimension of 'x' have blanks")
+    x_wrong <- x
+    dimnames(x_wrong)[[1]][1] <- 2
+    expect_identical(chk_dimnames_complete(x = x_wrong,
+                                           name = "x"),
+                     "dimnames for \"A\" dimension of 'x' have duplicate [\"2\"]")
+})
+
+
+## chk_names_dimnames_complete
+
+test_that("'chk_names_dimnames_complete' returns TRUE with valid array", {
+    x <- array(0L,
+               dim = 2:3,
+               dimnames = list(A = 1:2, b = 1:3))
+    expect_true(chk_names_dimnames_complete(x = x,
+                                            name = "x"))
+    x <- array(0L,
+               dim = c(0, 3),
+               dimnames = list(A = character(), b = 1:3))
+    expect_true(chk_names_dimnames_complete(x = x,
+                                            name = "x"))
+})
+
+test_that("'chk_names_dimnames_complete' returns expected message with invalid argument", {
+    x <- array(0L,
+               dim = 2:3,
+               dimnames = list(A = 1:2, b = 1:3))
+    x_wrong <- x
+    names(dimnames(x_wrong))[[1]] <- NA
+    expect_identical(chk_names_dimnames_complete(x = x_wrong,
+                                                 name = "x"),
+                     "names for dimnames of 'x' have NAs")
+    x_wrong <- x
+    names(dimnames(x_wrong))[[1]] <- ""
+    expect_identical(chk_names_dimnames_complete(x = x_wrong,
+                                                 name = "x"),
+                     "names for dimnames of 'x' have blanks")
+    x_wrong <- x
+    names(dimnames(x_wrong))[[2]] <- "A"
+    expect_identical(chk_names_dimnames_complete(x = x_wrong,
+                                                 name = "x"),
+                     "names for dimnames of 'x' have duplicate [\"A\"]")
+})
+
+

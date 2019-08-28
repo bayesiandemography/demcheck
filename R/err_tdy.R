@@ -19,7 +19,6 @@
 #' \code{NULL} is equivalent to \code{"year"}.
 #'
 #' @inheritParams composite
-#' @param width The width of age or time intervals.
 #' @param first_day A string specifying the first
 #' day of the year, for year-long periods, eg
 #' "1 January", "Jul-1".
@@ -41,7 +40,7 @@ err_tdy_breaks <- function(x, name) {
     err_is_finite_vector(x = x,
                          name = name)
     x <- err_tdy_integer_vector(x = x,
-                         name = name)
+                                name = name)
     err_is_strictly_increasing(x = x,
                                name = name)
     x
@@ -150,20 +149,6 @@ err_tdy_integer_vector <- function(x, name) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_min_max <- function(min, max) {
-    min <- err_tdy_integer_scalar(x = min,
-                                 name = "min")
-    max <- err_tdy_integer_scalar(x = max,
-                                 name = "max")
-    if (max <= min)
-        stop(gettextf("'%s' [%d] is less than or equal to '%s' [%d]",
-                      "max", max, "min", min))
-    list(min = min, max = max)
-}
-
-## HAS_TESTS
-#' @export
-#' @rdname err_tdy
 err_tdy_same_length <- function(x1, x2, name1, name2) {
     err_length_same_or_1(x1 = x1,
                          x2 = x2,
@@ -206,22 +191,5 @@ err_tdy_unit <- function(x, name) {
     }
     stop(gettextf("'%s' has invalid value [\"%s\"]",
                   name, x))
-}
-
-## HAS_TESTS
-#' @export
-#' @rdname err_tdy
-err_tdy_width <- function(width, min, max) {
-    width <- err_tdy_integer_scalar(x = width,
-                                    name = "width")
-    l <- err_tdy_min_max(min = min,
-                         max = max)
-    min <- l$min
-    max <- l$max
-    diff <- max - min
-    if (diff %% width != 0L)
-        stop(gettextf("'%s' [%d] does not divide evenly into the difference between '%s' [%d] and '%s' [%d]",
-                      "width", width, "max", max, "min", min))
-    width
 }
 

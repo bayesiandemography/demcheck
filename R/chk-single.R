@@ -24,6 +24,24 @@ NULL
 
 #' @export
 #' @rdname single
+chk_has_dimnames <- function(x, name) {
+    if (is.null(dimnames(x)))
+        return(gettextf("'%s' does not have dimnames",
+                        name))
+    TRUE
+}
+
+#' @export
+#' @rdname single
+chk_has_names_dimnames <- function(x, name) {
+    if (is.null(names(dimnames(x))))
+        return(gettextf("dimnames for '%s' do not have names",
+                        name))
+    TRUE
+}
+
+#' @export
+#' @rdname single
 chk_is_character <- function(x, name) {
     if (!is.character(x))
         return(gettextf("'%s' does not have type \"%s\"",

@@ -4,6 +4,24 @@
 
 #' @export
 #' @rdname single
+err_has_dimnames <- function(x, name) {
+    val <- chk_has_dimnames(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
+err_has_names_dimnames <- function(x, name) {
+    val <- chk_has_names_dimnames(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
 err_is_character <- function(x, name) {
     val <- chk_is_character(x, name)
     if (is.character(val))

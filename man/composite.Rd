@@ -4,6 +4,7 @@
 \alias{composite}
 \alias{chk_age_ge_min}
 \alias{chk_age_lt_max}
+\alias{chk_array_metadata_complete}
 \alias{chk_is_first_day_unit}
 \alias{chk_is_first_day_unit_consec}
 \alias{chk_is_ge_scalar}
@@ -13,8 +14,11 @@
 \alias{chk_is_string}
 \alias{chk_is_strictly_increasing}
 \alias{chk_length_same_or_1}
+\alias{chk_dimnames_complete}
+\alias{chk_names_dimnames_complete}
 \alias{err_age_ge_min}
 \alias{err_age_lt_max}
+\alias{err_array_metadata_complete}
 \alias{err_is_first_day_unit}
 \alias{err_is_first_day_unit_consec}
 \alias{err_is_ge_scalar}
@@ -28,11 +32,15 @@
 \alias{err_is_string}
 \alias{err_is_strictly_increasing}
 \alias{err_length_same_or_1}
+\alias{err_dimnames_complete}
+\alias{err_names_dimnames_complete}
 \title{Checks of composite conditions}
 \usage{
 chk_age_ge_min(age, min, date, dob, unit)
 
 chk_age_lt_max(age, max, date, dob, unit)
+
+chk_array_metadata_complete(x, name)
 
 chk_is_first_day_unit(x, name, unit)
 
@@ -52,9 +60,15 @@ chk_is_strictly_increasing(x, name)
 
 chk_length_same_or_1(x1, x2, name1, name2)
 
+chk_dimnames_complete(x, name)
+
+chk_names_dimnames_complete(x, name)
+
 err_age_ge_min(age, min, date, dob, unit)
 
 err_age_lt_max(age, max, date, dob, unit)
+
+err_array_metadata_complete(x, name)
 
 err_is_first_day_unit(x, name, unit)
 
@@ -81,6 +95,10 @@ err_is_string(x, name)
 err_is_strictly_increasing(x, name)
 
 err_length_same_or_1(x1, x2, name1, name2)
+
+err_dimnames_complete(x, name)
+
+err_names_dimnames_complete(x, name)
 }
 \arguments{
 \item{age}{Age, typically in years, but can be other unit.}

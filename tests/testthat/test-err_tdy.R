@@ -168,19 +168,6 @@ test_that("'err_tdy_integer_vector' raises expected error with invalid input", {
                  "value 'a' in 'x' not equivalent to integer")
 })
 
-## err_tdy_min_max
-
-test_that("'err_tdy_min_max' works with valid inputs", {
-    expect_identical(err_tdy_min_max(min = 0, max = 100),
-                     list(min = 0L, max = 100L))
-})
-
-test_that("'err_tdy_min_max' raises expected error with invalid input", {
-    expect_error(err_tdy_min_max(min = 0, max = 0),
-                 "'max' \\[0\\] is less than or equal to 'min' \\[0\\]")
-    expect_error(err_tdy_min_max(min = 2, max = 1),
-                 "'max' \\[1\\] is less than or equal to 'min' \\[2\\]")
-})
 
 ## err_tdy_same_length
 
@@ -226,19 +213,4 @@ test_that("'err_tdy_unit' raises expected error with invalid input", {
     expect_error(err_tdy_unit(x = "-5 years",
                               name = "x"),
                  "'x' has invalid value \\[\"-5 years\"\\] : number of years less than 1")
-})
-
-
-## err_tdy_width
-
-test_that("'err_tdy_width' works with valid inputs", {
-    expect_identical(err_tdy_width(width = 5, min = 0, max = 100),
-                     5L)
-})
-
-test_that("'err_tdy_width' raises expected error with invalid input", {
-    expect_error(err_tdy_width(width = 3, min = 0, max = 100),
-                 "'width' \\[3\\] does not divide evenly into the difference between 'max' \\[100\\] and 'min' \\[0\\]")
-    expect_error(err_tdy_width(width = 0, min = 10, max = 10),
-                 "'max' \\[10\\] is less than or equal to 'min' \\[10\\]")
 })

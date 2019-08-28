@@ -6,10 +6,8 @@
 \alias{err_tdy_date}
 \alias{err_tdy_date_dob}
 \alias{err_tdy_first_day}
-\alias{err_tdy_min_max}
 \alias{err_tdy_same_length}
 \alias{err_tdy_unit}
-\alias{err_tdy_width}
 \title{Try to tidy a value}
 \usage{
 err_tdy_breaks(x, name)
@@ -20,13 +18,9 @@ err_tdy_date_dob(date, dob)
 
 err_tdy_first_day(first_day)
 
-err_tdy_min_max(min, max)
-
 err_tdy_same_length(x1, x2, name1, name2)
 
 err_tdy_unit(x, name)
-
-err_tdy_width(width, min, max)
 }
 \arguments{
 \item{x}{The object being checked.}
@@ -43,10 +37,6 @@ Object of class "Date".}
 day of the year, for year-long periods, eg
 "1 January", "Jul-1".}
 
-\item{min}{Minimum age or time.}
-
-\item{max}{Maximum age or time.}
-
 \item{x1}{The first of a pair of objects being checked.}
 
 \item{x2}{The second of a pair of objects being checked.}
@@ -54,8 +44,6 @@ day of the year, for year-long periods, eg
 \item{name1}{The name of the first of the pair of objects.}
 
 \item{name2}{The name of the second of the pair of objects.}
-
-\item{width}{The width of age or time intervals.}
 }
 \value{
 When err_tdy* can format \code{x} as required,
