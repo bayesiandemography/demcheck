@@ -5,7 +5,7 @@
 \alias{err_tdy_breaks}
 \alias{err_tdy_date}
 \alias{err_tdy_date_dob}
-\alias{err_tdy_first_day}
+\alias{err_tdy_first_month}
 \alias{err_tdy_integer_scalar}
 \alias{err_tdy_integer_vector}
 \alias{err_tdy_many_to_one}
@@ -20,7 +20,7 @@ err_tdy_date(x, name)
 
 err_tdy_date_dob(date, dob)
 
-err_tdy_first_day(first_day)
+err_tdy_first_month(x, name)
 
 err_tdy_integer_scalar(x, name)
 
@@ -44,10 +44,6 @@ but not always, the name of \code{x}.}
 Object of class "Date".}
 
 \item{dob}{Date of birth. Object of class "Date".}
-
-\item{first_day}{A string specifying the first
-day of the year, for year-long periods, eg
-"1 January", "Jul-1".}
 
 \item{x1}{The first of a pair of objects being checked.}
 

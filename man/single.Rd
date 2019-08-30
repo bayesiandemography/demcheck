@@ -8,6 +8,7 @@
 \alias{single}
 \alias{chk_has_dimnames}
 \alias{chk_has_names_dimnames}
+\alias{chk_is_all_0_1}
 \alias{chk_is_character}
 \alias{chk_is_date}
 \alias{chk_is_date_equiv}
@@ -26,6 +27,7 @@
 \alias{chk_is_positive_length}
 \alias{err_has_dimnames}
 \alias{err_has_names_dimnames}
+\alias{err_is_all_0_1}
 \alias{err_is_character}
 \alias{err_is_date}
 \alias{err_is_date_equiv}
@@ -55,6 +57,8 @@ chk_is_positive_vector(x, name)
 chk_has_dimnames(x, name)
 
 chk_has_names_dimnames(x, name)
+
+chk_is_all_0_1(x, name)
 
 chk_is_character(x, name)
 
@@ -91,6 +95,8 @@ chk_is_positive_length(x, name)
 err_has_dimnames(x, name)
 
 err_has_names_dimnames(x, name)
+
+err_is_all_0_1(x, name)
 
 err_is_character(x, name)
 

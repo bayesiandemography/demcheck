@@ -22,6 +22,15 @@ err_has_names_dimnames <- function(x, name) {
 
 #' @export
 #' @rdname single
+err_is_all_0_1 <- function(x, name) {
+    val <- chk_is_all_0_1(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
 err_is_character <- function(x, name) {
     val <- chk_is_character(x, name)
     if (is.character(val))

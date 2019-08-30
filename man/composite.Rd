@@ -15,6 +15,7 @@
 \alias{chk_is_strictly_increasing}
 \alias{chk_length_same_or_1}
 \alias{chk_dimnames_complete}
+\alias{chk_is_multiple_of}
 \alias{chk_names_complete}
 \alias{chk_names_dimnames_complete}
 \alias{err_age_ge_min}
@@ -34,6 +35,7 @@
 \alias{err_is_strictly_increasing}
 \alias{err_length_same_or_1}
 \alias{err_dimnames_complete}
+\alias{err_is_multiple_of}
 \alias{err_names_complete}
 \alias{err_names_dimnames_complete}
 \title{Checks of composite conditions}
@@ -63,6 +65,8 @@ chk_is_strictly_increasing(x, name)
 chk_length_same_or_1(x1, x2, name1, name2)
 
 chk_dimnames_complete(x, name)
+
+chk_is_multiple_of(x1, x2, name1, name2)
 
 chk_names_complete(x, name)
 
@@ -101,6 +105,8 @@ err_is_strictly_increasing(x, name)
 err_length_same_or_1(x1, x2, name1, name2)
 
 err_dimnames_complete(x, name)
+
+err_is_multiple_of(x1, x2, name1, name2)
 
 err_names_complete(x, name)
 

@@ -397,6 +397,15 @@ chk_dimnames_complete <- function(x, name) {
     TRUE
 }
 
+#' @export
+#' @rdname composite
+chk_is_multiple_of <- function(x1, x2, name1, name2) {
+    if (x1 %% x2 != 0L)
+        stop(gettextf("'%s' is not a multiple of '%s'",
+                      name1, name2))
+    TRUE
+}
+
 ## HAS_TESTS
 #' @export
 #' @rdname composite

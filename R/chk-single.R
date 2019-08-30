@@ -42,6 +42,15 @@ chk_has_names_dimnames <- function(x, name) {
 
 #' @export
 #' @rdname single
+chk_is_all_0_1 <- function(x, name) {
+    if (!all(x %in% 0:1))
+        return(gettextf("'%s' has values other than %d or %d'",
+                        name, 0L, 1L))
+    TRUE
+}
+
+#' @export
+#' @rdname single
 chk_is_character <- function(x, name) {
     if (!is.character(x))
         return(gettextf("'%s' does not have type \"%s\"",
