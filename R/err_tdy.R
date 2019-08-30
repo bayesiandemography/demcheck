@@ -118,12 +118,12 @@ err_tdy_first_day <- function(first_day) {
 
 ## HAS_TESTS
 #' @export
-#' @rdname single
+#' @rdname err_tdy
 err_tdy_integer_scalar <- function(x, name) {
-    if (is.integer(x))
-        return(x)
     err_is_length_1(x = x,
                     name = name)
+    if (is.integer(x))
+        return(x)
     x_int <- suppressWarnings(as.integer(x))
     is_not_equiv <- !is.na(x) && (is.na(x_int) || (x_int != x))
     if (is_not_equiv)
@@ -134,7 +134,7 @@ err_tdy_integer_scalar <- function(x, name) {
 
 ## HAS_TESTS
 #' @export
-#' @rdname single
+#' @rdname err_tdy
 err_tdy_integer_vector <- function(x, name) {
     if (is.integer(x))
         return(x)
@@ -143,6 +143,48 @@ err_tdy_integer_vector <- function(x, name) {
     if (any(is_not_equiv))
         stop(gettextf("value '%s' in '%s' not equivalent to integer",
                       x[is_not_equiv][[1L]], name))
+    x_int
+}
+
+## NO_TESTS
+#' @export
+#' @rdname err_tdy
+err_tdy_many_to_one <- function(x, name) {
+    if (!is.data.frame(x))
+        stop(gettextf("'%s' is not a data.frame",
+                      name))
+    if (!identical(length(x), 2L))
+        stop(gettextf("'%s' does not have %d columns",
+                      name, 2L))
+    if (identical(nrow(x), 0L))
+        stop(gettextf("'%s' has %d rows",
+                      name, 0L))
+    err_is_not_na_dataframe(x = x,
+                            name = name)
+    is_unique <- sapply(x, function(x) !any(duplicated(x)))
+    if (all(is_unique))
+        stop(gettextf("neither column of '%s' has duplicates, as required for many-to-one mapping",
+                      name))
+    if (!any(is_unique))
+        stop(gettextf("neither column of '%s' has entirely unique values, as required for many-to-one mapping",
+                      name))
+    x[] <- lapply(x, as.character)
+    x        
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname err_tdy
+err_tdy_positive_integer_scalar <- function(x, name) {
+    err_is_positive_scalar(x = x,
+                           name = name)
+    if (!is.integer(x)) {
+        x_int <- suppressWarnings(as.integer(x))
+        is_not_equiv <- is.na(x_int) || (x_int != x)
+        if (is_not_equiv)
+            stop(gettextf("'%s' [%s] not equivalent to integer",
+                          name, x))
+    }
     x_int
 }
 

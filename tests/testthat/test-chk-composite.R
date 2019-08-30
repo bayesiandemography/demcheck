@@ -411,6 +411,37 @@ test_that("'chk_dimnames_complete' returns expected message with invalid argumen
 })
 
 
+## chk_names_complete
+
+test_that("'chk_names_complete' returns TRUE with valid array", {
+    x <- c(A = 1, B = 2)
+    expect_true(chk_names_complete(x = x,
+                                   name = "x"))
+    x <- c()
+    expect_true(chk_names_complete(x = x,
+                                   name = "x"))
+})
+
+test_that("'chk_names_complete' returns expected message with invalid argument", {
+    x <- c(A = 1, B = 2)
+    x_wrong <- x
+    names(x_wrong)[[1]] <- NA
+    expect_identical(chk_names_complete(x = x_wrong,
+                                        name = "x"),
+                     "names for 'x' have NAs")
+    x_wrong <- x
+    names(x_wrong)[[1]] <- ""
+    expect_identical(chk_names_complete(x = x_wrong,
+                                                 name = "x"),
+                     "names for 'x' have blanks")
+    x_wrong <- x
+    names(x_wrong)[[2]] <- "A"
+    expect_identical(chk_names_complete(x = x_wrong,
+                                        name = "x"),
+                     "names for 'x' have duplicate [\"A\"]")
+})
+
+
 ## chk_names_dimnames_complete
 
 test_that("'chk_names_dimnames_complete' returns TRUE with valid array", {

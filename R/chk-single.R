@@ -144,6 +144,18 @@ chk_is_logical <- function(x, name) {
 
 #' @export
 #' @rdname single
+chk_is_not_na_dataframe <- function(x, name) {
+    for (i in seq_along(x)) {
+        element_i <- x[[i]]
+        if (any(is.na(element_i)))
+            return(gettextf("column %d of '%s' has NAs",
+                            i, name))
+    }                                
+    TRUE
+}
+
+#' @export
+#' @rdname single
 chk_is_not_na_list <- function(x, name) {
     for (i in seq_along(x)) {
         element_i <- x[[i]]

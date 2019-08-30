@@ -6,6 +6,10 @@
 \alias{err_tdy_date}
 \alias{err_tdy_date_dob}
 \alias{err_tdy_first_day}
+\alias{err_tdy_integer_scalar}
+\alias{err_tdy_integer_vector}
+\alias{err_tdy_many_to_one}
+\alias{err_tdy_positive_integer_scalar}
 \alias{err_tdy_same_length}
 \alias{err_tdy_unit}
 \title{Try to tidy a value}
@@ -17,6 +21,14 @@ err_tdy_date(x, name)
 err_tdy_date_dob(date, dob)
 
 err_tdy_first_day(first_day)
+
+err_tdy_integer_scalar(x, name)
+
+err_tdy_integer_vector(x, name)
+
+err_tdy_many_to_one(x, name)
+
+err_tdy_positive_integer_scalar(x, name)
 
 err_tdy_same_length(x1, x2, name1, name2)
 

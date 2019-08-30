@@ -169,6 +169,57 @@ test_that("'err_tdy_integer_vector' raises expected error with invalid input", {
 })
 
 
+## err_tdy_many_to_one
+
+test_that("'err_tdy_many_to_one' works with valid inputs", {
+    x <- data.frame(a = 1:2, b = c("z", "z"))
+    expect_identical(err_tdy_many_to_one(x = x,
+                                         name = "x"),
+                     data.frame(a = as.character(1:2), b = c("z", "z"), stringsAsFactors = FALSE))
+})
+
+test_that("'err_tdy_many_to_one' raises expected error with invalid input", {
+    x <- "wrong"
+    expect_error(err_tdy_many_to_one(x = x,
+                                     name = "x"),
+                 "'x' is not a data.frame")
+    x <- data.frame(a = 1:2, b = c("z", "z"), c = 3:4)
+    expect_error(err_tdy_many_to_one(x = x,
+                                     name = "x"),
+                 "'x' does not have 2 columns")
+    x <- data.frame(a = character(), b = character())
+    expect_error(err_tdy_many_to_one(x = x,
+                                     name = "x"),
+                 "'x' has 0 rows")
+    x <- data.frame(a = 1:2, b = c(NA, "z"))
+    expect_error(err_tdy_many_to_one(x = x,
+                                     name = "x"),
+                 "column 2 of 'x' has NAs")
+    x <- data.frame(a = 1:2, b = c("y", "z"))
+    expect_error(err_tdy_many_to_one(x = x,
+                                     name = "x"),
+                 "neither column of 'x' has duplicates, as required for many-to-one mapping")
+    x <- data.frame(a = c(1, 1), b = c("y", "y"))
+    expect_error(err_tdy_many_to_one(x = x,
+                                     name = "x"),
+                 "neither column of 'x' has entirely unique values, as required for many-to-one mapping")
+})
+
+
+## err_tdy_positive_integer_scalar
+
+test_that("'err_tdy_positive_integer_scalar' works with valid inputs", {
+    expect_identical(err_tdy_positive_integer_scalar(x = 1, name = "x"),
+                     1L)
+})
+
+test_that("'err_tdy_positive_integer_scalar' raises expected error with invalid input", {
+    expect_error(err_tdy_positive_integer_scalar(x = 0.1,
+                                                 name = "x"),
+                 "'x' \\[0.1\\] not equivalent to integer")
+})
+
+
 ## err_tdy_same_length
 
 test_that("'err_tdy_same_length' works with valid inputs", {

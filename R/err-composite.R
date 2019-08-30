@@ -157,6 +157,15 @@ err_dimnames_complete <- function(x, name) {
 
 #' @export
 #' @rdname composite
+err_names_complete <- function(x, name) {
+    val <- chk_names_complete(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
 err_names_dimnames_complete <- function(x, name) {
     val <- chk_names_dimnames_complete(x, name)
     if (is.character(val))

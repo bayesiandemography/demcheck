@@ -400,6 +400,26 @@ chk_dimnames_complete <- function(x, name) {
 ## HAS_TESTS
 #' @export
 #' @rdname composite
+chk_names_complete <- function(x, name) {
+    nms <- names(x)
+    if (any(is.na(nms)))
+        return(gettextf("names for '%s' have NAs",
+                        name))
+    if (!all(nzchar(nms)))
+        return(gettextf("names for '%s' have blanks",
+                        name))
+    is_duplicated <- duplicated(nms)
+    if (any(is_duplicated)) {
+        i <- match(TRUE, is_duplicated)
+        return(gettextf("names for '%s' have duplicate [\"%s\"]",
+                        name, nms[[i]]))
+    }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
 chk_names_dimnames_complete <- function(x, name) {
     nms <- names(dimnames(x))
     if (any(is.na(nms)))
