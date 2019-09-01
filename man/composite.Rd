@@ -5,28 +5,31 @@
 \alias{chk_age_ge_min}
 \alias{chk_age_lt_max}
 \alias{chk_array_metadata_complete}
+\alias{chk_dimnames_complete}
 \alias{chk_is_first_day_unit}
 \alias{chk_is_first_day_unit_consec}
 \alias{chk_is_ge_scalar}
 \alias{chk_is_ge_vector}
 \alias{chk_is_integer_consec}
 \alias{chk_is_logical_flag}
+\alias{chk_is_multiple_of}
 \alias{chk_is_string}
 \alias{chk_is_strictly_increasing}
 \alias{chk_length_same_or_1}
-\alias{chk_dimnames_complete}
-\alias{chk_is_multiple_of}
+\alias{chk_list_edges}
 \alias{chk_names_complete}
 \alias{chk_names_dimnames_complete}
 \alias{err_age_ge_min}
 \alias{err_age_lt_max}
 \alias{err_array_metadata_complete}
+\alias{err_dimnames_complete}
 \alias{err_is_first_day_unit}
 \alias{err_is_first_day_unit_consec}
 \alias{err_is_ge_scalar}
 \alias{err_is_ge_vector}
 \alias{err_is_integer_consec}
 \alias{err_is_logical_flag}
+\alias{err_is_multiple_of}
 \alias{err_is_non_negative_scalar}
 \alias{err_is_non_negative_vector}
 \alias{err_is_positive_scalar}
@@ -34,8 +37,7 @@
 \alias{err_is_string}
 \alias{err_is_strictly_increasing}
 \alias{err_length_same_or_1}
-\alias{err_dimnames_complete}
-\alias{err_is_multiple_of}
+\alias{err_list_edges}
 \alias{err_names_complete}
 \alias{err_names_dimnames_complete}
 \title{Checks of composite conditions}
@@ -45,6 +47,8 @@ chk_age_ge_min(age, min, date, dob, unit)
 chk_age_lt_max(age, max, date, dob, unit)
 
 chk_array_metadata_complete(x, name)
+
+chk_dimnames_complete(x, name)
 
 chk_is_first_day_unit(x, name, unit)
 
@@ -58,15 +62,15 @@ chk_is_integer_consec(x, name)
 
 chk_is_logical_flag(x, name)
 
+chk_is_multiple_of(x1, x2, name1, name2)
+
 chk_is_string(x, name)
 
 chk_is_strictly_increasing(x, name)
 
 chk_length_same_or_1(x1, x2, name1, name2)
 
-chk_dimnames_complete(x, name)
-
-chk_is_multiple_of(x1, x2, name1, name2)
+chk_list_edges(x, name)
 
 chk_names_complete(x, name)
 
@@ -77,6 +81,8 @@ err_age_ge_min(age, min, date, dob, unit)
 err_age_lt_max(age, max, date, dob, unit)
 
 err_array_metadata_complete(x, name)
+
+err_dimnames_complete(x, name)
 
 err_is_first_day_unit(x, name, unit)
 
@@ -89,6 +95,8 @@ err_is_ge_vector(x1, x2, name1, name2)
 err_is_integer_consec(x, name)
 
 err_is_logical_flag(x, name)
+
+err_is_multiple_of(x1, x2, name1, name2)
 
 err_is_non_negative_scalar(x, name)
 
@@ -104,9 +112,7 @@ err_is_strictly_increasing(x, name)
 
 err_length_same_or_1(x1, x2, name1, name2)
 
-err_dimnames_complete(x, name)
-
-err_is_multiple_of(x1, x2, name1, name2)
+err_list_edges(x, name)
 
 err_names_complete(x, name)
 

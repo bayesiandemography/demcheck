@@ -135,7 +135,7 @@ err_tdy_integer_vector <- function(x, name) {
     x_int
 }
 
-## NO_TESTS
+## HAS_TESTS
 #' @export
 #' @rdname err_tdy
 err_tdy_many_to_one <- function(x, name) {

@@ -31,6 +31,15 @@ err_array_metadata_complete <- function(x, name) {
 
 #' @export
 #' @rdname composite
+err_dimnames_complete <- function(x, name) {
+    val <- chk_dimnames_complete(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
 err_is_first_day_unit <- function(x, name, unit) {
     val <- chk_is_first_day_unit(x, name, unit)
     if (is.character(val))
@@ -78,6 +87,15 @@ err_is_integer_consec <- function(x, name) {
 #' @rdname composite
 err_is_logical_flag <- function(x, name) {
     val <- chk_is_logical_flag(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_is_multiple_of <- function(x1, x2, name1, name2) {
+    val <- chk_is_multiple_of(x1, x2, name1, name2)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -148,17 +166,8 @@ err_length_same_or_1 <- function(x1, x2, name1, name2) {
 
 #' @export
 #' @rdname composite
-err_dimnames_complete <- function(x, name) {
-    val <- chk_dimnames_complete(x, name)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
-err_is_multiple_of <- function(x1, x2, name1, name2) {
-    val <- chk_is_multiple_of(x1, x2, name1, name2)
+err_list_edges <- function(x, name) {
+    val <- chk_list_edges(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

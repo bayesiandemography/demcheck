@@ -99,6 +99,37 @@ chk_array_metadata_complete <- function(x, name) {
 ## HAS_TESTS
 #' @export
 #' @rdname composite
+chk_dimnames_complete <- function(x, name) {
+    dimnames <- dimnames(x)
+    names <- names(dimnames)
+    dim <- dim(x)
+    for (i in seq_along(dimnames)) {
+        if (dim[[i]] > 0L) {
+            dimnames_i <- dimnames[[i]]
+            names_i <- names[[i]]
+            if (is.null(dimnames_i))
+                return(gettextf("\"%s\" dimension of '%s' does not have dimnames",
+                                names_i, name))
+            if (any(is.na(dimnames_i)))
+                return(gettextf("dimnames for \"%s\" dimension of '%s' have NAs",
+                                names_i, name))
+            if (!all(nzchar(dimnames_i)))
+                return(gettextf("dimnames for \"%s\" dimension of '%s' have blanks",
+                                names_i, name))
+            is_duplicated <- duplicated(dimnames_i)
+            if (any(is_duplicated)) {
+                j <- match(TRUE, is_duplicated)
+                return(gettextf("dimnames for \"%s\" dimension of '%s' have duplicate [\"%s\"]",
+                                names_i, name, dimnames_i[[j]]))
+            }
+        }
+    }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
 chk_is_first_day_unit <- function(x, name, unit) {
     n <- length(x)
     if (n == 0L)
@@ -219,6 +250,15 @@ chk_is_logical_flag <- function(x, name) {
     val <- chk_is_not_na_scalar(x = x, name = name)
     if (!isTRUE(val))
         return(val)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+chk_is_multiple_of <- function(x1, x2, name1, name2) {
+    if (x1 %% x2 != 0L)
+        stop(gettextf("'%s' is not a multiple of '%s'",
+                      name1, name2))
     TRUE
 }
 
@@ -369,41 +409,49 @@ chk_length_same_or_1 <- function(x1, x2, name1, name2) {
 ## HAS_TESTS
 #' @export
 #' @rdname composite
-chk_dimnames_complete <- function(x, name) {
-    dimnames <- dimnames(x)
-    names <- names(dimnames)
-    dim <- dim(x)
-    for (i in seq_along(dimnames)) {
-        if (dim[[i]] > 0L) {
-            dimnames_i <- dimnames[[i]]
-            names_i <- names[[i]]
-            if (is.null(dimnames_i))
-                return(gettextf("\"%s\" dimension of '%s' does not have dimnames",
-                                names_i, name))
-            if (any(is.na(dimnames_i)))
-                return(gettextf("dimnames for \"%s\" dimension of '%s' have NAs",
-                                names_i, name))
-            if (!all(nzchar(dimnames_i)))
-                return(gettextf("dimnames for \"%s\" dimension of '%s' have blanks",
-                                names_i, name))
-            is_duplicated <- duplicated(dimnames_i)
-            if (any(is_duplicated)) {
-                j <- match(TRUE, is_duplicated)
-                return(gettextf("dimnames for \"%s\" dimension of '%s' have duplicate [\"%s\"]",
-                                names_i, name, dimnames_i[[j]]))
+chk_list_edges <- function(x, name) {
+    if (!is.list(x))
+        stop(gettextf("'%s' is not a list",
+                      name))
+    val <- chk_names_complete(x = x,
+                              name = name)
+    if (!isTRUE(val))
+        return(val)
+    names_x <- names(x)
+    for (i in seq_along(x)) {
+        element <- x[[i]]
+        name_element <- names_x[[i]]
+        if (is.null(element)) {
+            next
+        }
+        else if (is.character(element)) {
+            if (any(is.na(element)))
+                return(gettextf("element \"%s\" of '%s' has NAs",
+                                name_element, name))
+            if (any(!nzchar(element)))
+                return(gettextf("element \"%s\" of '%s' has blanks",
+                                name_element, name))
+            if (any(duplicated(element)))
+                return(gettextf("element \"%s\" of '%s' has duplicates",
+                                name_element, name))
+            dest_not_found <- match(element, names_x, nomatch = 0L) == 0L
+            if (any(dest_not_found)) {
+                i_not_found <- match(TRUE, dest_not_found)
+                return(gettextf(paste("value \"%s\" in element \"%s\" of '%s' invalid :",
+                                      "\"%s\" is not the name of an element of '%s'"),
+                                element[[i_not_found]],
+                                name_element,
+                                name,
+                                element[[i_not_found]],
+                                name))
             }
         }
+        else {
+            return(gettextf("element \"%s\" of '%s' has class \"%s\"",
+                            name_element, name, class(element)))
+        }
     }
-    TRUE
-}
-
-#' @export
-#' @rdname composite
-chk_is_multiple_of <- function(x1, x2, name1, name2) {
-    if (x1 %% x2 != 0L)
-        stop(gettextf("'%s' is not a multiple of '%s'",
-                      name1, name2))
-    TRUE
+    TRUE    
 }
 
 ## HAS_TESTS
