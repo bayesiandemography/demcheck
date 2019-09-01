@@ -166,8 +166,8 @@ err_length_same_or_1 <- function(x1, x2, name1, name2) {
 
 #' @export
 #' @rdname composite
-err_list_edges <- function(x, name) {
-    val <- chk_list_edges(x, name)
+err_orig_dest_list <- function(x, name) {
+    val <- chk_orig_dest_list(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

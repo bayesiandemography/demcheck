@@ -409,7 +409,7 @@ chk_length_same_or_1 <- function(x1, x2, name1, name2) {
 ## HAS_TESTS
 #' @export
 #' @rdname composite
-chk_list_edges <- function(x, name) {
+chk_orig_dest_list <- function(x, name) {
     if (!is.list(x))
         stop(gettextf("'%s' is not a list",
                       name))
