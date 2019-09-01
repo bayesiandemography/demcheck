@@ -410,51 +410,51 @@ test_that("'chk_length_same_or_1' returns expected message with invalid argument
                      "'x1' has length 2 and 'x2' has length 3 : should have same lengths, or one should have length 1")
 })
 
-## chk_orig_dest_list
+## chk_trans_list
 
-test_that("'chk_orig_dest_list' returns TRUE with valid input", {
-    expect_true(chk_orig_dest_list(x = list(a = c("b", "c"),
-                                            b = "c",
-                                            c = NULL),
-                                   name = "x"))
-    expect_true(chk_orig_dest_list(x = list(a = c("b", "c", "a"),
-                                            b = "c",
-                                            c = NULL,
-                                            d = c("b", "a")),
-                                   name = "x"))
+test_that("'chk_trans_list' returns TRUE with valid input", {
+    expect_true(chk_trans_list(x = list(a = c("b", "c"),
+                                        b = "c",
+                                        c = NULL),
+                               name = "x"))
+    expect_true(chk_trans_list(x = list(a = c("b", "c", "a"),
+                                        b = "c",
+                                        c = NULL,
+                                        d = c("b", "a")),
+                               name = "x"))
 })
 
-test_that("'chk_orig_dest_list' returns expected message with invalid argument", {
+test_that("'chk_trans_list' returns expected message with invalid argument", {
     x_wrong = list(a = c("b", "c"),
                    b = "c",
                    c = as.character(NA))
-    expect_identical(chk_orig_dest_list(x = x_wrong,
-                                        name = "x_wrong"),
+    expect_identical(chk_trans_list(x = x_wrong,
+                                    name = "x_wrong"),
                      "element \"c\" of 'x_wrong' has NAs")
     x_wrong = list(a = c("b", "c"),
                    b = "c",
                    c = "")
-    expect_identical(chk_orig_dest_list(x = x_wrong,
-                                        name = "x_wrong"),
+    expect_identical(chk_trans_list(x = x_wrong,
+                                    name = "x_wrong"),
                      "element \"c\" of 'x_wrong' has blanks")
     x_wrong = list(a = c("b", "c"),
                    b = "c",
                    c = c("a", "a"))
-    expect_identical(chk_orig_dest_list(x = x_wrong,
-                                        name = "x_wrong"),
+    expect_identical(chk_trans_list(x = x_wrong,
+                                    name = "x_wrong"),
                      "element \"c\" of 'x_wrong' has duplicates")
     x_wrong = list(a = c("b", "c"),
                    b = "wrong",
                    c = NULL)
-    expect_identical(chk_orig_dest_list(x = x_wrong,
-                                        name = "x_wrong"),
+    expect_identical(chk_trans_list(x = x_wrong,
+                                    name = "x_wrong"),
                      paste("value \"wrong\" in element \"b\" of 'x_wrong' invalid :",
                            "\"wrong\" is not the name of an element of 'x_wrong'"))
     x_wrong = list(a = c("b", "c"),
                    b = 1L,
                    c = NULL)
-    expect_identical(chk_orig_dest_list(x = x_wrong,
-                                        name = "x_wrong"),
+    expect_identical(chk_trans_list(x = x_wrong,
+                                    name = "x_wrong"),
                      "element \"b\" of 'x_wrong' has class \"integer\"")
 })
 

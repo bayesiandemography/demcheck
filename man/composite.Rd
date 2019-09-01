@@ -16,7 +16,7 @@
 \alias{chk_is_string}
 \alias{chk_is_strictly_increasing}
 \alias{chk_length_same_or_1}
-\alias{chk_orig_dest_list}
+\alias{chk_trans_list}
 \alias{chk_names_complete}
 \alias{chk_names_dimnames_complete}
 \alias{err_age_ge_min}
@@ -37,7 +37,7 @@
 \alias{err_is_string}
 \alias{err_is_strictly_increasing}
 \alias{err_length_same_or_1}
-\alias{err_orig_dest_list}
+\alias{err_trans_list}
 \alias{err_names_complete}
 \alias{err_names_dimnames_complete}
 \title{Checks of composite conditions}
@@ -70,7 +70,7 @@ chk_is_strictly_increasing(x, name)
 
 chk_length_same_or_1(x1, x2, name1, name2)
 
-chk_orig_dest_list(x, name)
+chk_trans_list(x, name)
 
 chk_names_complete(x, name)
 
@@ -112,7 +112,7 @@ err_is_strictly_increasing(x, name)
 
 err_length_same_or_1(x1, x2, name1, name2)
 
-err_orig_dest_list(x, name)
+err_trans_list(x, name)
 
 err_names_complete(x, name)
 
