@@ -211,6 +211,13 @@ chk_is_positive_length <- function(x, name) {
     TRUE
 }
 
-
+#' @export
+#' @rdname single
+chk_no_dimnames <- function(x, name) {
+    if (!is.null(dimnames(x)))
+        return(gettextf("'%s' has dimnames",
+                        name))
+    TRUE
+}
 
 

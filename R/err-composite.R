@@ -22,8 +22,26 @@ err_age_lt_max <- function(age, max, date, dob, unit) {
 
 #' @export
 #' @rdname composite
+err_all_class <- function(x, name, class) {
+    val <- chk_all_class(x, name, class)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
 err_array_metadata_complete <- function(x, name) {
     val <- chk_array_metadata_complete(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_character_complete <- function(x, name) {
+    val <- chk_character_complete(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -157,8 +175,8 @@ err_is_strictly_increasing <- function(x, name) {
 
 #' @export
 #' @rdname composite
-err_length_same_or_1 <- function(x1, x2, name1, name2) {
-    val <- chk_length_same_or_1(x1, x2, name1, name2)
+err_length_same <- function(x1, x2, name1, name2) {
+    val <- chk_length_same(x1, x2, name1, name2)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -166,8 +184,8 @@ err_length_same_or_1 <- function(x1, x2, name1, name2) {
 
 #' @export
 #' @rdname composite
-err_trans_list <- function(x, name) {
-    val <- chk_trans_list(x, name)
+err_length_same_or_1 <- function(x1, x2, name1, name2) {
+    val <- chk_length_same_or_1(x1, x2, name1, name2)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -186,6 +204,15 @@ err_names_complete <- function(x, name) {
 #' @rdname composite
 err_names_dimnames_complete <- function(x, name) {
     val <- chk_names_dimnames_complete(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_trans_list <- function(x, name) {
+    val <- chk_trans_list(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

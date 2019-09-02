@@ -41,6 +41,26 @@ test_that("'chk_age_lt_max' returns expected message with invalid dates", {
 })
 
 
+## chk_all_class
+
+test_that("'chk_all_class' returns TRUE with valid inputs", {
+    expect_true(chk_all_class(x = list("a", "b"),
+                              name = "x",
+                              class = "character"))
+    expect_true(chk_all_class(x = list(),
+                              name = "x",
+                              class = "character"))
+})
+
+test_that("'chk_all_class' returns expected message with invalid input", {
+    expect_identical(chk_all_class(x = list("a", 1L),
+                              name = "x",
+                              class = "character"),
+                     "element 2 of 'x' has class \"integer\" : should instead inherit from class \"character\"")
+                
+})
+
+
 ## chk_array_metadata_complete
 
 test_that("'chk_array_metadata_complete' returns TRUE with valid array", {
@@ -54,6 +74,28 @@ test_that("'chk_array_metadata_complete' returns TRUE with valid array", {
                dimnames = list(A = character(), b = 1:3))
     expect_true(chk_array_metadata_complete(x = x,
                                             name = "x"))
+})
+
+
+## chk_character_complete
+
+test_that("'chk_character_complete' returns TRUE with valid character vector", {
+    expect_true(chk_character_complete(x = c("a", "b"),
+                                       name = "x"))
+    expect_true(chk_character_complete(x = character(),
+                                       name = "x"))
+})
+
+test_that("'chk_character_complete' returns expected message with invalid character vector", {
+    expect_identical(chk_character_complete(x = c("a", NA),
+                                            name = "x"),
+                     "'x' has NAs")
+    expect_identical(chk_character_complete(x = "",
+                                            name = "x"),
+                     "'x' has blanks")
+    expect_identical(chk_character_complete(x = c("a", "b", "a"),
+                                            name = "x"),
+                     "'x' has duplicate [\"a\"]")
 })
 
 
@@ -371,6 +413,33 @@ test_that("'chk_is_strictly_increasing' returns expected message with invalid ar
 })
 
 
+## chk_length_same
+
+test_that("'chk_length_same' returns TRUE with valid vector", {
+    expect_true(chk_length_same(x1 = 1:3,
+                                x2 = 3:1,
+                                name1 = "x1",
+                                name2 = "x2"))
+    expect_true(chk_length_same(x1 = character(),
+                                x2 = integer(),
+                                name1 = "x1",
+                                name2 = "x2"))
+})
+
+test_that("'chk_length_same' returns expected message with invalid argument", {
+    expect_identical(chk_length_same(x1 = integer(),
+                                     x2 = 3L,
+                                     name1 = "x1",
+                                     name2 = "x2"),
+                     "length of 'x1' [0] not equal to length of 'x2' [1]")
+    expect_identical(chk_length_same(x1 = 1L,
+                                     x2 = c("a", "b"),
+                                     name1 = "x1",
+                                     name2 = "x2"),
+                     "length of 'x1' [1] not equal to length of 'x2' [2]")
+})
+
+
 ## chk_length_same_or_1
 
 test_that("'chk_length_same_or_1' returns TRUE with valid vector", {
@@ -408,54 +477,6 @@ test_that("'chk_length_same_or_1' returns expected message with invalid argument
                                           name1 = "x1",
                                           name2 = "x2"),
                      "'x1' has length 2 and 'x2' has length 3 : should have same lengths, or one should have length 1")
-})
-
-## chk_trans_list
-
-test_that("'chk_trans_list' returns TRUE with valid input", {
-    expect_true(chk_trans_list(x = list(a = c("b", "c"),
-                                        b = "c",
-                                        c = NULL),
-                               name = "x"))
-    expect_true(chk_trans_list(x = list(a = c("b", "c", "a"),
-                                        b = "c",
-                                        c = NULL,
-                                        d = c("b", "a")),
-                               name = "x"))
-})
-
-test_that("'chk_trans_list' returns expected message with invalid argument", {
-    x_wrong = list(a = c("b", "c"),
-                   b = "c",
-                   c = as.character(NA))
-    expect_identical(chk_trans_list(x = x_wrong,
-                                    name = "x_wrong"),
-                     "element \"c\" of 'x_wrong' has NAs")
-    x_wrong = list(a = c("b", "c"),
-                   b = "c",
-                   c = "")
-    expect_identical(chk_trans_list(x = x_wrong,
-                                    name = "x_wrong"),
-                     "element \"c\" of 'x_wrong' has blanks")
-    x_wrong = list(a = c("b", "c"),
-                   b = "c",
-                   c = c("a", "a"))
-    expect_identical(chk_trans_list(x = x_wrong,
-                                    name = "x_wrong"),
-                     "element \"c\" of 'x_wrong' has duplicates")
-    x_wrong = list(a = c("b", "c"),
-                   b = "wrong",
-                   c = NULL)
-    expect_identical(chk_trans_list(x = x_wrong,
-                                    name = "x_wrong"),
-                     paste("value \"wrong\" in element \"b\" of 'x_wrong' invalid :",
-                           "\"wrong\" is not the name of an element of 'x_wrong'"))
-    x_wrong = list(a = c("b", "c"),
-                   b = 1L,
-                   c = NULL)
-    expect_identical(chk_trans_list(x = x_wrong,
-                                    name = "x_wrong"),
-                     "element \"b\" of 'x_wrong' has class \"integer\"")
 })
 
     
@@ -527,3 +548,50 @@ test_that("'chk_names_dimnames_complete' returns expected message with invalid a
 })
 
 
+## chk_trans_list
+
+test_that("'chk_trans_list' returns TRUE with valid input", {
+    expect_true(chk_trans_list(x = list(a = c("b", "c"),
+                                        b = "c",
+                                        c = NULL),
+                               name = "x"))
+    expect_true(chk_trans_list(x = list(a = c("b", "c", "a"),
+                                        b = "c",
+                                        c = NULL,
+                                        d = c("b", "a")),
+                               name = "x"))
+})
+
+test_that("'chk_trans_list' returns expected message with invalid argument", {
+    x_wrong = list(a = c("b", "c"),
+                   b = "c",
+                   c = as.character(NA))
+    expect_identical(chk_trans_list(x = x_wrong,
+                                    name = "x_wrong"),
+                     "element \"c\" of 'x_wrong' has NAs")
+    x_wrong = list(a = c("b", "c"),
+                   b = "c",
+                   c = "")
+    expect_identical(chk_trans_list(x = x_wrong,
+                                    name = "x_wrong"),
+                     "element \"c\" of 'x_wrong' has blanks")
+    x_wrong = list(a = c("b", "c"),
+                   b = "c",
+                   c = c("a", "a"))
+    expect_identical(chk_trans_list(x = x_wrong,
+                                    name = "x_wrong"),
+                     "element \"c\" of 'x_wrong' has duplicates")
+    x_wrong = list(a = c("b", "c"),
+                   b = "wrong",
+                   c = NULL)
+    expect_identical(chk_trans_list(x = x_wrong,
+                                    name = "x_wrong"),
+                     paste("value \"wrong\" in element \"b\" of 'x_wrong' invalid :",
+                           "\"wrong\" is not the name of an element of 'x_wrong'"))
+    x_wrong = list(a = c("b", "c"),
+                   b = 1L,
+                   c = NULL)
+    expect_identical(chk_trans_list(x = x_wrong,
+                                    name = "x_wrong"),
+                     "element \"b\" of 'x_wrong' has class \"integer\"")
+})

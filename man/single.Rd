@@ -25,6 +25,7 @@
 \alias{chk_is_not_na_vector}
 \alias{chk_is_numeric}
 \alias{chk_is_positive_length}
+\alias{chk_no_dimnames}
 \alias{err_has_dimnames}
 \alias{err_has_names_dimnames}
 \alias{err_is_all_0_1}
@@ -44,6 +45,7 @@
 \alias{err_is_not_na_vector}
 \alias{err_is_numeric}
 \alias{err_is_positive_length}
+\alias{err_no_dimnames}
 \title{Checks of single conditions}
 \usage{
 chk_is_non_negative_scalar(x, name)
@@ -92,6 +94,8 @@ chk_is_numeric(x, name)
 
 chk_is_positive_length(x, name)
 
+chk_no_dimnames(x, name)
+
 err_has_dimnames(x, name)
 
 err_has_names_dimnames(x, name)
@@ -129,6 +133,8 @@ err_is_not_na_vector(x, name)
 err_is_numeric(x, name)
 
 err_is_positive_length(x, name)
+
+err_no_dimnames(x, name)
 }
 \arguments{
 \item{x}{The object being checked.}

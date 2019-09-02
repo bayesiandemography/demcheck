@@ -4,7 +4,9 @@
 \alias{composite}
 \alias{chk_age_ge_min}
 \alias{chk_age_lt_max}
+\alias{chk_all_class}
 \alias{chk_array_metadata_complete}
+\alias{chk_character_complete}
 \alias{chk_dimnames_complete}
 \alias{chk_is_first_day_unit}
 \alias{chk_is_first_day_unit_consec}
@@ -15,13 +17,16 @@
 \alias{chk_is_multiple_of}
 \alias{chk_is_string}
 \alias{chk_is_strictly_increasing}
+\alias{chk_length_same}
 \alias{chk_length_same_or_1}
-\alias{chk_trans_list}
 \alias{chk_names_complete}
 \alias{chk_names_dimnames_complete}
+\alias{chk_trans_list}
 \alias{err_age_ge_min}
 \alias{err_age_lt_max}
+\alias{err_all_class}
 \alias{err_array_metadata_complete}
+\alias{err_character_complete}
 \alias{err_dimnames_complete}
 \alias{err_is_first_day_unit}
 \alias{err_is_first_day_unit_consec}
@@ -36,17 +41,22 @@
 \alias{err_is_positive_vector}
 \alias{err_is_string}
 \alias{err_is_strictly_increasing}
+\alias{err_length_same}
 \alias{err_length_same_or_1}
-\alias{err_trans_list}
 \alias{err_names_complete}
 \alias{err_names_dimnames_complete}
+\alias{err_trans_list}
 \title{Checks of composite conditions}
 \usage{
 chk_age_ge_min(age, min, date, dob, unit)
 
 chk_age_lt_max(age, max, date, dob, unit)
 
+chk_all_class(x, name, class)
+
 chk_array_metadata_complete(x, name)
+
+chk_character_complete(x, name)
 
 chk_dimnames_complete(x, name)
 
@@ -68,19 +78,25 @@ chk_is_string(x, name)
 
 chk_is_strictly_increasing(x, name)
 
-chk_length_same_or_1(x1, x2, name1, name2)
+chk_length_same(x1, x2, name1, name2)
 
-chk_trans_list(x, name)
+chk_length_same_or_1(x1, x2, name1, name2)
 
 chk_names_complete(x, name)
 
 chk_names_dimnames_complete(x, name)
 
+chk_trans_list(x, name)
+
 err_age_ge_min(age, min, date, dob, unit)
 
 err_age_lt_max(age, max, date, dob, unit)
 
+err_all_class(x, name, class)
+
 err_array_metadata_complete(x, name)
+
+err_character_complete(x, name)
 
 err_dimnames_complete(x, name)
 
@@ -110,13 +126,15 @@ err_is_string(x, name)
 
 err_is_strictly_increasing(x, name)
 
-err_length_same_or_1(x1, x2, name1, name2)
+err_length_same(x1, x2, name1, name2)
 
-err_trans_list(x, name)
+err_length_same_or_1(x1, x2, name1, name2)
 
 err_names_complete(x, name)
 
 err_names_dimnames_complete(x, name)
+
+err_trans_list(x, name)
 }
 \arguments{
 \item{age}{Age, typically in years, but can be other unit.}
@@ -136,6 +154,8 @@ Object of class "Date".}
 
 \item{name}{The name used in any message. Typically,
 but not always, the name of \code{x}.}
+
+\item{class}{Name of class.}
 
 \item{x1}{The first of a pair of objects being checked.}
 

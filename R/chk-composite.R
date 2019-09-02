@@ -28,6 +28,7 @@
 #' @param name2 The name of the second of the pair of objects.
 #' @param unit Measurement units for time, eg \code{"month"}.
 #' @param age Age, typically in years, but can be other unit.
+#' @param class Name of class.
 #' @param min Minimum age or time.
 #' @param max Maximum age or time.
 #' @param date Date on which event occurred or measurement made.
@@ -51,7 +52,8 @@ chk_age_ge_min <- function(age, min, date, dob, unit) {
     less_than_min <- !is.na(age) & (age < min)
     if (any(less_than_min)) {
         i <- match(TRUE, less_than_min)
-        return(gettextf("'%s' [\"%s\"] and '%s' [\"%s\"] imply an age of %d %ss, which is less than '%s' [%d %ss]",
+        return(gettextf(paste("'%s' [\"%s\"] and '%s' [\"%s\"] imply an age of %d %ss,",
+                              "which is less than '%s' [%d %ss]"),
                         "date", date[[i]], "dob", dob[[i]], age[[i]], unit, "min", min, unit))
     }
     TRUE
@@ -64,8 +66,22 @@ chk_age_lt_max <- function(age, max, date, dob, unit) {
     ge_max <- !is.na(age) & (age >= max)
     if (any(ge_max)) {
         i <- match(TRUE, ge_max)
-        return(gettextf("'%s' [\"%s\"] and '%s' [\"%s\"] imply an age of %d %ss, which is greater than or equal to '%s' [%d %ss]",
+        return(gettextf(paste("'%s' [\"%s\"] and '%s' [\"%s\"] imply an age of %d %ss,",
+                              "which is greater than or equal to '%s' [%d %ss]"),
                         "date", date[[i]], "dob", dob[[i]], age[[i]], unit, "max", max, unit))
+    }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_all_class <- function(x, name, class) {
+    for (i in seq_along(x)) {
+        if (!methods::is(x[[i]], class))
+            return(gettextf(paste("element %d of '%s' has class \"%s\" :",
+                                  "should instead inherit from class \"%s\""),
+                            i, name, class(x[[i]]), class))
     }
     TRUE
 }
@@ -93,6 +109,25 @@ chk_array_metadata_complete <- function(x, name) {
                                  name = name)
     if (!isTRUE(val))
         return(val)
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_character_complete <- function(x, name) {
+    if (any(is.na(x)))
+        return(gettextf("'%s' has NAs",
+                        name))
+    if (!all(nzchar(x)))
+        return(gettextf("'%s' has blanks",
+                        name))
+    is_duplicated <- duplicated(x)
+    if (any(is_duplicated)) {
+        i <- match(TRUE, is_duplicated)
+        return(gettextf("'%s' has duplicate [\"%s\"]",
+                        name, x[[i]]))
+    }
     TRUE
 }
 
@@ -389,6 +424,18 @@ chk_is_strictly_increasing <- function(x, name) {
 ## HAS_TESTS
 #' @export
 #' @rdname composite
+chk_length_same <- function(x1, x2, name1, name2) {
+    n1 <- length(x1)
+    n2 <- length(x2)
+    if (n1 != n2)
+        return(gettextf("length of '%s' [%d] not equal to length of '%s' [%d]",
+                        name1, n1, name2, n2))
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
 chk_length_same_or_1 <- function(x1, x2, name1, name2) {
     n1 <- length(x1)
     n2 <- length(x2)
@@ -404,6 +451,46 @@ chk_length_same_or_1 <- function(x1, x2, name1, name2) {
         return(TRUE)
     gettextf("'%s' has length %d and '%s' has length %d : should have same lengths, or one should have length %d",
              name1, n1, name2, n2, 1L)
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_names_complete <- function(x, name) {
+    nms <- names(x)
+    if (any(is.na(nms)))
+        return(gettextf("names for '%s' have NAs",
+                        name))
+    if (!all(nzchar(nms)))
+        return(gettextf("names for '%s' have blanks",
+                        name))
+    is_duplicated <- duplicated(nms)
+    if (any(is_duplicated)) {
+        i <- match(TRUE, is_duplicated)
+        return(gettextf("names for '%s' have duplicate [\"%s\"]",
+                        name, nms[[i]]))
+    }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_names_dimnames_complete <- function(x, name) {
+    nms <- names(dimnames(x))
+    if (any(is.na(nms)))
+        return(gettextf("names for dimnames of '%s' have NAs",
+                        name))
+    if (!all(nzchar(nms)))
+        return(gettextf("names for dimnames of '%s' have blanks",
+                        name))
+    is_duplicated <- duplicated(nms)
+    if (any(is_duplicated)) {
+        i <- match(TRUE, is_duplicated)
+        return(gettextf("names for dimnames of '%s' have duplicate [\"%s\"]",
+                        name, nms[[i]]))
+    }
+    TRUE
 }
 
 ## HAS_TESTS
@@ -453,45 +540,3 @@ chk_trans_list <- function(x, name) {
     }
     TRUE    
 }
-
-## HAS_TESTS
-#' @export
-#' @rdname composite
-chk_names_complete <- function(x, name) {
-    nms <- names(x)
-    if (any(is.na(nms)))
-        return(gettextf("names for '%s' have NAs",
-                        name))
-    if (!all(nzchar(nms)))
-        return(gettextf("names for '%s' have blanks",
-                        name))
-    is_duplicated <- duplicated(nms)
-    if (any(is_duplicated)) {
-        i <- match(TRUE, is_duplicated)
-        return(gettextf("names for '%s' have duplicate [\"%s\"]",
-                        name, nms[[i]]))
-    }
-    TRUE
-}
-
-## HAS_TESTS
-#' @export
-#' @rdname composite
-chk_names_dimnames_complete <- function(x, name) {
-    nms <- names(dimnames(x))
-    if (any(is.na(nms)))
-        return(gettextf("names for dimnames of '%s' have NAs",
-                        name))
-    if (!all(nzchar(nms)))
-        return(gettextf("names for dimnames of '%s' have blanks",
-                        name))
-    is_duplicated <- duplicated(nms)
-    if (any(is_duplicated)) {
-        i <- match(TRUE, is_duplicated)
-        return(gettextf("names for dimnames of '%s' have duplicate [\"%s\"]",
-                        name, nms[[i]]))
-    }
-    TRUE
-}
-
-
