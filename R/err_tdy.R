@@ -81,8 +81,6 @@ err_tdy_date_dob <- function(date, dob) {
                      x2 = dob,
                      name1 = "date",
                      name2 = "dob")
-    date <- as.POSIXlt(date)
-    dob <- as.POSIXlt(dob)
     list(date = date,
          dob = dob)
 }

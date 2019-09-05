@@ -80,8 +80,8 @@ test_that("'err_tdy_date_dob' returns dates with valid input", {
     date <- as.Date(c("2001-01-01", "2002-01-01"))
     dob <- as.Date("2000-06-30")
     expect_identical(err_tdy_date_dob(date = date, dob = dob),
-                     list(date = as.POSIXlt(date),
-                          dob = rep(as.POSIXlt(dob), 2)))
+                     list(date = date,
+                          dob = rep(dob, 2)))
 })
 
 
