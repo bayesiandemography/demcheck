@@ -19,6 +19,8 @@
 #' \code{NULL} is equivalent to \code{"year"}.
 #'
 #' @inheritParams composite
+#' @param inf_ok Whether to allow \code{Inf} (or sometimes
+#' \code{-Inf}.)
 #' 
 #' @return When err_tdy* can format \code{x} as required,
 #' it returns the value; otherwise it raises an error.
@@ -108,7 +110,9 @@ err_tdy_first_month <- function(x, name) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_integer_scalar <- function(x, name) {
+err_tdy_integer_scalar <- function(x, name, inf_ok = FALSE) {
+    if (inf_ok && (identical(x, -Inf) || identical(x, Inf)))
+        return(x)
     err_is_length_1(x = x,
                     name = name)
     if (is.integer(x))
@@ -164,7 +168,9 @@ err_tdy_many_to_one <- function(x, name) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_positive_integer_scalar <- function(x, name) {
+err_tdy_positive_integer_scalar <- function(x, name, inf_ok = FALSE) {
+    if (inf_ok && identical(x, Inf))
+        return(x)
     err_is_positive_scalar(x = x,
                            name = name)
     if (!is.integer(x)) {

@@ -22,13 +22,13 @@ err_tdy_date_dob(date, dob)
 
 err_tdy_first_month(x, name)
 
-err_tdy_integer_scalar(x, name)
+err_tdy_integer_scalar(x, name, inf_ok = FALSE)
 
 err_tdy_integer_vector(x, name)
 
 err_tdy_many_to_one(x, name)
 
-err_tdy_positive_integer_scalar(x, name)
+err_tdy_positive_integer_scalar(x, name, inf_ok = FALSE)
 
 err_tdy_same_length(x1, x2, name1, name2)
 
@@ -44,6 +44,9 @@ but not always, the name of \code{x}.}
 Object of class "Date".}
 
 \item{dob}{Date of birth. Object of class "Date".}
+
+\item{inf_ok}{Whether to allow \code{Inf} (or sometimes
+\code{-Inf}.)}
 
 \item{x1}{The first of a pair of objects being checked.}
 
