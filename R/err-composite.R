@@ -94,6 +94,24 @@ err_is_ge_vector <- function(x1, x2, name1, name2) {
 
 #' @export
 #' @rdname composite
+err_is_gt_scalar <- function(x1, x2, name1, name2) {
+    val <- chk_is_gt_scalar(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_is_gt_vector <- function(x1, x2, name1, name2) {
+    val <- chk_is_gt_vector(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
 err_is_integer_consec <- function(x, name) {
     val <- chk_is_integer_consec(x, name)
     if (is.character(val))

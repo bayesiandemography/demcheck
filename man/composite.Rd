@@ -12,6 +12,8 @@
 \alias{chk_is_first_day_unit_consec}
 \alias{chk_is_ge_scalar}
 \alias{chk_is_ge_vector}
+\alias{chk_is_gt_scalar}
+\alias{chk_is_gt_vector}
 \alias{chk_is_integer_consec}
 \alias{chk_is_logical_flag}
 \alias{chk_is_multiple_of}
@@ -32,6 +34,8 @@
 \alias{err_is_first_day_unit_consec}
 \alias{err_is_ge_scalar}
 \alias{err_is_ge_vector}
+\alias{err_is_gt_scalar}
+\alias{err_is_gt_vector}
 \alias{err_is_integer_consec}
 \alias{err_is_logical_flag}
 \alias{err_is_multiple_of}
@@ -67,6 +71,10 @@ chk_is_first_day_unit_consec(x, name, unit)
 chk_is_ge_scalar(x1, x2, name1, name2)
 
 chk_is_ge_vector(x1, x2, name1, name2)
+
+chk_is_gt_scalar(x1, x2, name1, name2)
+
+chk_is_gt_vector(x1, x2, name1, name2)
 
 chk_is_integer_consec(x, name)
 
@@ -107,6 +115,10 @@ err_is_first_day_unit_consec(x, name, unit)
 err_is_ge_scalar(x1, x2, name1, name2)
 
 err_is_ge_vector(x1, x2, name1, name2)
+
+err_is_gt_scalar(x1, x2, name1, name2)
+
+err_is_gt_vector(x1, x2, name1, name2)
 
 err_is_integer_consec(x, name)
 

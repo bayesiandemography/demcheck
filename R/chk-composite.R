@@ -253,6 +253,29 @@ chk_is_ge_vector <- function(x1, x2, name1, name2) {
 ## HAS_TESTS
 #' @export
 #' @rdname composite
+chk_is_gt_scalar <- function(x1, x2, name1, name2) {
+    if (!is.na(x1) && !is.na(x2) && !(x1 > x2))
+        return(gettextf("'%s' [%s] is less than or equal to '%s' [%s]",
+                        name1, x1, name2, x2))
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_is_gt_vector <- function(x1, x2, name1, name2) {
+    is_lt <- !is.na(x1) & !is.na(x2) & !(x1 > x2)
+    i <- match(TRUE, is_lt, nomatch = 0L)    
+    if (i > 0L) {
+        return(gettextf("element %d of '%s' [%s] is less than or equal to element %d of '%s' [%s]",
+                        i, name1, x1[[i]], i, name2, x2[[i]]))
+    }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
 chk_is_integer_consec <- function(x, name) {
     val <- chk_is_integer(x = x, name = name)
     if (!isTRUE(val))

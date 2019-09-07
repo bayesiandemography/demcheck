@@ -141,46 +141,6 @@ test_that("'chk_dimnames_complete' returns expected message with invalid argumen
 })
 
 
-## chk_is_ge_scalar
-
-test_that("'chk_is_ge_scalar' returns TRUE with inputs", {
-    expect_true(chk_is_ge_scalar(x1 = 3, x2 = 2.9, name1 = "x1", name2 = "x2"))
-    expect_true(chk_is_ge_scalar(x1 = as.Date("2001-10-01"), x2 = as.Date("2001-01-01"),
-                                 name1 = "x1", name2 = "x2"))
-    expect_true(chk_is_ge_scalar(x1 = NA, x2 = 2.9, name1 = "x1", name2 = "x2"))
-})
-
-test_that("'chk_is_ge_scalar' returns expected message with invalid inputs", {
-    expect_identical(chk_is_ge_scalar(x1 = 2, x2 = 2.9, name1 = "x1", name2 = "x2"),
-                     "'x1' [2] is less than 'x2' [2.9]")
-    expect_identical(chk_is_ge_scalar(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
-                                      name1 = "x1", name2 = "x2"),
-                     "'x1' [2000-10-01] is less than 'x2' [2001-01-01]")
-})
-
-
-## chk_is_ge_vector
-
-test_that("'chk_is_ge_vector' returns TRUE with inputs", {
-    expect_true(chk_is_ge_vector(x1 = 3:5, x2 = c(2.9, 4, 5), name1 = "x1", name2 = "x2"))
-    expect_true(chk_is_ge_vector(x1 = as.Date(c("2001-10-01", "2000-03-03")),
-                                 x2 = as.Date(c("2001-01-01", "2000-03-03")),
-                                 name1 = "x1", name2 = "x2"))
-    expect_true(chk_is_ge_vector(x1 = as.Date(c("2001-10-01", NA)),
-                                 x2 = as.Date(c("2001-01-01", "2000-03-03")),
-                                 name1 = "x1", name2 = "x2"))
-})
-
-test_that("'chk_is_ge_vector' returns expected message with invalid inputs", {
-    expect_identical(chk_is_ge_vector(x1 = c(2, 3), x2 = c(1, 4),
-                                      name1 = "x1", name2 = "x2"),
-                     "element 2 of 'x1' [3] is less than element 2 of 'x2' [4]")
-    expect_identical(chk_is_ge_vector(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
-                                      name1 = "x1", name2 = "x2"),
-                     "element 1 of 'x1' [2000-10-01] is less than element 1 of 'x2' [2001-01-01]")
-})
-
-
 ## chk_is_first_day_unit
 
 test_that("'chk_is_first_day_unit' returns TRUE with valid dates", {
@@ -226,6 +186,89 @@ test_that("'chk_is_first_day_unit_consec' returns expected message with invalid 
                                                        name = "x",
                                                        unit = "month"),
                      "dates \"2001-01-01\" and \"2001-03-01\" in 'x' do not belong to consecutive months")
+})
+
+
+## chk_is_ge_scalar
+
+test_that("'chk_is_ge_scalar' returns TRUE with inputs", {
+    expect_true(chk_is_ge_scalar(x1 = 3, x2 = 2.9, name1 = "x1", name2 = "x2"))
+    expect_true(chk_is_ge_scalar(x1 = as.Date("2001-10-01"), x2 = as.Date("2001-01-01"),
+                                 name1 = "x1", name2 = "x2"))
+    expect_true(chk_is_ge_scalar(x1 = NA, x2 = 2.9, name1 = "x1", name2 = "x2"))
+})
+
+test_that("'chk_is_ge_scalar' returns expected message with invalid inputs", {
+    expect_identical(chk_is_ge_scalar(x1 = 2, x2 = 2.9, name1 = "x1", name2 = "x2"),
+                     "'x1' [2] is less than 'x2' [2.9]")
+    expect_identical(chk_is_ge_scalar(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
+                                      name1 = "x1", name2 = "x2"),
+                     "'x1' [2000-10-01] is less than 'x2' [2001-01-01]")
+})
+
+
+## chk_is_ge_vector
+
+test_that("'chk_is_ge_vector' returns TRUE with inputs", {
+    expect_true(chk_is_ge_vector(x1 = 3:5, x2 = c(2.9, 4, 5), name1 = "x1", name2 = "x2"))
+    expect_true(chk_is_ge_vector(x1 = as.Date(c("2001-10-01", "2000-03-03")),
+                                 x2 = as.Date(c("2001-01-01", "2000-03-03")),
+                                 name1 = "x1", name2 = "x2"))
+    expect_true(chk_is_ge_vector(x1 = as.Date(c("2001-10-01", NA)),
+                                 x2 = as.Date(c("2001-01-01", "2000-03-03")),
+                                 name1 = "x1", name2 = "x2"))
+})
+
+test_that("'chk_is_ge_vector' returns expected message with invalid inputs", {
+    expect_identical(chk_is_ge_vector(x1 = c(2, 3), x2 = c(1, 4),
+                                      name1 = "x1", name2 = "x2"),
+                     "element 2 of 'x1' [3] is less than element 2 of 'x2' [4]")
+    expect_identical(chk_is_ge_vector(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
+                                      name1 = "x1", name2 = "x2"),
+                     "element 1 of 'x1' [2000-10-01] is less than element 1 of 'x2' [2001-01-01]")
+})
+
+
+## chk_is_gt_scalar
+
+test_that("'chk_is_gt_scalar' returns TRUE with inputs", {
+    expect_true(chk_is_gt_scalar(x1 = 3, x2 = 2.9, name1 = "x1", name2 = "x2"))
+    expect_true(chk_is_gt_scalar(x1 = as.Date("2001-10-01"), x2 = as.Date("2001-01-01"),
+                                 name1 = "x1", name2 = "x2"))
+    expect_true(chk_is_gt_scalar(x1 = NA, x2 = 2.9, name1 = "x1", name2 = "x2"))
+})
+
+test_that("'chk_is_gt_scalar' returns expected message with invalid inputs", {
+    expect_identical(chk_is_gt_scalar(x1 = 2, x2 = 2.9, name1 = "x1", name2 = "x2"),
+                     "'x1' [2] is less than or equal to 'x2' [2.9]")
+    expect_identical(chk_is_gt_scalar(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
+                                      name1 = "x1", name2 = "x2"),
+                     "'x1' [2000-10-01] is less than or equal to 'x2' [2001-01-01]")
+    expect_identical(chk_is_gt_scalar(x1 = as.Date("2000-10-01"), x2 = as.Date("2000-10-01"),
+                                      name1 = "x1", name2 = "x2"),
+                     "'x1' [2000-10-01] is less than or equal to 'x2' [2000-10-01]")
+})
+
+
+## chk_is_gt_vector
+
+test_that("'chk_is_gt_vector' returns TRUE with inputs", {
+    expect_true(chk_is_gt_vector(x1 = 3:5, x2 = c(2.9, 3.5, 4.99999999), name1 = "x1", name2 = "x2"))
+    expect_true(chk_is_gt_vector(x1 = as.Date(c("2001-10-01", "2000-03-03")),
+                                 x2 = as.Date(c("2001-01-01", "2000-03-02")),
+                                 name1 = "x1", name2 = "x2"))
+    expect_true(chk_is_gt_vector(x1 = as.Date(c("2001-10-01", NA)),
+                                 x2 = as.Date(c("2001-01-01", "2000-03-03")),
+                                 name1 = "x1", name2 = "x2"))
+})
+
+test_that("'chk_is_gt_vector' returns expected message with invalid inputs", {
+    expect_identical(chk_is_gt_vector(x1 = c(2, 3), x2 = c(1, 4),
+                                      name1 = "x1", name2 = "x2"),
+                     "element 2 of 'x1' [3] is less than or equal to element 2 of 'x2' [4]")
+    expect_identical(chk_is_gt_vector(x1 = as.Date("2000-10-01"), x2 = as.Date("2000-10-01"),
+                                      name1 = "x1", name2 = "x2"),
+                     "element 1 of 'x1' [2000-10-01] is less than or equal to element 1 of 'x2' [2000-10-01]")
 })
 
 
