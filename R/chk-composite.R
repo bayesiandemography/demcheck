@@ -29,8 +29,11 @@
 #' @param unit Measurement units for time, eg \code{"month"}.
 #' @param age Age, typically in years, but can be other unit.
 #' @param class Name of class.
-#' @param min Minimum age or time.
-#' @param max Maximum age or time.
+#' @param age_min Minimum age. All ages must be greater than
+#' or equal to this age. (Unlike with \code{age_max}, equality
+#' is permitted.)
+#' @param age_max Maximum age. All ages must be less than this
+#' age. (Unlike with \code{age_min}, equality is not permitted.)
 #' @param date Date on which event occurred or measurement made.
 #' Object of class "Date".
 #' @param dob Date of birth. Object of class "Date".
@@ -45,33 +48,6 @@
 #' @name composite
 NULL
 
-## HAS_TESTS
-#' @export
-#' @rdname composite
-chk_age_ge_min <- function(age, min, date, dob, unit) {
-    less_than_min <- !is.na(age) & (age < min)
-    if (any(less_than_min)) {
-        i <- match(TRUE, less_than_min)
-        return(gettextf(paste("'%s' [\"%s\"] and '%s' [\"%s\"] imply an age of %d %ss,",
-                              "which is less than '%s' [%d %ss]"),
-                        "date", date[[i]], "dob", dob[[i]], age[[i]], unit, "min", min, unit))
-    }
-    TRUE
-}
-
-## HAS_TESTS
-#' @export
-#' @rdname composite
-chk_age_lt_max <- function(age, max, date, dob, unit) {
-    ge_max <- !is.na(age) & (age >= max)
-    if (any(ge_max)) {
-        i <- match(TRUE, ge_max)
-        return(gettextf(paste("'%s' [\"%s\"] and '%s' [\"%s\"] imply an age of %d %ss,",
-                              "which is greater than or equal to '%s' [%d %ss]"),
-                        "date", date[[i]], "dob", dob[[i]], age[[i]], unit, "max", max, unit))
-    }
-    TRUE
-}
 
 ## HAS_TESTS
 #' @export
@@ -158,6 +134,30 @@ chk_dimnames_complete <- function(x, name) {
                                 names_i, name, dimnames_i[[j]]))
             }
         }
+    }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_ge_age_min <- function(age, age_min, date, dob, unit) {
+    if (identical(age_min, -Inf))
+        return(TRUE)
+    lt_min <- !is.na(age) & (age < age_min)
+    i <- match(TRUE, lt_min, nomatch = 0L)
+    if (i > 0L) {
+        return(gettextf(paste("'%s' [\"%s\"] and '%s' [\"%s\"] imply an age of %d %ss,",
+                              "which is less than '%s' [%d %ss]"),
+                        "date",
+                        date[[i]],
+                        "dob",
+                        dob[[i]],
+                        age[[i]],
+                        unit,
+                        "age_min",
+                        age_min,
+                        unit))
     }
     TRUE
 }
@@ -474,6 +474,30 @@ chk_length_same_or_1 <- function(x1, x2, name1, name2) {
         return(TRUE)
     gettextf("'%s' has length %d and '%s' has length %d : should have same lengths, or one should have length %d",
              name1, n1, name2, n2, 1L)
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_lt_age_max <- function(age, age_max, date, dob, unit) {
+    if (identical(age_max, Inf))
+        return(TRUE)
+    ge_max <- !is.na(age) & (age >= age_max)
+    i <- match(TRUE, ge_max, nomatch = 0L)
+    if (i > 0L) {
+        return(gettextf(paste("'%s' [\"%s\"] and '%s' [\"%s\"] imply an age of %d %ss,",
+                              "which is greater than or equal to '%s' [%d %ss]"),
+                        "date",
+                        date[[i]],
+                        "dob",
+                        dob[[i]],
+                        age[[i]],
+                        unit,
+                        "age_max",
+                        age_max,
+                        unit))
+    }
+    TRUE
 }
 
 ## HAS_TESTS

@@ -4,8 +4,8 @@
 
 #' @export
 #' @rdname composite
-err_age_ge_min <- function(age, min, date, dob, unit) {
-    val <- chk_age_ge_min(age, min, date, dob, unit)
+err_ge_age_min <- function(age, age_min, date, dob, unit) {
+    val <- chk_ge_age_min(age, age_min, date, dob, unit)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -13,8 +13,8 @@ err_age_ge_min <- function(age, min, date, dob, unit) {
 
 #' @export
 #' @rdname composite
-err_age_lt_max <- function(age, max, date, dob, unit) {
-    val <- chk_age_lt_max(age, max, date, dob, unit)
+err_lt_age_max <- function(age, age_max, date, dob, unit) {
+    val <- chk_lt_age_max(age, age_max, date, dob, unit)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

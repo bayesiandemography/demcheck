@@ -2,8 +2,8 @@
 % Please edit documentation in R/chk-composite.R, R/err-composite.R
 \name{composite}
 \alias{composite}
-\alias{chk_age_ge_min}
-\alias{chk_age_lt_max}
+\alias{chk_ge_age_min}
+\alias{chk_lt_age_max}
 \alias{chk_all_class}
 \alias{chk_array_metadata_complete}
 \alias{chk_character_complete}
@@ -24,8 +24,8 @@
 \alias{chk_names_complete}
 \alias{chk_names_dimnames_complete}
 \alias{chk_trans_list}
-\alias{err_age_ge_min}
-\alias{err_age_lt_max}
+\alias{err_ge_age_min}
+\alias{err_lt_age_max}
 \alias{err_all_class}
 \alias{err_array_metadata_complete}
 \alias{err_character_complete}
@@ -52,9 +52,9 @@
 \alias{err_trans_list}
 \title{Checks of composite conditions}
 \usage{
-chk_age_ge_min(age, min, date, dob, unit)
+chk_ge_age_min(age, age_min, date, dob, unit)
 
-chk_age_lt_max(age, max, date, dob, unit)
+chk_lt_age_max(age, age_max, date, dob, unit)
 
 chk_all_class(x, name, class)
 
@@ -96,9 +96,9 @@ chk_names_dimnames_complete(x, name)
 
 chk_trans_list(x, name)
 
-err_age_ge_min(age, min, date, dob, unit)
+err_ge_age_min(age, age_min, date, dob, unit)
 
-err_age_lt_max(age, max, date, dob, unit)
+err_lt_age_max(age, age_max, date, dob, unit)
 
 err_all_class(x, name, class)
 
@@ -151,7 +151,9 @@ err_trans_list(x, name)
 \arguments{
 \item{age}{Age, typically in years, but can be other unit.}
 
-\item{min}{Minimum age or time.}
+\item{age_min}{Minimum age. All ages must be greater than
+or equal to this age. (Unlike with \code{age_max}, equality
+is permitted.)}
 
 \item{date}{Date on which event occurred or measurement made.
 Object of class "Date".}
@@ -160,7 +162,8 @@ Object of class "Date".}
 
 \item{unit}{Measurement units for time, eg \code{"month"}.}
 
-\item{max}{Maximum age or time.}
+\item{age_max}{Maximum age. All ages must be less than this
+age. (Unlike with \code{age_min}, equality is not permitted.)}
 
 \item{x}{The object being checked.}
 

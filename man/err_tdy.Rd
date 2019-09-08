@@ -2,7 +2,7 @@
 % Please edit documentation in R/err_tdy.R
 \name{err_tdy}
 \alias{err_tdy}
-\alias{err_tdy_breaks}
+\alias{err_tdy_breaks_integer}
 \alias{err_tdy_date}
 \alias{err_tdy_date_dob}
 \alias{err_tdy_first_month}
@@ -14,7 +14,7 @@
 \alias{err_tdy_unit}
 \title{Try to tidy a value}
 \usage{
-err_tdy_breaks(x, name)
+err_tdy_breaks_integer(x, name)
 
 err_tdy_date(x, name)
 

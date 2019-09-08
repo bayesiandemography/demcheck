@@ -1,45 +1,6 @@
 
 context("chk-composite")
 
-## chk_age_ge_min
-
-test_that("'chk_age_ge_min' returns TRUE with valid inputs", {
-    expect_true(chk_age_ge_min(age = 5L,
-                               min = 0L,
-                               date = as.Date("2005-01-02"),
-                               dob = as.Date("2000-01-01"),
-                               unit = "year"))
-})
-
-test_that("'chk_age_ge_min' returns expected message with invalid dates", {
-    expect_identical(chk_age_ge_min(age = 5L,
-                                    min = 10L,
-                                    date = as.Date("2005-01-02"),
-                                    dob = as.Date("2000-01-01"),
-                                    unit = "year"),
-                     "'date' [\"2005-01-02\"] and 'dob' [\"2000-01-01\"] imply an age of 5 years, which is less than 'min' [10 years]")
-})
-
-
-## chk_age_lt_max
-
-test_that("'chk_age_lt_max' returns TRUE with valid inputs", {
-    expect_true(chk_age_lt_max(age = 5L,
-                               max = 10L,
-                               date = as.Date("2005-01-02"),
-                               dob = as.Date("2000-01-01"),
-                               unit = "year"))
-})
-
-test_that("'chk_age_lt_max' returns expected message with invalid dates", {
-    expect_identical(chk_age_lt_max(age = 5L,
-                                    max = 5L,
-                                    date = as.Date("2005-01-02"),
-                                    dob = as.Date("2000-01-01"),
-                                    unit = "year"),
-                     "'date' [\"2005-01-02\"] and 'dob' [\"2000-01-01\"] imply an age of 5 years, which is greater than or equal to 'max' [5 years]")
-})
-
 
 ## chk_all_class
 
@@ -138,6 +99,26 @@ test_that("'chk_dimnames_complete' returns expected message with invalid argumen
     expect_identical(chk_dimnames_complete(x = x_wrong,
                                            name = "x"),
                      "dimnames for \"A\" dimension of 'x' have duplicate [\"2\"]")
+})
+
+
+## chk_ge_age_min
+
+test_that("'chk_ge_age_min' returns TRUE with valid inputs", {
+    expect_true(chk_ge_age_min(age = 5L,
+                               age_min = 0L,
+                               date = as.Date("2005-01-02"),
+                               dob = as.Date("2000-01-01"),
+                               unit = "year"))
+})
+
+test_that("'chk_ge_age_min' returns expected message with invalid dates", {
+    expect_identical(chk_ge_age_min(age = 5L,
+                                    age_min = 10L,
+                                    date = as.Date("2005-01-02"),
+                                    dob = as.Date("2000-01-01"),
+                                    unit = "year"),
+                     "'date' [\"2005-01-02\"] and 'dob' [\"2000-01-01\"] imply an age of 5 years, which is less than 'age_min' [10 years]")
 })
 
 
@@ -520,6 +501,26 @@ test_that("'chk_length_same_or_1' returns expected message with invalid argument
                                           name1 = "x1",
                                           name2 = "x2"),
                      "'x1' has length 2 and 'x2' has length 3 : should have same lengths, or one should have length 1")
+})
+
+
+## chk_lt_age_max
+
+test_that("'chk_lt_age_max' returns TRUE with valid inputs", {
+    expect_true(chk_lt_age_max(age = 5L,
+                               age_max = 10L,
+                               date = as.Date("2005-01-02"),
+                               dob = as.Date("2000-01-01"),
+                               unit = "year"))
+})
+
+test_that("'chk_lt_age_max' returns expected message with invalid dates", {
+    expect_identical(chk_lt_age_max(age = 5L,
+                                    age_max = 5L,
+                                    date = as.Date("2005-01-02"),
+                                    dob = as.Date("2000-01-01"),
+                                    unit = "year"),
+                     "'date' [\"2005-01-02\"] and 'dob' [\"2000-01-01\"] imply an age of 5 years, which is greater than or equal to 'age_max' [5 years]")
 })
 
     

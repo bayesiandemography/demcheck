@@ -31,9 +31,7 @@ NULL
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_breaks <- function(x, name) {
-    err_is_positive_length(x = x,
-                           name = name)
+err_tdy_breaks_integer <- function(x, name) {
     err_is_not_na_vector(x = x,
                          name = name)
     err_is_finite_vector(x = x,

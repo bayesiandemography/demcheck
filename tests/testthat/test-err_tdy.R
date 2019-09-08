@@ -1,41 +1,41 @@
 
 context("err-tdy")
 
-## err_tdy_breaks
+## err_tdy_breaks_integer
 
-test_that("'err_tdy_breaks' returns breaks with valid input", {
-    expect_identical(err_tdy_breaks(x = 0:4,
-                                    name = "x"),
+test_that("'err_tdy_breaks_integer' returns breaks with valid input", {
+    expect_identical(err_tdy_breaks_integer(x = 0:4,
+                                            name = "x"),
                      0:4)
-    expect_identical(err_tdy_breaks(x = c(0, 5),
-                                    name = "x"),
+    expect_identical(err_tdy_breaks_integer(x = c(0, 5),
+                                            name = "x"),
                      c(0L, 5L))
-    expect_identical(err_tdy_breaks(x = c(-5, 0, 1),
-                                    name = "x"),
+    expect_identical(err_tdy_breaks_integer(x = c(-5, 0, 1),
+                                            name = "x"),
                      c(-5L, 0L, 1L))
-    expect_identical(err_tdy_breaks(x = c(-5, 0, 1),
-                                    name = "x"),
+    expect_identical(err_tdy_breaks_integer(x = c(-5, 0, 1),
+                                            name = "x"),
                      c(-5L, 0L, 1L))
-    expect_identical(err_tdy_breaks(x = 100,
-                                    name = "x"),
+    expect_identical(err_tdy_breaks_integer(x = 100,
+                                            name = "x"),
                      100L)
+    expect_identical(err_tdy_breaks_integer(x = integer(),
+                                            name = "x"),
+                     integer())
 })
     
-test_that("'err_tdy_breaks' raises expected error with invalid input", {
-    expect_error(err_tdy_breaks(x = integer(),
-                                name = "x"),
-                 "'x' has length 0")
-    expect_error(err_tdy_breaks(x = c(0L, NA),
-                                name = "x"),
+test_that("'err_tdy_breaks_integer' raises expected error with invalid input", {
+    expect_error(err_tdy_breaks_integer(x = c(0L, NA),
+                                        name = "x"),
                  "'x' has NAs")
-    expect_error(err_tdy_breaks(x = c(0L, Inf),
-                                name = "x"),
+    expect_error(err_tdy_breaks_integer(x = c(0L, Inf),
+                                        name = "x"),
                  "'x' has infinite values")
-    expect_error(err_tdy_breaks(x = c(0L, 1.1),
-                                name = "x"),
+    expect_error(err_tdy_breaks_integer(x = c(0L, 1.1),
+                                        name = "x"),
                  "value '1.1' in 'x' not equivalent to integer")
-    expect_error(err_tdy_breaks(x = c(1L, 0L),
-                                name = "x"),
+    expect_error(err_tdy_breaks_integer(x = c(1L, 0L),
+                                        name = "x"),
                  "'x' is not strictly increasing : element 1 \\[1\\] is greater than or equal to element 2 \\[0\\]")
 })    
 
