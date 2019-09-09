@@ -121,8 +121,17 @@ err_is_logical_flag <- function(x, name) {
 
 #' @export
 #' @rdname composite
-err_is_multiple_of <- function(x1, x2, name1, name2, inf_ok = FALSE) {
-    val <- chk_is_multiple_of(x1, x2, name1, name2, inf_ok = FALSE)
+err_is_multiple_of <- function(x1, x2, name1, name2, inf_ok) {
+    val <- chk_is_multiple_of(x1, x2, name1, name2, inf_ok)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_is_multiple_of_n <- function(x, name, n, inf_ok) {
+    val <- chk_is_multiple_of_n(x, name, n, inf_ok)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

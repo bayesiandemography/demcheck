@@ -38,7 +38,8 @@
 #' Object of class "Date".
 #' @param dob Date of birth. Object of class "Date".
 #' @param inf_ok Whether to allow \code{Inf} (or sometimes
-#' \code{-Inf}.) Defaults to \code{FALSE}.
+#' \code{-Inf}.)
+#' @param n An integer.
 #'
 #' @return When \code{x} passes the test,
 #' the \code{chk*} and \code{err*} functions both
@@ -163,6 +164,8 @@ chk_ge_age_min <- function(age, age_min, date, dob, unit) {
     }
     TRUE
 }
+
+
 
 ## HAS_TESTS
 #' @export
@@ -313,9 +316,10 @@ chk_is_logical_flag <- function(x, name) {
     TRUE
 }
 
+## HAS_TESTS
 #' @export
 #' @rdname composite
-chk_is_multiple_of <- function(x1, x2, name1, name2, inf_ok = FALSE) {
+chk_is_multiple_of <- function(x1, x2, name1, name2, inf_ok) {
     if (is.infinite(x1)) {
         if (!inf_ok)
             return(gettextf("'%s' is non-finite",
@@ -325,6 +329,23 @@ chk_is_multiple_of <- function(x1, x2, name1, name2, inf_ok = FALSE) {
         if (x1 %% x2 != 0L)
             return(gettextf("'%s' [%s] is not a multiple of '%s' [%s]",
                           name1, x1, name2, x2))
+    }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_is_multiple_of_n <- function(x, name, n, inf_ok) {
+    if (is.infinite(x)) {
+        if (!inf_ok)
+            return(gettextf("'%s' is non-finite",
+                            name))
+    }
+    else {
+        if (x %% n != 0L)
+            return(gettextf("'%s' [%s] is not a multiple of %d",
+                            name, x, n))
     }
     TRUE
 }

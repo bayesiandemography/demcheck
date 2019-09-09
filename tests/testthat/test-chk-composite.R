@@ -300,7 +300,8 @@ test_that("'chk_is_multiple_of' returns TRUE with valid inputs", {
     expect_true(chk_is_multiple_of(x1 = 30L,
                                    x2 = 5L,
                                    name1 = "x1",
-                                   name2 = "x2"))
+                                   name2 = "x2",
+                                   inf_ok = FALSE))
     expect_true(chk_is_multiple_of(x1 = Inf,
                                    x2 = 5L,
                                    name1 = "x1",
@@ -312,13 +313,42 @@ test_that("'chk_is_multiple_of' returns expected message with invalid argument",
     expect_identical(chk_is_multiple_of(x1 = Inf,
                                         x2 = 5L,
                                         name1 = "x1",
-                                        name2 = "x2"),
+                                        name2 = "x2",
+                                        inf_ok = FALSE),
                      "'x1' is non-finite")
     expect_identical(chk_is_multiple_of(x1 = 31L,
                                         x2 = 5L,
                                         name1 = "x1",
-                                        name2 = "x2"),
+                                        name2 = "x2",
+                                        inf_ok = FALSE),
                      "'x1' [31] is not a multiple of 'x2' [5]")
+})
+
+
+## chk_is_multiple_of_n
+
+test_that("'chk_is_multiple_of_n' returns TRUE with valid inputs", {
+    expect_true(chk_is_multiple_of_n(x = 30L,
+                                     name = "x",
+                                     n = 5L,
+                                     inf_ok = FALSE))
+    expect_true(chk_is_multiple_of_n(x = Inf,
+                                     name = "x",
+                                     n = 5L,
+                                     inf_ok = TRUE))
+})
+
+test_that("'chk_is_multiple_of_n' returns expected message with invalid argument", {
+    expect_identical(chk_is_multiple_of_n(x = Inf,
+                                          name = "x",
+                                          n = 5L,
+                                          inf_ok = FALSE),
+                     "'x' is non-finite")
+    expect_identical(chk_is_multiple_of_n(x = 31L,
+                                          name = "x",
+                                          n = 5L,
+                                          inf_ok = FALSE),
+                     "'x' [31] is not a multiple of 5")
 })
 
 

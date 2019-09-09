@@ -16,6 +16,7 @@
 \alias{chk_is_integer_consec}
 \alias{chk_is_logical_flag}
 \alias{chk_is_multiple_of}
+\alias{chk_is_multiple_of_n}
 \alias{chk_is_string}
 \alias{chk_is_strictly_increasing}
 \alias{chk_length_same}
@@ -38,6 +39,7 @@
 \alias{err_is_integer_consec}
 \alias{err_is_logical_flag}
 \alias{err_is_multiple_of}
+\alias{err_is_multiple_of_n}
 \alias{err_is_non_negative_scalar}
 \alias{err_is_non_negative_vector}
 \alias{err_is_positive_scalar}
@@ -78,7 +80,9 @@ chk_is_integer_consec(x, name)
 
 chk_is_logical_flag(x, name)
 
-chk_is_multiple_of(x1, x2, name1, name2, inf_ok = FALSE)
+chk_is_multiple_of(x1, x2, name1, name2, inf_ok)
+
+chk_is_multiple_of_n(x, name, n, inf_ok)
 
 chk_is_string(x, name)
 
@@ -122,7 +126,9 @@ err_is_integer_consec(x, name)
 
 err_is_logical_flag(x, name)
 
-err_is_multiple_of(x1, x2, name1, name2, inf_ok = FALSE)
+err_is_multiple_of(x1, x2, name1, name2, inf_ok)
+
+err_is_multiple_of_n(x, name, n, inf_ok)
 
 err_is_non_negative_scalar(x, name)
 
@@ -178,7 +184,9 @@ Object of class "Date".}
 \item{name2}{The name of the second of the pair of objects.}
 
 \item{inf_ok}{Whether to allow \code{Inf} (or sometimes
-\code{-Inf}.) Defaults to \code{FALSE}.}
+\code{-Inf}.)}
+
+\item{n}{An integer.}
 
 \item{age_max}{Maximum age. All ages must be less than this
 age. (Unlike with \code{age_min}, equality is not permitted.)}
