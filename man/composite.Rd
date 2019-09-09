@@ -2,12 +2,11 @@
 % Please edit documentation in R/chk-composite.R, R/err-composite.R
 \name{composite}
 \alias{composite}
-\alias{chk_ge_age_min}
-\alias{chk_lt_age_max}
 \alias{chk_all_class}
 \alias{chk_array_metadata_complete}
 \alias{chk_character_complete}
 \alias{chk_dimnames_complete}
+\alias{chk_ge_age_min}
 \alias{chk_is_first_day_unit}
 \alias{chk_is_first_day_unit_consec}
 \alias{chk_is_ge_scalar}
@@ -21,15 +20,15 @@
 \alias{chk_is_strictly_increasing}
 \alias{chk_length_same}
 \alias{chk_length_same_or_1}
+\alias{chk_lt_age_max}
 \alias{chk_names_complete}
 \alias{chk_names_dimnames_complete}
 \alias{chk_trans_list}
-\alias{err_ge_age_min}
-\alias{err_lt_age_max}
 \alias{err_all_class}
 \alias{err_array_metadata_complete}
 \alias{err_character_complete}
 \alias{err_dimnames_complete}
+\alias{err_ge_age_min}
 \alias{err_is_first_day_unit}
 \alias{err_is_first_day_unit_consec}
 \alias{err_is_ge_scalar}
@@ -47,15 +46,12 @@
 \alias{err_is_strictly_increasing}
 \alias{err_length_same}
 \alias{err_length_same_or_1}
+\alias{err_lt_age_max}
 \alias{err_names_complete}
 \alias{err_names_dimnames_complete}
 \alias{err_trans_list}
 \title{Checks of composite conditions}
 \usage{
-chk_ge_age_min(age, age_min, date, dob, unit)
-
-chk_lt_age_max(age, age_max, date, dob, unit)
-
 chk_all_class(x, name, class)
 
 chk_array_metadata_complete(x, name)
@@ -63,6 +59,8 @@ chk_array_metadata_complete(x, name)
 chk_character_complete(x, name)
 
 chk_dimnames_complete(x, name)
+
+chk_ge_age_min(age, age_min, date, dob, unit)
 
 chk_is_first_day_unit(x, name, unit)
 
@@ -80,7 +78,7 @@ chk_is_integer_consec(x, name)
 
 chk_is_logical_flag(x, name)
 
-chk_is_multiple_of(x1, x2, name1, name2)
+chk_is_multiple_of(x1, x2, name1, name2, inf_ok = FALSE)
 
 chk_is_string(x, name)
 
@@ -90,15 +88,13 @@ chk_length_same(x1, x2, name1, name2)
 
 chk_length_same_or_1(x1, x2, name1, name2)
 
+chk_lt_age_max(age, age_max, date, dob, unit)
+
 chk_names_complete(x, name)
 
 chk_names_dimnames_complete(x, name)
 
 chk_trans_list(x, name)
-
-err_ge_age_min(age, age_min, date, dob, unit)
-
-err_lt_age_max(age, age_max, date, dob, unit)
 
 err_all_class(x, name, class)
 
@@ -107,6 +103,8 @@ err_array_metadata_complete(x, name)
 err_character_complete(x, name)
 
 err_dimnames_complete(x, name)
+
+err_ge_age_min(age, age_min, date, dob, unit)
 
 err_is_first_day_unit(x, name, unit)
 
@@ -124,7 +122,7 @@ err_is_integer_consec(x, name)
 
 err_is_logical_flag(x, name)
 
-err_is_multiple_of(x1, x2, name1, name2)
+err_is_multiple_of(x1, x2, name1, name2, inf_ok = FALSE)
 
 err_is_non_negative_scalar(x, name)
 
@@ -142,6 +140,8 @@ err_length_same(x1, x2, name1, name2)
 
 err_length_same_or_1(x1, x2, name1, name2)
 
+err_lt_age_max(age, age_max, date, dob, unit)
+
 err_names_complete(x, name)
 
 err_names_dimnames_complete(x, name)
@@ -149,6 +149,13 @@ err_names_dimnames_complete(x, name)
 err_trans_list(x, name)
 }
 \arguments{
+\item{x}{The object being checked.}
+
+\item{name}{The name used in any message. Typically,
+but not always, the name of \code{x}.}
+
+\item{class}{Name of class.}
+
 \item{age}{Age, typically in years, but can be other unit.}
 
 \item{age_min}{Minimum age. All ages must be greater than
@@ -162,16 +169,6 @@ Object of class "Date".}
 
 \item{unit}{Measurement units for time, eg \code{"month"}.}
 
-\item{age_max}{Maximum age. All ages must be less than this
-age. (Unlike with \code{age_min}, equality is not permitted.)}
-
-\item{x}{The object being checked.}
-
-\item{name}{The name used in any message. Typically,
-but not always, the name of \code{x}.}
-
-\item{class}{Name of class.}
-
 \item{x1}{The first of a pair of objects being checked.}
 
 \item{x2}{The second of a pair of objects being checked.}
@@ -179,6 +176,9 @@ but not always, the name of \code{x}.}
 \item{name1}{The name of the first of the pair of objects.}
 
 \item{name2}{The name of the second of the pair of objects.}
+
+\item{age_max}{Maximum age. All ages must be less than this
+age. (Unlike with \code{age_min}, equality is not permitted.)}
 }
 \value{
 When \code{x} passes the test,

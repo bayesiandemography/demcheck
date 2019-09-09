@@ -4,24 +4,6 @@
 
 #' @export
 #' @rdname composite
-err_ge_age_min <- function(age, age_min, date, dob, unit) {
-    val <- chk_ge_age_min(age, age_min, date, dob, unit)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
-err_lt_age_max <- function(age, age_max, date, dob, unit) {
-    val <- chk_lt_age_max(age, age_max, date, dob, unit)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
 err_all_class <- function(x, name, class) {
     val <- chk_all_class(x, name, class)
     if (is.character(val))
@@ -51,6 +33,15 @@ err_character_complete <- function(x, name) {
 #' @rdname composite
 err_dimnames_complete <- function(x, name) {
     val <- chk_dimnames_complete(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_ge_age_min <- function(age, age_min, date, dob, unit) {
+    val <- chk_ge_age_min(age, age_min, date, dob, unit)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -130,8 +121,8 @@ err_is_logical_flag <- function(x, name) {
 
 #' @export
 #' @rdname composite
-err_is_multiple_of <- function(x1, x2, name1, name2) {
-    val <- chk_is_multiple_of(x1, x2, name1, name2)
+err_is_multiple_of <- function(x1, x2, name1, name2, inf_ok = FALSE) {
+    val <- chk_is_multiple_of(x1, x2, name1, name2, inf_ok = FALSE)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -204,6 +195,15 @@ err_length_same <- function(x1, x2, name1, name2) {
 #' @rdname composite
 err_length_same_or_1 <- function(x1, x2, name1, name2) {
     val <- chk_length_same_or_1(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_lt_age_max <- function(age, age_max, date, dob, unit) {
+    val <- chk_lt_age_max(age, age_max, date, dob, unit)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

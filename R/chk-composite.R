@@ -313,10 +313,17 @@ chk_is_logical_flag <- function(x, name) {
 
 #' @export
 #' @rdname composite
-chk_is_multiple_of <- function(x1, x2, name1, name2) {
-    if (x1 %% x2 != 0L)
-        stop(gettextf("'%s' is not a multiple of '%s'",
-                      name1, name2))
+chk_is_multiple_of <- function(x1, x2, name1, name2, inf_ok = FALSE) {
+    if (is.infinite(x1)) {
+        if (!inf_ok)
+            return(gettextf("'%s' is non-finite",
+                            name1))
+    }
+    else {
+        if (x1 %% x2 != 0L)
+            return(gettextf("'%s' [%s] is not a multiple of '%s' [%s]",
+                          name1, x1, name2, x2))
+    }
     TRUE
 }
 

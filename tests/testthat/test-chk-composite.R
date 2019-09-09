@@ -294,6 +294,33 @@ test_that("'chk_is_logical_flag' returns expected message with invalid argument"
                      "'x' is NA")
 })
 
+## chk_is_multiple_of
+
+test_that("'chk_is_multiple_of' returns TRUE with valid inputs", {
+    expect_true(chk_is_multiple_of(x1 = 30L,
+                                   x2 = 5L,
+                                   name1 = "x1",
+                                   name2 = "x2"))
+    expect_true(chk_is_multiple_of(x1 = Inf,
+                                   x2 = 5L,
+                                   name1 = "x1",
+                                   name2 = "x2",
+                                   inf_ok = TRUE))
+})
+
+test_that("'chk_is_multiple_of' returns expected message with invalid argument", {
+    expect_identical(chk_is_multiple_of(x1 = Inf,
+                                        x2 = 5L,
+                                        name1 = "x1",
+                                        name2 = "x2"),
+                     "'x1' is non-finite")
+    expect_identical(chk_is_multiple_of(x1 = 31L,
+                                        x2 = 5L,
+                                        name1 = "x1",
+                                        name2 = "x2"),
+                     "'x1' [31] is not a multiple of 'x2' [5]")
+})
+
 
 ## chk_is_non_negative_scalar
 
