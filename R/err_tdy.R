@@ -19,8 +19,6 @@
 #' \code{NULL} is equivalent to \code{"year"}.
 #'
 #' @inheritParams composite
-#' @param inf_ok Whether to allow \code{Inf} (or sometimes
-#' \code{-Inf}.)
 #' 
 #' @return When err_tdy* can format \code{x} as required,
 #' it returns the value; otherwise it raises an error.

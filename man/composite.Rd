@@ -177,6 +177,9 @@ Object of class "Date".}
 
 \item{name2}{The name of the second of the pair of objects.}
 
+\item{inf_ok}{Whether to allow \code{Inf} (or sometimes
+\code{-Inf}.) Defaults to \code{FALSE}.}
+
 \item{age_max}{Maximum age. All ages must be less than this
 age. (Unlike with \code{age_min}, equality is not permitted.)}
 }

@@ -37,6 +37,8 @@
 #' @param date Date on which event occurred or measurement made.
 #' Object of class "Date".
 #' @param dob Date of birth. Object of class "Date".
+#' @param inf_ok Whether to allow \code{Inf} (or sometimes
+#' \code{-Inf}.) Defaults to \code{FALSE}.
 #'
 #' @return When \code{x} passes the test,
 #' the \code{chk*} and \code{err*} functions both

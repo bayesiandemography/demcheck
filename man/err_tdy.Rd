@@ -46,7 +46,7 @@ Object of class "Date".}
 \item{dob}{Date of birth. Object of class "Date".}
 
 \item{inf_ok}{Whether to allow \code{Inf} (or sometimes
-\code{-Inf}.)}
+\code{-Inf}.) Defaults to \code{FALSE}.}
 
 \item{x1}{The first of a pair of objects being checked.}
 
