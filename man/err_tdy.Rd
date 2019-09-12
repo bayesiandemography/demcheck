@@ -9,6 +9,7 @@
 \alias{err_tdy_integer_scalar}
 \alias{err_tdy_integer_vector}
 \alias{err_tdy_many_to_one}
+\alias{err_tdy_non_negative_integer_scalar}
 \alias{err_tdy_positive_integer_scalar}
 \alias{err_tdy_same_length}
 \alias{err_tdy_unit}
@@ -27,6 +28,8 @@ err_tdy_integer_scalar(x, name, inf_ok = FALSE)
 err_tdy_integer_vector(x, name)
 
 err_tdy_many_to_one(x, name)
+
+err_tdy_non_negative_integer_scalar(x, name, inf_ok = FALSE)
 
 err_tdy_positive_integer_scalar(x, name, inf_ok = FALSE)
 

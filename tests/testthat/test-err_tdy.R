@@ -195,6 +195,28 @@ test_that("'err_tdy_many_to_one' raises expected error with invalid input", {
 })
 
 
+## err_tdy_non_negative_integer_scalar
+
+test_that("'err_tdy_non_negative_integer_scalar' works with valid inputs", {
+    expect_identical(err_tdy_non_negative_integer_scalar(x = 1, name = "x"),
+                     1L)
+    expect_identical(err_tdy_integer_scalar(x = Inf, name = "x", inf_ok = TRUE),
+                     Inf)
+    expect_identical(err_tdy_integer_scalar(x = 0L, name = "x", inf_ok = TRUE),
+                     0L)
+})
+
+test_that("'err_tdy_non_negative_integer_scalar' raises expected error with invalid input", {
+    expect_error(err_tdy_non_negative_integer_scalar(x = 0.1,
+                                                 name = "x"),
+                 "'x' \\[0.1\\] not equivalent to integer")
+    expect_error(err_tdy_non_negative_integer_scalar(x = -Inf, name = "x", inf_ok = TRUE),
+                 "'x' \\[-Inf\\] is negative")
+    expect_error(err_tdy_positive_integer_scalar(x = Inf, name = "x"),
+                 "'x' \\[Inf\\] not equivalent to integer")
+})
+
+
 ## err_tdy_positive_integer_scalar
 
 test_that("'err_tdy_positive_integer_scalar' works with valid inputs", {

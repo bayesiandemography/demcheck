@@ -162,6 +162,24 @@ err_tdy_many_to_one <- function(x, name) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
+err_tdy_non_negative_integer_scalar <- function(x, name, inf_ok = FALSE) {
+    if (inf_ok && identical(x, Inf))
+        return(x)
+    err_is_non_negative_scalar(x = x,
+                               name = name)
+    if (!is.integer(x)) {
+        x_int <- suppressWarnings(as.integer(x))
+        is_not_equiv <- is.na(x_int) || (x_int != x)
+        if (is_not_equiv)
+            stop(gettextf("'%s' [%s] not equivalent to integer",
+                          name, x))
+    }
+    x_int
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname err_tdy
 err_tdy_positive_integer_scalar <- function(x, name, inf_ok = FALSE) {
     if (inf_ok && identical(x, Inf))
         return(x)
