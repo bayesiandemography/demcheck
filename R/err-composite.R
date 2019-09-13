@@ -49,6 +49,15 @@ err_ge_age_min <- function(age, age_min, date, dob, unit) {
 
 #' @export
 #' @rdname composite
+err_ge_year_min <- function(date, year_min, first_month) {
+    val <- chk_ge_year_min(date, year_min, first_month)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
 err_is_first_day_unit <- function(x, name, unit) {
     val <- chk_is_first_day_unit(x, name, unit)
     if (is.character(val))
@@ -213,6 +222,15 @@ err_length_same_or_1 <- function(x1, x2, name1, name2) {
 #' @rdname composite
 err_lt_age_max <- function(age, age_max, date, dob, unit) {
     val <- chk_lt_age_max(age, age_max, date, dob, unit)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_lt_year_max <- function(date, year_max, first_month) {
+    val <- chk_lt_year_max(date, year_max, first_month)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

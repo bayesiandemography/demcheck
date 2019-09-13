@@ -7,6 +7,7 @@
 \alias{chk_character_complete}
 \alias{chk_dimnames_complete}
 \alias{chk_ge_age_min}
+\alias{chk_ge_year_min}
 \alias{chk_is_first_day_unit}
 \alias{chk_is_first_day_unit_consec}
 \alias{chk_is_ge_scalar}
@@ -22,6 +23,7 @@
 \alias{chk_length_same}
 \alias{chk_length_same_or_1}
 \alias{chk_lt_age_max}
+\alias{chk_lt_year_max}
 \alias{chk_names_complete}
 \alias{chk_names_dimnames_complete}
 \alias{chk_trans_list}
@@ -30,6 +32,7 @@
 \alias{err_character_complete}
 \alias{err_dimnames_complete}
 \alias{err_ge_age_min}
+\alias{err_ge_year_min}
 \alias{err_is_first_day_unit}
 \alias{err_is_first_day_unit_consec}
 \alias{err_is_ge_scalar}
@@ -49,6 +52,7 @@
 \alias{err_length_same}
 \alias{err_length_same_or_1}
 \alias{err_lt_age_max}
+\alias{err_lt_year_max}
 \alias{err_names_complete}
 \alias{err_names_dimnames_complete}
 \alias{err_trans_list}
@@ -63,6 +67,8 @@ chk_character_complete(x, name)
 chk_dimnames_complete(x, name)
 
 chk_ge_age_min(age, age_min, date, dob, unit)
+
+chk_ge_year_min(date, year_min, first_month)
 
 chk_is_first_day_unit(x, name, unit)
 
@@ -94,6 +100,8 @@ chk_length_same_or_1(x1, x2, name1, name2)
 
 chk_lt_age_max(age, age_max, date, dob, unit)
 
+chk_lt_year_max(date, year_max, first_month)
+
 chk_names_complete(x, name)
 
 chk_names_dimnames_complete(x, name)
@@ -109,6 +117,8 @@ err_character_complete(x, name)
 err_dimnames_complete(x, name)
 
 err_ge_age_min(age, age_min, date, dob, unit)
+
+err_ge_year_min(date, year_min, first_month)
 
 err_is_first_day_unit(x, name, unit)
 
@@ -148,6 +158,8 @@ err_length_same_or_1(x1, x2, name1, name2)
 
 err_lt_age_max(age, age_max, date, dob, unit)
 
+err_lt_year_max(date, year_max, first_month)
+
 err_names_complete(x, name)
 
 err_names_dimnames_complete(x, name)
@@ -175,6 +187,13 @@ Object of class "Date".}
 
 \item{unit}{Measurement units for time, eg \code{"month"}.}
 
+\item{year_min}{Minimum year. All dates must be greater than
+or equal to the date implied by \code{year_min} and
+\code{first_month}.}
+
+\item{first_month}{A abbreviated month name. Used for defining
+year-long periods.}
+
 \item{x1}{The first of a pair of objects being checked.}
 
 \item{x2}{The second of a pair of objects being checked.}
@@ -190,6 +209,9 @@ Object of class "Date".}
 
 \item{age_max}{Maximum age. All ages must be less than this
 age. (Unlike with \code{age_min}, equality is not permitted.)}
+
+\item{year_max}{Maximum year. All dates must be less than
+the date implied by \code{year_max} and \code{first_month}.}
 }
 \value{
 When \code{x} passes the test,

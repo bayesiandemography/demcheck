@@ -34,6 +34,13 @@
 #' is permitted.)
 #' @param age_max Maximum age. All ages must be less than this
 #' age. (Unlike with \code{age_min}, equality is not permitted.)
+#' @param year_min Minimum year. All dates must be greater than
+#' or equal to the date implied by \code{year_min} and
+#' \code{first_month}.
+#' @param year_max Maximum year. All dates must be less than
+#' the date implied by \code{year_max} and \code{first_month}.
+#' @param first_month A abbreviated month name. Used for defining
+#' year-long periods.
 #' @param date Date on which event occurred or measurement made.
 #' Object of class "Date".
 #' @param dob Date of birth. Object of class "Date".
@@ -165,7 +172,25 @@ chk_ge_age_min <- function(age, age_min, date, dob, unit) {
     TRUE
 }
 
-
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_ge_year_min <- function(date, year_min, first_month) {
+    date_min <- sprintf("%d-%s-01", year_min, first_month)
+    date_min <- as.Date(date_min, format = "%Y-%b-%d")
+    lt_date_min <- !is.na(date) & (date < date_min)
+    i <- match(TRUE, lt_date_min, nomatch = 0L)
+    if (i > 0L) {
+        return(gettextf(paste("'%s' has value [\"%s\"] that is less than the",
+                              "minimum date implied by '%s' and '%s' [\"%s\"]"),
+                        "date",
+                        date[[i]],
+                        "year_min",
+                        "first_month",
+                        date_min))
+    }
+    TRUE
+}
 
 ## HAS_TESTS
 #' @export
@@ -526,6 +551,26 @@ chk_lt_age_max <- function(age, age_max, date, dob, unit) {
                         "age_max",
                         age_max,
                         unit))
+    }
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_lt_year_max <- function(date, year_max, first_month) {
+    date_max <- sprintf("%d-%s-01", year_max, first_month)
+    date_max <- as.Date(date_max, format = "%Y-%b-%d")
+    ge_date_max <- !is.na(date) & (date >= date_max)
+    i <- match(TRUE, ge_date_max, nomatch = 0L)
+    if (i > 0L) {
+        return(gettextf(paste("'%s' has value [\"%s\"] that is greater than or equal to the",
+                              "maximum date implied by '%s' and '%s' [\"%s\"]"),
+                        "date",
+                        date[[i]],
+                        "year_max",
+                        "first_month",
+                        date_max))
     }
     TRUE
 }

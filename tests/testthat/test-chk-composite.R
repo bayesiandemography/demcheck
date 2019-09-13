@@ -122,6 +122,23 @@ test_that("'chk_ge_age_min' returns expected message with invalid dates", {
 })
 
 
+## chk_ge_year_min
+
+test_that("'chk_ge_year_min' returns TRUE with valid inputs", {
+    expect_true(chk_ge_year_min(date = as.Date(c("2001-03-02", "2005-12-01", NA)),
+                                year_min = 2000L,
+                                first_month = "Jan"))
+})
+
+test_that("'chk_ge_year_min' returns expected message with invalid dates", {
+    expect_identical(chk_ge_year_min(date = as.Date(c("2001-03-02", "1995-12-01", NA)),
+                                     year_min = 2000L,
+                                     first_month = "Jan"),
+                     paste("'date' has value [\"1995-12-01\"] that is less than the minimum",
+                           "date implied by 'year_min' and 'first_month' [\"2000-01-01\"]"))
+})
+
+
 ## chk_is_first_day_unit
 
 test_that("'chk_is_first_day_unit' returns TRUE with valid dates", {
@@ -578,6 +595,23 @@ test_that("'chk_lt_age_max' returns expected message with invalid dates", {
                                     dob = as.Date("2000-01-01"),
                                     unit = "year"),
                      "'date' [\"2005-01-02\"] and 'dob' [\"2000-01-01\"] imply an age of 5 years, which is greater than or equal to 'age_max' [5 years]")
+})
+
+
+## chk_lt_year_max
+
+test_that("'chk_lt_year_max' returns TRUE with valid inputs", {
+    expect_true(chk_lt_year_max(date = as.Date(c("2001-02-20", "2005-11-24", NA)),
+                                year_max = 2010L,
+                                first_month = "Jan"))
+})
+
+test_that("'chk_lt_year_max' returns expected message with invalid dates", {
+    expect_identical(chk_lt_year_max(date = as.Date(c("2001-02-20", "2005-11-24", NA)),
+                                     year_max = 2002L,
+                                     first_month = "Jan"),
+                     paste("'date' has value [\"2005-11-24\"] that is greater than or equal to the",
+                           "maximum date implied by 'year_max' and 'first_month' [\"2002-01-01\"]"))
 })
 
     
