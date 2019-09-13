@@ -167,13 +167,13 @@ err_tdy_non_negative_integer_scalar <- function(x, name, inf_ok = FALSE) {
         return(x)
     err_is_non_negative_scalar(x = x,
                                name = name)
-    if (!is.integer(x)) {
-        x_int <- suppressWarnings(as.integer(x))
-        is_not_equiv <- is.na(x_int) || (x_int != x)
-        if (is_not_equiv)
-            stop(gettextf("'%s' [%s] not equivalent to integer",
-                          name, x))
-    }
+    if (is.integer(x))
+        return(x)
+    x_int <- suppressWarnings(as.integer(x))
+    is_not_equiv <- is.na(x_int) || (x_int != x)
+    if (is_not_equiv)
+        stop(gettextf("'%s' [%s] not equivalent to integer",
+                      name, x))
     x_int
 }
 
@@ -185,13 +185,13 @@ err_tdy_positive_integer_scalar <- function(x, name, inf_ok = FALSE) {
         return(x)
     err_is_positive_scalar(x = x,
                            name = name)
-    if (!is.integer(x)) {
-        x_int <- suppressWarnings(as.integer(x))
-        is_not_equiv <- is.na(x_int) || (x_int != x)
-        if (is_not_equiv)
-            stop(gettextf("'%s' [%s] not equivalent to integer",
-                          name, x))
-    }
+    if (is.integer(x))
+        return(x)
+    x_int <- suppressWarnings(as.integer(x))
+    is_not_equiv <- is.na(x_int) || (x_int != x)
+    if (is_not_equiv)
+        stop(gettextf("'%s' [%s] not equivalent to integer",
+                      name, x))
     x_int
 }
 
