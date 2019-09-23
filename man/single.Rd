@@ -11,7 +11,9 @@
 \alias{chk_is_all_0_1}
 \alias{chk_is_character}
 \alias{chk_is_date}
-\alias{chk_is_date_equiv}
+\alias{chk_is_date_equiv_scalar}
+\alias{chk_is_date_equiv_vector}
+\alias{chk_is_date_or_numeric}
 \alias{chk_is_finite_scalar}
 \alias{chk_is_finite_vector}
 \alias{chk_is_integer}
@@ -31,7 +33,9 @@
 \alias{err_is_all_0_1}
 \alias{err_is_character}
 \alias{err_is_date}
-\alias{err_is_date_equiv}
+\alias{err_is_date_equiv_scalar}
+\alias{err_is_date_equiv_vector}
+\alias{err_is_date_or_numeric}
 \alias{err_is_finite_scalar}
 \alias{err_is_finite_vector}
 \alias{err_is_integer}
@@ -66,7 +70,11 @@ chk_is_character(x, name)
 
 chk_is_date(x, name)
 
-chk_is_date_equiv(x, name)
+chk_is_date_equiv_scalar(x, name)
+
+chk_is_date_equiv_vector(x, name)
+
+chk_is_date_or_numeric(x, name)
 
 chk_is_finite_scalar(x, name)
 
@@ -106,7 +114,11 @@ err_is_character(x, name)
 
 err_is_date(x, name)
 
-err_is_date_equiv(x, name)
+err_is_date_equiv_scalar(x, name)
+
+err_is_date_equiv_vector(x, name)
+
+err_is_date_or_numeric(x, name)
 
 err_is_finite_scalar(x, name)
 

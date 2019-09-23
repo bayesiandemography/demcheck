@@ -60,6 +60,52 @@ test_that("'chk_character_complete' returns expected message with invalid charac
 })
 
 
+## chk_date_consistent_with_first_month
+
+test_that("'chk_date_consistent_with_first_month' returns TRUE with inputs", {
+    expect_true(chk_date_consistent_with_first_month(x = as.Date("2000-01-01"),
+                                                     name = "x",
+                                                     first_month = "Jan"))
+    expect_true(chk_date_consistent_with_first_month(x = as.Date("2000-12-01"),
+                                                     name = "x",
+                                                     first_month = "Dec"))
+})
+
+test_that("'chk_date_consistent_with_first_month' returns expected message with invalid argument", {
+    expect_identical(chk_date_consistent_with_first_month(x = as.Date("2000-01-01"),
+                                                     name = "x",
+                                                     first_month = "Feb"),
+                paste("'x' [\"2000-01-01\"] implies that year starts in January, but",
+                      "'first_month' [\"Feb\"] implies that year starts in February"))
+})
+
+
+## chk_date_consistent_with_width_origin
+
+test_that("'chk_date_consistent_with_width_origin' returns TRUE with inputs", {
+    expect_true(chk_date_consistent_with_width_origin(x = as.Date("2000-01-01"),
+                                                     name = "x",
+                                                     width = 5,
+                                                     origin = 2000))
+    expect_true(chk_date_consistent_with_width_origin(x = as.Date("2000-01-01"),
+                                                     name = "x",
+                                                     width = 5,
+                                                     origin = 2005))
+    expect_true(chk_date_consistent_with_width_origin(x = as.Date("2000-01-01"),
+                                                     name = "x",
+                                                     width = 5,
+                                                     origin = 1980))
+})
+
+test_that("'chk_date_consistent_with_width_origin' returns expected message with invalid argument", {
+    expect_identical(chk_date_consistent_with_width_origin(x = as.Date("2000-01-01"),
+                                                     name = "x",
+                                                     width = 5,
+                                                     origin = 1981),
+                     "'x' [\"2000-01-01\"] inconsistent with 'width' [5] and 'origin' [1981]")
+})
+
+
 ## chk_dimnames_complete
 
 test_that("'chk_dimnames_complete' returns TRUE with valid array", {
@@ -102,87 +148,129 @@ test_that("'chk_dimnames_complete' returns expected message with invalid argumen
 })
 
 
-## chk_ge_age_min
+## chk_ge_break_min_age
 
-test_that("'chk_ge_age_min' returns TRUE with valid inputs", {
-    expect_true(chk_ge_age_min(age = 5L,
-                               age_min = 0L,
-                               date = as.Date("2005-01-02"),
-                               dob = as.Date("2000-01-01"),
-                               unit = "year"))
+test_that("'chk_ge_break_min_age' returns TRUE with valid inputs", {
+    expect_true(chk_ge_break_min_age(age = 5L,
+                                     break_min = 0L,
+                                     date = as.Date("2005-01-02"),
+                                     dob = as.Date("2000-01-01"),
+                                     unit = "year"))
 })
 
-test_that("'chk_ge_age_min' returns expected message with invalid dates", {
-    expect_identical(chk_ge_age_min(age = 5L,
-                                    age_min = 10L,
-                                    date = as.Date("2005-01-02"),
-                                    dob = as.Date("2000-01-01"),
-                                    unit = "year"),
-                     "'date' [\"2005-01-02\"] and 'dob' [\"2000-01-01\"] imply an age of 5 years, which is less than 'age_min' [10 years]")
+test_that("'chk_ge_break_min_age' returns expected message with invalid dates", {
+    expect_identical(chk_ge_break_min_age(age = 5L,
+                                          break_min = 10L,
+                                          date = as.Date("2005-01-02"),
+                                          dob = as.Date("2000-01-01"),
+                                          unit = "year"),
+                     "'date' [\"2005-01-02\"] and 'dob' [\"2000-01-01\"] imply an age of 5 years, which is less than 'break_min' [10 years]")
 })
 
+## chk_ge_break_min_date
 
-## chk_ge_year_min
-
-test_that("'chk_ge_year_min' returns TRUE with valid inputs", {
-    expect_true(chk_ge_year_min(date = as.Date(c("2001-03-02", "2005-12-01", NA)),
-                                year_min = 2000L,
-                                first_month = "Jan"))
+test_that("'chk_ge_break_min_date' returns TRUE with valid inputs", {
+    expect_true(chk_ge_break_min_date(date = as.Date(c("2001-03-02", "2005-12-01", NA)),
+                                      break_min = as.Date("2000-01-01")))
+    expect_true(chk_ge_break_min_date(date = as.Date(c("2001-03-02", "2005-12-01", NA)),
+                                      break_min = NULL))
 })
 
-test_that("'chk_ge_year_min' returns expected message with invalid dates", {
-    expect_identical(chk_ge_year_min(date = as.Date(c("2001-03-02", "1995-12-01", NA)),
-                                     year_min = 2000L,
-                                     first_month = "Jan"),
-                     paste("'date' has value [\"1995-12-01\"] that is less than the minimum",
-                           "date implied by 'year_min' and 'first_month' [\"2000-01-01\"]"))
+test_that("'chk_ge_break_min_date' returns expected message with invalid dates", {
+    expect_identical(chk_ge_break_min_date(date = as.Date(c("2001-03-02", "1995-12-01", NA)),
+                                           break_min = "2000-01-01"),
+                     "'date' has value [\"1995-12-01\"] that is less than 'break_min' [\"2000-01-01\"]")
 })
 
+## chk_is_first_day_unit_scalar
 
-## chk_is_first_day_unit
+test_that("'chk_is_first_day_unit_scalar' returns TRUE with valid dates", {
+    expect_true(chk_is_first_day_unit_scalar(x = "2001-01-01",
+                                             name = "x",
+                                             unit = "month"))
+    expect_true(chk_is_first_day_unit_scalar(x = "2001-10-01",
+                                             name = "x",
+                                             unit = "quarter"))
+    expect_true(chk_is_first_day_unit_scalar(x = "2001-10-01",
+                                             name = "x",
+                                             unit = "year"))
+})
 
-test_that("'chk_is_first_day_unit' returns TRUE with valid dates", {
-    expect_true(chk_is_first_day_unit(x = as.Date(c("2001-01-01", "2002-01-01")),
+test_that("'chk_is_first_day_unit_scalar' returns expected message with invalid dates", {
+    expect_identical(chk_is_first_day_unit_scalar(x = "2002-01-02",
+                                                  name = "x",
+                                                  unit = "month"),
+                     "'x' [\"2002-01-02\"] is not the first day of the month")
+    expect_identical(chk_is_first_day_unit_scalar(x = "2001-02-01",
+                                                  name = "x",
+                                                  unit = "quarter"),
+                     "'x' [\"2001-02-01\"] is not the first day of the quarter")
+    expect_identical(chk_is_first_day_unit_scalar(x = "2001-01-02",
+                                                  name = "x",
+                                                  unit = "year"),
+                     paste("'x' [\"2001-01-02\"] is not the first day of the year",
+                           "(years assumed to start on the first day of January)"))
+})
+
+## chk_is_first_day_unit_vector
+
+test_that("'chk_is_first_day_unit_vector' returns TRUE with valid dates", {
+    expect_true(chk_is_first_day_unit_vector(x = as.Date(c("2001-01-01", "2002-01-01")),
                                            name = "x",
                                            unit = "month"))
-    expect_true(chk_is_first_day_unit(x = as.Date(c("2001-10-01", "2002-01-01")),
+    expect_true(chk_is_first_day_unit_vector(x = as.Date(c("2001-10-01", "2002-01-01")),
                                            name = "x",
                                            unit = "quarter"))
+    expect_true(chk_is_first_day_unit_vector(x = as.Date(c("2001-10-01", "2002-10-01")),
+                                      name = "x",
+                                      unit = "year"))
+    expect_true(chk_is_first_day_unit_vector(x = as.Date(c("2001-10-01", "2010-10-01")),
+                                      name = "x",
+                                      unit = "year"))
 })
 
-test_that("'chk_is_first_day_unit' returns expected message with invalid dates", {
-    expect_identical(chk_is_first_day_unit(x = as.Date(c("2001-01-01", "2002-01-02")),
+test_that("'chk_is_first_day_unit_vector' returns expected message with invalid dates", {
+    expect_identical(chk_is_first_day_unit_vector(x = as.Date(c("2001-01-01", "2002-01-02")),
                                                 name = "x",
                                                 unit = "month"),
                      "element 2 [\"2002-01-02\"] of 'x' is not the first day of the month")
-    expect_identical(chk_is_first_day_unit(x = as.Date(c("2001-01-01", "2001-02-01")),
+    expect_identical(chk_is_first_day_unit_vector(x = as.Date(c("2001-01-01", "2001-02-01")),
                                                 name = "x",
                                                 unit = "quarter"),
                      "element 2 [\"2001-02-01\"] of 'x' is not the first day of the quarter")
+    expect_identical(chk_is_first_day_unit_vector(x = as.Date(c("2001-01-01", "2001-02-01")),
+                                           name = "x",
+                                           unit = "year"),
+                     paste("element 2 [\"2001-02-01\"] of 'x' is not the first day of the year",
+                           "(years assumed to start on the first day of January)"))
+    expect_identical(chk_is_first_day_unit_vector(x = as.Date(c("2001-01-01", "2005-01-02")),
+                                           name = "x",
+                                           unit = "year"),
+                     paste("element 2 [\"2005-01-02\"] of 'x' is not the first day of the year",
+                           "(years assumed to start on the first day of January)"))
 })
-
 
 ## chk_is_first_day_unit_consec
 
 test_that("'chk_is_first_day_unit_consec' returns TRUE with valid dates", {
     expect_true(chk_is_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-02-01")),
-                                              name = "x",
-                                              unit = "month"))
+                                             name = "x",
+                                             unit = "month"))
     expect_true(chk_is_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-04-01")),
-                                              name = "x",
-                                              unit = "quarter"))
+                                             name = "x",
+                                             unit = "quarter"))
     expect_true(chk_is_first_day_unit_consec(x = as.Date("2001-01-01"),
-                                              name = "x",
-                                              unit = "quarter"))
+                                             name = "x",
+                                             unit = "quarter"))
     expect_true(chk_is_first_day_unit_consec(x = as.Date(c("2000-10-1", "2001-01-01")),
-                                              name = "x",
-                                              unit = "quarter"))
+                                             name = "x",
+                                             unit = "quarter"))
 })
 
 test_that("'chk_is_first_day_unit_consec' returns expected message with invalid dates", {
     expect_identical(chk_is_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-03-01")),
-                                                       name = "x",
-                                                       unit = "month"),
+                                                  name = "x",
+                                                  unit = "month"),
                      "dates \"2001-01-01\" and \"2001-03-01\" in 'x' do not belong to consecutive months")
 })
 
@@ -318,26 +406,26 @@ test_that("'chk_is_multiple_of' returns TRUE with valid inputs", {
                                    x2 = 5L,
                                    name1 = "x1",
                                    name2 = "x2",
-                                   inf_ok = FALSE))
-    expect_true(chk_is_multiple_of(x1 = Inf,
+                                   null_ok = FALSE))
+    expect_true(chk_is_multiple_of(x1 = NULL,
                                    x2 = 5L,
                                    name1 = "x1",
                                    name2 = "x2",
-                                   inf_ok = TRUE))
+                                   null_ok = TRUE))
 })
 
 test_that("'chk_is_multiple_of' returns expected message with invalid argument", {
-    expect_identical(chk_is_multiple_of(x1 = Inf,
+    expect_identical(chk_is_multiple_of(x1 = NULL,
                                         x2 = 5L,
                                         name1 = "x1",
                                         name2 = "x2",
-                                        inf_ok = FALSE),
-                     "'x1' is non-finite")
+                                        null_ok = FALSE),
+                     "'x1' is NULL")
     expect_identical(chk_is_multiple_of(x1 = 31L,
                                         x2 = 5L,
                                         name1 = "x1",
                                         name2 = "x2",
-                                        inf_ok = FALSE),
+                                        null_ok = FALSE),
                      "'x1' [31] is not a multiple of 'x2' [5]")
 })
 
@@ -348,23 +436,23 @@ test_that("'chk_is_multiple_of_n' returns TRUE with valid inputs", {
     expect_true(chk_is_multiple_of_n(x = 30L,
                                      name = "x",
                                      n = 5L,
-                                     inf_ok = FALSE))
-    expect_true(chk_is_multiple_of_n(x = Inf,
+                                     null_ok = FALSE))
+    expect_true(chk_is_multiple_of_n(x = NULL,
                                      name = "x",
                                      n = 5L,
-                                     inf_ok = TRUE))
+                                     null_ok = TRUE))
 })
 
 test_that("'chk_is_multiple_of_n' returns expected message with invalid argument", {
-    expect_identical(chk_is_multiple_of_n(x = Inf,
+    expect_identical(chk_is_multiple_of_n(x = NULL,
                                           name = "x",
                                           n = 5L,
-                                          inf_ok = FALSE),
-                     "'x' is non-finite")
+                                          null_ok = FALSE),
+                     "'x' is NULL")
     expect_identical(chk_is_multiple_of_n(x = 31L,
                                           name = "x",
                                           n = 5L,
-                                          inf_ok = FALSE),
+                                          null_ok = FALSE),
                      "'x' [31] is not a multiple of 5")
 })
 
@@ -491,23 +579,29 @@ test_that("'chk_is_string' returns expected message with invalid argument", {
 
 test_that("'chk_is_strictly_increasing' returns TRUE with valid vector", {
     expect_true(chk_is_strictly_increasing(x = 1,
-                              name = "x"))
+                                           name = "x"))
     expect_true(chk_is_strictly_increasing(x = 1:3,
-                              name = "x"))
+                                           name = "x"))
     expect_true(chk_is_strictly_increasing(x = c(-Inf, 0, Inf),
-                              name = "x"))
+                                           name = "x"))
+    expect_true(chk_is_strictly_increasing(x = as.Date(c("2001-01-01", "2002-01-01")),
+                                           name = "x"))
 })
 
 test_that("'chk_is_strictly_increasing' returns expected message with invalid argument", {
     expect_identical(chk_is_strictly_increasing(x = "a",
                                                 name = "x"),
-                     "'x' does not have type \"numeric\"")
+                     "'x' does not have class \"Date\" or \"numeric\"")
     expect_identical(chk_is_strictly_increasing(x = NA_integer_,
                                                 name = "x"),
                      "'x' has NAs")
     expect_identical(chk_is_strictly_increasing(x = c(1, 3, 2),
                                                 name = "x"),
                      "'x' is not strictly increasing : element 2 [3] is greater than or equal to element 3 [2]")
+    expect_identical(chk_is_strictly_increasing(x = as.Date(c("2002-01-01", "2002-01-01")),
+                                                name = "x"),
+                                                paste("'x' is not strictly increasing : element 1 [2002-01-01]",
+                                                      "is greater than or equal to element 2 [2002-01-01]"))
 })
 
 
@@ -578,40 +672,39 @@ test_that("'chk_length_same_or_1' returns expected message with invalid argument
 })
 
 
-## chk_lt_age_max
+## chk_lt_break_max_age
 
-test_that("'chk_lt_age_max' returns TRUE with valid inputs", {
-    expect_true(chk_lt_age_max(age = 5L,
-                               age_max = 10L,
-                               date = as.Date("2005-01-02"),
-                               dob = as.Date("2000-01-01"),
-                               unit = "year"))
+test_that("'chk_lt_break_max_age' returns TRUE with valid inputs", {
+    expect_true(chk_lt_break_max_age(age = 5L,
+                                     break_max = 10L,
+                                     date = as.Date("2005-01-02"),
+                                     dob = as.Date("2000-01-01"),
+                                     unit = "year"))
 })
 
-test_that("'chk_lt_age_max' returns expected message with invalid dates", {
-    expect_identical(chk_lt_age_max(age = 5L,
-                                    age_max = 5L,
-                                    date = as.Date("2005-01-02"),
-                                    dob = as.Date("2000-01-01"),
-                                    unit = "year"),
-                     "'date' [\"2005-01-02\"] and 'dob' [\"2000-01-01\"] imply an age of 5 years, which is greater than or equal to 'age_max' [5 years]")
+test_that("'chk_lt_break_max_age' returns expected message with invalid dates", {
+    expect_identical(chk_lt_break_max_age(age = 5L,
+                                          break_max = 5L,
+                                          date = as.Date("2005-01-02"),
+                                          dob = as.Date("2000-01-01"),
+                                          unit = "year"),
+                     "'date' [\"2005-01-02\"] and 'dob' [\"2000-01-01\"] imply an age of 5 years, which is greater than or equal to 'break_max' [5 years]")
 })
 
 
-## chk_lt_year_max
+## chk_lt_break_max_date
 
-test_that("'chk_lt_year_max' returns TRUE with valid inputs", {
-    expect_true(chk_lt_year_max(date = as.Date(c("2001-02-20", "2005-11-24", NA)),
-                                year_max = 2010L,
-                                first_month = "Jan"))
+test_that("'chk_lt_break_max_date' returns TRUE with valid inputs", {
+    expect_true(chk_lt_break_max_date(date = as.Date(c("2001-02-20", "2005-11-24", NA)),
+                                      break_max = as.Date("2010-01-01")))
+    expect_true(chk_lt_break_max_date(date = as.Date(c("2001-02-20", "2005-11-24", NA)),
+                                      break_max = NULL))
 })
 
-test_that("'chk_lt_year_max' returns expected message with invalid dates", {
-    expect_identical(chk_lt_year_max(date = as.Date(c("2001-02-20", "2005-11-24", NA)),
-                                     year_max = 2002L,
-                                     first_month = "Jan"),
-                     paste("'date' has value [\"2005-11-24\"] that is greater than or equal to the",
-                           "maximum date implied by 'year_max' and 'first_month' [\"2002-01-01\"]"))
+test_that("'chk_lt_break_max_date' returns expected message with invalid dates", {
+    expect_identical(chk_lt_break_max_date(date = as.Date(c("2001-02-20", "2005-11-24", NA)),
+                                           break_max = "2002-01-01"),
+                     "'date' has value [\"2005-11-24\"] that is greater than or equal to 'break_max' [\"2002-01-01\"]")
 })
 
     

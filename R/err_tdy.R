@@ -19,6 +19,8 @@
 #' \code{NULL} is equivalent to \code{"year"}.
 #'
 #' @inheritParams composite
+#' @param open_left Logical. Whether interval open on left.
+#' @param open_right Logical. Whether interval open on right.
 #' 
 #' @return When err_tdy* can format \code{x} as required,
 #' it returns the value; otherwise it raises an error.
@@ -29,7 +31,140 @@ NULL
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_breaks_integer <- function(x, name) {
+err_tdy_break_min_max_date <- function(break_min, break_max, unit, null_ok) {
+    min_null <- is.null(break_min)
+    max_null <- is.null(break_max)
+    if (null_ok) {
+        if (min_null && max_null)
+            stop(gettextf("'%s' and '%s' both %s",
+                          "break_min", "break_max", "NULL"),
+                 call. = FALSE)
+    }
+    else {
+        if (min_null)
+            stop(gettextf("'%s' is %s",
+                          "break_min", "NULL"),
+                 call. = FALSE)
+        if (max_null)
+            stop(gettextf("'%s' is %s",
+                          "break_max", "NULL"),
+                 call. = FALSE)
+    }
+    if (!min_null) {
+        break_min <- err_tdy_date_scalar(x = break_min,
+                                         name = "break_min")
+        err_is_first_day_unit_scalar(x = break_min,
+                                     name = "break_min",
+                                     unit = unit)
+    }
+    if (!max_null) {
+        break_max <- err_tdy_date_scalar(x = break_max,
+                                         name = "break_max")
+        err_is_first_day_unit_scalar(x = break_max,
+                                     name = "break_max",
+                                     unit = unit)
+    }
+    if (!min_null && !max_null) {
+        err_is_gt_scalar(x1 = break_max,
+                         x2 = break_min,
+                         name1 = "break_max",
+                         name2 = "break_min")
+    }
+    list(break_min = break_min,
+         break_max = break_max)
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname err_tdy
+err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok) {
+    min_null <- is.null(break_min)
+    max_null <- is.null(break_max)
+    if (null_ok) {
+        if (min_null && max_null)
+            stop(gettextf("'%s' and '%s' both %s",
+                          "break_min", "break_max", "NULL"),
+                 call. = FALSE)
+    }
+    else {
+        if (min_null)
+            stop(gettextf("'%s' is %s",
+                          "break_min", "NULL"),
+                 call. = FALSE)
+        if (max_null)
+            stop(gettextf("'%s' is %s",
+                          "break_max", "NULL"),
+                 call. = FALSE)
+    }
+    break_min <- demcheck::err_tdy_non_negative_integer_scalar(x = break_min,
+                                                               name = "break_min",
+                                                               null_ok = null_ok)
+    break_max <- demcheck::err_tdy_positive_integer_scalar(x = break_max,
+                                                           name = "break_max",
+                                                           null_ok = null_ok)
+    if (!min_null && !max_null) {
+        demcheck::err_is_gt_scalar(x1 = break_max,
+                                   x2 = break_min,
+                                   name1 = "break_max",
+                                   name2 = "break_min")
+    }
+    list(break_min = break_min,
+         break_max = break_max)
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname err_tdy
+err_tdy_breaks_date <- function(x, name, open_left, open_right) {
+    n <- length(x)
+    if (n == 0L) {
+        if (open_left)
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          name, 0L, "open_left", "TRUE"),
+                 call. = FALSE)
+        if (open_right)
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          name, 0L, "open_right", "TRUE"),
+                 call. = FALSE)
+        return(as.Date(as.character()))
+    }
+    if (n == 1L) {
+        if (!open_left && !open_right)
+            stop(gettextf("'%s' has length %d but '%s' and '%s' are both %s",
+                          name, 1L, "open_left", "open_right", "FALSE"),
+                 call. = FALSE)
+    }
+    err_is_not_na_vector(x = x,
+                         name = name)
+    x <- err_tdy_date_vector(x = x,
+                             name = name)
+    err_is_strictly_increasing(x = x,
+                               name = name)
+    x
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname err_tdy
+err_tdy_breaks_integer <- function(x, name, open_left, open_right) {
+    n <- length(x)
+    if (n == 0L) {
+        if (open_left)
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          name, 0L, "open_left", "TRUE"),
+                 call. = FALSE)
+        if (open_right)
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          name, 0L, "open_right", "TRUE"),
+                 call. = FALSE)
+        return(integer())
+    }
+    if (n == 1L) {
+        if (!open_left && !open_right)
+            stop(gettextf("'%s' has length %d but '%s' and '%s' are both %s",
+                          name, 1L, "open_left", "open_right", "FALSE"),
+                 call. = FALSE)
+    }
     err_is_not_na_vector(x = x,
                          name = name)
     err_is_finite_vector(x = x,
@@ -44,18 +179,38 @@ err_tdy_breaks_integer <- function(x, name) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_date <- function(x, name) {
+err_tdy_date_scalar <- function(x, name) {
+    err_is_length_1(x = x,
+                    name = name)
     if (inherits(x, "Date"))
         return(x)
-    x_date <- tryCatch(error = function(cnd) cnd$message,
+    x_date <- tryCatch(error = function(X) X,
                        as.Date(x))
-    if (is.character(x_date))
+    if (inherits(x_date, "error"))
+        stop(gettextf("'%s' [\"%s\"] not equivalent to date : %s",
+                      name, x, x_date$message),
+             call. = FALSE)
+    x_date
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname err_tdy
+err_tdy_date_vector <- function(x, name) {
+    if (inherits(x, "Date"))
+        return(x)
+    x_date <- tryCatch(error = function(X) X,
+                       as.Date(x))
+    if (inherits(x_date, "error"))
         stop(gettextf("'%s' [%s] not equivalent to dates : %s",
-                        name, string_subset_vec(x), x_date))
+                      name, string_subset_vec(x), x_date$message),
+             call. = FALSE)
     is_not_equiv <- !is.na(x) & (is.na(x_date) | (x_date != x))
-    if (any(is_not_equiv))
-        stop(gettextf("value '%s' in '%s' not equivalent to date",
-                        x[is_not_equiv][[1L]], name))
+    i_not_equiv <- match(TRUE, is_not_equiv, nomatch = 0L)
+    if (i_not_equiv > 0L)
+        stop(gettextf("value \"%s\" in '%s' not equivalent to date",
+                      x[[i_not_equiv]], name),
+             call. = FALSE)
     x_date
 }
 
@@ -63,10 +218,10 @@ err_tdy_date <- function(x, name) {
 #' @export
 #' @rdname err_tdy
 err_tdy_date_dob <- function(date, dob) {
-    date <- err_tdy_date(x = date,
-                         name = "date")
-    dob <- err_tdy_date(x = dob,
-                        name = "dob")
+    date <- err_tdy_date_vector(x = date,
+                                name = "date")
+    dob <- err_tdy_date_vector(x = dob,
+                               name = "dob")
     l <- err_tdy_same_length(x1 = date,
                              x2 = dob,
                              name1 = "date",
@@ -97,16 +252,23 @@ err_tdy_first_month <- function(x, name) {
     if (i > 0L)
         return(valid_abb[[i]])
     stop(gettextf("invalid value for '%s' : \"%s\"",
-                  name, x))
+                  name, x),
+         call. = FALSE)
 }
 
 
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_integer_scalar <- function(x, name, inf_ok = FALSE) {
-    if (inf_ok && (identical(x, -Inf) || identical(x, Inf)))
-        return(x)
+err_tdy_integer_scalar <- function(x, name, null_ok = FALSE) {
+    if (is.null(x)) {
+        if (null_ok)
+            return(x)
+        else
+            stop(gettextf("'%s' is %s",
+                          "x", "NULL"),
+                 call. = FALSE)
+    }
     err_is_length_1(x = x,
                     name = name)
     if (is.integer(x))
@@ -115,7 +277,8 @@ err_tdy_integer_scalar <- function(x, name, inf_ok = FALSE) {
     is_not_equiv <- !is.na(x) && (is.na(x_int) || (x_int != x))
     if (is_not_equiv)
         stop(gettextf("'%s' [%s] not equivalent to integer",
-                      name, x))
+                      name, x),
+             call. = FALSE)
     x_int
 }
 
@@ -129,7 +292,8 @@ err_tdy_integer_vector <- function(x, name) {
     is_not_equiv <- !is.na(x) & (is.na(x_int) | (x_int != x))
     if (any(is_not_equiv))
         stop(gettextf("value '%s' in '%s' not equivalent to integer",
-                      x[is_not_equiv][[1L]], name))
+                      x[is_not_equiv][[1L]], name),
+             call. = FALSE)
     x_int
 }
 
@@ -139,19 +303,23 @@ err_tdy_integer_vector <- function(x, name) {
 err_tdy_many_to_one <- function(x, name) {
     if (!is.data.frame(x))
         stop(gettextf("'%s' is not a data.frame",
-                      name))
+                      name),
+             call. = FALSE)
     if (!identical(length(x), 2L))
         stop(gettextf("'%s' does not have %d columns",
-                      name, 2L))
+                      name, 2L),
+             call. = FALSE)
     if (identical(nrow(x), 0L))
         stop(gettextf("'%s' has %d rows",
-                      name, 0L))
+                      name, 0L),
+             call. = FALSE)
     err_is_not_na_dataframe(x = x,
                             name = name)
     is_unique <- sapply(x, function(x) !any(duplicated(x)))
     if (all(is_unique))
         stop(gettextf("neither column of '%s' has duplicates, as required for many-to-one mapping",
-                      name))
+                      name),
+             call. = FALSE)
     if (!any(is_unique))
         stop(gettextf("neither column of '%s' has entirely unique values, as required for many-to-one mapping",
                       name))
@@ -162,9 +330,15 @@ err_tdy_many_to_one <- function(x, name) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_non_negative_integer_scalar <- function(x, name, inf_ok = FALSE) {
-    if (inf_ok && identical(x, Inf))
-        return(x)
+err_tdy_non_negative_integer_scalar <- function(x, name, null_ok = FALSE) {
+    if (is.null(x)) {
+        if (null_ok)
+            return(x)
+        else
+            stop(gettextf("'%s' is %s",
+                          "x", "NULL"),
+                 call. = FALSE)
+    }
     err_is_non_negative_scalar(x = x,
                                name = name)
     if (is.integer(x))
@@ -173,16 +347,23 @@ err_tdy_non_negative_integer_scalar <- function(x, name, inf_ok = FALSE) {
     is_not_equiv <- is.na(x_int) || (x_int != x)
     if (is_not_equiv)
         stop(gettextf("'%s' [%s] not equivalent to integer",
-                      name, x))
+                      name, x),
+             call. = FALSE)
     x_int
 }
 
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_positive_integer_scalar <- function(x, name, inf_ok = FALSE) {
-    if (inf_ok && identical(x, Inf))
-        return(x)
+err_tdy_positive_integer_scalar <- function(x, name, null_ok = FALSE) {
+    if (is.null(x)) {
+        if (null_ok)
+            return(x)
+        else
+            stop(gettextf("'%s' is %s",
+                          "x", "NULL"),
+                 call. = FALSE)
+    }
     err_is_positive_scalar(x = x,
                            name = name)
     if (is.integer(x))
@@ -191,7 +372,8 @@ err_tdy_positive_integer_scalar <- function(x, name, inf_ok = FALSE) {
     is_not_equiv <- is.na(x_int) || (x_int != x)
     if (is_not_equiv)
         stop(gettextf("'%s' [%s] not equivalent to integer",
-                      name, x))
+                      name, x),
+             call. = FALSE)
     x_int
 }
 
@@ -235,7 +417,8 @@ err_tdy_unit <- function(x, name) {
         n <- as.integer(sub("^(-?[0-9]+).*$", "\\1", x))
         if (n < 1L)
             stop(gettextf("'%s' has invalid value [\"%s\"] : number of years less than %d",
-                          name, x, 1L))
+                          name, x, 1L),
+                 call. = FALSE)
         return(x)
     }
     stop(gettextf("'%s' has invalid value [\"%s\"]",

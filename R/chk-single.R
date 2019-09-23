@@ -70,14 +70,36 @@ chk_is_date <- function(x, name) {
 ## HAS_TESTS
 #' @export
 #' @rdname single
-chk_is_date_equiv <- function(x, name) {
+chk_is_date_equiv_scalar <- function(x, name) {
     val <- tryCatch(error = function(e) e,
-                    err_tdy_date(x = x,
-                                 name = name))
+                    err_tdy_date_scalar(x = x,
+                                        name = name))
     if (methods::is(val, "error"))
         val$message
     else
         TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname single
+chk_is_date_equiv_vector <- function(x, name) {
+    val <- tryCatch(error = function(e) e,
+                    err_tdy_date_vector(x = x,
+                                        name = name))
+    if (methods::is(val, "error"))
+        val$message
+    else
+        TRUE
+}
+
+#' @export
+#' @rdname single
+chk_is_date_or_numeric <- function(x, name) {
+    if (!inherits(x, "Date") && !is.numeric(x))
+        return(gettextf("'%s' does not have class \"%s\" or \"%s\"",
+                        name, "Date", "numeric"))
+    TRUE
 }
 
 #' @export

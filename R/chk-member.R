@@ -24,9 +24,11 @@ NULL
 #' @export
 #' @rdname member
 chk_member_unit <- function(x, name) {
-    valid_members <- c("month", "quarter")
-    val <- chk_is_string(x = x, name = name)
-    if (!isTRUE(val)) return(val)
+    valid_members <- c("month", "quarter", "year")
+    val <- chk_is_string(x = x,
+                         name = name)
+    if (!isTRUE(val))
+        return(val)
     if (!(x %in% valid_members))
         return(gettextf("value for '%s' [\"%s\"] is not a permitted time unit",
                         name, x))

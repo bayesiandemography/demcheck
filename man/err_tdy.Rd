@@ -2,8 +2,12 @@
 % Please edit documentation in R/err_tdy.R
 \name{err_tdy}
 \alias{err_tdy}
+\alias{err_tdy_break_min_max_date}
+\alias{err_tdy_break_min_max_integer}
+\alias{err_tdy_breaks_date}
 \alias{err_tdy_breaks_integer}
-\alias{err_tdy_date}
+\alias{err_tdy_date_scalar}
+\alias{err_tdy_date_vector}
 \alias{err_tdy_date_dob}
 \alias{err_tdy_first_month}
 \alias{err_tdy_integer_scalar}
@@ -15,41 +19,58 @@
 \alias{err_tdy_unit}
 \title{Try to tidy a value}
 \usage{
-err_tdy_breaks_integer(x, name)
+err_tdy_break_min_max_date(break_min, break_max, unit, null_ok)
 
-err_tdy_date(x, name)
+err_tdy_break_min_max_integer(break_min, break_max, null_ok)
+
+err_tdy_breaks_date(x, name, open_left, open_right)
+
+err_tdy_breaks_integer(x, name, open_left, open_right)
+
+err_tdy_date_scalar(x, name)
+
+err_tdy_date_vector(x, name)
 
 err_tdy_date_dob(date, dob)
 
 err_tdy_first_month(x, name)
 
-err_tdy_integer_scalar(x, name, inf_ok = FALSE)
+err_tdy_integer_scalar(x, name, null_ok = FALSE)
 
 err_tdy_integer_vector(x, name)
 
 err_tdy_many_to_one(x, name)
 
-err_tdy_non_negative_integer_scalar(x, name, inf_ok = FALSE)
+err_tdy_non_negative_integer_scalar(x, name, null_ok = FALSE)
 
-err_tdy_positive_integer_scalar(x, name, inf_ok = FALSE)
+err_tdy_positive_integer_scalar(x, name, null_ok = FALSE)
 
 err_tdy_same_length(x1, x2, name1, name2)
 
 err_tdy_unit(x, name)
 }
 \arguments{
+\item{break_min}{First value for breaks.}
+
+\item{break_max}{Last value for breaks.}
+
+\item{unit}{Measurement units for time, eg \code{"month"}.}
+
+\item{null_ok}{Whether to allow \code{NULL}.}
+
 \item{x}{The object being checked.}
 
 \item{name}{The name used in any message. Typically,
 but not always, the name of \code{x}.}
 
+\item{open_left}{Logical. Whether interval open on left.}
+
+\item{open_right}{Logical. Whether interval open on right.}
+
 \item{date}{Date on which event occurred or measurement made.
 Object of class "Date".}
 
 \item{dob}{Date of birth. Object of class "Date".}
-
-\item{inf_ok}{Whether to allow \code{Inf} (or sometimes
-\code{-Inf}.)}
 
 \item{x1}{The first of a pair of objects being checked.}
 

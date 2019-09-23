@@ -31,6 +31,24 @@ err_character_complete <- function(x, name) {
 
 #' @export
 #' @rdname composite
+err_date_consistent_with_first_month <- function(x, name, first_month) {
+    val <- chk_date_consistent_with_first_month(x, name, first_month)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_date_consistent_with_width_origin <- function(x, name, origin, width) {
+    val <- chk_date_consistent_with_width_origin(x, name, origin, width)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
 err_dimnames_complete <- function(x, name) {
     val <- chk_dimnames_complete(x, name)
     if (is.character(val))
@@ -40,8 +58,8 @@ err_dimnames_complete <- function(x, name) {
 
 #' @export
 #' @rdname composite
-err_ge_age_min <- function(age, age_min, date, dob, unit) {
-    val <- chk_ge_age_min(age, age_min, date, dob, unit)
+err_ge_break_min_age <- function(age, break_min, date, dob, unit) {
+    val <- chk_ge_break_min_age(age, break_min, date, dob, unit)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -49,8 +67,8 @@ err_ge_age_min <- function(age, age_min, date, dob, unit) {
 
 #' @export
 #' @rdname composite
-err_ge_year_min <- function(date, year_min, first_month) {
-    val <- chk_ge_year_min(date, year_min, first_month)
+err_ge_break_min_date <- function(date, break_min) {
+    val <- chk_ge_break_min_date(date, break_min)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -58,8 +76,17 @@ err_ge_year_min <- function(date, year_min, first_month) {
 
 #' @export
 #' @rdname composite
-err_is_first_day_unit <- function(x, name, unit) {
-    val <- chk_is_first_day_unit(x, name, unit)
+err_is_first_day_unit_scalar <- function(x, name, unit) {
+    val <- chk_is_first_day_unit_scalar(x, name, unit)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_is_first_day_unit_vector <- function(x, name, unit) {
+    val <- chk_is_first_day_unit_vector(x, name, unit)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -130,8 +157,8 @@ err_is_logical_flag <- function(x, name) {
 
 #' @export
 #' @rdname composite
-err_is_multiple_of <- function(x1, x2, name1, name2, inf_ok) {
-    val <- chk_is_multiple_of(x1, x2, name1, name2, inf_ok)
+err_is_multiple_of <- function(x1, x2, name1, name2, null_ok) {
+    val <- chk_is_multiple_of(x1, x2, name1, name2, null_ok)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -139,8 +166,8 @@ err_is_multiple_of <- function(x1, x2, name1, name2, inf_ok) {
 
 #' @export
 #' @rdname composite
-err_is_multiple_of_n <- function(x, name, n, inf_ok) {
-    val <- chk_is_multiple_of_n(x, name, n, inf_ok)
+err_is_multiple_of_n <- function(x, name, n, null_ok) {
+    val <- chk_is_multiple_of_n(x, name, n, null_ok)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -220,8 +247,8 @@ err_length_same_or_1 <- function(x1, x2, name1, name2) {
 
 #' @export
 #' @rdname composite
-err_lt_age_max <- function(age, age_max, date, dob, unit) {
-    val <- chk_lt_age_max(age, age_max, date, dob, unit)
+err_lt_break_max_age <- function(age, break_max, date, dob, unit) {
+    val <- chk_lt_break_max_age(age, break_max, date, dob, unit)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -229,8 +256,8 @@ err_lt_age_max <- function(age, age_max, date, dob, unit) {
 
 #' @export
 #' @rdname composite
-err_lt_year_max <- function(date, year_max, first_month) {
-    val <- chk_lt_year_max(date, year_max, first_month)
+err_lt_break_max_date <- function(date, break_max) {
+    val <- chk_lt_break_max_date(date, break_max)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

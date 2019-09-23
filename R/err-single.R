@@ -49,8 +49,26 @@ err_is_date <- function(x, name) {
 
 #' @export
 #' @rdname single
-err_is_date_equiv <- function(x, name) {
-    val <- chk_is_date_equiv(x, name)
+err_is_date_equiv_scalar <- function(x, name) {
+    val <- chk_is_date_equiv_scalar(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
+err_is_date_equiv_vector <- function(x, name) {
+    val <- chk_is_date_equiv_vector(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
+err_is_date_or_numeric <- function(x, name) {
+    val <- chk_is_date_or_numeric(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
