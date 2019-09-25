@@ -96,7 +96,7 @@ err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok) {
                           "break_max", "NULL"),
                  call. = FALSE)
     }
-    break_min <- demcheck::err_tdy_non_negative_integer_scalar(x = break_min,
+    break_min <- demcheck::err_tdy_non_negative_integer_scalar(x = break_min, 
                                                                name = "break_min",
                                                                null_ok = null_ok)
     break_max <- demcheck::err_tdy_positive_integer_scalar(x = break_max,
