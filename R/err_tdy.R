@@ -266,7 +266,7 @@ err_tdy_integer_scalar <- function(x, name, null_ok = FALSE) {
             return(x)
         else
             stop(gettextf("'%s' is %s",
-                          "x", "NULL"),
+                          name, "NULL"),
                  call. = FALSE)
     }
     err_is_length_1(x = x,
@@ -336,7 +336,7 @@ err_tdy_non_negative_integer_scalar <- function(x, name, null_ok = FALSE) {
             return(x)
         else
             stop(gettextf("'%s' is %s",
-                          "x", "NULL"),
+                          name, "NULL"),
                  call. = FALSE)
     }
     err_is_non_negative_scalar(x = x,
@@ -361,7 +361,7 @@ err_tdy_positive_integer_scalar <- function(x, name, null_ok = FALSE) {
             return(x)
         else
             stop(gettextf("'%s' is %s",
-                          "x", "NULL"),
+                          name, "NULL"),
                  call. = FALSE)
     }
     err_is_positive_scalar(x = x,
