@@ -9,10 +9,10 @@
 \alias{err_tdy_date_scalar}
 \alias{err_tdy_date_vector}
 \alias{err_tdy_date_dob}
-\alias{err_tdy_first_month}
 \alias{err_tdy_integer_scalar}
 \alias{err_tdy_integer_vector}
 \alias{err_tdy_many_to_one}
+\alias{err_tdy_month_start}
 \alias{err_tdy_non_negative_integer_scalar}
 \alias{err_tdy_positive_integer_scalar}
 \alias{err_tdy_same_length}
@@ -33,13 +33,13 @@ err_tdy_date_vector(x, name)
 
 err_tdy_date_dob(date, dob)
 
-err_tdy_first_month(x, name)
-
 err_tdy_integer_scalar(x, name, null_ok = FALSE)
 
 err_tdy_integer_vector(x, name)
 
 err_tdy_many_to_one(x, name)
+
+err_tdy_month_start(x, name)
 
 err_tdy_non_negative_integer_scalar(x, name, null_ok = FALSE)
 

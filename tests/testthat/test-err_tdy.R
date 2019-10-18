@@ -340,21 +340,21 @@ test_that("'err_tdy_date_dob' returns dates with valid input", {
 })
 
 
-## err_tdy_first_month
+## err_tdy_month_start
 
-test_that("'err_tdy_first_month' returns day and month with valid input", {
-    expect_identical(err_tdy_first_month("January"),
+test_that("'err_tdy_month_start' returns day and month with valid input", {
+    expect_identical(err_tdy_month_start("January"),
                      "Jan")
-    expect_identical(err_tdy_first_month("Jan"),
+    expect_identical(err_tdy_month_start("Jan"),
                      "Jan")
-    expect_identical(err_tdy_first_month("feb"),
+    expect_identical(err_tdy_month_start("feb"),
                      "Feb")
-    expect_identical(err_tdy_first_month("march"),
+    expect_identical(err_tdy_month_start("march"),
                      "Mar")
 })
 
-test_that("'err_tdy_first_month' raises expected error with invalid input", {
-    expect_error(err_tdy_first_month(x = "wrong",
+test_that("'err_tdy_month_start' raises expected error with invalid input", {
+    expect_error(err_tdy_month_start(x = "wrong",
                                      name = "x"),
                  "invalid value for 'x' : \"wrong\"")
 })

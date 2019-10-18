@@ -31,8 +31,8 @@ err_character_complete <- function(x, name) {
 
 #' @export
 #' @rdname composite
-err_date_consistent_with_first_month <- function(x, name, first_month) {
-    val <- chk_date_consistent_with_first_month(x, name, first_month)
+err_date_consistent_with_month_start <- function(x, name, month_start) {
+    val <- chk_date_consistent_with_month_start(x, name, month_start)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

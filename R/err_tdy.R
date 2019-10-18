@@ -239,27 +239,6 @@ err_tdy_date_dob <- function(date, dob) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_first_month <- function(x, name) {
-    err_is_string(x = x,
-                  name = name)
-    s <- ISOdate(2000, 1:12, 1)
-    valid_abb <- format(s, format = "%b")
-    valid_full <- format(s, format = "%B")
-    i <- match(tolower(x), tolower(valid_abb), nomatch = 0L)
-    if (i > 0L)
-        return(valid_abb[[i]])
-    i <- match(tolower(x), tolower(valid_full), nomatch = 0L)
-    if (i > 0L)
-        return(valid_abb[[i]])
-    stop(gettextf("invalid value for '%s' : \"%s\"",
-                  name, x),
-         call. = FALSE)
-}
-
-
-## HAS_TESTS
-#' @export
-#' @rdname err_tdy
 err_tdy_integer_scalar <- function(x, name, null_ok = FALSE) {
     if (is.null(x)) {
         if (null_ok)
@@ -325,6 +304,25 @@ err_tdy_many_to_one <- function(x, name) {
                       name))
     x[] <- lapply(x, as.character)
     x        
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname err_tdy
+err_tdy_month_start <- function(x, name) {
+    err_is_string(x = x,
+                  name = name)
+    valid_abb <- month.abb
+    valid_full <- month.name
+    i <- match(tolower(x), tolower(valid_abb), nomatch = 0L)
+    if (i > 0L)
+        return(valid_abb[[i]])
+    i <- match(tolower(x), tolower(valid_full), nomatch = 0L)
+    if (i > 0L)
+        return(valid_abb[[i]])
+    stop(gettextf("invalid value for '%s' : \"%s\"",
+                  name, x),
+         call. = FALSE)
 }
 
 ## HAS_TESTS

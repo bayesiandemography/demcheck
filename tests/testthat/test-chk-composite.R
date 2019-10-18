@@ -60,23 +60,23 @@ test_that("'chk_character_complete' returns expected message with invalid charac
 })
 
 
-## chk_date_consistent_with_first_month
+## chk_date_consistent_with_month_start
 
-test_that("'chk_date_consistent_with_first_month' returns TRUE with inputs", {
-    expect_true(chk_date_consistent_with_first_month(x = as.Date("2000-01-01"),
+test_that("'chk_date_consistent_with_month_start' returns TRUE with inputs", {
+    expect_true(chk_date_consistent_with_month_start(x = as.Date("2000-01-01"),
                                                      name = "x",
-                                                     first_month = "Jan"))
-    expect_true(chk_date_consistent_with_first_month(x = as.Date("2000-12-01"),
+                                                     month_start = "Jan"))
+    expect_true(chk_date_consistent_with_month_start(x = as.Date("2000-12-01"),
                                                      name = "x",
-                                                     first_month = "Dec"))
+                                                     month_start = "Dec"))
 })
 
-test_that("'chk_date_consistent_with_first_month' returns expected message with invalid argument", {
-    expect_identical(chk_date_consistent_with_first_month(x = as.Date("2000-01-01"),
+test_that("'chk_date_consistent_with_month_start' returns expected message with invalid argument", {
+    expect_identical(chk_date_consistent_with_month_start(x = as.Date("2000-01-01"),
                                                      name = "x",
-                                                     first_month = "Feb"),
+                                                     month_start = "Feb"),
                 paste("'x' [\"2000-01-01\"] implies that year starts in January, but",
-                      "'first_month' [\"Feb\"] implies that year starts in February"))
+                      "'month_start' [\"Feb\"] implies that year starts in February"))
 })
 
 
