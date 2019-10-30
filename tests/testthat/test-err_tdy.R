@@ -117,62 +117,62 @@ test_that("'err_tdy_break_min_max_integer' raises expected error with invalid in
 test_that("'err_tdy_breaks_date' returns breaks with valid input", {
     expect_identical(err_tdy_breaks_date(x = c("2000-01-01", "2001-01-01"),
                                          name = "x",
-                                         open_left = FALSE,
-                                         open_right = FALSE),
+                                         open_first = FALSE,
+                                         open_last = FALSE),
                      as.Date(c("2000-01-01", "2001-01-01")))
     expect_identical(err_tdy_breaks_date(x = c("2000-02-01", "2001-02-01"),
                                          name = "x",
-                                         open_left = FALSE,
-                                         open_right = FALSE),
+                                         open_first = FALSE,
+                                         open_last = FALSE),
                      as.Date(c("2000-02-01", "2001-02-01")))
     expect_identical(err_tdy_breaks_date(x = character(),
                                          name = "x",
-                                         open_left = FALSE,
-                                         open_right = FALSE),
+                                         open_first = FALSE,
+                                         open_last = FALSE),
                      as.Date(character()))
     expect_identical(err_tdy_breaks_date(x = as.Date("2000-01-01"),
                                          name = "x",
-                                         open_left = TRUE,
-                                         open_right = FALSE),
+                                         open_first = TRUE,
+                                         open_last = FALSE),
                      as.Date("2000-01-01"))
     expect_identical(err_tdy_breaks_date(x = as.Date("2000-01-01"),
                                          name = "x",
-                                         open_left = FALSE,
-                                         open_right = TRUE),
+                                         open_first = FALSE,
+                                         open_last = TRUE),
                      as.Date("2000-01-01"))
 })
     
 test_that("'err_tdy_breaks_date' raises expected error with invalid input", {
     expect_error(err_tdy_breaks_date(x = character(),
                                      name = "x",
-                                     open_left = TRUE,
-                                     open_right = FALSE),
-                 "'x' has length 0 but 'open_left' is TRUE")
+                                     open_first = TRUE,
+                                     open_last = FALSE),
+                 "'x' has length 0 but 'open_first' is TRUE")
     expect_error(err_tdy_breaks_date(x = character(),
                                      name = "x",
-                                     open_left = FALSE,
-                                     open_right = TRUE),
-                 "'x' has length 0 but 'open_right' is TRUE")
+                                     open_first = FALSE,
+                                     open_last = TRUE),
+                 "'x' has length 0 but 'open_last' is TRUE")
     expect_error(err_tdy_breaks_date(x = "2002-01-01",
                                      name = "x",
-                                     open_left = FALSE,
-                                     open_right = FALSE),
-                 "'x' has length 1 but 'open_left' and 'open_right' are both FALSE")
+                                     open_first = FALSE,
+                                     open_last = FALSE),
+                 "'x' has length 1 but 'open_first' and 'open_last' are both FALSE")
     expect_error(err_tdy_breaks_date(x = c("2002-01-01", "2001-01-01"),
                                      name = "x",
-                                     open_left = FALSE,
-                                     open_right = FALSE),
+                                     open_first = FALSE,
+                                     open_last = FALSE),
                  paste("'x' is not strictly increasing : element 1 \\[2002-01-01\\] is",
                        "greater than or equal to element 2 \\[2001-01-01\\]"))
     expect_error(err_tdy_breaks_date(x = c("2001-01-01", NA),
                                      name = "x",
-                                     open_left = FALSE,
-                                     open_right = FALSE),
+                                     open_first = FALSE,
+                                     open_last = FALSE),
                  "'x' has NAs")
     expect_error(err_tdy_breaks_date(x = c("2002-01-01", "2001-01-01"),
                                      name = "x",
-                                     open_left = FALSE,
-                                     open_right = FALSE),
+                                     open_first = FALSE,
+                                     open_last = FALSE),
                  paste("'x' is not strictly increasing : element 1 \\[2002-01-01\\] is",
                        "greater than or equal to element 2 \\[2001-01-01\\]"))
 })    
@@ -183,81 +183,81 @@ test_that("'err_tdy_breaks_date' raises expected error with invalid input", {
 test_that("'err_tdy_breaks_integer' returns breaks with valid input", {
     expect_identical(err_tdy_breaks_integer(x = 0:4,
                                             name = "x",
-                                            open_left = FALSE,
-                                            open_right = FALSE),
+                                            open_first = FALSE,
+                                            open_last = FALSE),
                      0:4)
     expect_identical(err_tdy_breaks_integer(x = c(0, 5),
                                             name = "x",
-                                            open_left = FALSE,
-                                            open_right = FALSE),
+                                            open_first = FALSE,
+                                            open_last = FALSE),
                      c(0L, 5L))
     expect_identical(err_tdy_breaks_integer(x = c(-5, 0, 1),
                                             name = "x",
-                                            open_left = FALSE,
-                                            open_right = FALSE),
+                                            open_first = FALSE,
+                                            open_last = FALSE),
                      c(-5L, 0L, 1L))
     expect_identical(err_tdy_breaks_integer(x = c(-5, 0, 1),
                                             name = "x",
-                                            open_left = FALSE,
-                                            open_right = FALSE),
+                                            open_first = FALSE,
+                                            open_last = FALSE),
                      c(-5L, 0L, 1L))
     expect_identical(err_tdy_breaks_integer(x = c(100, 101),
                                             name = "x",
-                                            open_left = FALSE,
-                                            open_right = FALSE),
+                                            open_first = FALSE,
+                                            open_last = FALSE),
                      c(100L, 101L))
     expect_identical(err_tdy_breaks_integer(x = integer(),
                                             name = "x",
-                                            open_left = FALSE,
-                                            open_right = FALSE),
+                                            open_first = FALSE,
+                                            open_last = FALSE),
                      integer())
     expect_identical(err_tdy_breaks_integer(x = 0,
                                             name = "x",
-                                            open_left = TRUE,
-                                            open_right = FALSE),
+                                            open_first = TRUE,
+                                            open_last = FALSE),
                      0L)
     expect_identical(err_tdy_breaks_integer(x = 0,
                                             name = "x",
-                                            open_left = FALSE,
-                                            open_right = TRUE),
+                                            open_first = FALSE,
+                                            open_last = TRUE),
                      0L)
 })
     
 test_that("'err_tdy_breaks_integer' raises expected error with invalid input", {
     expect_error(err_tdy_breaks_integer(x = numeric(),
                                         name = "x",
-                                        open_left = TRUE,
-                                        open_right = FALSE),
-                 "'x' has length 0 but 'open_left' is TRUE")
+                                        open_first = TRUE,
+                                        open_last = FALSE),
+                 "'x' has length 0 but 'open_first' is TRUE")
     expect_error(err_tdy_breaks_integer(x = numeric(),
                                         name = "x",
-                                        open_left = FALSE,
-                                        open_right = TRUE),
-                 "'x' has length 0 but 'open_right' is TRUE")
+                                        open_first = FALSE,
+                                        open_last = TRUE),
+                 "'x' has length 0 but 'open_last' is TRUE")
     expect_error(err_tdy_breaks_integer(x = 10,
                                         name = "x",
-                                        open_left = FALSE,
-                                        open_right = FALSE),
-                 "'x' has length 1 but 'open_left' and 'open_right' are both FALSE")
+                                        open_first = FALSE,
+                                        open_last = FALSE),
+                 "'x' has length 1 but 'open_first' and 'open_last' are both FALSE")
     expect_error(err_tdy_breaks_integer(x = c(0L, NA),
                                         name = "x",
-                                        open_left = FALSE,
-                                        open_right = FALSE),
+                                        open_first = FALSE,
+                                        open_last = FALSE),
                  "'x' has NAs")
     expect_error(err_tdy_breaks_integer(x = c(0L, Inf),
                                         name = "x",
-                                        open_left = FALSE,
-                                        open_right = FALSE),
+                                        open_first = FALSE,
+                                        open_last = FALSE),
                  "'x' has infinite values")
     expect_error(err_tdy_breaks_integer(x = c(0L, 1.1),
                                         name = "x",
-                                        open_left = FALSE,
-                                        open_right = FALSE),
+                                        open_first = FALSE,
+                                        open_last = FALSE),
                  "value '1.1' in 'x' not equivalent to integer")
     expect_error(err_tdy_breaks_integer(x = c(1L, 0L),
                                         name = "x",
-                                        open_left = FALSE,
-                                        open_right = FALSE),
+                                        open_first = FALSE,
+                                        open_last = FALSE),
                  "'x' is not strictly increasing : element 1 \\[1\\] is greater than or equal to element 2 \\[0\\]")
 })    
 

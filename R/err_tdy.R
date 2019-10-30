@@ -19,8 +19,8 @@
 #' \code{NULL} is equivalent to \code{"year"}.
 #'
 #' @inheritParams composite
-#' @param open_left Logical. Whether interval open on left.
-#' @param open_right Logical. Whether interval open on right.
+#' @param open_first Logical. Whether interval open on left.
+#' @param open_last Logical. Whether interval open on right.
 #' 
 #' @return When err_tdy* can format \code{x} as required,
 #' it returns the value; otherwise it raises an error.
@@ -115,23 +115,23 @@ err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_breaks_date <- function(x, name, open_left, open_right) {
+err_tdy_breaks_date <- function(x, name, open_first, open_last) {
     n <- length(x)
     if (n == 0L) {
-        if (open_left)
+        if (open_first)
             stop(gettextf("'%s' has length %d but '%s' is %s",
-                          name, 0L, "open_left", "TRUE"),
+                          name, 0L, "open_first", "TRUE"),
                  call. = FALSE)
-        if (open_right)
+        if (open_last)
             stop(gettextf("'%s' has length %d but '%s' is %s",
-                          name, 0L, "open_right", "TRUE"),
+                          name, 0L, "open_last", "TRUE"),
                  call. = FALSE)
         return(as.Date(as.character()))
     }
     if (n == 1L) {
-        if (!open_left && !open_right)
+        if (!open_first && !open_last)
             stop(gettextf("'%s' has length %d but '%s' and '%s' are both %s",
-                          name, 1L, "open_left", "open_right", "FALSE"),
+                          name, 1L, "open_first", "open_last", "FALSE"),
                  call. = FALSE)
     }
     err_is_not_na_vector(x = x,
@@ -146,23 +146,23 @@ err_tdy_breaks_date <- function(x, name, open_left, open_right) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_breaks_integer <- function(x, name, open_left, open_right) {
+err_tdy_breaks_integer <- function(x, name, open_first, open_last) {
     n <- length(x)
     if (n == 0L) {
-        if (open_left)
+        if (open_first)
             stop(gettextf("'%s' has length %d but '%s' is %s",
-                          name, 0L, "open_left", "TRUE"),
+                          name, 0L, "open_first", "TRUE"),
                  call. = FALSE)
-        if (open_right)
+        if (open_last)
             stop(gettextf("'%s' has length %d but '%s' is %s",
-                          name, 0L, "open_right", "TRUE"),
+                          name, 0L, "open_last", "TRUE"),
                  call. = FALSE)
         return(integer())
     }
     if (n == 1L) {
-        if (!open_left && !open_right)
+        if (!open_first && !open_last)
             stop(gettextf("'%s' has length %d but '%s' and '%s' are both %s",
-                          name, 1L, "open_left", "open_right", "FALSE"),
+                          name, 1L, "open_first", "open_last", "FALSE"),
                  call. = FALSE)
     }
     err_is_not_na_vector(x = x,

@@ -23,9 +23,9 @@ err_tdy_break_min_max_date(break_min, break_max, unit, null_ok)
 
 err_tdy_break_min_max_integer(break_min, break_max, null_ok)
 
-err_tdy_breaks_date(x, name, open_left, open_right)
+err_tdy_breaks_date(x, name, open_first, open_last)
 
-err_tdy_breaks_integer(x, name, open_left, open_right)
+err_tdy_breaks_integer(x, name, open_first, open_last)
 
 err_tdy_date_scalar(x, name)
 
@@ -63,9 +63,9 @@ err_tdy_unit(x, name)
 \item{name}{The name used in any message. Typically,
 but not always, the name of \code{x}.}
 
-\item{open_left}{Logical. Whether interval open on left.}
+\item{open_first}{Logical. Whether interval open on left.}
 
-\item{open_right}{Logical. Whether interval open on right.}
+\item{open_last}{Logical. Whether interval open on right.}
 
 \item{date}{Date on which event occurred or measurement made.
 Object of class "Date".}
