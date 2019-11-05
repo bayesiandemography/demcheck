@@ -15,13 +15,12 @@ knitr::opts_chunk$set(
 # demcheck
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/johnrbryant/demcheck.svg?branch=master)](https://travis-ci.org/johnrbryant/demcheck)
+[![Travis build status](https://travis-ci.com/bayesiandemography/demcheck.svg?branch=master)](https://travis-ci.com/bayesiandemography/demcheck)
 [![Lifecycle status](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
 
 **demcheck** contains checking functions used by the dem* packages. End-users would not normally use it directly.
 
-**demcheck** is still under construction, and not ready for serious use.
 
 ## Installation
 
@@ -34,7 +33,7 @@ devtools::install_github("demcheck")
 ## Usage
 
 ```r
-library(devcheck)
+library(demcheck)
 chk_is_string("mystring")
 chk_is_string(1)
 ```

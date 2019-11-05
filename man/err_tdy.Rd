@@ -25,7 +25,7 @@ err_tdy_break_min_max_integer(break_min, break_max, null_ok)
 
 err_tdy_breaks_date(x, name, open_first, open_last)
 
-err_tdy_breaks_integer(x, name, open_first, open_last)
+err_tdy_breaks_integer(x, name, open_last)
 
 err_tdy_date_scalar(x, name)
 

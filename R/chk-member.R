@@ -29,7 +29,8 @@ chk_member_unit <- function(x, name) {
                          name = name)
     if (!isTRUE(val))
         return(val)
-    if (!(x %in% valid_members))
+    i <- pmatch(x, valid_members, nomatch = 0L)
+    if (i == 0L)
         return(gettextf("value for '%s' [\"%s\"] is not a permitted time unit",
                         name, x))
     TRUE

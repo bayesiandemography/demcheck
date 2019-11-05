@@ -146,13 +146,9 @@ err_tdy_breaks_date <- function(x, name, open_first, open_last) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_breaks_integer <- function(x, name, open_first, open_last) {
+err_tdy_breaks_integer <- function(x, name, open_last) {
     n <- length(x)
     if (n == 0L) {
-        if (open_first)
-            stop(gettextf("'%s' has length %d but '%s' is %s",
-                          name, 0L, "open_first", "TRUE"),
-                 call. = FALSE)
         if (open_last)
             stop(gettextf("'%s' has length %d but '%s' is %s",
                           name, 0L, "open_last", "TRUE"),
@@ -160,15 +156,17 @@ err_tdy_breaks_integer <- function(x, name, open_first, open_last) {
         return(integer())
     }
     if (n == 1L) {
-        if (!open_first && !open_last)
-            stop(gettextf("'%s' has length %d but '%s' and '%s' are both %s",
-                          name, 1L, "open_first", "open_last", "FALSE"),
+        if (!open_last)
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          name, 1L, "open_last", "FALSE"),
                  call. = FALSE)
     }
     err_is_not_na_vector(x = x,
                          name = name)
     err_is_finite_vector(x = x,
                          name = name)
+    err_is_non_negative_vector(x = x,
+                               name = name)
     x <- err_tdy_integer_vector(x = x,
                                 name = name)
     err_is_strictly_increasing(x = x,
