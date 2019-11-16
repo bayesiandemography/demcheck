@@ -2,11 +2,17 @@
 % Please edit documentation in R/chk-member.R, R/err-member.R
 \name{member}
 \alias{member}
+\alias{chk_member_dimtype}
 \alias{chk_member_unit}
+\alias{err_member_dimtype}
 \alias{err_member_unit}
 \title{Checks of membership}
 \usage{
+chk_member_dimtype(x, name)
+
 chk_member_unit(x, name)
+
+err_member_dimtype(x, name)
 
 err_member_unit(x, name)
 }

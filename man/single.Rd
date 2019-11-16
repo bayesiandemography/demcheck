@@ -21,6 +21,8 @@
 \alias{chk_is_integer_equiv_vector}
 \alias{chk_is_length_1}
 \alias{chk_is_logical}
+\alias{chk_is_not_blank_scalar}
+\alias{chk_is_not_blank_vector}
 \alias{chk_is_not_na_dataframe}
 \alias{chk_is_not_na_list}
 \alias{chk_is_not_na_scalar}
@@ -43,6 +45,8 @@
 \alias{err_is_integer_equiv_vector}
 \alias{err_is_length_1}
 \alias{err_is_logical}
+\alias{err_is_not_blank_scalar}
+\alias{err_is_not_blank_vector}
 \alias{err_is_not_na_dataframe}
 \alias{err_is_not_na_list}
 \alias{err_is_not_na_scalar}
@@ -90,6 +94,10 @@ chk_is_length_1(x, name)
 
 chk_is_logical(x, name)
 
+chk_is_not_blank_scalar(x, name)
+
+chk_is_not_blank_vector(x, name)
+
 chk_is_not_na_dataframe(x, name)
 
 chk_is_not_na_list(x, name)
@@ -133,6 +141,10 @@ err_is_integer_equiv_vector(x, name)
 err_is_length_1(x, name)
 
 err_is_logical(x, name)
+
+err_is_not_blank_scalar(x, name)
+
+err_is_not_blank_vector(x, name)
 
 err_is_not_na_dataframe(x, name)
 

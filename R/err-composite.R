@@ -58,6 +58,15 @@ err_dimnames_complete <- function(x, name) {
 
 #' @export
 #' @rdname composite
+err_labels_valid_for_dimtype <- function(labels, dimtype) {
+    val <- chk_labels_valid_for_dimtype(labels, dimtype)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
 err_ge_break_min_age <- function(age, break_min, date, dob, unit) {
     val <- chk_ge_break_min_age(age, break_min, date, dob, unit)
     if (is.character(val))
@@ -222,6 +231,15 @@ err_is_string <- function(x, name) {
 #' @rdname composite
 err_is_strictly_increasing <- function(x, name) {
     val <- chk_is_strictly_increasing(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_is_valid_quantile <- function(x, name) {
+    val <- chk_is_valid_quantile(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

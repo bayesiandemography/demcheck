@@ -139,6 +139,24 @@ err_is_logical <- function(x, name) {
 
 #' @export
 #' @rdname single
+err_is_not_blank_scalar <- function(x, name) {
+    val <- chk_is_not_blank_scalar(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
+err_is_not_blank_vector <- function(x, name) {
+    val <- chk_is_not_blank_vector(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname single
 err_is_not_na_dataframe <- function(x, name) {
     val <- chk_is_not_na_dataframe(x, name)
     if (is.character(val))

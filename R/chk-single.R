@@ -175,6 +175,24 @@ chk_is_logical <- function(x, name) {
 
 #' @export
 #' @rdname single
+chk_is_not_blank_scalar <- function(x, name) {
+    if (!nzchar(x))
+        return(gettextf("'%s' is blank",
+                        name))
+    TRUE
+}
+
+#' @export
+#' @rdname single
+chk_is_not_blank_vector <- function(x, name) {
+    if (any(!nzchar(x)))
+        return(gettextf("'%s' has blanks",
+                        name))
+    TRUE
+}
+
+#' @export
+#' @rdname single
 chk_is_not_na_dataframe <- function(x, name) {
     for (i in seq_along(x)) {
         element_i <- x[[i]]

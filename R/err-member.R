@@ -4,6 +4,15 @@
 
 #' @export
 #' @rdname member
+err_member_dimtype <- function(x, name) {
+    val <- chk_member_dimtype(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname member
 err_member_unit <- function(x, name) {
     val <- chk_member_unit(x, name)
     if (is.character(val))

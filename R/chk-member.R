@@ -23,6 +23,41 @@ NULL
 ## HAS_TESTS
 #' @export
 #' @rdname member
+chk_member_dimtype <- function(x, name) {
+    valid_members <- c("state",
+                       "origin",
+                       "destination",
+                       "parent",
+                       "child",
+                       "age",
+                       "time",
+                       "cohort",
+                       "triangle",
+                       "iteration",
+                       "quantile")
+    val <- chk_is_character(x = x,
+                            name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_not_na_vector(x = x,
+                                name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_not_blank_vector(x = x,
+                                   name = name)
+    if (!isTRUE(val))
+        return(val)
+    is_invalid <- !(x %in% valid_members)
+    i_invalid <- match(TRUE, is_invalid, nomatch = 0L)
+    if (i_invalid > 0L)
+        return(gettextf("\"%s\" is not a valid dimtype",
+                        x[[i_invalid]]))
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname member
 chk_member_unit <- function(x, name) {
     valid_members <- c("month", "quarter", "year")
     val <- chk_is_string(x = x,

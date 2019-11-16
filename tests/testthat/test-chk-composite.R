@@ -1,8 +1,7 @@
 
 context("chk-composite")
 
-
-## chk_all_class
+## chk_all_class --------------------------------------------------------------
 
 test_that("'chk_all_class' returns TRUE with valid inputs", {
     expect_true(chk_all_class(x = list("a", "b"),
@@ -22,7 +21,7 @@ test_that("'chk_all_class' returns expected message with invalid input", {
 })
 
 
-## chk_array_metadata_complete
+## chk_array_metadata_complete ------------------------------------------------
 
 test_that("'chk_array_metadata_complete' returns TRUE with valid array", {
     x <- array(0L,
@@ -38,7 +37,7 @@ test_that("'chk_array_metadata_complete' returns TRUE with valid array", {
 })
 
 
-## chk_character_complete
+## chk_character_complete -----------------------------------------------------
 
 test_that("'chk_character_complete' returns TRUE with valid character vector", {
     expect_true(chk_character_complete(x = c("a", "b"),
@@ -60,7 +59,7 @@ test_that("'chk_character_complete' returns expected message with invalid charac
 })
 
 
-## chk_date_consistent_with_month_start
+## chk_date_consistent_with_month_start ---------------------------------------
 
 test_that("'chk_date_consistent_with_month_start' returns TRUE with inputs", {
     expect_true(chk_date_consistent_with_month_start(x = as.Date("2000-01-01"),
@@ -80,7 +79,7 @@ test_that("'chk_date_consistent_with_month_start' returns expected message with 
 })
 
 
-## chk_date_consistent_with_width_origin
+## chk_date_consistent_with_width_origin --------------------------------------
 
 test_that("'chk_date_consistent_with_width_origin' returns TRUE with inputs", {
     expect_true(chk_date_consistent_with_width_origin(x = as.Date("2000-01-01"),
@@ -106,7 +105,7 @@ test_that("'chk_date_consistent_with_width_origin' returns expected message with
 })
 
 
-## chk_dimnames_complete
+## chk_dimnames_complete ------------------------------------------------------
 
 test_that("'chk_dimnames_complete' returns TRUE with valid array", {
     x <- array(0L,
@@ -148,7 +147,51 @@ test_that("'chk_dimnames_complete' returns expected message with invalid argumen
 })
 
 
-## chk_ge_break_min_age
+## chk_labels_valid_for_dimtype -----------------------------------------------
+
+test_that("'chk_labels_valid_for_dimtype' returns TRUE with valid inputs", {
+    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
+                                             dimtype = "state"))
+    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
+                                             dimtype = "origin"))
+    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
+                                             dimtype = "destination"))
+    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
+                                             dimtype = "parent"))
+    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
+                                             dimtype = "child"))
+    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
+                                             dimtype = "age"))
+    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
+                                             dimtype = "time"))
+    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
+                                             dimtype = "cohort"))
+    expect_true(chk_labels_valid_for_dimtype(labels = c("Lower", "Upper"),
+                                             dimtype = "triangle"))
+    expect_true(chk_labels_valid_for_dimtype(labels = c("1", "2"),
+                                             dimtype = "iteration"))
+    expect_true(chk_labels_valid_for_dimtype(labels = c("1%", "2%"),
+                                             dimtype = "quantile"))
+})
+    
+test_that("'chk_labels_valid_for_dimtype' returns expected message with invalid inputs", {
+    expect_identical(chk_labels_valid_for_dimtype(labels = c("wrong", "Upper"),
+                                                  dimtype = "triangle"),
+                     "\"wrong\" not a valid label for dimension with dimtype \"triangle\"")
+    expect_identical(chk_labels_valid_for_dimtype(labels = c("wrong", "2"),
+                                                  dimtype = "iteration"),
+                     paste("invalid label for dimension with dimtype \"iteration\"",
+                           "value 'wrong' in 'labels' not equivalent to integer",
+                           sep = " : "))
+    expect_identical(chk_labels_valid_for_dimtype(labels = c("wrong", "20%"),
+                                                  dimtype = "quantile"),
+                     paste("invalid label for dimension with dimtype \"quantile\"",
+                           "\"wrong\" is not a valid quantile",
+                           sep = " : "))
+})
+
+
+## chk_ge_break_min_age -------------------------------------------------------
 
 test_that("'chk_ge_break_min_age' returns TRUE with valid inputs", {
     expect_true(chk_ge_break_min_age(age = 5L,
@@ -167,7 +210,8 @@ test_that("'chk_ge_break_min_age' returns expected message with invalid dates", 
                      "'date' [\"2005-01-02\"] and 'dob' [\"2000-01-01\"] imply an age of 5 years, which is less than 'break_min' [10 years]")
 })
 
-## chk_ge_break_min_date
+
+## chk_ge_break_min_date ------------------------------------------------------
 
 test_that("'chk_ge_break_min_date' returns TRUE with valid inputs", {
     expect_true(chk_ge_break_min_date(date = as.Date(c("2001-03-02", "2005-12-01", NA)),
@@ -182,7 +226,7 @@ test_that("'chk_ge_break_min_date' returns expected message with invalid dates",
                      "'date' has value [\"1995-12-01\"] that is less than 'break_min' [\"2000-01-01\"]")
 })
 
-## chk_is_first_day_unit_scalar
+## chk_is_first_day_unit_scalar -----------------------------------------------
 
 test_that("'chk_is_first_day_unit_scalar' returns TRUE with valid dates", {
     expect_true(chk_is_first_day_unit_scalar(x = "2001-01-01",
@@ -212,7 +256,8 @@ test_that("'chk_is_first_day_unit_scalar' returns expected message with invalid 
                            "(years assumed to start on the first day of January)"))
 })
 
-## chk_is_first_day_unit_vector
+
+## chk_is_first_day_unit_vector -----------------------------------------------
 
 test_that("'chk_is_first_day_unit_vector' returns TRUE with valid dates", {
     expect_true(chk_is_first_day_unit_vector(x = as.Date(c("2001-01-01", "2002-01-01")),
@@ -250,7 +295,8 @@ test_that("'chk_is_first_day_unit_vector' returns expected message with invalid 
                            "(years assumed to start on the first day of January)"))
 })
 
-## chk_is_first_day_unit_consec
+
+## chk_is_first_day_unit_consec -----------------------------------------------
 
 test_that("'chk_is_first_day_unit_consec' returns TRUE with valid dates", {
     expect_true(chk_is_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-02-01")),
@@ -275,7 +321,7 @@ test_that("'chk_is_first_day_unit_consec' returns expected message with invalid 
 })
 
 
-## chk_is_ge_scalar
+## chk_is_ge_scalar -----------------------------------------------------------
 
 test_that("'chk_is_ge_scalar' returns TRUE with inputs", {
     expect_true(chk_is_ge_scalar(x1 = 3, x2 = 2.9, name1 = "x1", name2 = "x2"))
@@ -293,7 +339,7 @@ test_that("'chk_is_ge_scalar' returns expected message with invalid inputs", {
 })
 
 
-## chk_is_ge_vector
+## chk_is_ge_vector -----------------------------------------------------------
 
 test_that("'chk_is_ge_vector' returns TRUE with inputs", {
     expect_true(chk_is_ge_vector(x1 = 3:5, x2 = c(2.9, 4, 5), name1 = "x1", name2 = "x2"))
@@ -315,7 +361,7 @@ test_that("'chk_is_ge_vector' returns expected message with invalid inputs", {
 })
 
 
-## chk_is_gt_scalar
+## chk_is_gt_scalar -----------------------------------------------------------
 
 test_that("'chk_is_gt_scalar' returns TRUE with inputs", {
     expect_true(chk_is_gt_scalar(x1 = 3, x2 = 2.9, name1 = "x1", name2 = "x2"))
@@ -336,7 +382,7 @@ test_that("'chk_is_gt_scalar' returns expected message with invalid inputs", {
 })
 
 
-## chk_is_gt_vector
+## chk_is_gt_vector -----------------------------------------------------------
 
 test_that("'chk_is_gt_vector' returns TRUE with inputs", {
     expect_true(chk_is_gt_vector(x1 = 3:5, x2 = c(2.9, 3.5, 4.99999999), name1 = "x1", name2 = "x2"))
@@ -358,7 +404,7 @@ test_that("'chk_is_gt_vector' returns expected message with invalid inputs", {
 })
 
 
-## chk_is_integer_consec
+## chk_is_integer_consec ------------------------------------------------------
 
 test_that("'chk_is_integer_consec' returns TRUE with valid vector", {
     expect_true(chk_is_integer_consec(x = 1:10,
@@ -378,7 +424,7 @@ test_that("'chk_is_integer_consec' returns expected message with invalid vector"
 })
 
 
-## chk_is_logical_flag
+## chk_is_logical_flag --------------------------------------------------------
 
 test_that("'chk_is_logical_flag' returns TRUE with valid logical_flag", {
     expect_true(chk_is_logical_flag(x = TRUE,
@@ -399,7 +445,8 @@ test_that("'chk_is_logical_flag' returns expected message with invalid argument"
                      "'x' is NA")
 })
 
-## chk_is_multiple_of
+
+## chk_is_multiple_of ---------------------------------------------------------
 
 test_that("'chk_is_multiple_of' returns TRUE with valid inputs", {
     expect_true(chk_is_multiple_of(x1 = 30L,
@@ -430,7 +477,7 @@ test_that("'chk_is_multiple_of' returns expected message with invalid argument",
 })
 
 
-## chk_is_multiple_of_n
+## chk_is_multiple_of_n -------------------------------------------------------
 
 test_that("'chk_is_multiple_of_n' returns TRUE with valid inputs", {
     expect_true(chk_is_multiple_of_n(x = 30L,
@@ -482,7 +529,7 @@ test_that("'chk_is_non_negative_scalar' returns expected message with invalid ar
 })
 
 
-## chk_is_non_negative_vector
+## chk_is_non_negative_vector -------------------------------------------------
 
 test_that("'chk_is_non_negative_vector' returns TRUE with valid input", {
     expect_true(chk_is_non_negative_vector(x = c(0, 0.001),
@@ -504,7 +551,7 @@ test_that("'chk_is_non_negative_vector' returns expected message with invalid ar
 })
 
 
-## chk_is_positive_scalar
+## chk_is_positive_scalar -----------------------------------------------------
 
 test_that("'chk_is_positive_scalar' returns TRUE with valid input", {
     expect_true(chk_is_positive_scalar(x = 1L,
@@ -529,7 +576,7 @@ test_that("'chk_is_positive_scalar' returns expected message with invalid argume
 })
 
 
-## chk_is_positive_vector
+## chk_is_positive_vector -----------------------------------------------------
 
 test_that("'chk_is_positive_vector' returns TRUE with valid input", {
     expect_true(chk_is_positive_vector(x = c(1, 0.001),
@@ -551,7 +598,7 @@ test_that("'chk_is_positive_vector' returns expected message with invalid argume
 })
 
 
-## chk_is_string
+## chk_is_string --------------------------------------------------------------
 
 test_that("'chk_is_string' returns TRUE with valid string", {
     expect_true(chk_is_string(x = "a",
@@ -575,7 +622,7 @@ test_that("'chk_is_string' returns expected message with invalid argument", {
 })
 
 
-## chk_is_strictly_increasing
+## chk_is_strictly_increasing -------------------------------------------------
 
 test_that("'chk_is_strictly_increasing' returns TRUE with valid vector", {
     expect_true(chk_is_strictly_increasing(x = 1,
@@ -605,7 +652,26 @@ test_that("'chk_is_strictly_increasing' returns expected message with invalid ar
 })
 
 
-## chk_length_same
+## chk_is_valid_quantile ------------------------------------------------------
+
+test_that("'chk_is_valid_quantile' returns TRUE with valid vector", {
+    expect_true(chk_is_valid_quantile(x = c("1%", "99.9%", "0%", "100%", NA)))
+    expect_true(chk_is_valid_quantile(x = character()))
+})
+
+test_that("'chk_is_valid_quantile' returns expected message with invalid argument", {
+    expect_identical(chk_is_valid_quantile(x = "wrong"),
+                     "\"wrong\" is not a valid quantile")
+    expect_identical(chk_is_valid_quantile(x = "40.0.0%"),
+                     "\"40.0.0%\" is not a valid quantile")
+    expect_identical(chk_is_valid_quantile(x = "-10%"),
+                     "\"-10%\" is not a valid quantile")
+    expect_identical(chk_is_valid_quantile(x = "101%"),
+                     "\"101%\" is not a valid quantile : greater than 100%")
+})
+
+
+## chk_length_same ------------------------------------------------------------
 
 test_that("'chk_length_same' returns TRUE with valid vector", {
     expect_true(chk_length_same(x1 = 1:3,
@@ -632,7 +698,7 @@ test_that("'chk_length_same' returns expected message with invalid argument", {
 })
 
 
-## chk_length_same_or_1
+## chk_length_same_or_1 -------------------------------------------------------
 
 test_that("'chk_length_same_or_1' returns TRUE with valid vector", {
     expect_true(chk_length_same_or_1(x1 = 1:3,
@@ -672,7 +738,7 @@ test_that("'chk_length_same_or_1' returns expected message with invalid argument
 })
 
 
-## chk_lt_break_max_age
+## chk_lt_break_max_age -------------------------------------------------------
 
 test_that("'chk_lt_break_max_age' returns TRUE with valid inputs", {
     expect_true(chk_lt_break_max_age(age = 5L,
@@ -692,7 +758,7 @@ test_that("'chk_lt_break_max_age' returns expected message with invalid dates", 
 })
 
 
-## chk_lt_break_max_date
+## chk_lt_break_max_date ------------------------------------------------------
 
 test_that("'chk_lt_break_max_date' returns TRUE with valid inputs", {
     expect_true(chk_lt_break_max_date(date = as.Date(c("2001-02-20", "2005-11-24", NA)),
@@ -708,7 +774,7 @@ test_that("'chk_lt_break_max_date' returns expected message with invalid dates",
 })
 
     
-## chk_names_complete
+## chk_names_complete ---------------------------------------------------------
 
 test_that("'chk_names_complete' returns TRUE with valid array", {
     x <- c(A = 1, B = 2)
@@ -739,7 +805,7 @@ test_that("'chk_names_complete' returns expected message with invalid argument",
 })
 
 
-## chk_names_dimnames_complete
+## chk_names_dimnames_complete ------------------------------------------------
 
 test_that("'chk_names_dimnames_complete' returns TRUE with valid array", {
     x <- array(0L,
@@ -776,7 +842,7 @@ test_that("'chk_names_dimnames_complete' returns expected message with invalid a
 })
 
 
-## chk_trans_list
+## chk_trans_list -------------------------------------------------------------
 
 test_that("'chk_trans_list' returns TRUE with valid input", {
     expect_true(chk_trans_list(x = list(a = c("b", "c"),
