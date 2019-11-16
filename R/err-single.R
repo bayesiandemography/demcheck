@@ -218,3 +218,12 @@ err_no_dimnames <- function(x, name) {
     TRUE
 }
 
+#' @export
+#' @rdname single
+err_no_names <- function(x, name) {
+    val <- chk_no_names(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+

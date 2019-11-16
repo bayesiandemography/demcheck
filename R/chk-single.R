@@ -260,4 +260,13 @@ chk_no_dimnames <- function(x, name) {
     TRUE
 }
 
+#' @export
+#' @rdname single
+chk_no_names <- function(x, name) {
+    if (!is.null(names(x)))
+        return(gettextf("'%s' has names",
+                        name))
+    TRUE
+}
+
 

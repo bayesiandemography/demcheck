@@ -787,6 +787,10 @@ test_that("'chk_names_complete' returns TRUE with valid array", {
 
 test_that("'chk_names_complete' returns expected message with invalid argument", {
     x <- c(A = 1, B = 2)
+    x_wrong <- unname(x)
+    expect_identical(chk_names_complete(x = x_wrong,
+                                        name = "x"),
+                     "'x' does not have names")
     x_wrong <- x
     names(x_wrong)[[1]] <- NA
     expect_identical(chk_names_complete(x = x_wrong,
