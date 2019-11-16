@@ -732,7 +732,7 @@ chk_lt_break_max_date <- function(date, break_max) {
 #' @rdname composite
 chk_names_complete <- function(x, name) {
     nms <- names(x)
-    if (is.null(nms))
+    if ((length(x) > 0L) && is.null(nms))
         return(gettextf("'%s' does not have names",
                         name))
     if (any(is.na(nms)))
