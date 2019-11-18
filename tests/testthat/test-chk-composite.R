@@ -147,6 +147,96 @@ test_that("'chk_dimnames_complete' returns expected message with invalid argumen
 })
 
 
+## chk_dimtypes_mutually_compatible -------------------------------------------
+
+test_that("'chk_dimtypes_mutually_compatible' returns TRUE with valid input", {
+    expect_true(chk_dimtypes_mutually_compatible(dimtypes = c("age",
+                                                              "time",
+                                                              "state",
+                                                              "state",
+                                                              "iteration")))
+    expect_true(chk_dimtypes_mutually_compatible(dimtypes = character()))
+})
+
+test_that("'chk_dimtypes_mutually_compatible' returns expected message with invalid input", {
+    expect_identical(chk_dimtypes_mutually_compatible(dimtypes = c("age",
+                                                                   "time",
+                                                                   "state",
+                                                                   "age",
+                                                                   "iteration")),
+                     "two dimensions with dimtype \"age\"")
+    expect_identical(chk_dimtypes_mutually_compatible(dimtypes = c("age",
+                                                                   "time",
+                                                                   "state",
+                                                                   "quantile",
+                                                                   "iteration")),
+                     "dimension with dimtype \"iteration\" and dimension with dimtype \"quantile\"")
+})
+
+
+## chk_dimtypes_pairs_complete ------------------------------------------------
+
+test_that("'chk_dimtypes_pairs_complete' returns TRUE with valid input", {
+    expect_true(chk_dimtypes_pairs_complete(names = c("age",
+                                                      "reg_orig",
+                                                      "eth_child",
+                                                      "reg_dest",
+                                                      "eth_parent")))
+    expect_true(chk_dimtypes_pairs_complete(names = character()))
+})
+
+test_that("'chk_dimtypes_pairs_complete' returns expected message with invalid input", {
+    expect_identical(chk_dimtypes_pairs_complete(names = c("age",
+                                                           "reg_orig",
+                                                           "eth",
+                                                           "reg_dest",
+                                                           "eth_parent")),
+                     paste("dimension \"eth_parent\" with dimtype \"parent\" does not have",
+                           "paired dimension \"eth_child\" with dimtype \"child\""))
+})
+
+
+## chk_dimtypes_pairs_suffix --------------------------------------------------
+
+test_that("'chk_dimtypes_pairs_suffix' returns TRUE with valid input", {
+    expect_true(chk_dimtypes_pairs_suffix(dimtypes = c("age",
+                                                       "origin",
+                                                       "child",
+                                                       "destination",
+                                                       "parent"),
+                                          names = c("age",
+                                                    "reg_orig",
+                                                    "eth_child",
+                                                    "reg_dest",
+                                                    "eth_parent")))
+    expect_true(chk_dimtypes_pairs_suffix(dimtypes = character(),
+                                          names = character()))
+})
+
+test_that("'chk_dimtypes_pairs_suffix' returns expected message with invalid input", {
+    expect_identical(chk_dimtypes_pairs_suffix(dimtypes = c("age",
+                                                            "origin",
+                                                            "child",
+                                                            "destination",
+                                                            "parent"),
+                                               names = c("age",
+                                                         "reg_orig",
+                                                         "eth",
+                                                         "reg_dest",
+                                                         "eth_parent")),
+                     "dimension \"eth\" has dimtype \"child\" but name does not end with \"_child\"")
+    expect_identical(chk_dimtypes_pairs_suffix(dimtypes = c("age",
+                                                            "origin",
+                                                            "state",
+                                                            "destination"),
+                                               names = c("age",
+                                                         "reg_orig",
+                                                         "eth_child",
+                                                         "reg_dest")),
+                     "dimension \"eth_child\" has name ending with \"_child\" but does not have dimtype \"child\"")
+})
+
+
 ## chk_labels_valid_for_dimtype -----------------------------------------------
 
 test_that("'chk_labels_valid_for_dimtype' returns TRUE with valid inputs", {

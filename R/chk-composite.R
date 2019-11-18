@@ -24,6 +24,7 @@
 #' @param x2 The second of a pair of objects being checked.
 #' @param name The name used in any message. Typically,
 #' but not always, the name of \code{x}.
+#' @param names Dimension names.
 #' @param name1 The name of the first of the pair of objects.
 #' @param name2 The name of the second of the pair of objects.
 #' @param unit Measurement units for time, eg \code{"month"}.
@@ -42,6 +43,7 @@
 #' @param origin A year used to define multi-year periods.
 #' @param labels Dimension labels: the \code{i}th element of \code{dimnames}
 #' @param dimtype Character. The dimtype of the dimension.
+#' @param dimtypes Character. The dimtypes of the dimensions.
 #'
 #' @return When \code{x} passes the test,
 #' the \code{chk*} and \code{err*} functions both
@@ -183,29 +185,80 @@ chk_dimnames_complete <- function(x, name) {
 ## HAS_TESTS
 #' @export
 #' @rdname composite
-chk_labels_valid_for_dimtype <- function(labels, dimtype) {
-    if (dimtype == "triangle") {
-        is_invalid  <- !(labels %in% c("Lower", "Upper"))
-        i_invalid <- match(TRUE, is_invalid, nomatch = 0L)
-        if (i_invalid > 0L)
-            return(gettextf("\"%s\" not a valid label for dimension with dimtype \"%s\"",
-                            labels[[i_invalid]], dimtype))
+chk_dimtypes_mutually_compatible <- function(dimtypes) {
+    at_most_one <- c("age",
+                     "time",
+                     "cohort",
+                     "triangle",
+                     "iteration",
+                     "quantile")
+    for (dimtype in at_most_one) {
+        if (sum(dimtypes == dimtype) > 1L)
+            return(gettextf("two dimensions with dimtype \"%s\"",
+                            dimtype))
     }
-    if (dimtype == "iteration") {
-        val <- chk_is_integer_equiv_vector(x = labels,
-                                           name = "labels")
-        if (!isTRUE(val))
-            return(gettextf("invalid label for dimension with dimtype \"%s\" : %s",
-                            dimtype, val))
-    }
-    if (dimtype == "quantile") {
-        val <- chk_is_valid_quantile(x = labels,
-                                     name = "labels")
-        if (!isTRUE(val))
-            return(gettextf("invalid label for dimension with dimtype \"%s\" : %s",
-                            dimtype, val))
+    if (("iteration" %in% dimtypes) && ("quantile" %in% dimtypes))
+        return(gettextf("dimension with dimtype \"%s\" and dimension with dimtype \"%s\"",
+                        "iteration", "quantile"))
+    TRUE
+}
+
+## assumes that 'chk_dimtypes_pairs_suffix'
+## has been run on dimtypes and names
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_dimtypes_pairs_complete <- function(names) {
+    vals <- list(c("origin", "_orig$", "destination", "_dest"),
+                 c("destination", "_dest$", "origin", "_orig"),
+                 c("parent", "_parent$", "child", "_child"),
+                 c("child", "_child$", "parent", "_parent"))
+    for (val in vals) {
+        dimtype <- val[[1L]]
+        p_dimtype <- val[[2L]]
+        pair <- val[[3L]]
+        p_pair <- val[[4L]]
+        is_dimtype <- grepl(p_dimtype, names)
+        if (any(is_dimtype)) {
+            names_pair_implied <- sub(p_dimtype, p_pair, names[is_dimtype])
+            is_not_found <- !(names_pair_implied %in% names)
+            i_not_found <- match(TRUE, is_not_found, nomatch = 0L)
+            if (i_not_found > 0L) {
+                return(gettextf(paste("dimension \"%s\" with dimtype \"%s\" does not",
+                                      "have paired dimension \"%s\" with dimtype \"%s\""),
+                                names[is_dimtype][[i_not_found]],
+                                dimtype,
+                                names_pair_implied[[i_not_found]],
+                                pair))
+            }
+        }
     }
     TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_dimtypes_pairs_suffix <- function(dimtypes, names) {
+    patterns <- c(origin = "_orig",
+                  destination = "_dest",
+                  parent = "_parent",
+                  child = "_child")
+    for (i in seq_along(patterns)) {
+        dimtype <- names(patterns)[[i]]
+        pattern <- patterns[[i]]
+        is_dimtype <- grepl(dimtype, dimtypes)
+        is_pattern <- grepl(paste0(pattern, "$"), names)
+        i_dimtype_not_pattern <- match(TRUE, is_dimtype & !is_pattern, nomatch = 0L)
+        if (i_dimtype_not_pattern > 0L)
+            return(gettextf("dimension \"%s\" has dimtype \"%s\" but name does not end with \"%s\"",
+                            names[[i_dimtype_not_pattern]], dimtype, pattern))
+        i_pattern_not_dimtype <- match(TRUE, is_pattern & !is_dimtype, nomatch = 0L)
+        if (i_pattern_not_dimtype > 0L)
+            return(gettextf("dimension \"%s\" has name ending with \"%s\" but does not have dimtype \"%s\"",
+                            names[[i_pattern_not_dimtype]], pattern, dimtype))
+    }
+    TRUE   
 }
         
 ## HAS_TESTS
@@ -650,6 +703,34 @@ chk_is_valid_quantile <- function(x, name) {
     if (i_gt_100 > 0L)
         return(gettextf("\"%s\" is not a valid quantile : greater than %s",
                         x[[i_gt_100]], "100%"))
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_labels_valid_for_dimtype <- function(labels, dimtype) {
+    if (dimtype == "triangle") {
+        is_invalid  <- !(labels %in% c("Lower", "Upper"))
+        i_invalid <- match(TRUE, is_invalid, nomatch = 0L)
+        if (i_invalid > 0L)
+            return(gettextf("\"%s\" not a valid label for dimension with dimtype \"%s\"",
+                            labels[[i_invalid]], dimtype))
+    }
+    if (dimtype == "iteration") {
+        val <- chk_is_integer_equiv_vector(x = labels,
+                                           name = "labels")
+        if (!isTRUE(val))
+            return(gettextf("invalid label for dimension with dimtype \"%s\" : %s",
+                            dimtype, val))
+    }
+    if (dimtype == "quantile") {
+        val <- chk_is_valid_quantile(x = labels,
+                                     name = "labels")
+        if (!isTRUE(val))
+            return(gettextf("invalid label for dimension with dimtype \"%s\" : %s",
+                            dimtype, val))
+    }
     TRUE
 }
 
