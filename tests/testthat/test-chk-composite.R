@@ -37,6 +37,91 @@ test_that("'chk_array_metadata_complete' returns TRUE with valid array", {
 })
 
 
+## chk_break_min_max_date -----------------------------------------------------
+
+test_that("'chk_break_min_max_date' returns TRUE with valid input", {
+    expect_true(chk_break_min_max_date(break_min = as.Date("2000-01-01"),
+                                       break_max = as.Date("2001-01-01"),
+                                       unit = "year"))
+})
+
+test_that("'chk_break_min_max_date' returns expected error message with invalid input", {
+    expect_identical(chk_break_min_max_date(break_min = as.Date(c("2000-01-01", "2000-01-01")),
+                                            break_max = as.Date("2001-01-01"),
+                                            unit = "year"),
+                     "'break_min' does not have length 1")
+})
+
+
+## chk_break_min_max_integer --------------------------------------------------
+
+test_that("'chk_break_min_max_integer' returns TRUE with valid input", {
+    expect_true(chk_break_min_max_integer(break_min = 0L,
+                                          break_max = 5L))
+})
+
+test_that("'chk_break_min_max_integer' returns expected error message with invalid input", {
+    expect_identical(chk_break_min_max_integer(break_min = 5L,
+                                               break_max = 5L),
+                     "'break_max' [5] is less than or equal to 'break_min' [5]")
+})
+
+
+## chk_breaks_integer ---------------------------------------------------------
+
+test_that("'chk_breaks_integer' returns breaks with valid input", {
+    expect_true(chk_breaks_integer(x = 0:4,
+                                            name = "x",
+                                            open_last = FALSE))
+    expect_true(chk_breaks_integer(x = c(0, 5),
+                                            name = "x",
+                                            open_last = FALSE))
+    expect_true(chk_breaks_integer(x = c(0, 1),
+                                            name = "x",
+                                            open_last = FALSE))
+    expect_true(chk_breaks_integer(x = c(100, 101),
+                                            name = "x",
+                                            open_last = FALSE))
+    expect_true(chk_breaks_integer(x = integer(),
+                                            name = "x",
+                                            open_last = FALSE))
+    expect_true(chk_breaks_integer(x = 0,
+                                            name = "x",
+                                            open_last = TRUE))
+})
+    
+test_that("'chk_breaks_integer' raises expected error with invalid input", {
+    expect_identical(chk_breaks_integer(x = numeric(),
+                                        name = "x",
+                                        open_last = TRUE),
+                 "'x' has length 0 but 'open_last' is TRUE")
+    expect_identical(chk_breaks_integer(x = 10,
+                                        name = "x",
+                                        open_last = FALSE),
+                 "'x' has length 1 but 'open_last' is FALSE")
+    expect_identical(chk_breaks_integer(x = c(-5, 0, 1),
+                                        name = "x",
+                                        open_last = TRUE),
+                 "element 1 of 'x' [-5] is negative")
+    expect_identical(chk_breaks_integer(x = c(0L, NA),
+                                        name = "x",
+                                        open_last = FALSE),
+                 "'x' has NAs")
+    expect_identical(chk_breaks_integer(x = c(0L, Inf),
+                                        name = "x",
+                                        open_last = FALSE),
+                 "'x' has infinite values")
+    expect_identical(chk_breaks_integer(x = c(0L, 1.1),
+                                        name = "x",
+                                        open_last = FALSE),
+                 "value '1.1' in 'x' not equivalent to integer")
+    expect_identical(chk_breaks_integer(x = c(1L, 0L),
+                                        name = "x",
+                                        open_last = FALSE),
+                 "'x' is not strictly increasing : element 1 [1] is greater than or equal to element 2 [0]")
+})
+
+
 ## chk_character_complete -----------------------------------------------------
 
 test_that("'chk_character_complete' returns TRUE with valid character vector", {

@@ -20,7 +20,6 @@
 #'
 #' @inheritParams composite
 #' @param open_first Logical. Whether interval open on left.
-#' @param open_last Logical. Whether interval open on right.
 #' 
 #' @return When err_tdy* can format \code{x} as required,
 #' it returns the value; otherwise it raises an error.
@@ -96,17 +95,17 @@ err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok) {
                           "break_max", "NULL"),
                  call. = FALSE)
     }
-    break_min <- demcheck::err_tdy_non_negative_integer_scalar(x = break_min, 
-                                                               name = "break_min",
-                                                               null_ok = null_ok)
-    break_max <- demcheck::err_tdy_positive_integer_scalar(x = break_max,
-                                                           name = "break_max",
-                                                           null_ok = null_ok)
+    break_min <- err_tdy_non_negative_integer_scalar(x = break_min, 
+                                                     name = "break_min",
+                                                     null_ok = null_ok)
+    break_max <- err_tdy_positive_integer_scalar(x = break_max,
+                                                 name = "break_max",
+                                                 null_ok = null_ok)
     if (!min_null && !max_null) {
-        demcheck::err_is_gt_scalar(x1 = break_max,
-                                   x2 = break_min,
-                                   name1 = "break_max",
-                                   name2 = "break_min")
+        err_is_gt_scalar(x1 = break_max,
+                         x2 = break_min,
+                         name1 = "break_max",
+                         name2 = "break_min")
     }
     list(break_min = break_min,
          break_max = break_max)
@@ -147,31 +146,10 @@ err_tdy_breaks_date <- function(x, name, open_first, open_last) {
 #' @export
 #' @rdname err_tdy
 err_tdy_breaks_integer <- function(x, name, open_last) {
-    n <- length(x)
-    if (n == 0L) {
-        if (open_last)
-            stop(gettextf("'%s' has length %d but '%s' is %s",
-                          name, 0L, "open_last", "TRUE"),
-                 call. = FALSE)
-        return(integer())
-    }
-    if (n == 1L) {
-        if (!open_last)
-            stop(gettextf("'%s' has length %d but '%s' is %s",
-                          name, 1L, "open_last", "FALSE"),
-                 call. = FALSE)
-    }
-    err_is_not_na_vector(x = x,
-                         name = name)
-    err_is_finite_vector(x = x,
-                         name = name)
-    err_is_non_negative_vector(x = x,
-                               name = name)
-    x <- err_tdy_integer_vector(x = x,
-                                name = name)
-    err_is_strictly_increasing(x = x,
-                               name = name)
-    x
+    err_breaks_integer(x = x,
+                       name = name,
+                       open_last = open_last)
+    as.integer(x)
 }
 
 ## HAS_TESTS
