@@ -145,10 +145,11 @@ err_tdy_breaks_date <- function(x, name, open_first, open_last) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_breaks_integer <- function(x, name, open_last) {
-    err_breaks_integer(x = x,
-                       name = name,
-                       open_last = open_last)
+err_tdy_breaks_integer <- function(x, name, open_first, open_last) {
+    err_x_integer(x = x,
+                  name = name,
+                  open_first = open_first,
+                  open_last = open_last)
     as.integer(x)
 }
 

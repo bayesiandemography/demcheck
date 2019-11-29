@@ -183,26 +183,32 @@ test_that("'err_tdy_breaks_date' raises expected error with invalid input", {
 test_that("'err_tdy_breaks_integer' returns breaks with valid input", {
     expect_identical(err_tdy_breaks_integer(x = 0:4,
                                             name = "x",
+                                            open_first = FALSE,
                                             open_last = FALSE),
                      0:4)
     expect_identical(err_tdy_breaks_integer(x = c(0, 5),
                                             name = "x",
+                                            open_first = FALSE,
                                             open_last = FALSE),
                      c(0L, 5L))
     expect_identical(err_tdy_breaks_integer(x = c(0, 1),
                                             name = "x",
+                                            open_first = FALSE,
                                             open_last = FALSE),
                      c(0L, 1L))
     expect_identical(err_tdy_breaks_integer(x = c(100, 101),
                                             name = "x",
+                                            open_first = FALSE,
                                             open_last = FALSE),
                      c(100L, 101L))
     expect_identical(err_tdy_breaks_integer(x = integer(),
                                             name = "x",
+                                            open_first = FALSE,
                                             open_last = FALSE),
                      integer())
     expect_identical(err_tdy_breaks_integer(x = 0,
                                             name = "x",
+                                            open_first = FALSE,
                                             open_last = TRUE),
                      0L)
 })
@@ -210,30 +216,37 @@ test_that("'err_tdy_breaks_integer' returns breaks with valid input", {
 test_that("'err_tdy_breaks_integer' raises expected error with invalid input", {
     expect_error(err_tdy_breaks_integer(x = numeric(),
                                         name = "x",
+                                        open_first = FALSE,
                                         open_last = TRUE),
                  "'x' has length 0 but 'open_last' is TRUE")
     expect_error(err_tdy_breaks_integer(x = 10,
                                         name = "x",
+                                        open_first = FALSE,
                                         open_last = FALSE),
-                 "'x' has length 1 but 'open_last' is FALSE")
+                 "'x' has length 1 but 'open_first' and 'open_last' are both FALSE")
     expect_error(err_tdy_breaks_integer(x = c(-5, 0, 1),
                                         name = "x",
+                                        open_first = FALSE,
                                         open_last = TRUE),
                  "element 1 of 'x' \\[-5\\] is negative")
     expect_error(err_tdy_breaks_integer(x = c(0L, NA),
                                         name = "x",
+                                        open_first = FALSE,
                                         open_last = FALSE),
                  "'x' has NAs")
     expect_error(err_tdy_breaks_integer(x = c(0L, Inf),
                                         name = "x",
+                                        open_first = FALSE,
                                         open_last = FALSE),
                  "'x' has infinite values")
     expect_error(err_tdy_breaks_integer(x = c(0L, 1.1),
                                         name = "x",
+                                        open_first = FALSE,
                                         open_last = FALSE),
                  "value '1.1' in 'x' not equivalent to integer")
     expect_error(err_tdy_breaks_integer(x = c(1L, 0L),
                                         name = "x",
+                                        open_first = FALSE,
                                         open_last = FALSE),
                  "'x' is not strictly increasing : element 1 \\[1\\] is greater than or equal to element 2 \\[0\\]")
 })    

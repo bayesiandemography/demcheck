@@ -31,24 +31,6 @@ err_break_min_max_date <- function(break_min, break_max, unit) {
 
 #' @export
 #' @rdname composite
-err_break_min_max_integer <- function(break_min, break_max) {
-    val <- chk_break_min_max_integer(break_min, break_max)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
-err_breaks_integer <- function(x, name, open_last) {
-    val <- chk_breaks_integer(x, name, open_last)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
 err_character_complete <- function(x, name) {
     val <- chk_character_complete(x, name)
     if (is.character(val))
@@ -357,6 +339,24 @@ err_names_dimnames_complete <- function(x, name) {
 #' @rdname composite
 err_trans_list <- function(x, name) {
     val <- chk_trans_list(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_x_integer <- function(x, name, open_first, open_last) {
+    val <- chk_x_integer(x, name, open_first, open_last)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname composite
+err_x_min_max_integer <- function(x_min, x_max, name_min, name_max) {
+    val <- chk_x_min_max_integer(x_min, x_max, name_min, name_max)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

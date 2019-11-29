@@ -30,8 +30,12 @@
 #' @param unit Measurement units for time, eg \code{"month"}.
 #' @param age Age, typically in years, but can be other unit.
 #' @param class Name of class.
-#' @param break_min First value for breaks.
-#' @param break_max Last value for breaks.
+#' @param x_min Lowest value for vector.
+#' @param x_max Highest value for vector.
+#' @param name_min Name of lowest value for vector.
+#' @param name_max Name of highest value for vector.
+#' @param break_min Lowest value for breaks.
+#' @param break_max Highest value for breaks.
 #' @param date Date on which event occurred or measurement made.
 #' Object of class "Date".
 #' @param dob Date of birth. Object of class "Date".
@@ -122,64 +126,6 @@ chk_break_min_max_date <- function(break_min, break_max, unit) {
                             x2 = break_min,
                             name1 = "break_max",
                             name2 = "break_min")
-    if (!isTRUE(val))
-        return(val)
-    TRUE
-}
-
-
-#' @export
-#' @rdname composite
-chk_break_min_max_integer <- function(break_min, break_max) {
-    val <- chk_is_non_negative_scalar(x = break_min,
-                                      name = "break_min")
-    if (!isTRUE(val))
-        return(val)
-    val <- chk_is_positive_scalar(x = break_max,
-                                  name = "break_max")
-    if (!isTRUE(val))
-        return(val)
-    val <- chk_is_gt_scalar(x1 = break_max,
-                            x2 = break_min,
-                            name1 = "break_max",
-                            name2 = "break_min")
-    if (!isTRUE(val))
-        return(val)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
-chk_breaks_integer <- function(x, name, open_last) {
-    n <- length(x)
-    if (n == 0L) {
-        if (open_last)
-            return(gettextf("'%s' has length %d but '%s' is %s",
-                            name, 0L, "open_last", "TRUE"))
-    }
-    if (n == 1L) {
-        if (!open_last)
-            return(gettextf("'%s' has length %d but '%s' is %s",
-                            name, 1L, "open_last", "FALSE"))
-    }
-    val <- chk_is_not_na_vector(x = x,
-                                name = name)
-    if (!isTRUE(val))
-        return(val)
-    val <- chk_is_finite_vector(x = x,
-                                name = name)
-    if (!isTRUE(val))
-        return(val)
-    val <- chk_is_non_negative_vector(x = x,
-                                      name = name)
-    if (!isTRUE(val))
-        return(val)
-    val <- chk_is_integer_equiv_vector(x = x,
-                                       name = name)
-    if (!isTRUE(val))
-        return(val)
-    val <- chk_is_strictly_increasing(x = x,
-                                      name = name)
     if (!isTRUE(val))
         return(val)
     TRUE
@@ -988,4 +934,68 @@ chk_trans_list <- function(x, name) {
         }
     }
     TRUE    
+}
+
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_x_integer <- function(x, name, open_first, open_last) {
+    n <- length(x)
+    if (n == 0L) {
+        if (open_first)
+            return(gettextf("'%s' has length %d but '%s' is %s",
+                            name, 0L, "open_first", "TRUE"))
+        if (open_last)
+            return(gettextf("'%s' has length %d but '%s' is %s",
+                            name, 0L, "open_last", "TRUE"))
+    }
+    if (n == 1L) {
+        if (!open_first && !open_last)
+            return(gettextf("'%s' has length %d but '%s' and '%s' are both %s",
+                            name, 1L, "open_first", "open_last", "FALSE"))
+    }
+    val <- chk_is_not_na_vector(x = x,
+                                name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_finite_vector(x = x,
+                                name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_non_negative_vector(x = x,
+                                      name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_integer_equiv_vector(x = x,
+                                       name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_strictly_increasing(x = x,
+                                      name = name)
+    if (!isTRUE(val))
+        return(val)
+    TRUE
+}
+
+
+## HAS_TESTS
+#' @export
+#' @rdname composite
+chk_x_min_max_integer <- function(x_min, x_max, name_min, name_max) {
+    val <- chk_is_non_negative_scalar(x = x_min,
+                                      name = name_min)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_positive_scalar(x = x_max,
+                                  name = name_max)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_is_gt_scalar(x1 = x_max,
+                            x2 = x_min,
+                            name1 = name_max,
+                            name2 = name_min)
+    if (!isTRUE(val))
+        return(val)
+    TRUE
 }

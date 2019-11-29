@@ -25,7 +25,7 @@ err_tdy_break_min_max_integer(break_min, break_max, null_ok)
 
 err_tdy_breaks_date(x, name, open_first, open_last)
 
-err_tdy_breaks_integer(x, name, open_last)
+err_tdy_breaks_integer(x, name, open_first, open_last)
 
 err_tdy_date_scalar(x, name)
 
@@ -50,9 +50,9 @@ err_tdy_same_length(x1, x2, name1, name2)
 err_tdy_unit(x, name)
 }
 \arguments{
-\item{break_min}{First value for breaks.}
+\item{break_min}{Lowest value for breaks.}
 
-\item{break_max}{Last value for breaks.}
+\item{break_max}{Highest value for breaks.}
 
 \item{unit}{Measurement units for time, eg \code{"month"}.}
 
