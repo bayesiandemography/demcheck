@@ -280,6 +280,8 @@ Object of class "Date".}
 
 \item{dimtype}{Character. The dimtype of the dimension.}
 
+\item{open_first}{Logical. Whether interval open on left.}
+
 \item{open_last}{Logical. Whether interval open on right.}
 
 \item{x_min}{Lowest value for vector.}
