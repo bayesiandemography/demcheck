@@ -19,6 +19,11 @@
 #' \code{NULL} is equivalent to \code{"year"}.
 #'
 #' @inheritParams composite
+#' @param breaks Dates or integers.
+#' @param equal_ok Whether 'break_min' and 'break_max'
+#' can be equal.
+#' @param open_first Logical. Whether interval open on left.
+#' @param open_last Logical. Whether interval open on right.
 #' 
 #' @return When err_tdy* can format \code{x} as required,
 #' it returns the value; otherwise it raises an error.
@@ -29,7 +34,7 @@ NULL
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_break_min_max_date <- function(break_min, break_max, unit, null_ok) {
+err_tdy_break_min_max_date <- function(break_min, break_max, unit, null_ok, equal_ok) {
     min_null <- is.null(break_min)
     max_null <- is.null(break_max)
     if (null_ok) {
@@ -63,10 +68,16 @@ err_tdy_break_min_max_date <- function(break_min, break_max, unit, null_ok) {
                                      unit = unit)
     }
     if (!min_null && !max_null) {
-        err_is_gt_scalar(x1 = break_max,
-                         x2 = break_min,
-                         name1 = "break_max",
-                         name2 = "break_min")
+        if (equal_ok)
+            err_is_ge_scalar(x1 = break_max,
+                             x2 = break_min,
+                             name1 = "break_max",
+                             name2 = "break_min")
+        else
+            err_is_gt_scalar(x1 = break_max,
+                             x2 = break_min,
+                             name1 = "break_max",
+                             name2 = "break_min")
     }
     list(break_min = break_min,
          break_max = break_max)
@@ -75,7 +86,7 @@ err_tdy_break_min_max_date <- function(break_min, break_max, unit, null_ok) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok) {
+err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok, equal_ok) {
     min_null <- is.null(break_min)
     max_null <- is.null(break_max)
     if (null_ok) {
@@ -97,14 +108,25 @@ err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok) {
     break_min <- err_tdy_non_negative_integer_scalar(x = break_min, 
                                                      name = "break_min",
                                                      null_ok = null_ok)
-    break_max <- err_tdy_positive_integer_scalar(x = break_max,
-                                                 name = "break_max",
-                                                 null_ok = null_ok)
+    if (equal_ok)
+        break_max <- err_tdy_non_negative_integer_scalar(x = break_max,
+                                                        name = "break_max",
+                                                        null_ok = null_ok)
+    else    
+        break_max <- err_tdy_positive_integer_scalar(x = break_max,
+                                                     name = "break_max",
+                                                     null_ok = null_ok)
     if (!min_null && !max_null) {
-        err_is_gt_scalar(x1 = break_max,
-                         x2 = break_min,
-                         name1 = "break_max",
-                         name2 = "break_min")
+        if (equal_ok)
+            err_is_ge_scalar(x1 = break_max,
+                             x2 = break_min,
+                             name1 = "break_max",
+                             name2 = "break_min")
+        else
+            err_is_gt_scalar(x1 = break_max,
+                             x2 = break_min,
+                             name1 = "break_max",
+                             name2 = "break_min")            
     }
     list(break_min = break_min,
          break_max = break_max)
@@ -113,43 +135,103 @@ err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_breaks_date <- function(x, name, open_first, open_last) {
-    n <- length(x)
+err_tdy_breaks_date_cohort <- function(breaks, open_first) {
+    n <- length(breaks)
     if (n == 0L) {
         if (open_first)
             stop(gettextf("'%s' has length %d but '%s' is %s",
-                          name, 0L, "open_first", "TRUE"),
-                 call. = FALSE)
-        if (open_last)
-            stop(gettextf("'%s' has length %d but '%s' is %s",
-                          name, 0L, "open_last", "TRUE"),
+                          "breaks", 0L, "open_first", "TRUE"),
                  call. = FALSE)
         return(as.Date(as.character()))
     }
     if (n == 1L) {
-        if (!open_first && !open_last)
-            stop(gettextf("'%s' has length %d but '%s' and '%s' are both %s",
-                          name, 1L, "open_first", "open_last", "FALSE"),
+        if (!open_first)
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          "breaks", 1L, "open_first", "FALSE"),
                  call. = FALSE)
     }
-    err_is_not_na_vector(x = x,
-                         name = name)
-    x <- err_tdy_date_vector(x = x,
-                             name = name)
-    err_is_strictly_increasing(x = x,
-                               name = name)
-    x
+    err_is_not_na_vector(x = breaks,
+                         name = "breaks")
+    breaks <- err_tdy_date_vector(x = breaks,
+                                  name = "breaks")
+    err_is_strictly_increasing(x = breaks,
+                               name = "breaks")
+    breaks
 }
 
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_breaks_integer <- function(x, name, open_first, open_last) {
-    err_x_integer(x = x,
-                  name = name,
-                  open_first = open_first,
-                  open_last = open_last)
-    as.integer(x)
+err_tdy_breaks_date_period <- function(breaks) {
+    n <- length(breaks)
+    if (n == 1L)
+        stop(gettextf("'%s' has length %d",
+                      "breaks", 1L),
+             call. = FALSE)
+    err_is_not_na_vector(x = breaks,
+                         name = "breaks")
+    breaks <- err_tdy_date_vector(x = breaks,
+                                  name = "breaks")
+    err_is_strictly_increasing(x = breaks,
+                               name = "breaks")
+    breaks
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname err_tdy
+err_tdy_breaks_integer_age <- function(breaks, open_last) {
+    n <- length(breaks)
+    if (n == 0L) {
+        if (open_last)
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          "breaks", 0L, "open_last", "TRUE"))
+    }
+    if (n == 1L) {
+        if (!open_last)
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          "breaks", 1L, "open_last", "FALSE"))
+    }
+    err_is_not_na_vector(x = breaks,
+                         name = "breaks")
+    err_is_finite_vector(x = breaks,
+                         name = "breaks")
+    err_is_non_negative_vector(x = breaks,
+                               name = "breaks")
+    err_is_integer_equiv_vector(x = breaks,
+                                name = "breaks")
+    err_is_strictly_increasing(x = breaks,
+                               name = "breaks")
+    as.integer(breaks)
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname err_tdy
+err_tdy_breaks_integer_num <- function(breaks, open_first, open_last) {
+    n <- length(breaks)
+    if (n == 0L) {
+        if (open_first)
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          "breaks", 0L, "open_first", "TRUE"))
+        if (open_last)
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          "breaks", 0L, "open_last", "TRUE"))
+    }
+    if (n == 1L) {
+        if (!open_first && !open_last)
+            stop(gettextf("'%s' has length %d but '%s' and '%s' are both %s",
+                          "breaks", 1L, "open_first", "open_last", "FALSE"))
+    }
+    err_is_not_na_vector(x = breaks,
+                         name = "breaks")
+    err_is_finite_vector(x = breaks,
+                         name = "breaks")
+    err_is_integer_equiv_vector(x = breaks,
+                                name = "breaks")
+    err_is_strictly_increasing(x = breaks,
+                               name = "breaks")
+    as.integer(breaks)
 }
 
 ## HAS_TESTS

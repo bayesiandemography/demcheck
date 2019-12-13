@@ -24,7 +24,7 @@ NULL
 #' @export
 #' @rdname member
 chk_member_dimtype <- function(x, name) {
-    valid_members <- c("state",
+    valid_members <- c("attribute",
                        "origin",
                        "destination",
                        "parent",

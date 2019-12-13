@@ -4,7 +4,7 @@ context("chk-member")
 ## chk_member_dimtype ---------------------------------------------------------
 
 test_that("'chk_member_dimtype' returns TRUE with valid dimtypes", {
-    x <- c("state",
+    x <- c("attribute",
            "origin",
            "destination",
            "parent",

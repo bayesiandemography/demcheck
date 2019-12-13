@@ -37,22 +37,6 @@ test_that("'chk_array_metadata_complete' returns TRUE with valid array", {
 })
 
 
-## chk_break_min_max_date -----------------------------------------------------
-
-test_that("'chk_break_min_max_date' returns TRUE with valid input", {
-    expect_true(chk_break_min_max_date(break_min = as.Date("2000-01-01"),
-                                       break_max = as.Date("2001-01-01"),
-                                       unit = "year"))
-})
-
-test_that("'chk_break_min_max_date' returns expected error message with invalid input", {
-    expect_identical(chk_break_min_max_date(break_min = as.Date(c("2000-01-01", "2000-01-01")),
-                                            break_max = as.Date("2001-01-01"),
-                                            unit = "year"),
-                     "'break_min' does not have length 1")
-})
-
-
 ## chk_character_complete -----------------------------------------------------
 
 test_that("'chk_character_complete' returns TRUE with valid character vector", {
@@ -72,6 +56,37 @@ test_that("'chk_character_complete' returns expected message with invalid charac
     expect_identical(chk_character_complete(x = c("a", "b", "a"),
                                             name = "x"),
                      "'x' has duplicate [\"a\"]")
+})
+
+
+## chk_categories_complete ---------------------------------------------------------
+
+test_that("'chk_categories_complete' returns TRUE with valid vector", {
+    x <- c("A", "B")
+    expect_true(chk_categories_complete(x = x,
+                                        name = "x"))
+    x <- c()
+    expect_true(chk_categories_complete(x = x,
+                                        name = "x"))
+})
+
+test_that("'chk_categories_complete' returns expected message with invalid argument", {
+    x <- c("A", "B")
+    x_wrong <- x
+    x_wrong[[1]] <- NA
+    expect_identical(chk_categories_complete(x = x_wrong,
+                                             name = "x"),
+                     "'x' has NAs")
+    x_wrong <- x
+    x_wrong[[1]] <- ""
+    expect_identical(chk_categories_complete(x = x_wrong,
+                                             name = "x"),
+                     "'x' has blanks")
+    x_wrong <- x
+    x_wrong[[2]] <- "A"
+    expect_identical(chk_categories_complete(x = x_wrong,
+                                             name = "x"),
+                     "'x' has duplicate [\"A\"]")
 })
 
 
@@ -952,6 +967,23 @@ test_that("'chk_names_dimnames_complete' returns expected message with invalid a
 })
 
 
+## chk_quantiles_increasing ---------------------------------------------------
+
+test_that("'chk_quantiles_increasing' returns TRUE with valid input", {
+    expect_true(chk_quantiles_increasing(x = c("2.5%", "50%", "97.5%"),
+                                         name = "x"))
+    expect_true(chk_quantiles_increasing(x = "2.5%",
+                                         name = "x"))
+    expect_true(chk_quantiles_increasing(x = character(),
+                                         name = "x"))
+})
+
+test_that("'chk_quantiles_increasing' returns expected message with invalid argument", {
+    expect_identical(chk_quantiles_increasing(x = c("2.5%", "2.5%", "97.5%"),
+                                              name = "x"),
+                     "'x' is not strictly increasing : element 1 [2.5%] is greater than or equal to element 2 [2.5%]")
+})
+
 ## chk_trans_list -------------------------------------------------------------
 
 test_that("'chk_trans_list' returns TRUE with valid input", {
@@ -998,95 +1030,4 @@ test_that("'chk_trans_list' returns expected message with invalid argument", {
     expect_identical(chk_trans_list(x = x_wrong,
                                     name = "x_wrong"),
                      "element \"b\" of 'x_wrong' has class \"integer\"")
-})
-
-
-## chk_x_integer --------------------------------------------------------------
-
-test_that("'chk_x_integer' returns TRUE with valid input", {
-    expect_true(chk_x_integer(x = 0:4,
-                              name = "x",
-                              open_first = FALSE,
-                              open_last = FALSE))
-    expect_true(chk_x_integer(x = c(0, 5),
-                              name = "x",
-                              open_first = FALSE,
-                              open_last = FALSE))
-    expect_true(chk_x_integer(x = c(0, 1),
-                              name = "x",
-                              open_first = FALSE,
-                              open_last = FALSE))
-    expect_true(chk_x_integer(x = c(100, 101),
-                              name = "x",
-                              open_first = FALSE,
-                              open_last = FALSE))
-    expect_true(chk_x_integer(x = integer(),
-                              name = "x",
-                              open_first = FALSE,
-                              open_last = FALSE))
-    expect_true(chk_x_integer(x = 0,
-                              name = "x",
-                              open_first = FALSE,
-                              open_last = TRUE))
-})
-    
-test_that("'chk_x_integer' returns expected message with invalid input", {
-    expect_identical(chk_x_integer(x = numeric(),
-                                   name = "x",
-                                   open_first = FALSE,
-                                   open_last = TRUE),
-                     "'x' has length 0 but 'open_last' is TRUE")
-    expect_identical(chk_x_integer(x = numeric(),
-                                   name = "x",
-                                   open_first = TRUE,
-                                   open_last = FALSE),
-                     "'x' has length 0 but 'open_first' is TRUE")
-    expect_identical(chk_x_integer(x = 10,
-                                   name = "x",
-                                   open_first = FALSE,
-                                   open_last = FALSE),
-                     "'x' has length 1 but 'open_first' and 'open_last' are both FALSE")
-    expect_identical(chk_x_integer(x = c(-5, 0, 1),
-                                   name = "x",
-                                   open_first = FALSE,
-                                   open_last = TRUE),
-                     "element 1 of 'x' [-5] is negative")
-    expect_identical(chk_x_integer(x = c(0L, NA),
-                                   name = "x",
-                                   open_first = FALSE,
-                                   open_last = FALSE),
-                     "'x' has NAs")
-    expect_identical(chk_x_integer(x = c(0L, Inf),
-                                   name = "x",
-                                   open_first = FALSE,
-                                   open_last = FALSE),
-                     "'x' has infinite values")
-    expect_identical(chk_x_integer(x = c(0L, 1.1),
-                                   name = "x",
-                                   open_first = FALSE,
-                                   open_last = FALSE),
-                     "value '1.1' in 'x' not equivalent to integer")
-    expect_identical(chk_x_integer(x = c(1L, 0L),
-                                   name = "x",
-                                   open_first = FALSE,
-                                   open_last = FALSE),
-                     "'x' is not strictly increasing : element 1 [1] is greater than or equal to element 2 [0]")
-})
-
-
-## chk_x_min_max_integer --------------------------------------------------
-
-test_that("'chk_x_min_max_integer' returns TRUE with valid input", {
-    expect_true(chk_x_min_max_integer(x_min = 0L,
-                                      x_max = 5L,
-                                      name_min = "break_min",
-                                      name_max = "break_max"))
-})
-
-test_that("'chk_x_min_max_integer' returns expected error message with invalid input", {
-    expect_identical(chk_x_min_max_integer(x_min = 5L,
-                                           x_max = 5L,
-                                           name_min = "break_min",
-                                           name_max = "break_max"),
-                     "'break_max' [5] is less than or equal to 'break_min' [5]")
 })

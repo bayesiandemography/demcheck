@@ -4,8 +4,10 @@
 \alias{err_tdy}
 \alias{err_tdy_break_min_max_date}
 \alias{err_tdy_break_min_max_integer}
-\alias{err_tdy_breaks_date}
-\alias{err_tdy_breaks_integer}
+\alias{err_tdy_breaks_date_cohort}
+\alias{err_tdy_breaks_date_period}
+\alias{err_tdy_breaks_integer_age}
+\alias{err_tdy_breaks_integer_num}
 \alias{err_tdy_date_scalar}
 \alias{err_tdy_date_vector}
 \alias{err_tdy_date_dob}
@@ -19,13 +21,17 @@
 \alias{err_tdy_unit}
 \title{Try to tidy a value}
 \usage{
-err_tdy_break_min_max_date(break_min, break_max, unit, null_ok)
+err_tdy_break_min_max_date(break_min, break_max, unit, null_ok, equal_ok)
 
-err_tdy_break_min_max_integer(break_min, break_max, null_ok)
+err_tdy_break_min_max_integer(break_min, break_max, null_ok, equal_ok)
 
-err_tdy_breaks_date(x, name, open_first, open_last)
+err_tdy_breaks_date_cohort(breaks, open_first)
 
-err_tdy_breaks_integer(x, name, open_first, open_last)
+err_tdy_breaks_date_period(breaks)
+
+err_tdy_breaks_integer_age(breaks, open_last)
+
+err_tdy_breaks_integer_num(breaks, open_first, open_last)
 
 err_tdy_date_scalar(x, name)
 
@@ -58,14 +64,19 @@ err_tdy_unit(x, name)
 
 \item{null_ok}{Whether to allow \code{NULL}.}
 
-\item{x}{The object being checked.}
+\item{equal_ok}{Whether 'break_min' and 'break_max'
+can be equal.}
 
-\item{name}{The name used in any message. Typically,
-but not always, the name of \code{x}.}
+\item{breaks}{Dates or integers.}
 
 \item{open_first}{Logical. Whether interval open on left.}
 
 \item{open_last}{Logical. Whether interval open on right.}
+
+\item{x}{The object being checked.}
+
+\item{name}{The name used in any message. Typically,
+but not always, the name of \code{x}.}
 
 \item{date}{Date on which event occurred or measurement made.
 Object of class "Date".}
