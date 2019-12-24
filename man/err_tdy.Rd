@@ -7,7 +7,7 @@
 \alias{err_tdy_breaks_date_cohort}
 \alias{err_tdy_breaks_date_period}
 \alias{err_tdy_breaks_integer_age}
-\alias{err_tdy_breaks_integer_num}
+\alias{err_tdy_breaks_integer_enum}
 \alias{err_tdy_date_scalar}
 \alias{err_tdy_date_vector}
 \alias{err_tdy_date_dob}
@@ -31,7 +31,7 @@ err_tdy_breaks_date_period(breaks)
 
 err_tdy_breaks_integer_age(breaks, open_last)
 
-err_tdy_breaks_integer_num(breaks, open_first, open_last)
+err_tdy_breaks_integer_enum(breaks, open_first, open_last)
 
 err_tdy_date_scalar(x, name)
 

@@ -208,7 +208,7 @@ err_tdy_breaks_integer_age <- function(breaks, open_last) {
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy
-err_tdy_breaks_integer_num <- function(breaks, open_first, open_last) {
+err_tdy_breaks_integer_enum <- function(breaks, open_first, open_last) {
     n <- length(breaks)
     if (n == 0L) {
         if (open_first)
