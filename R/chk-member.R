@@ -33,6 +33,7 @@ chk_member_dimtype <- function(x, name) {
                        "time",
                        "cohort",
                        "triangle",
+                       "pool",
                        "iteration",
                        "quantile")
     val <- chk_is_character(x = x,

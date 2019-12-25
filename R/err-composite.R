@@ -274,15 +274,6 @@ err_is_valid_quantile <- function(x, name) {
 
 #' @export
 #' @rdname composite
-err_labels_valid_for_dimtype <- function(labels, dimtype) {
-    val <- chk_labels_valid_for_dimtype(labels, dimtype)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
 err_length_same <- function(x1, x2, name1, name2) {
     val <- chk_length_same(x1, x2, name1, name2)
     if (is.character(val))

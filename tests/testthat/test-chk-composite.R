@@ -268,50 +268,6 @@ test_that("'chk_dimtypes_pairs_suffix' returns expected message with invalid inp
 })
 
 
-## chk_labels_valid_for_dimtype -----------------------------------------------
-
-test_that("'chk_labels_valid_for_dimtype' returns TRUE with valid inputs", {
-    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
-                                             dimtype = "state"))
-    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
-                                             dimtype = "origin"))
-    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
-                                             dimtype = "destination"))
-    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
-                                             dimtype = "parent"))
-    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
-                                             dimtype = "child"))
-    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
-                                             dimtype = "age"))
-    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
-                                             dimtype = "time"))
-    expect_true(chk_labels_valid_for_dimtype(labels = c("whatever", "whateveresle"),
-                                             dimtype = "cohort"))
-    expect_true(chk_labels_valid_for_dimtype(labels = c("Lower", "Upper"),
-                                             dimtype = "triangle"))
-    expect_true(chk_labels_valid_for_dimtype(labels = c("1", "2"),
-                                             dimtype = "iteration"))
-    expect_true(chk_labels_valid_for_dimtype(labels = c("1%", "2%"),
-                                             dimtype = "quantile"))
-})
-    
-test_that("'chk_labels_valid_for_dimtype' returns expected message with invalid inputs", {
-    expect_identical(chk_labels_valid_for_dimtype(labels = c("wrong", "Upper"),
-                                                  dimtype = "triangle"),
-                     "\"wrong\" not a valid label for dimension with dimtype \"triangle\"")
-    expect_identical(chk_labels_valid_for_dimtype(labels = c("wrong", "2"),
-                                                  dimtype = "iteration"),
-                     paste("invalid label for dimension with dimtype \"iteration\"",
-                           "value 'wrong' in 'labels' not equivalent to integer",
-                           sep = " : "))
-    expect_identical(chk_labels_valid_for_dimtype(labels = c("wrong", "20%"),
-                                                  dimtype = "quantile"),
-                     paste("invalid label for dimension with dimtype \"quantile\"",
-                           "\"wrong\" is not a valid quantile",
-                           sep = " : "))
-})
-
-
 ## chk_ge_break_min_age -------------------------------------------------------
 
 test_that("'chk_ge_break_min_age' returns TRUE with valid inputs", {

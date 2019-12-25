@@ -28,7 +28,6 @@
 \alias{chk_is_string}
 \alias{chk_is_strictly_increasing}
 \alias{chk_is_valid_quantile}
-\alias{chk_labels_valid_for_dimtype}
 \alias{chk_length_same}
 \alias{chk_length_same_or_1}
 \alias{chk_lt_break_max_age}
@@ -67,7 +66,6 @@
 \alias{err_is_string}
 \alias{err_is_strictly_increasing}
 \alias{err_is_valid_quantile}
-\alias{err_labels_valid_for_dimtype}
 \alias{err_length_same}
 \alias{err_length_same_or_1}
 \alias{err_lt_break_max_age}
@@ -129,8 +127,6 @@ chk_is_string(x, name)
 chk_is_strictly_increasing(x, name)
 
 chk_is_valid_quantile(x, name)
-
-chk_labels_valid_for_dimtype(labels, dimtype)
 
 chk_length_same(x1, x2, name1, name2)
 
@@ -208,8 +204,6 @@ err_is_strictly_increasing(x, name)
 
 err_is_valid_quantile(x, name)
 
-err_labels_valid_for_dimtype(labels, dimtype)
-
 err_length_same(x1, x2, name1, name2)
 
 err_length_same_or_1(x1, x2, name1, name2)
@@ -267,10 +261,6 @@ Object of class "Date".}
 \item{null_ok}{Whether to allow \code{NULL}.}
 
 \item{n}{An integer.}
-
-\item{labels}{Dimension labels: the \code{i}th element of \code{dimnames}}
-
-\item{dimtype}{Character. The dimtype of the dimension.}
 
 \item{break_max}{Highest value for breaks.}
 }
