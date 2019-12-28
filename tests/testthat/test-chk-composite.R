@@ -145,6 +145,11 @@ test_that("'chk_dimnames_complete' returns TRUE with valid array", {
     expect_true(chk_dimnames_complete(x = x,
                                       name = "x"))
     x <- array(0L,
+               dim = 2:3,
+               dimnames = list(A = 1:2, b = c(NA, 2:3)))
+    expect_true(chk_dimnames_complete(x = x,
+                                      name = "x"))
+    x <- array(0L,
                dim = c(0, 3),
                dimnames = list(A = character(), b = 1:3))
     expect_true(chk_dimnames_complete(x = x,
@@ -154,17 +159,17 @@ test_that("'chk_dimnames_complete' returns TRUE with valid array", {
 test_that("'chk_dimnames_complete' returns expected message with invalid argument", {
     x <- array(0L,
                dim = 2:3,
-               dimnames = list(A = 1:2, b = 1:3))
+               dimnames = list(A = 1:2, B = 1:3))
     x_wrong <- x
     dimnames(x_wrong)[1] <- list(NULL)
     expect_identical(chk_dimnames_complete(x = x_wrong,
                                                  name = "x"),
                      "\"A\" dimension of 'x' does not have dimnames")
     x_wrong <- x
-    dimnames(x_wrong)[[1]][1] <- NA
+    dimnames(x_wrong)[[2]][1:2] <- NA
     expect_identical(chk_dimnames_complete(x = x_wrong,
-                                                 name = "x"),
-                     "dimnames for \"A\" dimension of 'x' have NAs")
+                                           name = "x"),
+                     "dimnames for \"B\" dimension of 'x' have 2 NAs")
     x_wrong <- x
     dimnames(x_wrong)[[1]][1] <- ""
     expect_identical(chk_dimnames_complete(x = x_wrong,

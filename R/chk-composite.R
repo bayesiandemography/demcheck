@@ -186,9 +186,10 @@ chk_dimnames_complete <- function(x, name) {
             if (is.null(dimnames_i))
                 return(gettextf("\"%s\" dimension of '%s' does not have dimnames",
                                 names_i, name))
-            if (any(is.na(dimnames_i)))
-                return(gettextf("dimnames for \"%s\" dimension of '%s' have NAs",
-                                names_i, name))
+            n_na <- sum(is.na(dimnames_i))
+            if (n_na > 1L)
+                return(gettextf("dimnames for \"%s\" dimension of '%s' have %d NAs",
+                                names_i, name, n_na))
             if (!all(nzchar(dimnames_i)))
                 return(gettextf("dimnames for \"%s\" dimension of '%s' have blanks",
                                 names_i, name))
