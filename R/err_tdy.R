@@ -1,39 +1,38 @@
 
-#' Try to tidy a value
-#'
-#' Functions that try to put a value into a particular
-#' format, and throw an error if this cannot be done.
-#' These function do not have an chk* version, since
-#' the results would be ambiguous in cases where the
-#' return value was a string. Also, argument-tidying
-#' is almost always done as part of the user interface,
-#' when it is appropriate to raise an error if a value
-#' departs from expectations.
-#'
-#' In function \code{err_tdy_unit}, \code{x}
-#' can be one of \code{NULL}, \code{"year"},
-#' \code{"quarter"}, \code{"month"},
-#' \code{"years"}, \code{"quarters"}, or \code{"months"}.
-#' It can also have the form \code{"n year"}, or \code{"n years"},
-#' where \code{n} is a positive integer.
-#' \code{NULL} is equivalent to \code{"year"}.
-#'
-#' @inheritParams composite
-#' @param breaks Dates or integers.
-#' @param equal_ok Whether 'break_min' and 'break_max'
-#' can be equal.
-#' @param open_first Logical. Whether interval open on left.
-#' @param open_last Logical. Whether interval open on right.
-#' 
-#' @return When err_tdy* can format \code{x} as required,
-#' it returns the value; otherwise it raises an error.
-#'
-#' @name err_tdy
-NULL
+## Try to tidy a value
+##
+## Functions that try to put a value into a particular
+## format, and throw an error if this cannot be done.
+## These function do not have an chk* version, since
+## the results would be ambiguous in cases where the
+## return value was a string. Also, argument-tidying
+## is almost always done as part of the user interface,
+## when it is appropriate to raise an error if a value
+## departs from expectations.
+
 
 ## HAS_TESTS
+#' Check and tidy minimum and maximum dates
+#'
+#' @param break_min Date or NULL. If non-NULL, lowest permissible value
+#' for \code{date}.
+#' @param break_max Date or NULL. If non-NULL, highest permissible value
+#' for \code{date}.
+#' @param unit A time unit.
+#' @param null_ok Whether \code{break_min} and \code{break_max} can be
+#' \code{NULL}
+#' @param equal_ok Whether \code{break_min} and \code{break_max} can be
+#' \code{NULL}.
+#'
+#' @seealso \code{\link{err_tdy_break_min_max_integer}}
+#'
+#' @examples
+#' err_tdy_break_min_max_date(break_min = as.Date("2000-01-01"),
+#'                            break_max = as.Date("2080-01-01"),
+#'                            unit = "year",
+#'                            null_ok = FALSE,
+#'                            equal_ok = FALSE)
 #' @export
-#' @rdname err_tdy
 err_tdy_break_min_max_date <- function(break_min, break_max, unit, null_ok, equal_ok) {
     min_null <- is.null(break_min)
     max_null <- is.null(break_max)
@@ -83,9 +82,26 @@ err_tdy_break_min_max_date <- function(break_min, break_max, unit, null_ok, equa
          break_max = break_max)
 }
 
+
 ## HAS_TESTS
+#' Check and tidy minimum and maximum integers
+#'
+#' Typically used for age or cohort.
+#'
+#' @inheritParams err_tdy_break_min_max_date
+#' @param break_min Integer or NULL
+#' for \code{date}.
+#' @param break_max Integer or NULL
+#'
+#' @seealso \code{\link{err_tdy_break_min_max_date}},
+#' \code{\link{
+#'
+#' @examples
+#' err_tdy_break_min_max_date(break_min = 0L,
+#'                            break_max = 100L,
+#'                            null_ok = FALSE,
+#'                            equal_ok = FALSE)
 #' @export
-#' @rdname err_tdy
 err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok, equal_ok) {
     min_null <- is.null(break_min)
     max_null <- is.null(break_max)
@@ -132,9 +148,22 @@ err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok, equal_o
          break_max = break_max)
 }
 
+
 ## HAS_TESTS
+#' Check and tidy a vector of breaks used to define cohorts
+#'
+#' @param A vector of dates, or values that can be coerced to dates.
+#' @param open_first Whether the first interval is open on the left.
+#'
+#' @seealso \code{\link{err_tdy_breaks_date_period}},
+#' \code{\link{err_tdy_breaks_integer_age}}
+#' \code{\link{err_tdy_breaks_integer_enum}}
+#'
+#' @examples
+#' breaks <- c("2000-01-01", "2010-01-01", "2020-01-01")
+#' err_tdy_breaks_date_cohort(breaks = breaks,
+#'                            open_first = TRUE)
 #' @export
-#' @rdname err_tdy
 err_tdy_breaks_date_cohort <- function(breaks, open_first) {
     n <- length(breaks)
     if (n == 0L) {
@@ -160,8 +189,18 @@ err_tdy_breaks_date_cohort <- function(breaks, open_first) {
 }
 
 ## HAS_TESTS
+#' Check and tidy a vector of breaks used to define periods
+#'
+#' @inheritParams err_tdy_breaks_date_cohort
+#'
+#' @seealso \code{\link{err_tdy_breaks_date_cohort}},
+#' \code{\link{err_tdy_breaks_integer_age}}
+#' \code{\link{err_tdy_breaks_integer_enum}}
+#'
+#' @examples
+#' breaks <- c("2000-01-01", "2010-01-01", "2020-01-01")
+#' err_tdy_breaks_date_period(breaks)
 #' @export
-#' @rdname err_tdy
 err_tdy_breaks_date_period <- function(breaks) {
     n <- length(breaks)
     if (n == 1L)
@@ -177,9 +216,22 @@ err_tdy_breaks_date_period <- function(breaks) {
     breaks
 }
 
+
 ## HAS_TESTS
+#' Check and tidy a vector of breaks used to define age groups
+#'
+#' @param breaks An integer vector.
+#' @param open_last Whether the final interval is open on the right.
+#'
+#' @seealso \code{\link{err_tdy_breaks_date_cohort}},
+#' \code{\link{err_tdy_breaks_date_period}},
+#' \code{\link{err_tdy_breaks_integer_enum}}
+#'
+#' @examples
+#' breaks <- c(0L, 15L, 65L)
+#' err_tdy_breaks_integer_age(breaks,
+#'                            open_last = TRUE)
 #' @export
-#' @rdname err_tdy
 err_tdy_breaks_integer_age <- function(breaks, open_last) {
     n <- length(breaks)
     if (n == 0L) {
@@ -205,9 +257,23 @@ err_tdy_breaks_integer_age <- function(breaks, open_last) {
     as.integer(breaks)
 }
 
+
 ## HAS_TESTS
+#' Check and tidy a vector of breaks used to define enumerations
+#'
+#' @inheritParams err_tdy_breaks_integer_age
+#' @param open_left Whether the first interval is open on the left.
+#'
+#' @seealso \code{\link{err_tdy_breaks_date_cohort}},
+#' \code{\link{err_tdy_breaks_date_period}},
+#' \code{\link{err_tdy_breaks_integer_age}}
+#'
+#' @examples
+#' breaks <- c(0, 1000, 5000, 20000)
+#' err_tdy_breaks_integer_enum(breaks,
+#'                             open_first = TRUE,
+#'                             open_last = TRUE)
 #' @export
-#' @rdname err_tdy
 err_tdy_breaks_integer_enum <- function(breaks, open_first, open_last) {
     n <- length(breaks)
     if (n == 0L) {
@@ -234,9 +300,27 @@ err_tdy_breaks_integer_enum <- function(breaks, open_first, open_last) {
     as.integer(breaks)
 }
 
+
+
 ## HAS_TESTS
+#' Check and tidy a date scalar or vector
+#'
+#' @param x A scalar or vector of class \code{\link[base:Dates]{Date}},
+#' or something that can be coerced to one.
+#' @param name The name for \code{x} that
+#' will be used in error messages.
+#'
+#' @examples
+#' x <- "2001-03-01"
+#' err_tdy_date_scalar(x, name = "x")
+#' x <- c("2000-05-01", "2000-06-01", "2000-07-01")
+#' err_tdy_date_vector(x, name = "x")
 #' @export
-#' @rdname err_tdy
+#' @name err_tdy_date_scalar
+NULL
+
+#' @export
+#' @rdname err_tdy_date_scalar
 err_tdy_date_scalar <- function(x, name) {
     err_length_1(x = x,
                     name = name)
@@ -251,9 +335,8 @@ err_tdy_date_scalar <- function(x, name) {
     x_date
 }
 
-## HAS_TESTS
 #' @export
-#' @rdname err_tdy
+#' @rdname err_tdy_date_scalar
 err_tdy_date_vector <- function(x, name) {
     if (inherits(x, "Date"))
         return(x)
@@ -271,6 +354,8 @@ err_tdy_date_vector <- function(x, name) {
              call. = FALSE)
     x_date
 }
+
+
 
 ## HAS_TESTS
 #' @export
