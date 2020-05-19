@@ -1,28 +1,23 @@
 
-#' Checks of membership
-#'
-#' Functions to check whether a string belongs to a
-#' set of values.  Includes a check of
-#' whether \code{x} is a valid string, to provide
-#' more helpful error messages to users.
+## Checks of membership
+##
+## Functions to check whether a string belongs to a
+## set of values.  Includes a check of
+## whether \code{x} is a valid string, to provide
+## more helpful error messages to users.
 
-#' @param x The object being checked.
-#' @param name The name used in any message. Typically,
-#' but not always, the name of \code{x}.
-#'
-#' @return When \code{x} passes the test,
-#' the \code{chk*} and \code{err*} functions both
-#' return \code{TRUE}.  When \code{x} fails the test,
-#' the \code{chk*} functions return a string, and the \code{err*}
-#' functions raise an error.
-#'
-#' @seealso \code{\link{single}}, \code{\link{composite}}
-#' @name member
-NULL
 
 ## HAS_TESTS
+#' Check that 'x' consists of valid dimtypes
+#'
+#' @param x A character vector
+#' @param name The name for \code{x} that
+#' will be used in error messages.
+#'
+#' @examples
+#' x <- c("age", "attribute")
+#' chk_member_dimtype(x, name = "x")
 #' @export
-#' @rdname member
 chk_member_dimtype <- function(x, name) {
     valid_members <- c("attribute",
                        "origin",
@@ -40,12 +35,12 @@ chk_member_dimtype <- function(x, name) {
                             name = name)
     if (!isTRUE(val))
         return(val)
-    val <- chk_is_not_na_vector(x = x,
-                                name = name)
+    val <- chk_not_na_vector(x = x,
+                             name = name)
     if (!isTRUE(val))
         return(val)
-    val <- chk_is_not_blank_vector(x = x,
-                                   name = name)
+    val <- chk_not_blank_vector(x = x,
+                                name = name)
     if (!isTRUE(val))
         return(val)
     is_invalid <- !(x %in% valid_members)
@@ -57,8 +52,15 @@ chk_member_dimtype <- function(x, name) {
 }
 
 ## HAS_TESTS
+#' Check that 'x' is a valid time unit
+#'
+#' @inheritParams chk_member_dimtype
+#' @param x A string - ie a character vector of length 1.
+#'
+#' @examples
+#' x <- "year"
+#' chk_member_unit(x = x, name = "x")
 #' @export
-#' @rdname member
 chk_member_unit <- function(x, name) {
     valid_members <- c("month", "quarter", "year")
     val <- chk_is_string(x = x,

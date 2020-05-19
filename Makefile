@@ -8,22 +8,22 @@ all: R/err-composite.R \
 
 ## Create README
 
-README.md : README.rmd
+README.md: README.rmd
 	Rscript -e 'knitr::knit("README.Rmd")'
 
 
 ## Create 'err' files (note that there is no 'chk_tdy')
 
-R/err-composite.R : make_err.awk \
-                    R/chk-composite.R
+R/err-composite.R: make_err.awk \
+                   R/chk-composite.R
 	awk -f $< R/chk-composite.R > $@
 
-R/err-member.R : make_err.awk \
-                 R/chk-member.R
+R/err-member.R: make_err.awk \
+                R/chk-member.R
 	awk -f $< R/chk-member.R > $@
 
-R/err-single.R : make_err.awk \
-                 R/chk-single.R
+R/err-single.R: make_err.awk \
+                R/chk-single.R
 	awk -f $< R/chk-single.R > $@
 
 

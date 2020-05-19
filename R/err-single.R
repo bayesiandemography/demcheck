@@ -3,34 +3,16 @@
 
 
 #' @export
-#' @rdname single
-err_has_dimnames <- function(x, name) {
-    val <- chk_has_dimnames(x, name)
+#' @rdname chk_all_0_1
+err_all_0_1 <- function(x, name) {
+    val <- chk_all_0_1(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname single
-err_has_names_dimnames <- function(x, name) {
-    val <- chk_has_names_dimnames(x, name)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname single
-err_is_all_0_1 <- function(x, name) {
-    val <- chk_is_all_0_1(x, name)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname single
+#' @rdname chk_is_character
 err_is_character <- function(x, name) {
     val <- chk_is_character(x, name)
     if (is.character(val))
@@ -39,7 +21,7 @@ err_is_character <- function(x, name) {
 }
 
 #' @export
-#' @rdname single
+#' @rdname chk_is_date
 err_is_date <- function(x, name) {
     val <- chk_is_date(x, name)
     if (is.character(val))
@@ -48,7 +30,7 @@ err_is_date <- function(x, name) {
 }
 
 #' @export
-#' @rdname single
+#' @rdname chk_is_date_equiv_scalar
 err_is_date_equiv_scalar <- function(x, name) {
     val <- chk_is_date_equiv_scalar(x, name)
     if (is.character(val))
@@ -57,7 +39,7 @@ err_is_date_equiv_scalar <- function(x, name) {
 }
 
 #' @export
-#' @rdname single
+#' @rdname chk_is_date_equiv_scalar
 err_is_date_equiv_vector <- function(x, name) {
     val <- chk_is_date_equiv_vector(x, name)
     if (is.character(val))
@@ -66,7 +48,7 @@ err_is_date_equiv_vector <- function(x, name) {
 }
 
 #' @export
-#' @rdname single
+#' @rdname chk_is_date_or_numeric
 err_is_date_or_numeric <- function(x, name) {
     val <- chk_is_date_or_numeric(x, name)
     if (is.character(val))
@@ -75,25 +57,25 @@ err_is_date_or_numeric <- function(x, name) {
 }
 
 #' @export
-#' @rdname single
-err_is_finite_scalar <- function(x, name) {
-    val <- chk_is_finite_scalar(x, name)
+#' @rdname chk_finite_scalar
+err_finite_scalar <- function(x, name) {
+    val <- chk_finite_scalar(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname single
-err_is_finite_vector <- function(x, name) {
-    val <- chk_is_finite_vector(x, name)
+#' @rdname chk_finite_scalar
+err_finite_vector <- function(x, name) {
+    val <- chk_finite_vector(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
+#' @rdname chk_is_integer
 #' @export
-#' @rdname single
 err_is_integer <- function(x, name) {
     val <- chk_is_integer(x, name)
     if (is.character(val))
@@ -102,7 +84,16 @@ err_is_integer <- function(x, name) {
 }
 
 #' @export
-#' @rdname single
+#' @rdname chk_is_integer
+err_is_integer_consec <- function(x, name) {
+    val <- chk_is_integer_consec(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_is_integer_equiv_scalar
 err_is_integer_equiv_scalar <- function(x, name) {
     val <- chk_is_integer_equiv_scalar(x, name)
     if (is.character(val))
@@ -111,7 +102,7 @@ err_is_integer_equiv_scalar <- function(x, name) {
 }
 
 #' @export
-#' @rdname single
+#' @rdname chk_is_integer_equiv_scalar
 err_is_integer_equiv_vector <- function(x, name) {
     val <- chk_is_integer_equiv_vector(x, name)
     if (is.character(val))
@@ -120,16 +111,16 @@ err_is_integer_equiv_vector <- function(x, name) {
 }
 
 #' @export
-#' @rdname single
-err_is_length_1 <- function(x, name) {
-    val <- chk_is_length_1(x, name)
+#' @rdname chk_length_1
+err_length_1 <- function(x, name) {
+    val <- chk_length_1(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname single
+#' @rdname chk_is_logical
 err_is_logical <- function(x, name) {
     val <- chk_is_logical(x, name)
     if (is.character(val))
@@ -137,62 +128,62 @@ err_is_logical <- function(x, name) {
     TRUE
 }
 
+#' @rdname chk_not_blank_scalar
 #' @export
-#' @rdname single
-err_is_not_blank_scalar <- function(x, name) {
-    val <- chk_is_not_blank_scalar(x, name)
+err_not_blank_scalar <- function(x, name) {
+    val <- chk_not_blank_scalar(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_not_blank_scalar
+#' @export
+err_not_blank_vector <- function(x, name) {
+    val <- chk_not_blank_vector(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname single
-err_is_not_blank_vector <- function(x, name) {
-    val <- chk_is_not_blank_vector(x, name)
+#' @rdname chk_not_na_dataframe
+err_not_na_dataframe <- function(x, name) {
+    val <- chk_not_na_dataframe(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname single
-err_is_not_na_dataframe <- function(x, name) {
-    val <- chk_is_not_na_dataframe(x, name)
+#' @rdname chk_not_na_dataframe
+err_not_na_list <- function(x, name) {
+    val <- chk_not_na_list(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname single
-err_is_not_na_list <- function(x, name) {
-    val <- chk_is_not_na_list(x, name)
+#' @rdname chk_not_na_dataframe
+err_not_na_scalar <- function(x, name) {
+    val <- chk_not_na_scalar(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname single
-err_is_not_na_scalar <- function(x, name) {
-    val <- chk_is_not_na_scalar(x, name)
+#' @rdname chk_not_na_dataframe
+err_not_na_vector <- function(x, name) {
+    val <- chk_not_na_vector(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname single
-err_is_not_na_vector <- function(x, name) {
-    val <- chk_is_not_na_vector(x, name)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname single
+#' @rdname chk_is_numeric
 err_is_numeric <- function(x, name) {
     val <- chk_is_numeric(x, name)
     if (is.character(val))
@@ -201,16 +192,16 @@ err_is_numeric <- function(x, name) {
 }
 
 #' @export
-#' @rdname single
-err_is_positive_length <- function(x, name) {
-    val <- chk_is_positive_length(x, name)
+#' @rdname chk_positive_length
+err_positive_length <- function(x, name) {
+    val <- chk_positive_length(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname single
+#' @rdname chk_no_dimnames
 err_no_dimnames <- function(x, name) {
     val <- chk_no_dimnames(x, name)
     if (is.character(val))
@@ -219,9 +210,18 @@ err_no_dimnames <- function(x, name) {
 }
 
 #' @export
-#' @rdname single
+#' @rdname chk_no_names
 err_no_names <- function(x, name) {
     val <- chk_no_names(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_nonzero_unique
+err_nonzero_unique <- function(x, name) {
+    val <- chk_nonzero_unique(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

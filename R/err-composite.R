@@ -3,16 +3,16 @@
 
 
 #' @export
-#' @rdname composite
-err_all_class <- function(x, name, class) {
-    val <- chk_all_class(x, name, class)
+#' @rdname chk_all_x1_in_x2
+err_all_x1_in_x2 <- function(x1, x2, name1, name2, exclude_zero) {
+    val <- chk_all_x1_in_x2(x1, x2, name1, name2, exclude_zero)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
+#' @rdname chk_array_metadata_complete
 err_array_metadata_complete <- function(x, name) {
     val <- chk_array_metadata_complete(x, name)
     if (is.character(val))
@@ -21,7 +21,7 @@ err_array_metadata_complete <- function(x, name) {
 }
 
 #' @export
-#' @rdname composite
+#' @rdname chk_character_complete
 err_character_complete <- function(x, name) {
     val <- chk_character_complete(x, name)
     if (is.character(val))
@@ -30,34 +30,7 @@ err_character_complete <- function(x, name) {
 }
 
 #' @export
-#' @rdname composite
-err_categories_complete <- function(x, name) {
-    val <- chk_categories_complete(x, name)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
-err_date_consistent_with_month_start <- function(x, name, month_start) {
-    val <- chk_date_consistent_with_month_start(x, name, month_start)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
-err_date_consistent_with_width_origin <- function(x, name, origin, width) {
-    val <- chk_date_consistent_with_width_origin(x, name, origin, width)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
+#' @rdname chk_dimnames_complete
 err_dimnames_complete <- function(x, name) {
     val <- chk_dimnames_complete(x, name)
     if (is.character(val))
@@ -66,7 +39,7 @@ err_dimnames_complete <- function(x, name) {
 }
 
 #' @export
-#' @rdname composite
+#' @rdname chk_dimtypes_mutually_compatible
 err_dimtypes_mutually_compatible <- function(dimtypes) {
     val <- chk_dimtypes_mutually_compatible(dimtypes)
     if (is.character(val))
@@ -75,25 +48,25 @@ err_dimtypes_mutually_compatible <- function(dimtypes) {
 }
 
 #' @export
-#' @rdname composite
-err_dimtypes_pairs_complete <- function(names) {
-    val <- chk_dimtypes_pairs_complete(names)
+#' @rdname chk_names_pairs_complete
+err_names_pairs_complete <- function(names) {
+    val <- chk_names_pairs_complete(names)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_dimtypes_pairs_suffix <- function(dimtypes, names) {
-    val <- chk_dimtypes_pairs_suffix(dimtypes, names)
+#' @rdname chk_names_pairs_suffix
+err_names_pairs_suffix <- function(dimtypes, names) {
+    val <- chk_names_pairs_suffix(dimtypes, names)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
+#' @rdname chk_ge_break_min_age
 err_ge_break_min_age <- function(age, break_min, date, dob, unit) {
     val <- chk_ge_break_min_age(age, break_min, date, dob, unit)
     if (is.character(val))
@@ -102,7 +75,7 @@ err_ge_break_min_age <- function(age, break_min, date, dob, unit) {
 }
 
 #' @export
-#' @rdname composite
+#' @rdname chk_ge_break_min_date
 err_ge_break_min_date <- function(date, break_min) {
     val <- chk_ge_break_min_date(date, break_min)
     if (is.character(val))
@@ -111,79 +84,88 @@ err_ge_break_min_date <- function(date, break_min) {
 }
 
 #' @export
-#' @rdname composite
-err_is_first_day_unit_scalar <- function(x, name, unit) {
-    val <- chk_is_first_day_unit_scalar(x, name, unit)
+#' @rdname chk_is_class_scalar
+err_is_class_scalar <- function(x, name, class) {
+    val <- chk_is_class_scalar(x, name, class)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_first_day_unit_vector <- function(x, name, unit) {
-    val <- chk_is_first_day_unit_vector(x, name, unit)
+#' @rdname chk_is_class_scalar
+err_is_class_vector <- function(x, name, class) {
+    val <- chk_is_class_vector(x, name, class)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_first_day_unit_consec <- function(x, name, unit) {
-    val <- chk_is_first_day_unit_consec(x, name, unit)
+#' @rdname chk_first_day_unit_scalar
+err_first_day_unit_scalar <- function(x, name, unit) {
+    val <- chk_first_day_unit_scalar(x, name, unit)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_ge_scalar <- function(x1, x2, name1, name2) {
-    val <- chk_is_ge_scalar(x1, x2, name1, name2)
+#' @rdname chk_first_day_unit_scalar
+err_first_day_unit_vector <- function(x, name, unit) {
+    val <- chk_first_day_unit_vector(x, name, unit)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_ge_vector <- function(x1, x2, name1, name2) {
-    val <- chk_is_ge_vector(x1, x2, name1, name2)
+#' @rdname chk_first_day_unit_scalar
+err_first_day_unit_consec <- function(x, name, unit) {
+    val <- chk_first_day_unit_consec(x, name, unit)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_gt_scalar <- function(x1, x2, name1, name2) {
-    val <- chk_is_gt_scalar(x1, x2, name1, name2)
+#' @rdname chk_ge_scalar
+err_ge_scalar <- function(x1, x2, name1, name2) {
+    val <- chk_ge_scalar(x1, x2, name1, name2)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_gt_vector <- function(x1, x2, name1, name2) {
-    val <- chk_is_gt_vector(x1, x2, name1, name2)
+#' @rdname chk_ge_scalar
+err_ge_vector <- function(x1, x2, name1, name2) {
+    val <- chk_ge_vector(x1, x2, name1, name2)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_integer_consec <- function(x, name) {
-    val <- chk_is_integer_consec(x, name)
+#' @rdname chk_gt_scalar
+err_gt_scalar <- function(x1, x2, name1, name2) {
+    val <- chk_gt_scalar(x1, x2, name1, name2)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
+#' @rdname chk_gt_scalar
+err_gt_vector <- function(x1, x2, name1, name2) {
+    val <- chk_gt_vector(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_is_logical_flag
 err_is_logical_flag <- function(x, name) {
     val <- chk_is_logical_flag(x, name)
     if (is.character(val))
@@ -192,61 +174,61 @@ err_is_logical_flag <- function(x, name) {
 }
 
 #' @export
-#' @rdname composite
-err_is_multiple_of <- function(x1, x2, name1, name2, null_ok) {
-    val <- chk_is_multiple_of(x1, x2, name1, name2, null_ok)
+#' @rdname chk_multiple_of
+err_multiple_of <- function(x1, x2, name1, name2, null_ok) {
+    val <- chk_multiple_of(x1, x2, name1, name2, null_ok)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_multiple_of_n <- function(x, name, n, null_ok) {
-    val <- chk_is_multiple_of_n(x, name, n, null_ok)
+#' @rdname chk_multiple_of_n
+err_multiple_of_n <- function(x, name, n, null_ok) {
+    val <- chk_multiple_of_n(x, name, n, null_ok)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_non_negative_scalar <- function(x, name) {
-    val <- chk_is_non_negative_scalar(x, name)
+#' @rdname chk_non_negative_scalar
+err_non_negative_scalar <- function(x, name) {
+    val <- chk_non_negative_scalar(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_non_negative_vector <- function(x, name) {
-    val <- chk_is_non_negative_vector(x, name)
+#' @rdname chk_non_negative_scalar
+err_non_negative_vector <- function(x, name) {
+    val <- chk_non_negative_vector(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_positive_scalar <- function(x, name) {
-    val <- chk_is_positive_scalar(x, name)
+#' @rdname chk_positive_scalar
+err_positive_scalar <- function(x, name) {
+    val <- chk_positive_scalar(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_positive_vector <- function(x, name) {
-    val <- chk_is_positive_vector(x, name)
+#' @rdname chk_positive_scalar
+err_positive_vector <- function(x, name) {
+    val <- chk_positive_vector(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
+#' @rdname chk_is_string
 err_is_string <- function(x, name) {
     val <- chk_is_string(x, name)
     if (is.character(val))
@@ -255,79 +237,25 @@ err_is_string <- function(x, name) {
 }
 
 #' @export
-#' @rdname composite
-err_is_strictly_increasing <- function(x, name) {
-    val <- chk_is_strictly_increasing(x, name)
+#' @rdname chk_strictly_increasing
+err_strictly_increasing <- function(x, name) {
+    val <- chk_strictly_increasing(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname composite
-err_is_valid_quantile <- function(x, name) {
-    val <- chk_is_valid_quantile(x, name)
+#' @rdname chk_valid_quantile
+err_valid_quantile <- function(x, name) {
+    val <- chk_valid_quantile(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
+#' @rdname chk_valid_quantile
 #' @export
-#' @rdname composite
-err_length_same <- function(x1, x2, name1, name2) {
-    val <- chk_length_same(x1, x2, name1, name2)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
-err_length_same_or_1 <- function(x1, x2, name1, name2) {
-    val <- chk_length_same_or_1(x1, x2, name1, name2)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
-err_lt_break_max_age <- function(age, break_max, date, dob, unit) {
-    val <- chk_lt_break_max_age(age, break_max, date, dob, unit)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
-err_lt_break_max_date <- function(date, break_max) {
-    val <- chk_lt_break_max_date(date, break_max)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
-err_names_complete <- function(x, name) {
-    val <- chk_names_complete(x, name)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
-err_names_dimnames_complete <- function(x, name) {
-    val <- chk_names_dimnames_complete(x, name)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname composite
 err_quantiles_increasing <- function(x, name) {
     val <- chk_quantiles_increasing(x, name)
     if (is.character(val))
@@ -336,9 +264,81 @@ err_quantiles_increasing <- function(x, name) {
 }
 
 #' @export
-#' @rdname composite
-err_trans_list <- function(x, name) {
-    val <- chk_trans_list(x, name)
+#' @rdname chk_length_same
+err_length_same <- function(x1, x2, name1, name2) {
+    val <- chk_length_same(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_length_same_or_1
+err_length_same_or_1 <- function(x1, x2, name1, name2) {
+    val <- chk_length_same_or_1(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_lengths_elements_equal_vec
+err_lengths_elements_equal_vec <- function(x1, x2, name1, name2) {
+    val <- chk_lengths_elements_equal_vec(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_lt_break_max_age
+err_lt_break_max_age <- function(age, break_max, date, dob, unit) {
+    val <- chk_lt_break_max_age(age, break_max, date, dob, unit)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_lt_break_max_date
+err_lt_break_max_date <- function(date, break_max) {
+    val <- chk_lt_break_max_date(date, break_max)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_has_dimnames
+err_has_dimnames <- function(x, name) {
+    val <- chk_has_dimnames(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_has_dimnames
+err_has_names_dimnames <- function(x, name) {
+    val <- chk_has_names_dimnames(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_names_complete
+err_names_complete <- function(x, name) {
+    val <- chk_names_complete(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_names_dimnames_complete
+err_names_dimnames_complete <- function(x, name) {
+    val <- chk_names_dimnames_complete(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

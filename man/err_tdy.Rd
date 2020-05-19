@@ -56,14 +56,6 @@ err_tdy_same_length(x1, x2, name1, name2)
 err_tdy_unit(x, name)
 }
 \arguments{
-\item{break_min}{Lowest value for breaks.}
-
-\item{break_max}{Highest value for breaks.}
-
-\item{unit}{Measurement units for time, eg \code{"month"}.}
-
-\item{null_ok}{Whether to allow \code{NULL}.}
-
 \item{equal_ok}{Whether 'break_min' and 'break_max'
 can be equal.}
 
@@ -72,24 +64,6 @@ can be equal.}
 \item{open_first}{Logical. Whether interval open on left.}
 
 \item{open_last}{Logical. Whether interval open on right.}
-
-\item{x}{The object being checked.}
-
-\item{name}{The name used in any message. Typically,
-but not always, the name of \code{x}.}
-
-\item{date}{Date on which event occurred or measurement made.
-Object of class "Date".}
-
-\item{dob}{Date of birth. Object of class "Date".}
-
-\item{x1}{The first of a pair of objects being checked.}
-
-\item{x2}{The second of a pair of objects being checked.}
-
-\item{name1}{The name of the first of the pair of objects.}
-
-\item{name2}{The name of the second of the pair of objects.}
 }
 \value{
 When err_tdy* can format \code{x} as required,

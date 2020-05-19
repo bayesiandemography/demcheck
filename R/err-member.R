@@ -3,7 +3,7 @@
 
 
 #' @export
-#' @rdname member
+#' @rdname chk_member_dimtype
 err_member_dimtype <- function(x, name) {
     val <- chk_member_dimtype(x, name)
     if (is.character(val))
@@ -12,7 +12,7 @@ err_member_dimtype <- function(x, name) {
 }
 
 #' @export
-#' @rdname member
+#' @rdname chk_member_unit
 err_member_unit <- function(x, name) {
     val <- chk_member_unit(x, name)
     if (is.character(val))

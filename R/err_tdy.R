@@ -150,7 +150,7 @@ err_tdy_breaks_date_cohort <- function(breaks, open_first) {
                           "breaks", 1L, "open_first", "FALSE"),
                  call. = FALSE)
     }
-    err_is_not_na_vector(x = breaks,
+    err_not_na_vector(x = breaks,
                          name = "breaks")
     breaks <- err_tdy_date_vector(x = breaks,
                                   name = "breaks")
@@ -168,7 +168,7 @@ err_tdy_breaks_date_period <- function(breaks) {
         stop(gettextf("'%s' has length %d",
                       "breaks", 1L),
              call. = FALSE)
-    err_is_not_na_vector(x = breaks,
+    err_not_na_vector(x = breaks,
                          name = "breaks")
     breaks <- err_tdy_date_vector(x = breaks,
                                   name = "breaks")
@@ -192,9 +192,9 @@ err_tdy_breaks_integer_age <- function(breaks, open_last) {
             stop(gettextf("'%s' has length %d but '%s' is %s",
                           "breaks", 1L, "open_last", "FALSE"))
     }
-    err_is_not_na_vector(x = breaks,
+    err_not_na_vector(x = breaks,
                          name = "breaks")
-    err_is_finite_vector(x = breaks,
+    err_finite_vector(x = breaks,
                          name = "breaks")
     err_is_non_negative_vector(x = breaks,
                                name = "breaks")
@@ -223,9 +223,9 @@ err_tdy_breaks_integer_enum <- function(breaks, open_first, open_last) {
             stop(gettextf("'%s' has length %d but '%s' and '%s' are both %s",
                           "breaks", 1L, "open_first", "open_last", "FALSE"))
     }
-    err_is_not_na_vector(x = breaks,
+    err_not_na_vector(x = breaks,
                          name = "breaks")
-    err_is_finite_vector(x = breaks,
+    err_finite_vector(x = breaks,
                          name = "breaks")
     err_is_integer_equiv_vector(x = breaks,
                                 name = "breaks")
@@ -238,7 +238,7 @@ err_tdy_breaks_integer_enum <- function(breaks, open_first, open_last) {
 #' @export
 #' @rdname err_tdy
 err_tdy_date_scalar <- function(x, name) {
-    err_is_length_1(x = x,
+    err_length_1(x = x,
                     name = name)
     if (inherits(x, "Date"))
         return(x)
@@ -306,7 +306,7 @@ err_tdy_integer_scalar <- function(x, name, null_ok = FALSE) {
                           name, "NULL"),
                  call. = FALSE)
     }
-    err_is_length_1(x = x,
+    err_length_1(x = x,
                     name = name)
     if (is.integer(x))
         return(x)
@@ -350,7 +350,7 @@ err_tdy_many_to_one <- function(x, name) {
         stop(gettextf("'%s' has %d rows",
                       name, 0L),
              call. = FALSE)
-    err_is_not_na_dataframe(x = x,
+    err_not_na_dataframe(x = x,
                             name = name)
     is_unique <- sapply(x, function(x) !any(duplicated(x)))
     if (all(is_unique))

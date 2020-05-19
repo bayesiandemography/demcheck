@@ -1,23 +1,35 @@
 
 context("chk-composite")
 
-## chk_all_class --------------------------------------------------------------
+## chk_all_x1_in_x2 -----------------------------------------------------------
 
-test_that("'chk_all_class' returns TRUE with valid inputs", {
-    expect_true(chk_all_class(x = list("a", "b"),
-                              name = "x",
-                              class = "character"))
-    expect_true(chk_all_class(x = list(),
-                              name = "x",
-                              class = "character"))
+test_that("'chk_all_x1_in_x2' returns TRUE with valid inputs", {
+    expect_true(chk_all_x1_in_x2(x1 = 1:3, x2 = 1:5,
+                                 name1 = "x1", name2 = "x2",
+                                 exclude_zero = FALSE))
+    expect_true(chk_all_x1_in_x2(x1 = 1:3, x2 = 1:5,
+                                 name1 = "x1", name2 = "x2",
+                                 exclude_zero = TRUE))
+    expect_true(chk_all_x1_in_x2(x1 = c(0L, 1:3, 0L), x2 = 1:5,
+                                 name1 = "x1", name2 = "x2",
+                                 exclude_zero = TRUE))
+    expect_true(chk_all_x1_in_x2(x1 = 0L, x2 = 1:5,
+                                 name1 = "x1", name2 = "x2",
+                                 exclude_zero = TRUE))
+    expect_true(chk_all_x1_in_x2(x1 = integer(), x2 = 1:5,
+                                 name1 = "x1", name2 = "x2",
+                                 exclude_zero = TRUE))
 })
 
-test_that("'chk_all_class' returns expected message with invalid input", {
-    expect_identical(chk_all_class(x = list("a", 1L),
-                              name = "x",
-                              class = "character"),
-                     "element 2 of 'x' has class \"integer\" : should instead inherit from class \"character\"")
-                
+test_that("'chk_all_x1_in_x2' returns expected message with invalid inputs", {
+    expect_identical(chk_all_x1_in_x2(x1 = 1:3, x2 = 1:2,
+                                      name1 = "x1", name2 = "x2",
+                                      exclude_zero = FALSE),
+                     "element from 'x1' not found in 'x2' : 3")
+    expect_identical(chk_all_x1_in_x2(x1 = 0L, x2 = 1:2,
+                                      name1 = "x1", name2 = "x2",
+                                      exclude_zero = FALSE),
+                     "element from 'x1' not found in 'x2' : 0")
 })
 
 
@@ -56,83 +68,6 @@ test_that("'chk_character_complete' returns expected message with invalid charac
     expect_identical(chk_character_complete(x = c("a", "b", "a"),
                                             name = "x"),
                      "'x' has duplicate [\"a\"]")
-})
-
-
-## chk_categories_complete ---------------------------------------------------------
-
-test_that("'chk_categories_complete' returns TRUE with valid vector", {
-    x <- c("A", "B")
-    expect_true(chk_categories_complete(x = x,
-                                        name = "x"))
-    x <- c()
-    expect_true(chk_categories_complete(x = x,
-                                        name = "x"))
-})
-
-test_that("'chk_categories_complete' returns expected message with invalid argument", {
-    x <- c("A", "B")
-    x_wrong <- x
-    x_wrong[[1]] <- NA
-    expect_identical(chk_categories_complete(x = x_wrong,
-                                             name = "x"),
-                     "'x' has NAs")
-    x_wrong <- x
-    x_wrong[[1]] <- ""
-    expect_identical(chk_categories_complete(x = x_wrong,
-                                             name = "x"),
-                     "'x' has blanks")
-    x_wrong <- x
-    x_wrong[[2]] <- "A"
-    expect_identical(chk_categories_complete(x = x_wrong,
-                                             name = "x"),
-                     "'x' has duplicate [\"A\"]")
-})
-
-
-## chk_date_consistent_with_month_start ---------------------------------------
-
-test_that("'chk_date_consistent_with_month_start' returns TRUE with inputs", {
-    expect_true(chk_date_consistent_with_month_start(x = as.Date("2000-01-01"),
-                                                     name = "x",
-                                                     month_start = "Jan"))
-    expect_true(chk_date_consistent_with_month_start(x = as.Date("2000-12-01"),
-                                                     name = "x",
-                                                     month_start = "Dec"))
-})
-
-test_that("'chk_date_consistent_with_month_start' returns expected message with invalid argument", {
-    expect_identical(chk_date_consistent_with_month_start(x = as.Date("2000-01-01"),
-                                                     name = "x",
-                                                     month_start = "Feb"),
-                paste("'x' [\"2000-01-01\"] implies that year starts in January, but",
-                      "'month_start' [\"Feb\"] implies that year starts in February"))
-})
-
-
-## chk_date_consistent_with_width_origin --------------------------------------
-
-test_that("'chk_date_consistent_with_width_origin' returns TRUE with inputs", {
-    expect_true(chk_date_consistent_with_width_origin(x = as.Date("2000-01-01"),
-                                                     name = "x",
-                                                     width = 5,
-                                                     origin = 2000))
-    expect_true(chk_date_consistent_with_width_origin(x = as.Date("2000-01-01"),
-                                                     name = "x",
-                                                     width = 5,
-                                                     origin = 2005))
-    expect_true(chk_date_consistent_with_width_origin(x = as.Date("2000-01-01"),
-                                                     name = "x",
-                                                     width = 5,
-                                                     origin = 1980))
-})
-
-test_that("'chk_date_consistent_with_width_origin' returns expected message with invalid argument", {
-    expect_identical(chk_date_consistent_with_width_origin(x = as.Date("2000-01-01"),
-                                                     name = "x",
-                                                     width = 5,
-                                                     origin = 1981),
-                     "'x' [\"2000-01-01\"] inconsistent with 'width' [5] and 'origin' [1981]")
 })
 
 
@@ -210,19 +145,19 @@ test_that("'chk_dimtypes_mutually_compatible' returns expected message with inva
 })
 
 
-## chk_dimtypes_pairs_complete ------------------------------------------------
+## chk_names_pairs_complete ------------------------------------------------
 
-test_that("'chk_dimtypes_pairs_complete' returns TRUE with valid input", {
-    expect_true(chk_dimtypes_pairs_complete(names = c("age",
+test_that("'chk_names_pairs_complete' returns TRUE with valid input", {
+    expect_true(chk_names_pairs_complete(names = c("age",
                                                       "reg_orig",
                                                       "eth_child",
                                                       "reg_dest",
                                                       "eth_parent")))
-    expect_true(chk_dimtypes_pairs_complete(names = character()))
+    expect_true(chk_names_pairs_complete(names = character()))
 })
 
-test_that("'chk_dimtypes_pairs_complete' returns expected message with invalid input", {
-    expect_identical(chk_dimtypes_pairs_complete(names = c("age",
+test_that("'chk_names_pairs_complete' returns expected message with invalid input", {
+    expect_identical(chk_names_pairs_complete(names = c("age",
                                                            "reg_orig",
                                                            "eth",
                                                            "reg_dest",
@@ -232,43 +167,43 @@ test_that("'chk_dimtypes_pairs_complete' returns expected message with invalid i
 })
 
 
-## chk_dimtypes_pairs_suffix --------------------------------------------------
+## chk_names_pairs_suffix --------------------------------------------------
 
-test_that("'chk_dimtypes_pairs_suffix' returns TRUE with valid input", {
-    expect_true(chk_dimtypes_pairs_suffix(dimtypes = c("age",
-                                                       "origin",
-                                                       "child",
-                                                       "destination",
-                                                       "parent"),
-                                          names = c("age",
-                                                    "reg_orig",
-                                                    "eth_child",
-                                                    "reg_dest",
-                                                    "eth_parent")))
-    expect_true(chk_dimtypes_pairs_suffix(dimtypes = character(),
-                                          names = character()))
+test_that("'chk_names_pairs_suffix' returns TRUE with valid input", {
+    expect_true(chk_names_pairs_suffix(dimtypes = c("age",
+                                                    "origin",
+                                                    "child",
+                                                    "destination",
+                                                    "parent"),
+                                       names = c("age",
+                                                 "reg_orig",
+                                                 "eth_child",
+                                                 "reg_dest",
+                                                 "eth_parent")))
+    expect_true(chk_names_pairs_suffix(dimtypes = character(),
+                                       names = character()))
 })
 
-test_that("'chk_dimtypes_pairs_suffix' returns expected message with invalid input", {
-    expect_identical(chk_dimtypes_pairs_suffix(dimtypes = c("age",
-                                                            "origin",
-                                                            "child",
-                                                            "destination",
-                                                            "parent"),
-                                               names = c("age",
-                                                         "reg_orig",
-                                                         "eth",
-                                                         "reg_dest",
-                                                         "eth_parent")),
+test_that("'chk_names_pairs_suffix' returns expected message with invalid input", {
+    expect_identical(chk_names_pairs_suffix(dimtypes = c("age",
+                                                         "origin",
+                                                         "child",
+                                                         "destination",
+                                                         "parent"),
+                                            names = c("age",
+                                                      "reg_orig",
+                                                      "eth",
+                                                      "reg_dest",
+                                                      "eth_parent")),
                      "dimension \"eth\" has dimtype \"child\" but name does not end with \"_child\"")
-    expect_identical(chk_dimtypes_pairs_suffix(dimtypes = c("age",
-                                                            "origin",
-                                                            "state",
-                                                            "destination"),
-                                               names = c("age",
-                                                         "reg_orig",
-                                                         "eth_child",
-                                                         "reg_dest")),
+    expect_identical(chk_names_pairs_suffix(dimtypes = c("age",
+                                                         "origin",
+                                                         "state",
+                                                         "destination"),
+                                            names = c("age",
+                                                      "reg_orig",
+                                                      "eth_child",
+                                                      "reg_dest")),
                      "dimension \"eth_child\" has name ending with \"_child\" but does not have dimtype \"child\"")
 })
 
@@ -308,30 +243,66 @@ test_that("'chk_ge_break_min_date' returns expected message with invalid dates",
                      "'date' has value [\"1995-12-01\"] that is less than 'break_min' [\"2000-01-01\"]")
 })
 
-## chk_is_first_day_unit_scalar -----------------------------------------------
 
-test_that("'chk_is_first_day_unit_scalar' returns TRUE with valid dates", {
-    expect_true(chk_is_first_day_unit_scalar(x = "2001-01-01",
+## chk_is_class_scalar --------------------------------------------------------------
+
+test_that("'chk_is_class_scalar' returns TRUE with valid inputs", {
+    expect_true(chk_is_class_scalar(x = "a",
+                                    name = "x",
+                                    class = "character"))
+})
+
+test_that("'chk_is_class_scalar' returns expected message with invalid input", {
+    expect_identical(chk_is_class_scalar(x = 1L,
+                                         name = "x",
+                                         class = "character"),
+                     "'x' has class \"integer\" : should instead inherit from class \"character\"")                
+})
+
+
+## chk_is_class_vector --------------------------------------------------------------
+
+test_that("'chk_is_class_vector' returns TRUE with valid inputs", {
+    expect_true(chk_is_class_vector(x = list("a", "b"),
+                                    name = "x",
+                                    class = "character"))
+    expect_true(chk_is_class_vector(x = list(),
+                                    name = "x",
+                                    class = "character"))
+})
+
+test_that("'chk_is_class_vector' returns expected message with invalid input", {
+    expect_identical(chk_is_class_vector(x = list("a", 1L),
+                                         name = "x",
+                                         class = "character"),
+                     "element 2 of 'x' has class \"integer\" : should instead inherit from class \"character\"")                
+})
+
+
+## chk_first_day_unit_scalar --------------------------------------------------
+
+test_that("'chk_first_day_unit_scalar' returns TRUE with valid dates", {
+    expect_true(chk_first_day_unit_scalar(x = "2001-01-01",
                                              name = "x",
                                              unit = "month"))
-    expect_true(chk_is_first_day_unit_scalar(x = "2001-10-01",
+    expect_true(chk_first_day_unit_scalar(x = "2001-10-01",
                                              name = "x",
                                              unit = "quarter"))
-    expect_true(chk_is_first_day_unit_scalar(x = "2001-10-01",
+    expect_true(chk_first_day_unit_scalar(x = "2001-10-01",
                                              name = "x",
                                              unit = "year"))
 })
 
-test_that("'chk_is_first_day_unit_scalar' returns expected message with invalid dates", {
-    expect_identical(chk_is_first_day_unit_scalar(x = "2002-01-02",
+test_that("'chk_first_day_unit_scalar' returns expected message with invalid dates", {
+    expect_identical(chk_first_day_unit_scalar(x = "2002-01-02",
                                                   name = "x",
                                                   unit = "month"),
                      "'x' [\"2002-01-02\"] is not the first day of the month")
-    expect_identical(chk_is_first_day_unit_scalar(x = "2001-02-01",
+    expect_identical(chk_first_day_unit_scalar(x = "2001-02-01",
                                                   name = "x",
                                                   unit = "quarter"),
                      "'x' [\"2001-02-01\"] is not the first day of the quarter")
-    expect_identical(chk_is_first_day_unit_scalar(x = "2001-01-02",
+    expect_identical(chk_first_day_unit_scalar(x = "2001-01-02",
                                                   name = "x",
                                                   unit = "year"),
                      paste("'x' [\"2001-01-02\"] is not the first day of the year",
@@ -339,38 +310,38 @@ test_that("'chk_is_first_day_unit_scalar' returns expected message with invalid 
 })
 
 
-## chk_is_first_day_unit_vector -----------------------------------------------
+## chk_first_day_unit_vector --------------------------------------------------
 
-test_that("'chk_is_first_day_unit_vector' returns TRUE with valid dates", {
-    expect_true(chk_is_first_day_unit_vector(x = as.Date(c("2001-01-01", "2002-01-01")),
+test_that("'chk_first_day_unit_vector' returns TRUE with valid dates", {
+    expect_true(chk_first_day_unit_vector(x = as.Date(c("2001-01-01", "2002-01-01")),
                                            name = "x",
                                            unit = "month"))
-    expect_true(chk_is_first_day_unit_vector(x = as.Date(c("2001-10-01", "2002-01-01")),
+    expect_true(chk_first_day_unit_vector(x = as.Date(c("2001-10-01", "2002-01-01")),
                                            name = "x",
                                            unit = "quarter"))
-    expect_true(chk_is_first_day_unit_vector(x = as.Date(c("2001-10-01", "2002-10-01")),
+    expect_true(chk_first_day_unit_vector(x = as.Date(c("2001-10-01", "2002-10-01")),
                                       name = "x",
                                       unit = "year"))
-    expect_true(chk_is_first_day_unit_vector(x = as.Date(c("2001-10-01", "2010-10-01")),
+    expect_true(chk_first_day_unit_vector(x = as.Date(c("2001-10-01", "2010-10-01")),
                                       name = "x",
                                       unit = "year"))
 })
 
-test_that("'chk_is_first_day_unit_vector' returns expected message with invalid dates", {
-    expect_identical(chk_is_first_day_unit_vector(x = as.Date(c("2001-01-01", "2002-01-02")),
+test_that("'chk_first_day_unit_vector' returns expected message with invalid dates", {
+    expect_identical(chk_first_day_unit_vector(x = as.Date(c("2001-01-01", "2002-01-02")),
                                                 name = "x",
                                                 unit = "month"),
                      "element 2 [\"2002-01-02\"] of 'x' is not the first day of the month")
-    expect_identical(chk_is_first_day_unit_vector(x = as.Date(c("2001-01-01", "2001-02-01")),
+    expect_identical(chk_first_day_unit_vector(x = as.Date(c("2001-01-01", "2001-02-01")),
                                                 name = "x",
                                                 unit = "quarter"),
                      "element 2 [\"2001-02-01\"] of 'x' is not the first day of the quarter")
-    expect_identical(chk_is_first_day_unit_vector(x = as.Date(c("2001-01-01", "2001-02-01")),
+    expect_identical(chk_first_day_unit_vector(x = as.Date(c("2001-01-01", "2001-02-01")),
                                            name = "x",
                                            unit = "year"),
                      paste("element 2 [\"2001-02-01\"] of 'x' is not the first day of the year",
                            "(years assumed to start on the first day of January)"))
-    expect_identical(chk_is_first_day_unit_vector(x = as.Date(c("2001-01-01", "2005-01-02")),
+    expect_identical(chk_first_day_unit_vector(x = as.Date(c("2001-01-01", "2005-01-02")),
                                            name = "x",
                                            unit = "year"),
                      paste("element 2 [\"2005-01-02\"] of 'x' is not the first day of the year",
@@ -378,131 +349,111 @@ test_that("'chk_is_first_day_unit_vector' returns expected message with invalid 
 })
 
 
-## chk_is_first_day_unit_consec -----------------------------------------------
+## chk_first_day_unit_consec --------------------------------------------------
 
-test_that("'chk_is_first_day_unit_consec' returns TRUE with valid dates", {
-    expect_true(chk_is_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-02-01")),
+test_that("'chk_first_day_unit_consec' returns TRUE with valid dates", {
+    expect_true(chk_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-02-01")),
                                              name = "x",
                                              unit = "month"))
-    expect_true(chk_is_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-04-01")),
+    expect_true(chk_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-04-01")),
                                              name = "x",
                                              unit = "quarter"))
-    expect_true(chk_is_first_day_unit_consec(x = as.Date("2001-01-01"),
+    expect_true(chk_first_day_unit_consec(x = as.Date("2001-01-01"),
                                              name = "x",
                                              unit = "quarter"))
-    expect_true(chk_is_first_day_unit_consec(x = as.Date(c("2000-10-1", "2001-01-01")),
+    expect_true(chk_first_day_unit_consec(x = as.Date(c("2000-10-1", "2001-01-01")),
                                              name = "x",
                                              unit = "quarter"))
 })
 
-test_that("'chk_is_first_day_unit_consec' returns expected message with invalid dates", {
-    expect_identical(chk_is_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-03-01")),
-                                                  name = "x",
+test_that("'chk_first_day_unit_consec' returns expected message with invalid dates", {
+    expect_identical(chk_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-03-01")),
+p                                                  name = "x",
                                                   unit = "month"),
                      "dates \"2001-01-01\" and \"2001-03-01\" in 'x' do not belong to consecutive months")
 })
 
 
-## chk_is_ge_scalar -----------------------------------------------------------
+## chk_ge_scalar --------------------------------------------------------------
 
-test_that("'chk_is_ge_scalar' returns TRUE with inputs", {
-    expect_true(chk_is_ge_scalar(x1 = 3, x2 = 2.9, name1 = "x1", name2 = "x2"))
-    expect_true(chk_is_ge_scalar(x1 = as.Date("2001-10-01"), x2 = as.Date("2001-01-01"),
+test_that("'chk_ge_scalar' returns TRUE with inputs", {
+    expect_true(chk_ge_scalar(x1 = 3, x2 = 2.9, name1 = "x1", name2 = "x2"))
+    expect_true(chk_ge_scalar(x1 = as.Date("2001-10-01"), x2 = as.Date("2001-01-01"),
                                  name1 = "x1", name2 = "x2"))
-    expect_true(chk_is_ge_scalar(x1 = NA, x2 = 2.9, name1 = "x1", name2 = "x2"))
+    expect_true(chk_ge_scalar(x1 = NA, x2 = 2.9, name1 = "x1", name2 = "x2"))
 })
 
-test_that("'chk_is_ge_scalar' returns expected message with invalid inputs", {
-    expect_identical(chk_is_ge_scalar(x1 = 2, x2 = 2.9, name1 = "x1", name2 = "x2"),
+test_that("'chk_ge_scalar' returns expected message with invalid inputs", {
+    expect_identical(chk_ge_scalar(x1 = 2, x2 = 2.9, name1 = "x1", name2 = "x2"),
                      "'x1' [2] is less than 'x2' [2.9]")
-    expect_identical(chk_is_ge_scalar(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
+    expect_identical(chk_ge_scalar(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
                                       name1 = "x1", name2 = "x2"),
                      "'x1' [2000-10-01] is less than 'x2' [2001-01-01]")
 })
 
 
-## chk_is_ge_vector -----------------------------------------------------------
+## chk_ge_vector --------------------------------------------------------------
 
-test_that("'chk_is_ge_vector' returns TRUE with inputs", {
-    expect_true(chk_is_ge_vector(x1 = 3:5, x2 = c(2.9, 4, 5), name1 = "x1", name2 = "x2"))
-    expect_true(chk_is_ge_vector(x1 = as.Date(c("2001-10-01", "2000-03-03")),
+test_that("'chk_ge_vector' returns TRUE with inputs", {
+    expect_true(chk_ge_vector(x1 = 3:5, x2 = c(2.9, 4, 5), name1 = "x1", name2 = "x2"))
+    expect_true(chk_ge_vector(x1 = as.Date(c("2001-10-01", "2000-03-03")),
                                  x2 = as.Date(c("2001-01-01", "2000-03-03")),
                                  name1 = "x1", name2 = "x2"))
-    expect_true(chk_is_ge_vector(x1 = as.Date(c("2001-10-01", NA)),
+    expect_true(chk_ge_vector(x1 = as.Date(c("2001-10-01", NA)),
                                  x2 = as.Date(c("2001-01-01", "2000-03-03")),
                                  name1 = "x1", name2 = "x2"))
 })
 
-test_that("'chk_is_ge_vector' returns expected message with invalid inputs", {
-    expect_identical(chk_is_ge_vector(x1 = c(2, 3), x2 = c(1, 4),
+test_that("'chk_ge_vector' returns expected message with invalid inputs", {
+    expect_identical(chk_ge_vector(x1 = c(2, 3), x2 = c(1, 4),
                                       name1 = "x1", name2 = "x2"),
                      "element 2 of 'x1' [3] is less than element 2 of 'x2' [4]")
-    expect_identical(chk_is_ge_vector(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
+    expect_identical(chk_ge_vector(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
                                       name1 = "x1", name2 = "x2"),
                      "element 1 of 'x1' [2000-10-01] is less than element 1 of 'x2' [2001-01-01]")
 })
 
 
-## chk_is_gt_scalar -----------------------------------------------------------
+## chk_gt_scalar --------------------------------------------------------------
 
-test_that("'chk_is_gt_scalar' returns TRUE with inputs", {
-    expect_true(chk_is_gt_scalar(x1 = 3, x2 = 2.9, name1 = "x1", name2 = "x2"))
-    expect_true(chk_is_gt_scalar(x1 = as.Date("2001-10-01"), x2 = as.Date("2001-01-01"),
+test_that("'chk_gt_scalar' returns TRUE with inputs", {
+    expect_true(chk_gt_scalar(x1 = 3, x2 = 2.9, name1 = "x1", name2 = "x2"))
+    expect_true(chk_gt_scalar(x1 = as.Date("2001-10-01"), x2 = as.Date("2001-01-01"),
                                  name1 = "x1", name2 = "x2"))
-    expect_true(chk_is_gt_scalar(x1 = NA, x2 = 2.9, name1 = "x1", name2 = "x2"))
+    expect_true(chk_gt_scalar(x1 = NA, x2 = 2.9, name1 = "x1", name2 = "x2"))
 })
 
-test_that("'chk_is_gt_scalar' returns expected message with invalid inputs", {
-    expect_identical(chk_is_gt_scalar(x1 = 2, x2 = 2.9, name1 = "x1", name2 = "x2"),
+test_that("'chk_gt_scalar' returns expected message with invalid inputs", {
+    expect_identical(chk_gt_scalar(x1 = 2, x2 = 2.9, name1 = "x1", name2 = "x2"),
                      "'x1' [2] is less than or equal to 'x2' [2.9]")
-    expect_identical(chk_is_gt_scalar(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
+    expect_identical(chk_gt_scalar(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
                                       name1 = "x1", name2 = "x2"),
                      "'x1' [2000-10-01] is less than or equal to 'x2' [2001-01-01]")
-    expect_identical(chk_is_gt_scalar(x1 = as.Date("2000-10-01"), x2 = as.Date("2000-10-01"),
+    expect_identical(chk_gt_scalar(x1 = as.Date("2000-10-01"), x2 = as.Date("2000-10-01"),
                                       name1 = "x1", name2 = "x2"),
                      "'x1' [2000-10-01] is less than or equal to 'x2' [2000-10-01]")
 })
 
 
-## chk_is_gt_vector -----------------------------------------------------------
+## chk_gt_vector --------------------------------------------------------------
 
-test_that("'chk_is_gt_vector' returns TRUE with inputs", {
-    expect_true(chk_is_gt_vector(x1 = 3:5, x2 = c(2.9, 3.5, 4.99999999), name1 = "x1", name2 = "x2"))
-    expect_true(chk_is_gt_vector(x1 = as.Date(c("2001-10-01", "2000-03-03")),
+test_that("'chk_gt_vector' returns TRUE with inputs", {
+    expect_true(chk_gt_vector(x1 = 3:5, x2 = c(2.9, 3.5, 4.99999999), name1 = "x1", name2 = "x2"))
+    expect_true(chk_gt_vector(x1 = as.Date(c("2001-10-01", "2000-03-03")),
                                  x2 = as.Date(c("2001-01-01", "2000-03-02")),
                                  name1 = "x1", name2 = "x2"))
-    expect_true(chk_is_gt_vector(x1 = as.Date(c("2001-10-01", NA)),
+    expect_true(chk_gt_vector(x1 = as.Date(c("2001-10-01", NA)),
                                  x2 = as.Date(c("2001-01-01", "2000-03-03")),
                                  name1 = "x1", name2 = "x2"))
 })
 
-test_that("'chk_is_gt_vector' returns expected message with invalid inputs", {
-    expect_identical(chk_is_gt_vector(x1 = c(2, 3), x2 = c(1, 4),
+test_that("'chk_gt_vector' returns expected message with invalid inputs", {
+    expect_identical(chk_gt_vector(x1 = c(2, 3), x2 = c(1, 4),
                                       name1 = "x1", name2 = "x2"),
                      "element 2 of 'x1' [3] is less than or equal to element 2 of 'x2' [4]")
-    expect_identical(chk_is_gt_vector(x1 = as.Date("2000-10-01"), x2 = as.Date("2000-10-01"),
+    expect_identical(chk_gt_vector(x1 = as.Date("2000-10-01"), x2 = as.Date("2000-10-01"),
                                       name1 = "x1", name2 = "x2"),
                      "element 1 of 'x1' [2000-10-01] is less than or equal to element 1 of 'x2' [2000-10-01]")
-})
-
-
-## chk_is_integer_consec ------------------------------------------------------
-
-test_that("'chk_is_integer_consec' returns TRUE with valid vector", {
-    expect_true(chk_is_integer_consec(x = 1:10,
-                                      name = "x"))
-    expect_true(chk_is_integer_consec(x = seq.int(-8L, -4L),
-                                      name = "x"))
-    expect_true(chk_is_integer_consec(x = 1L,
-                                      name = "x"))
-    expect_true(chk_is_integer_consec(x = integer(),
-                                      name = "x"))
-})
-
-test_that("'chk_is_integer_consec' returns expected message with invalid vector", {
-    expect_identical(chk_is_integer_consec(x = c(1L, 3L),
-                                           name = "x"),
-                     "elements 1 [1] and 2 [3] of 'x' are not consecutive integers")
 })
 
 
@@ -817,6 +768,28 @@ test_that("'chk_length_same_or_1' returns expected message with invalid argument
                                           name1 = "x1",
                                           name2 = "x2"),
                      "'x1' has length 2 and 'x2' has length 3 : should have same lengths, or one should have length 1")
+})
+
+
+## chk_lengths_elements_equal_vec -------------------------------------------------------
+
+test_that("'chk_lengths_elements_equal_vec' returns TRUE with valid inputs", {
+    expect_true(chk_lengths_elements_equal_vec(x1 = list(1:3, 1:2),
+                                               x2 = 3:2,
+                                               name1 = "x1",
+                                               name2 = "x2"))
+    expect_true(chk_lengths_elements_equal_vec(x1 = list(),
+                                               x2 = integer(),
+                                               name1 = "x1",
+                                               name2 = "x2"))
+})
+
+test_that("'chk_lengths_elements_equal_vec' returns expected message with invalid inputs", {
+    expect_identical(chk_lengths_elements_equal_vec(x1 = list(1:3, 1:2),
+                                                    x2 = 3:4,
+                                                    name1 = "x1",
+                                                    name2 = "x2"),
+                     "length of element 2 of 'x1' [2] not equal to element 2 of 'x2' [4]")
 })
 
 
