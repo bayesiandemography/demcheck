@@ -164,7 +164,7 @@ chk_dimnames_complete <- function(x, name) {
 #'
 #' @param dimtypes A character vector of dimtypes.
 #'
-#' @seealso \code{\link{chk_dimtypes_pairs_complete}}
+#' @seealso \code{\link{chk_names_pairs_complete}}
 #'
 #' @examples
 #' dimtypes <- c("age", "time", "triangle")
@@ -406,7 +406,7 @@ chk_is_class_vector <- function(x, name, class) {
 #' that can be coerced to dates.
 #' @param unit Measurement units for time, eg \code{"month"}.
 #'
-#' @seealso \code{\link{chk_is_date_equivalent_scalar}}
+#' @seealso \code{\link{chk_is_date_equiv_scalar}}
 #'
 #' @examples
 #' x <- "2020-01-01"
@@ -531,12 +531,13 @@ chk_first_day_unit_consec <- function(x, name, unit) {
                                      unit = unit)
     if (!isTRUE(val))
         return(val)
+    x_date <- as.Date(x)
     if (n >= 2L) {
-        from <- x[[1L]]
+        from <- x_date[[1L]]
         seq_expected <- seq.Date(from = from,     # Calculation using 'seq.Date' relies
                                  by = unit,       # on each date being the first day
                                  length.out = n)  # of the month
-        is_not_equal_to_seq <- x != seq_expected
+        is_not_equal_to_seq <- x_date != seq_expected
         if (any(is_not_equal_to_seq)) {
             i <- match(TRUE, is_not_equal_to_seq)
             return(gettextf("dates \"%s\" and \"%s\" in '%s' do not belong to consecutive %ss",
@@ -556,8 +557,7 @@ chk_first_day_unit_consec <- function(x, name, unit) {
 #' @param x1 A scalar or vector.
 #' @param x2 A scalar or vector the same length as \code{x1}.
 #'
-#' @seealso \code{\link{chk_gt_scalar}}, \code{\link{chk_le_scalar}},
-#' \code{\link{chk_lt_scalar}}
+#' @seealso \code{\link{chk_gt_scalar}}
 #'
 #' @examples
 #' x1 <- 3.1
@@ -599,8 +599,7 @@ chk_ge_vector <- function(x1, x2, name1, name2) {
 #' @param x1 A scalar or vector.
 #' @param x2 A scalar or vector the same length as \code{x1}.
 #'
-#' @seealso \code{\link{chk_ge_scalar}}, \code{\link{chk_le_scalar}},
-#' \code{\link{chk_lt_scalar}}
+#' @seealso \code{\link{chk_ge_scalar}}
 #'
 #' @examples
 #' x1 <- 3.2
@@ -711,13 +710,13 @@ chk_multiple_of <- function(x1, x2, name1, name2, null_ok) {
 #' @param null_ok Whether \code{x} can be \code{NULL},
 #' 
 #' @examples
-#' x1 <- 10L
+#' x <- 10L
 #' n <- 2L
-#' chk_multiple_of_n(x1 = x1, n = n, name1 = "x",
+#' chk_multiple_of_n(x = x, n = n, name = "x",
 #'                   null_ok = FALSE)
-#' x1 <- NULL
-#' chk_multiple_of(x1 = x1, n = n, name1 = "x",
-#'                 null_ok = FALSE)
+#' x <- NULL
+#' chk_multiple_of_n(x = x, n = n, name = "x",
+#'                   null_ok = FALSE)
 #' @export
 chk_multiple_of_n <- function(x, name, n, null_ok) {
     if (is.null(x)) {
@@ -958,7 +957,7 @@ chk_valid_quantile <- function(x, name) {
 ## HAS_TESTS
 #' @rdname chk_valid_quantile
 #' @export
-chk_quantiles_increasing <- function(x, name) {
+chk_quantile_increasing <- function(x, name) {
     p <- "%$"
     numbers <- sub(p, "", x)
     numbers <- as.numeric(numbers)
@@ -1069,7 +1068,7 @@ chk_lengths_elements_equal_vec <- function(x1, x2, name1, name2) {
 #' Check that implied ages are less than 'break_max'
 #'
 #' @inheritParams chk_ge_break_min_age
-#' @param break_max Integer or NULL. If non-NULL, highest permissible value
+#' @param break_max Integer or NULL. If non-NULL, upper limit
 #' for \code{age}.
 #' @param date Date on which event occurred or measurement made.
 #' Object of class \code{\link[base:Dates]{Date}}.
@@ -1082,7 +1081,7 @@ chk_lengths_elements_equal_vec <- function(x1, x2, name1, name2) {
 #'
 #' @examples
 #' age <- c(80L, 83L)
-#' break_min <- 85L
+#' break_max <- 85L
 #' date <- as.Date(c("2020-03-17", "2020-03-18"))
 #' dob <- as.Date(c("1940-02-01", "1937-01-13"))
 #' unit <- "years"
@@ -1118,7 +1117,7 @@ chk_lt_break_max_age <- function(age, break_max, date, dob, unit) {
 #' Check that dates are less than 'break_max'
 #'
 #' @inheritParams chk_ge_break_min_date
-#' @param break_min Date or NULL. If non-NULL, lowest permissible value
+#' @param break_max Date or NULL. If non-NULL, upper limit
 #' for \code{date}.
 #' 
 #' @seealso \code{\link{chk_ge_break_min_age}},

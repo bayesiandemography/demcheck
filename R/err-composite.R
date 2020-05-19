@@ -256,8 +256,8 @@ err_valid_quantile <- function(x, name) {
 
 #' @rdname chk_valid_quantile
 #' @export
-err_quantiles_increasing <- function(x, name) {
-    val <- chk_quantiles_increasing(x, name)
+err_quantile_increasing <- function(x, name) {
+    val <- chk_quantile_increasing(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

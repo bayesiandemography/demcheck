@@ -27,11 +27,11 @@ to the value of \code{n}, rather than to the
 variable \code{"n"}.
 }
 \examples{
-x1 <- 10L
+x <- 10L
 n <- 2L
-chk_multiple_of_n(x1 = x1, n = n, name1 = "x",
+chk_multiple_of_n(x = x, n = n, name = "x",
                   null_ok = FALSE)
-x1 <- NULL
-chk_multiple_of(x1 = x1, n = n, name1 = "x",
-                null_ok = FALSE)
+x <- NULL
+chk_multiple_of_n(x = x, n = n, name = "x",
+                  null_ok = FALSE)
 }

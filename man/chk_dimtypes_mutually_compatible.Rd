@@ -22,5 +22,5 @@ dimtypes <- c("age", "time", "triangle")
 chk_dimtypes_mutually_compatible(dimtypes)
 }
 \seealso{
-\code{\link{chk_dimtypes_pairs_complete}}
+\code{\link{chk_names_pairs_complete}}
 }

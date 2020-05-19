@@ -47,5 +47,5 @@ chk_first_day_unit_vector(x, name = "x", unit = "month")
 chk_first_day_unit_consec(x, name = "x", unit = "month")
 }
 \seealso{
-\code{\link{chk_is_date_equivalent_scalar}}
+\code{\link{chk_is_date_equiv_scalar}}
 }

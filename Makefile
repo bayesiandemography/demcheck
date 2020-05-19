@@ -3,6 +3,7 @@
 all: R/err-composite.R \
      R/err-member.R \
      R/err-single.R \
+     R/err-specific.R \
      README.md \
      documentation
 
@@ -26,6 +27,10 @@ R/err-single.R: make_err.awk \
                 R/chk-single.R
 	awk -f $< R/chk-single.R > $@
 
+R/err-specific.R: make_err.awk \
+                  R/chk-specific.R
+	awk -f $< R/chk-specific.R > $@
+
 
 ## Documentation
 
@@ -37,4 +42,5 @@ documentation:
 clean:
 	rm -f R/err-composite.R
 	rm -f R/err-member.R
-	rm -f R/err-single.R 
+	rm -f R/err-single.R
+	rm -f R/err-specific.R

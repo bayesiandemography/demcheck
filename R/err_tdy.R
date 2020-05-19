@@ -55,25 +55,25 @@ err_tdy_break_min_max_date <- function(break_min, break_max, unit, null_ok, equa
     if (!min_null) {
         break_min <- err_tdy_date_scalar(x = break_min,
                                          name = "break_min")
-        err_is_first_day_unit_scalar(x = break_min,
+        err_first_day_unit_scalar(x = break_min,
                                      name = "break_min",
                                      unit = unit)
     }
     if (!max_null) {
         break_max <- err_tdy_date_scalar(x = break_max,
                                          name = "break_max")
-        err_is_first_day_unit_scalar(x = break_max,
+        err_first_day_unit_scalar(x = break_max,
                                      name = "break_max",
                                      unit = unit)
     }
     if (!min_null && !max_null) {
         if (equal_ok)
-            err_is_ge_scalar(x1 = break_max,
+            err_ge_scalar(x1 = break_max,
                              x2 = break_min,
                              name1 = "break_max",
                              name2 = "break_min")
         else
-            err_is_gt_scalar(x1 = break_max,
+            err_gt_scalar(x1 = break_max,
                              x2 = break_min,
                              name1 = "break_max",
                              name2 = "break_min")
@@ -89,18 +89,18 @@ err_tdy_break_min_max_date <- function(break_min, break_max, unit, null_ok, equa
 #' Typically used for age or cohort.
 #'
 #' @inheritParams err_tdy_break_min_max_date
-#' @param break_min Integer or NULL
-#' for \code{date}.
-#' @param break_max Integer or NULL
+#' @param break_min An integer, a number that can
+#' be coercted to integer, or NULL.
+#' @param break_max An integer, a number that can
+#' be coercted to integer, or NULL.
 #'
 #' @seealso \code{\link{err_tdy_break_min_max_date}},
-#' \code{\link{
-#'
+#' 
 #' @examples
-#' err_tdy_break_min_max_date(break_min = 0L,
-#'                            break_max = 100L,
-#'                            null_ok = FALSE,
-#'                            equal_ok = FALSE)
+#' err_tdy_break_min_max_integer(break_min = 0L,
+#'                               break_max = 100L,
+#'                               null_ok = FALSE,
+#'                               equal_ok = FALSE)
 #' @export
 err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok, equal_ok) {
     min_null <- is.null(break_min)
@@ -134,12 +134,12 @@ err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok, equal_o
                                                      null_ok = null_ok)
     if (!min_null && !max_null) {
         if (equal_ok)
-            err_is_ge_scalar(x1 = break_max,
+            err_ge_scalar(x1 = break_max,
                              x2 = break_min,
                              name1 = "break_max",
                              name2 = "break_min")
         else
-            err_is_gt_scalar(x1 = break_max,
+            err_gt_scalar(x1 = break_max,
                              x2 = break_min,
                              name1 = "break_max",
                              name2 = "break_min")            
@@ -152,7 +152,7 @@ err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok, equal_o
 ## HAS_TESTS
 #' Check and tidy a vector of breaks used to define cohorts
 #'
-#' @param A vector of dates, or values that can be coerced to dates.
+#' @param breaks A vector of dates, or values that can be coerced to dates.
 #' @param open_first Whether the first interval is open on the left.
 #'
 #' @seealso \code{\link{err_tdy_breaks_date_period}},
@@ -183,7 +183,7 @@ err_tdy_breaks_date_cohort <- function(breaks, open_first) {
                          name = "breaks")
     breaks <- err_tdy_date_vector(x = breaks,
                                   name = "breaks")
-    err_is_strictly_increasing(x = breaks,
+    err_strictly_increasing(x = breaks,
                                name = "breaks")
     breaks
 }
@@ -211,14 +211,14 @@ err_tdy_breaks_date_period <- function(breaks) {
                          name = "breaks")
     breaks <- err_tdy_date_vector(x = breaks,
                                   name = "breaks")
-    err_is_strictly_increasing(x = breaks,
+    err_strictly_increasing(x = breaks,
                                name = "breaks")
     breaks
 }
 
 
 ## HAS_TESTS
-#' Check and tidy a vector of breaks used to define age groups
+#' Check and tidy a vector of integer breaks used to define age groups
 #'
 #' @param breaks An integer vector.
 #' @param open_last Whether the final interval is open on the right.
@@ -245,15 +245,15 @@ err_tdy_breaks_integer_age <- function(breaks, open_last) {
                           "breaks", 1L, "open_last", "FALSE"))
     }
     err_not_na_vector(x = breaks,
-                         name = "breaks")
+                      name = "breaks")
     err_finite_vector(x = breaks,
-                         name = "breaks")
-    err_is_non_negative_vector(x = breaks,
-                               name = "breaks")
+                      name = "breaks")
+    err_non_negative_vector(x = breaks,
+                            name = "breaks")
     err_is_integer_equiv_vector(x = breaks,
                                 name = "breaks")
-    err_is_strictly_increasing(x = breaks,
-                               name = "breaks")
+    err_strictly_increasing(x = breaks,
+                            name = "breaks")
     as.integer(breaks)
 }
 
@@ -262,7 +262,7 @@ err_tdy_breaks_integer_age <- function(breaks, open_last) {
 #' Check and tidy a vector of breaks used to define enumerations
 #'
 #' @inheritParams err_tdy_breaks_integer_age
-#' @param open_left Whether the first interval is open on the left.
+#' @param open_first Whether the first interval is open on the left.
 #'
 #' @seealso \code{\link{err_tdy_breaks_date_cohort}},
 #' \code{\link{err_tdy_breaks_date_period}},
@@ -295,11 +295,10 @@ err_tdy_breaks_integer_enum <- function(breaks, open_first, open_last) {
                          name = "breaks")
     err_is_integer_equiv_vector(x = breaks,
                                 name = "breaks")
-    err_is_strictly_increasing(x = breaks,
+    err_strictly_increasing(x = breaks,
                                name = "breaks")
     as.integer(breaks)
 }
-
 
 
 ## HAS_TESTS
@@ -356,10 +355,22 @@ err_tdy_date_vector <- function(x, name) {
 }
 
 
-
 ## HAS_TESTS
+#' Check and tidy dates and birth dates
+#'
+#' @param date Dates when measurements made or events occurred.
+#' A scalar or vector of class \code{\link[base:Dates]{Date}},
+#' or something that can be coerced to one.
+#' @param dob Dates of birth.
+#' A scalar or vector of class \code{\link[base:Dates]{Date}},
+#' or something that can be coerced to one. Must have
+#' same length as \code{date}.
+#'
+#' @examples
+#' date <- c("2000-05-01", "2000-06-01", "2000-07-01")
+#' dob <- c("1999-03-21", "1980-12-22", "1990-04-23")
+#' err_tdy_date_dob(date = date, dob = dob)
 #' @export
-#' @rdname err_tdy
 err_tdy_date_dob <- function(date, dob) {
     date <- err_tdy_date_vector(x = date,
                                 name = "date")
@@ -371,7 +382,7 @@ err_tdy_date_dob <- function(date, dob) {
                              name2 = "dob")
     date <- l$date
     dob <- l$dob
-    err_is_ge_vector(x1 = date,
+    err_ge_vector(x1 = date,
                      x2 = dob,
                      name1 = "date",
                      name2 = "dob")
@@ -379,9 +390,29 @@ err_tdy_date_dob <- function(date, dob) {
          dob = dob)
 }
 
+
+#' Check and tidy integers or objects that can be coerced to integer
+#'
+#' @inheritParams err_tdy_date_scalar
+#' @param x A scalar or vector of integers, or quantities
+#' that can be coerced to integer
+#' @param null_ok Whether to allow \code{x} to be \code{NULL}.
+#'
+#' @seealso \code{\link{err_tdy_date_scalar}}
+#'
+#' @examples
+#' x <- 1.0
+#' err_tdy_integer_scalar(x = x, name = "x", null_ok = FALSE)
+#' x <- NULL
+#' err_tdy_integer_scalar(x = x, name = "x", null_ok = TRUE)
+#' x <- 3:1
+#' err_tdy_integer_vector(x = x, name = "x")
+#' @name err_tdy_integer_scalar
+NULL
+
 ## HAS_TESTS
 #' @export
-#' @rdname err_tdy
+#' @rdname err_tdy_integer_scalar
 err_tdy_integer_scalar <- function(x, name, null_ok = FALSE) {
     if (is.null(x)) {
         if (null_ok)
@@ -406,7 +437,7 @@ err_tdy_integer_scalar <- function(x, name, null_ok = FALSE) {
 
 ## HAS_TESTS
 #' @export
-#' @rdname err_tdy
+#' @rdname err_tdy_integer_scalar
 err_tdy_integer_vector <- function(x, name) {
     if (is.integer(x))
         return(x)
@@ -419,9 +450,18 @@ err_tdy_integer_vector <- function(x, name) {
     x_int
 }
 
+
 ## HAS_TESTS
+#' Check and tidy a data frame describing a many-to-one mapping
+#' 
+#' @inheritParams err_tdy_date_scalar
+#' @param x A data frame.
+#'
+#' @examples
+#' x <- data.frame(from = 1:3,
+#'                 to = c("A", "B", "A"))
+#' err_tdy_many_to_one(x, name = "x")
 #' @export
-#' @rdname err_tdy
 err_tdy_many_to_one <- function(x, name) {
     if (!is.data.frame(x))
         stop(gettextf("'%s' is not a data.frame",
@@ -449,9 +489,20 @@ err_tdy_many_to_one <- function(x, name) {
     x        
 }
 
+
 ## HAS_TESTS
+#' Check and tidy 'month_start' argument,
+#' used in defining years
+#'
+#' @inheritParams err_tdy_date_scalar
+#' @param x An abbreviated month name.
+#'
+#' @seealso \code{\link[demprep]{date_to_period_year}},
+#' 
+#' @examples
+#' x <- "Feb"
+#' err_tdy_month_start(x = x, name = "x")
 #' @export
-#' @rdname err_tdy
 err_tdy_month_start <- function(x, name) {
     err_is_string(x = x,
                   name = name)
@@ -468,9 +519,21 @@ err_tdy_month_start <- function(x, name) {
          call. = FALSE)
 }
 
+
 ## HAS_TESTS
+#' Check and tidy a non-negative integer scalar
+#'
+#' @inheritParams err_tdy_date_scalar
+#' @param x An integer, or somthing that
+#' can be coerced to one.
+#' @param null_ok Whether \code{x} can be \code{NULL}.
+#'
+#' @seealso \code{\link{err_tdy_positive_integer_scalar}}
+#'
+#' @examples
+#' x <- 3.0
+#' err_tdy_non_negative_integer_scalar(x = x, name = "x")
 #' @export
-#' @rdname err_tdy
 err_tdy_non_negative_integer_scalar <- function(x, name, null_ok = FALSE) {
     if (is.null(x)) {
         if (null_ok)
@@ -480,8 +543,8 @@ err_tdy_non_negative_integer_scalar <- function(x, name, null_ok = FALSE) {
                           name, "NULL"),
                  call. = FALSE)
     }
-    err_is_non_negative_scalar(x = x,
-                               name = name)
+    err_non_negative_scalar(x = x,
+                            name = name)
     if (is.integer(x))
         return(x)
     x_int <- suppressWarnings(as.integer(x))
@@ -493,9 +556,21 @@ err_tdy_non_negative_integer_scalar <- function(x, name, null_ok = FALSE) {
     x_int
 }
 
+
 ## HAS_TESTS
+#' Check and tidy a non-negative integer scalar
+#'
+#' @inheritParams err_tdy_date_scalar
+#' @param x An integer, or somthing that
+#' can be coerced to one.
+#' @param null_ok Whether \code{x} can be \code{NULL}.
+#' 
+#' @seealso \code{\link{err_tdy_non_negative_integer_scalar}}
+#'
+#' @examples
+#' x <- 3.0
+#' err_tdy_positive_integer_scalar(x = x, name = "x")
 #' @export
-#' @rdname err_tdy
 err_tdy_positive_integer_scalar <- function(x, name, null_ok = FALSE) {
     if (is.null(x)) {
         if (null_ok)
@@ -505,8 +580,8 @@ err_tdy_positive_integer_scalar <- function(x, name, null_ok = FALSE) {
                           name, "NULL"),
                  call. = FALSE)
     }
-    err_is_positive_scalar(x = x,
-                           name = name)
+    err_positive_scalar(x = x,
+                        name = name)
     if (is.integer(x))
         return(x)
     x_int <- suppressWarnings(as.integer(x))
@@ -518,9 +593,26 @@ err_tdy_positive_integer_scalar <- function(x, name, null_ok = FALSE) {
     x_int
 }
 
+
 ## HAS_TESTS
+#' Ensure that two vectors have same length,
+#' if necessary by replicating a length-1 vector
+#'
+#' @param x1 An object.
+#' @param x2 An object.
+#' @param name1 The name for \code{x1} that
+#' will be used in error messages.
+#' @param name2 The name for \code{x2} that
+#' will be used in error messages.
+#'
+#' @seealso \code{\link{chk_length_same_or_1}}
+#'
+#' @examples
+#' x1 <- 1:5
+#' x2 <- 1
+#' err_tdy_same_length(x1 = x1, x2 = x2,
+#'                     name1 = "x1", name2 = "x2")
 #' @export
-#' @rdname err_tdy
 err_tdy_same_length <- function(x1, x2, name1, name2) {
     err_length_same_or_1(x1 = x1,
                          x2 = x2,
@@ -537,8 +629,19 @@ err_tdy_same_length <- function(x1, x2, name1, name2) {
     ans
 }
 
+
+## HAS_TESTS
+#' Check and tidy time unit
+#'
+#' @inheritParams err_tdy_date_scalar
+#' @param x A string.
+#'
+#' @seealso \code{\link{chk_member_unit}}
+#' 
+#' @examples
+#' x <- "5 years"
+#' err_tdy_unit(x, name = "x")
 #' @export
-#' @rdname err_tdy
 err_tdy_unit <- function(x, name) {
     valid_values <- c("year", "quarter", "month")
     if (is.null(x))
@@ -565,4 +668,3 @@ err_tdy_unit <- function(x, name) {
     stop(gettextf("'%s' has invalid value [\"%s\"]",
                   name, x))
 }
-

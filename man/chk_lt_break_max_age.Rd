@@ -12,7 +12,7 @@ err_lt_break_max_age(age, break_max, date, dob, unit)
 \arguments{
 \item{age}{Integer. Age, typically in years, but can be other unit.}
 
-\item{break_max}{Integer or NULL. If non-NULL, highest permissible value
+\item{break_max}{Integer or NULL. If non-NULL, upper limit
 for \code{age}.}
 
 \item{date}{Date on which event occurred or measurement made.
@@ -27,7 +27,7 @@ Check that implied ages are less than 'break_max'
 }
 \examples{
 age <- c(80L, 83L)
-break_min <- 85L
+break_max <- 85L
 date <- as.Date(c("2020-03-17", "2020-03-18"))
 dob <- as.Date(c("1940-02-01", "1937-01-13"))
 unit <- "years"

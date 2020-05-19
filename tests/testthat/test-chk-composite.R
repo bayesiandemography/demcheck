@@ -368,8 +368,8 @@ test_that("'chk_first_day_unit_consec' returns TRUE with valid dates", {
 
 test_that("'chk_first_day_unit_consec' returns expected message with invalid dates", {
     expect_identical(chk_first_day_unit_consec(x = as.Date(c("2001-01-01", "2001-03-01")),
-p                                                  name = "x",
-                                                  unit = "month"),
+                                               name = "x",
+                                               unit = "month"),
                      "dates \"2001-01-01\" and \"2001-03-01\" in 'x' do not belong to consecutive months")
 })
 
@@ -479,29 +479,29 @@ test_that("'chk_is_logical_flag' returns expected message with invalid argument"
 })
 
 
-## chk_is_multiple_of ---------------------------------------------------------
+## chk_multiple_of ---------------------------------------------------------
 
-test_that("'chk_is_multiple_of' returns TRUE with valid inputs", {
-    expect_true(chk_is_multiple_of(x1 = 30L,
+test_that("'chk_multiple_of' returns TRUE with valid inputs", {
+    expect_true(chk_multiple_of(x1 = 30L,
                                    x2 = 5L,
                                    name1 = "x1",
                                    name2 = "x2",
                                    null_ok = FALSE))
-    expect_true(chk_is_multiple_of(x1 = NULL,
+    expect_true(chk_multiple_of(x1 = NULL,
                                    x2 = 5L,
                                    name1 = "x1",
                                    name2 = "x2",
                                    null_ok = TRUE))
 })
 
-test_that("'chk_is_multiple_of' returns expected message with invalid argument", {
-    expect_identical(chk_is_multiple_of(x1 = NULL,
+test_that("'chk_multiple_of' returns expected message with invalid argument", {
+    expect_identical(chk_multiple_of(x1 = NULL,
                                         x2 = 5L,
                                         name1 = "x1",
                                         name2 = "x2",
                                         null_ok = FALSE),
                      "'x1' is NULL")
-    expect_identical(chk_is_multiple_of(x1 = 31L,
+    expect_identical(chk_multiple_of(x1 = 31L,
                                         x2 = 5L,
                                         name1 = "x1",
                                         name2 = "x2",
@@ -510,26 +510,26 @@ test_that("'chk_is_multiple_of' returns expected message with invalid argument",
 })
 
 
-## chk_is_multiple_of_n -------------------------------------------------------
+## chk_multiple_of_n -------------------------------------------------------
 
-test_that("'chk_is_multiple_of_n' returns TRUE with valid inputs", {
-    expect_true(chk_is_multiple_of_n(x = 30L,
+test_that("'chk_multiple_of_n' returns TRUE with valid inputs", {
+    expect_true(chk_multiple_of_n(x = 30L,
                                      name = "x",
                                      n = 5L,
                                      null_ok = FALSE))
-    expect_true(chk_is_multiple_of_n(x = NULL,
+    expect_true(chk_multiple_of_n(x = NULL,
                                      name = "x",
                                      n = 5L,
                                      null_ok = TRUE))
 })
 
-test_that("'chk_is_multiple_of_n' returns expected message with invalid argument", {
-    expect_identical(chk_is_multiple_of_n(x = NULL,
+test_that("'chk_multiple_of_n' returns expected message with invalid argument", {
+    expect_identical(chk_multiple_of_n(x = NULL,
                                           name = "x",
                                           n = 5L,
                                           null_ok = FALSE),
                      "'x' is NULL")
-    expect_identical(chk_is_multiple_of_n(x = 31L,
+    expect_identical(chk_multiple_of_n(x = 31L,
                                           name = "x",
                                           n = 5L,
                                           null_ok = FALSE),
@@ -537,95 +537,95 @@ test_that("'chk_is_multiple_of_n' returns expected message with invalid argument
 })
 
 
-## chk_is_non_negative_scalar
+## chk_non_negative_scalar
 
-test_that("'chk_is_non_negative_scalar' returns TRUE with valid input", {
-    expect_true(chk_is_non_negative_scalar(x = 1L,
+test_that("'chk_non_negative_scalar' returns TRUE with valid input", {
+    expect_true(chk_non_negative_scalar(x = 1L,
                                            name = "x"))
-    expect_true(chk_is_non_negative_scalar(x = 0,
+    expect_true(chk_non_negative_scalar(x = 0,
                                            name = "x"))
 })
 
-test_that("'chk_is_non_negative_scalar' returns expected message with invalid argument", {
-    expect_identical(chk_is_non_negative_scalar(x = NA_integer_,
+test_that("'chk_non_negative_scalar' returns expected message with invalid argument", {
+    expect_identical(chk_non_negative_scalar(x = NA_integer_,
                                             name = "x"),
                      "'x' is NA")
-    expect_identical(chk_is_non_negative_scalar(x = c(1, 1),
+    expect_identical(chk_non_negative_scalar(x = c(1, 1),
                                    name = "x"),
                      "'x' does not have length 1")
-    expect_identical(chk_is_non_negative_scalar(x = "1",
+    expect_identical(chk_non_negative_scalar(x = "1",
                                             name = "x"),
                      "'x' does not have type \"numeric\"")
-    expect_identical(chk_is_non_negative_scalar(x = -0.001,
+    expect_identical(chk_non_negative_scalar(x = -0.001,
                                                 name = "x"),
                      "'x' [-0.001] is negative")
 })
 
 
-## chk_is_non_negative_vector -------------------------------------------------
+## chk_non_negative_vector -------------------------------------------------
 
-test_that("'chk_is_non_negative_vector' returns TRUE with valid input", {
-    expect_true(chk_is_non_negative_vector(x = c(0, 0.001),
+test_that("'chk_non_negative_vector' returns TRUE with valid input", {
+    expect_true(chk_non_negative_vector(x = c(0, 0.001),
                                            name = "x"))
-    expect_true(chk_is_non_negative_vector(x = c(0.001, 0, Inf),
+    expect_true(chk_non_negative_vector(x = c(0.001, 0, Inf),
                                        name = "x"))
 })
 
-test_that("'chk_is_non_negative_vector' returns expected message with invalid argument", {
-    expect_identical(chk_is_non_negative_vector(x = c(NA_integer_, 1L),
+test_that("'chk_non_negative_vector' returns expected message with invalid argument", {
+    expect_identical(chk_non_negative_vector(x = c(NA_integer_, 1L),
                                             name = "x"),
                      "'x' has NAs")
-    expect_identical(chk_is_non_negative_vector(x = c("1", "2"),
+    expect_identical(chk_non_negative_vector(x = c("1", "2"),
                                             name = "x"),
                      "'x' does not have type \"numeric\"")
-    expect_identical(chk_is_non_negative_vector(x = c(0.1, -0.1),
+    expect_identical(chk_non_negative_vector(x = c(0.1, -0.1),
                                             name = "x"),
                      "element 2 of 'x' [-0.1] is negative")
 })
 
 
-## chk_is_positive_scalar -----------------------------------------------------
+## chk_positive_scalar -----------------------------------------------------
 
-test_that("'chk_is_positive_scalar' returns TRUE with valid input", {
-    expect_true(chk_is_positive_scalar(x = 1L,
+test_that("'chk_positive_scalar' returns TRUE with valid input", {
+    expect_true(chk_positive_scalar(x = 1L,
                                        name = "x"))
-    expect_true(chk_is_positive_scalar(x = 0.001,
+    expect_true(chk_positive_scalar(x = 0.001,
                                        name = "x"))
 })
 
-test_that("'chk_is_positive_scalar' returns expected message with invalid argument", {
-    expect_identical(chk_is_positive_scalar(x = NA_integer_,
+test_that("'chk_positive_scalar' returns expected message with invalid argument", {
+    expect_identical(chk_positive_scalar(x = NA_integer_,
                                             name = "x"),
                      "'x' is NA")
-    expect_identical(chk_is_positive_scalar(x = c(1, 1),
+    expect_identical(chk_positive_scalar(x = c(1, 1),
                                    name = "x"),
                      "'x' does not have length 1")
-    expect_identical(chk_is_positive_scalar(x = "1",
+    expect_identical(chk_positive_scalar(x = "1",
                                             name = "x"),
                      "'x' does not have type \"numeric\"")
-    expect_identical(chk_is_positive_scalar(x = 0,
+    expect_identical(chk_positive_scalar(x = 0,
                                             name = "x"),
                      "'x' [0] is non-positive")
 })
 
 
-## chk_is_positive_vector -----------------------------------------------------
+## chk_positive_vector -----------------------------------------------------
 
-test_that("'chk_is_positive_vector' returns TRUE with valid input", {
-    expect_true(chk_is_positive_vector(x = c(1, 0.001),
+test_that("'chk_positive_vector' returns TRUE with valid input", {
+    expect_true(chk_positive_vector(x = c(1, 0.001),
                                        name = "x"))
-    expect_true(chk_is_positive_vector(x = c(0.001, Inf),
+    expect_true(chk_positive_vector(x = c(0.001, Inf),
                                        name = "x"))
 })
 
-test_that("'chk_is_positive_vector' returns expected message with invalid argument", {
-    expect_identical(chk_is_positive_vector(x = c(NA_integer_, 1L),
+test_that("'chk_positive_vector' returns expected message with invalid argument", {
+    expect_identical(chk_positive_vector(x = c(NA_integer_, 1L),
                                             name = "x"),
                      "'x' has NAs")
-    expect_identical(chk_is_positive_vector(x = c("1", "2"),
+    expect_identical(chk_positive_vector(x = c("1", "2"),
                                             name = "x"),
                      "'x' does not have type \"numeric\"")
-    expect_identical(chk_is_positive_vector(x = c(0.1, 0),
+    expect_identical(chk_positive_vector(x = c(0.1, 0),
                                             name = "x"),
                      "element 2 of 'x' [0] is non-positive")
 })
@@ -655,51 +655,51 @@ test_that("'chk_is_string' returns expected message with invalid argument", {
 })
 
 
-## chk_is_strictly_increasing -------------------------------------------------
+## chk_strictly_increasing -------------------------------------------------
 
-test_that("'chk_is_strictly_increasing' returns TRUE with valid vector", {
-    expect_true(chk_is_strictly_increasing(x = 1,
+test_that("'chk_strictly_increasing' returns TRUE with valid vector", {
+    expect_true(chk_strictly_increasing(x = 1,
                                            name = "x"))
-    expect_true(chk_is_strictly_increasing(x = 1:3,
+    expect_true(chk_strictly_increasing(x = 1:3,
                                            name = "x"))
-    expect_true(chk_is_strictly_increasing(x = c(-Inf, 0, Inf),
+    expect_true(chk_strictly_increasing(x = c(-Inf, 0, Inf),
                                            name = "x"))
-    expect_true(chk_is_strictly_increasing(x = as.Date(c("2001-01-01", "2002-01-01")),
+    expect_true(chk_strictly_increasing(x = as.Date(c("2001-01-01", "2002-01-01")),
                                            name = "x"))
 })
 
-test_that("'chk_is_strictly_increasing' returns expected message with invalid argument", {
-    expect_identical(chk_is_strictly_increasing(x = "a",
+test_that("'chk_strictly_increasing' returns expected message with invalid argument", {
+    expect_identical(chk_strictly_increasing(x = "a",
                                                 name = "x"),
                      "'x' does not have class \"Date\" or \"numeric\"")
-    expect_identical(chk_is_strictly_increasing(x = NA_integer_,
+    expect_identical(chk_strictly_increasing(x = NA_integer_,
                                                 name = "x"),
                      "'x' has NAs")
-    expect_identical(chk_is_strictly_increasing(x = c(1, 3, 2),
+    expect_identical(chk_strictly_increasing(x = c(1, 3, 2),
                                                 name = "x"),
                      "'x' is not strictly increasing : element 2 [3] is greater than or equal to element 3 [2]")
-    expect_identical(chk_is_strictly_increasing(x = as.Date(c("2002-01-01", "2002-01-01")),
+    expect_identical(chk_strictly_increasing(x = as.Date(c("2002-01-01", "2002-01-01")),
                                                 name = "x"),
                                                 paste("'x' is not strictly increasing : element 1 [2002-01-01]",
                                                       "is greater than or equal to element 2 [2002-01-01]"))
 })
 
 
-## chk_is_valid_quantile ------------------------------------------------------
+## chk_valid_quantile ------------------------------------------------------
 
-test_that("'chk_is_valid_quantile' returns TRUE with valid vector", {
-    expect_true(chk_is_valid_quantile(x = c("1%", "99.9%", "0%", "100%", NA)))
-    expect_true(chk_is_valid_quantile(x = character()))
+test_that("'chk_valid_quantile' returns TRUE with valid vector", {
+    expect_true(chk_valid_quantile(x = c("1%", "99.9%", "0%", "100%", NA)))
+    expect_true(chk_valid_quantile(x = character()))
 })
 
-test_that("'chk_is_valid_quantile' returns expected message with invalid argument", {
-    expect_identical(chk_is_valid_quantile(x = "wrong"),
+test_that("'chk_valid_quantile' returns expected message with invalid argument", {
+    expect_identical(chk_valid_quantile(x = "wrong"),
                      "\"wrong\" is not a valid quantile")
-    expect_identical(chk_is_valid_quantile(x = "40.0.0%"),
+    expect_identical(chk_valid_quantile(x = "40.0.0%"),
                      "\"40.0.0%\" is not a valid quantile")
-    expect_identical(chk_is_valid_quantile(x = "-10%"),
+    expect_identical(chk_valid_quantile(x = "-10%"),
                      "\"-10%\" is not a valid quantile")
-    expect_identical(chk_is_valid_quantile(x = "101%"),
+    expect_identical(chk_valid_quantile(x = "101%"),
                      "\"101%\" is not a valid quantile : greater than 100%")
 })
 
@@ -901,19 +901,19 @@ test_that("'chk_names_dimnames_complete' returns expected message with invalid a
 })
 
 
-## chk_quantiles_increasing ---------------------------------------------------
+## chk_quantile_increasing ---------------------------------------------------
 
-test_that("'chk_quantiles_increasing' returns TRUE with valid input", {
-    expect_true(chk_quantiles_increasing(x = c("2.5%", "50%", "97.5%"),
+test_that("'chk_quantile_increasing' returns TRUE with valid input", {
+    expect_true(chk_quantile_increasing(x = c("2.5%", "50%", "97.5%"),
                                          name = "x"))
-    expect_true(chk_quantiles_increasing(x = "2.5%",
+    expect_true(chk_quantile_increasing(x = "2.5%",
                                          name = "x"))
-    expect_true(chk_quantiles_increasing(x = character(),
+    expect_true(chk_quantile_increasing(x = character(),
                                          name = "x"))
 })
 
-test_that("'chk_quantiles_increasing' returns expected message with invalid argument", {
-    expect_identical(chk_quantiles_increasing(x = c("2.5%", "2.5%", "97.5%"),
+test_that("'chk_quantile_increasing' returns expected message with invalid argument", {
+    expect_identical(chk_quantile_increasing(x = c("2.5%", "2.5%", "97.5%"),
                                               name = "x"),
                      "'x' is not strictly increasing : element 1 [2.5%] is greater than or equal to element 2 [2.5%]")
 })

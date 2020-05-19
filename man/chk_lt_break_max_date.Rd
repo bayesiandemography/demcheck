@@ -13,7 +13,7 @@ err_lt_break_max_date(date, break_max)
 \item{date}{Date on which event occurred or measurement made.
 Object of class \code{\link[base:Dates]{Date}}.}
 
-\item{break_min}{Date or NULL. If non-NULL, lowest permissible value
+\item{break_max}{Date or NULL. If non-NULL, upper limit
 for \code{date}.}
 }
 \description{

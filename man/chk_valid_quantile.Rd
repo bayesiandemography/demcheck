@@ -2,18 +2,18 @@
 % Please edit documentation in R/chk-composite.R, R/err-composite.R
 \name{chk_valid_quantile}
 \alias{chk_valid_quantile}
-\alias{chk_quantiles_increasing}
+\alias{chk_quantile_increasing}
 \alias{err_valid_quantile}
-\alias{err_quantiles_increasing}
+\alias{err_quantile_increasing}
 \title{Check that a vector is a valid quantile}
 \usage{
 chk_valid_quantile(x, name)
 
-chk_quantiles_increasing(x, name)
+chk_quantile_increasing(x, name)
 
 err_valid_quantile(x, name)
 
-err_quantiles_increasing(x, name)
+err_quantile_increasing(x, name)
 }
 \arguments{
 \item{x}{A character vector.}

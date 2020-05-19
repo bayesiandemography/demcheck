@@ -38,6 +38,5 @@ x2 <- c(3.1, 4.0, 4.2)
 chk_gt_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
 }
 \seealso{
-\code{\link{chk_ge_scalar}}, \code{\link{chk_le_scalar}},
-\code{\link{chk_lt_scalar}}
+\code{\link{chk_ge_scalar}}
 }
