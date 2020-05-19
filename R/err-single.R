@@ -30,7 +30,7 @@ err_is_date <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_is_date_equiv_scalar
+#' @rdname chk_is_date_equiv
 err_is_date_equiv_scalar <- function(x, name) {
     val <- chk_is_date_equiv_scalar(x, name)
     if (is.character(val))
@@ -39,7 +39,7 @@ err_is_date_equiv_scalar <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_is_date_equiv_scalar
+#' @rdname chk_is_date_equiv
 err_is_date_equiv_vector <- function(x, name) {
     val <- chk_is_date_equiv_vector(x, name)
     if (is.character(val))
@@ -93,7 +93,7 @@ err_is_integer_consec <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_is_integer_equiv_scalar
+#' @rdname chk_is_integer_equiv
 err_is_integer_equiv_scalar <- function(x, name) {
     val <- chk_is_integer_equiv_scalar(x, name)
     if (is.character(val))
@@ -102,7 +102,7 @@ err_is_integer_equiv_scalar <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_is_integer_equiv_scalar
+#' @rdname chk_is_integer_equiv
 err_is_integer_equiv_vector <- function(x, name) {
     val <- chk_is_integer_equiv_vector(x, name)
     if (is.character(val))
@@ -128,7 +128,7 @@ err_is_logical <- function(x, name) {
     TRUE
 }
 
-#' @rdname chk_not_blank_scalar
+#' @rdname chk_not_blank
 #' @export
 err_not_blank_scalar <- function(x, name) {
     val <- chk_not_blank_scalar(x, name)
@@ -137,7 +137,7 @@ err_not_blank_scalar <- function(x, name) {
     TRUE
 }
 
-#' @rdname chk_not_blank_scalar
+#' @rdname chk_not_blank
 #' @export
 err_not_blank_vector <- function(x, name) {
     val <- chk_not_blank_vector(x, name)

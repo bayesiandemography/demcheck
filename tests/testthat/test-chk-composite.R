@@ -244,37 +244,37 @@ test_that("'chk_ge_break_min_date' returns expected message with invalid dates",
 })
 
 
-## chk_is_class_scalar --------------------------------------------------------------
+## chk_is_class_obj -----------------------------------------------------------
 
-test_that("'chk_is_class_scalar' returns TRUE with valid inputs", {
-    expect_true(chk_is_class_scalar(x = "a",
+test_that("'chk_is_class_obj' returns TRUE with valid inputs", {
+    expect_true(chk_is_class_obj(x = "a",
                                     name = "x",
                                     class = "character"))
 })
 
-test_that("'chk_is_class_scalar' returns expected message with invalid input", {
-    expect_identical(chk_is_class_scalar(x = 1L,
-                                         name = "x",
-                                         class = "character"),
+test_that("'chk_is_class_obj' returns expected message with invalid input", {
+    expect_identical(chk_is_class_obj(x = 1:2,
+                                      name = "x",
+                                      class = "character"),
                      "'x' has class \"integer\" : should instead inherit from class \"character\"")                
 })
 
 
-## chk_is_class_vector --------------------------------------------------------------
+## chk_is_class_list ----------------------------------------------------------
 
-test_that("'chk_is_class_vector' returns TRUE with valid inputs", {
-    expect_true(chk_is_class_vector(x = list("a", "b"),
-                                    name = "x",
-                                    class = "character"))
-    expect_true(chk_is_class_vector(x = list(),
-                                    name = "x",
-                                    class = "character"))
+test_that("'chk_is_class_list' returns TRUE with valid inputs", {
+    expect_true(chk_is_class_list(x = list("a", "b"),
+                                  name = "x",
+                                  class = "character"))
+    expect_true(chk_is_class_list(x = list(),
+                                  name = "x",
+                                  class = "character"))
 })
 
-test_that("'chk_is_class_vector' returns expected message with invalid input", {
-    expect_identical(chk_is_class_vector(x = list("a", 1L),
-                                         name = "x",
-                                         class = "character"),
+test_that("'chk_is_class_list' returns expected message with invalid input", {
+    expect_identical(chk_is_class_list(x = list("a", 1L),
+                                       name = "x",
+                                       class = "character"),
                      "element 2 of 'x' has class \"integer\" : should instead inherit from class \"character\"")                
 })
 

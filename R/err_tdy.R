@@ -407,12 +407,12 @@ err_tdy_date_dob <- function(date, dob) {
 #' err_tdy_integer_scalar(x = x, name = "x", null_ok = TRUE)
 #' x <- 3:1
 #' err_tdy_integer_vector(x = x, name = "x")
-#' @name err_tdy_integer_scalar
+#' @name err_tdy_integer
 NULL
 
 ## HAS_TESTS
 #' @export
-#' @rdname err_tdy_integer_scalar
+#' @rdname err_tdy_integer
 err_tdy_integer_scalar <- function(x, name, null_ok = FALSE) {
     if (is.null(x)) {
         if (null_ok)
@@ -437,7 +437,7 @@ err_tdy_integer_scalar <- function(x, name, null_ok = FALSE) {
 
 ## HAS_TESTS
 #' @export
-#' @rdname err_tdy_integer_scalar
+#' @rdname err_tdy_integer
 err_tdy_integer_vector <- function(x, name) {
     if (is.integer(x))
         return(x)
@@ -484,7 +484,8 @@ err_tdy_many_to_one <- function(x, name) {
              call. = FALSE)
     if (!any(is_unique))
         stop(gettextf("neither column of '%s' has entirely unique values, as required for many-to-one mapping",
-                      name))
+                      name),
+             call. = FALSE)
     x[] <- lapply(x, as.character)
     x        
 }
@@ -666,5 +667,6 @@ err_tdy_unit <- function(x, name) {
         return(x)
     }
     stop(gettextf("'%s' has invalid value [\"%s\"]",
-                  name, x))
+                  name, x),
+         call. = FALSE)
 }

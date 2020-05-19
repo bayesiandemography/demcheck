@@ -84,18 +84,18 @@ err_ge_break_min_date <- function(date, break_min) {
 }
 
 #' @export
-#' @rdname chk_is_class_scalar
-err_is_class_scalar <- function(x, name, class) {
-    val <- chk_is_class_scalar(x, name, class)
+#' @rdname chk_is_class
+err_is_class_obj <- function(x, name, class) {
+    val <- chk_is_class_obj(x, name, class)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname chk_is_class_scalar
-err_is_class_vector <- function(x, name, class) {
-    val <- chk_is_class_vector(x, name, class)
+#' @rdname chk_is_class
+err_is_class_list <- function(x, name, class) {
+    val <- chk_is_class_list(x, name, class)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -192,7 +192,7 @@ err_multiple_of_n <- function(x, name, n, null_ok) {
 }
 
 #' @export
-#' @rdname chk_non_negative_scalar
+#' @rdname chk_non_negative
 err_non_negative_scalar <- function(x, name) {
     val <- chk_non_negative_scalar(x, name)
     if (is.character(val))
@@ -201,7 +201,7 @@ err_non_negative_scalar <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_non_negative_scalar
+#' @rdname chk_non_negative
 err_non_negative_vector <- function(x, name) {
     val <- chk_non_negative_vector(x, name)
     if (is.character(val))
@@ -210,7 +210,7 @@ err_non_negative_vector <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_positive_scalar
+#' @rdname chk_positive
 err_positive_scalar <- function(x, name) {
     val <- chk_positive_scalar(x, name)
     if (is.character(val))
@@ -219,7 +219,7 @@ err_positive_scalar <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_positive_scalar
+#' @rdname chk_positive
 err_positive_vector <- function(x, name) {
     val <- chk_positive_vector(x, name)
     if (is.character(val))

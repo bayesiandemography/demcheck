@@ -72,12 +72,12 @@ chk_is_date <- function(x, name) {
 #' chk_is_date_equiv_scalar(x, name = "x")
 #' x <- as.Date(c("2001-12-31", "2002-01-01"))
 #' chk_is_date_equiv_vector(x, name = "x")
-#' @name chk_is_date_equiv_scalar
+#' @name chk_is_date_equiv
 NULL
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_is_date_equiv_scalar
+#' @rdname chk_is_date_equiv
 chk_is_date_equiv_scalar <- function(x, name) {
     val <- tryCatch(error = function(e) e,
                     err_tdy_date_scalar(x = x,
@@ -90,7 +90,7 @@ chk_is_date_equiv_scalar <- function(x, name) {
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_is_date_equiv_scalar
+#' @rdname chk_is_date_equiv
 chk_is_date_equiv_vector <- function(x, name) {
     val <- tryCatch(error = function(e) e,
                     err_tdy_date_vector(x = x,
@@ -224,11 +224,11 @@ chk_is_integer_consec <- function(x, name) {
 #' chk_is_integer_equiv_scalar(x, name = "x")
 #' x <- 1:4
 #' chk_is_integer_equiv_vector(x, name = "x")
-#' @name chk_is_integer_equiv_scalar
+#' @name chk_is_integer_equiv
 NULL
 
 #' @export
-#' @rdname chk_is_integer_equiv_scalar
+#' @rdname chk_is_integer_equiv
 chk_is_integer_equiv_scalar <- function(x, name) {
     val <- tryCatch(error = function(e) e,
                     err_tdy_integer_scalar(x = x,
@@ -241,7 +241,7 @@ chk_is_integer_equiv_scalar <- function(x, name) {
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_is_integer_equiv_scalar
+#' @rdname chk_is_integer_equiv
 chk_is_integer_equiv_vector <- function(x, name) {
     val <- tryCatch(error = function(e) e,
                     err_tdy_integer_vector(x = x,
@@ -300,10 +300,10 @@ chk_is_logical <- function(x, name) {
 #' chk_not_blank_scalar(x, name = "x")
 #' x <- c("A", "B", "C")
 #' chk_not_blank_vector(x, name = "x")
-#' @name chk_not_blank_scalar
+#' @name chk_not_blank
 NULL
 
-#' @rdname chk_not_blank_scalar
+#' @rdname chk_not_blank
 #' @export
 chk_not_blank_scalar <- function(x, name) {
     if (!nzchar(x))
@@ -312,7 +312,7 @@ chk_not_blank_scalar <- function(x, name) {
     TRUE
 }
 
-#' @rdname chk_not_blank_scalar
+#' @rdname chk_not_blank
 #' @export
 chk_not_blank_vector <- function(x, name) {
     if (any(!nzchar(x)))

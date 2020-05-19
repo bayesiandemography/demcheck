@@ -351,25 +351,26 @@ chk_ge_break_min_date <- function(date, break_min) {
 }
 
 
-#' Chech that scalar or vector inherits from specified class
+#' Check that object or elements of list inherit
+#' from specified class
 #'
 #' @inheritParams chk_array_metadata_complete
-#' @param x A scalar or vector.
+#' @param x An object, or a list of objects
 #' @param class Name of a class.
 #'
 #' @examples
 #' x <- "a"
 #' class <- "character"
-#' chk_is_class_scalar(x, name = "x", class = class)
-#' x <- c("a", "b")
-#' chk_is_class_vector(x, name = "x", class = class)
-#' @name chk_is_class_scalar
+#' chk_is_class_obj(x, name = "x", class = class)
+#' x <- list(c("a", "b"), "c")
+#' chk_is_class_list(x, name = "x", class = class)
+#' @name chk_is_class
 NULL
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_is_class_scalar
-chk_is_class_scalar <- function(x, name, class) {
+#' @rdname chk_is_class
+chk_is_class_obj <- function(x, name, class) {
     if (!methods::is(x, class)) {
         return(gettextf(paste("'%s' has class \"%s\" :",
                               "should instead inherit from class \"%s\""),
@@ -380,8 +381,8 @@ chk_is_class_scalar <- function(x, name, class) {
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_is_class_scalar
-chk_is_class_vector <- function(x, name, class) {
+#' @rdname chk_is_class
+chk_is_class_list <- function(x, name, class) {
     for (i in seq_along(x)) {
         if (!methods::is(x[[i]], class))
             return(gettextf(paste("element %d of '%s' has class \"%s\" :",
@@ -390,6 +391,7 @@ chk_is_class_vector <- function(x, name, class) {
     }
     TRUE
 }
+
 
 
 #' Check dates are the first day of the specified unit
@@ -406,7 +408,7 @@ chk_is_class_vector <- function(x, name, class) {
 #' that can be coerced to dates.
 #' @param unit Measurement units for time, eg \code{"month"}.
 #'
-#' @seealso \code{\link{chk_is_date_equiv_scalar}}
+#' @seealso \code{\link{chk_is_date_equiv}}
 #'
 #' @examples
 #' x <- "2020-01-01"
@@ -745,12 +747,12 @@ chk_multiple_of_n <- function(x, name, n, null_ok) {
 #' chk_non_negative_scalar(x, name = "x")
 #' x <- c(0.1, 0, 100)
 #' chk_non_negative_vector(x, name = "x")
-#' @name chk_non_negative_scalar
+#' @name chk_non_negative
 NULL
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_non_negative_scalar
+#' @rdname chk_non_negative
 chk_non_negative_scalar <- function(x, name) {
     val <- chk_length_1(x = x,
                            name = name)
@@ -772,7 +774,7 @@ chk_non_negative_scalar <- function(x, name) {
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_non_negative_scalar
+#' @rdname chk_non_negative
 chk_non_negative_vector <- function(x, name) {
     val <- chk_not_na_vector(x = x,
                                 name = name)
@@ -804,12 +806,12 @@ chk_non_negative_vector <- function(x, name) {
 #' chk_positive_scalar(x, name = "x")
 #' x <- c(0.1, 0.0001, 100)
 #' chk_positive_vector(x, name = "x")
-#' @name chk_positive_scalar
+#' @name chk_positive
 NULL
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_positive_scalar
+#' @rdname chk_positive
 chk_positive_scalar <- function(x, name) {
     val <- chk_length_1(x = x,
                            name = name)
@@ -831,7 +833,7 @@ chk_positive_scalar <- function(x, name) {
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_positive_scalar
+#' @rdname chk_positive
 chk_positive_vector <- function(x, name) {
     val <- chk_not_na_vector(x = x,
                                 name = name)
