@@ -522,20 +522,28 @@ err_tdy_month_start <- function(x, name) {
 
 
 ## HAS_TESTS
-#' Check and tidy a non-negative integer scalar
+#' Check and tidy a non-negative integer scalar or vector
 #'
 #' @inheritParams err_tdy_date_scalar
-#' @param x An integer, or somthing that
+#' @param x An integer scalar or vector, or somthing that
 #' can be coerced to one.
 #' @param null_ok Whether \code{x} can be \code{NULL}.
 #'
-#' @seealso \code{\link{err_tdy_positive_integer_scalar}}
+#' @seealso \code{\link{err_tdy_positive_integer}}
 #'
 #' @examples
 #' x <- 3.0
-#' err_tdy_non_negative_integer_scalar(x = x, name = "x")
+#' err_tdy_non_negative_integer_scalar(x = x, name = "x", null_ok = FALSE)
+#' x <- NULL
+#' err_tdy_non_negative_integer_scalar(x = x, name = "x", null_ok = TRUE)
+#' x <- c(3.0, 0.0, 4.0)
+#' err_tdy_non_negative_integer_vector(x = x, name = "x")
+#' @name err_tdy_non_negative_integer
+NULL
+
+#' @rdname err_tdy_non_negative_integer
 #' @export
-err_tdy_non_negative_integer_scalar <- function(x, name, null_ok = FALSE) {
+err_tdy_non_negative_integer_scalar <- function(x, name, null_ok) {
     if (is.null(x)) {
         if (null_ok)
             return(x)
@@ -557,12 +565,30 @@ err_tdy_non_negative_integer_scalar <- function(x, name, null_ok = FALSE) {
     x_int
 }
 
+#' @rdname err_tdy_non_negative_integer
+#' @export
+err_tdy_non_negative_integer_vector <- function(x, name) {
+    err_non_negative_vector(x = x,
+                            name = name)
+    if (is.integer(x))
+        return(x)
+    x_int <- suppressWarnings(as.integer(x))
+    is_not_equiv <- is.na(x_int) | (x_int != x)
+    i_not_equiv <- match(TRUE, is_not_equiv, nomatch = 0L)
+    if (i_not_equiv > 0L)
+        stop(gettextf("element %d of '%s' [%s] not equivalent to integer",
+                      i_not_equiv, name, x),
+             call. = FALSE)
+    x_int
+}
+
+
 
 ## HAS_TESTS
-#' Check and tidy a non-negative integer scalar
+#' Check and tidy a non-negative integer scalar or vector
 #'
 #' @inheritParams err_tdy_date_scalar
-#' @param x An integer, or somthing that
+#' @param x An integer scalar or vector, or somthing that
 #' can be coerced to one.
 #' @param null_ok Whether \code{x} can be \code{NULL}.
 #' 
@@ -571,8 +597,16 @@ err_tdy_non_negative_integer_scalar <- function(x, name, null_ok = FALSE) {
 #' @examples
 #' x <- 3.0
 #' err_tdy_positive_integer_scalar(x = x, name = "x")
+#' x <- NULL
+#' err_tdy_positive_integer_scalar(x = x, name = "x", null_ok = TRUE)
+#' x <- c(3.0, 1.0, 4.0)
+#' err_tdy_positive_integer_vector(x = x, name = "x")
+#' @name err_tdy_positive_integer
+NULL
+
+#' @rdname err_tdy_positive_integer
 #' @export
-err_tdy_positive_integer_scalar <- function(x, name, null_ok = FALSE) {
+err_tdy_positive_integer_scalar <- function(x, name, null_ok) {
     if (is.null(x)) {
         if (null_ok)
             return(x)
@@ -590,6 +624,23 @@ err_tdy_positive_integer_scalar <- function(x, name, null_ok = FALSE) {
     if (is_not_equiv)
         stop(gettextf("'%s' [%s] not equivalent to integer",
                       name, x),
+             call. = FALSE)
+    x_int
+}
+
+#' @rdname err_tdy_positive_integer
+#' @export
+err_tdy_positive_integer_vector <- function(x, name) {
+    err_positive_vector(x = x,
+                        name = name)
+    if (is.integer(x))
+        return(x)
+    x_int <- suppressWarnings(as.integer(x))
+    is_not_equiv <- is.na(x_int) | (x_int != x)
+    i_not_equiv <- match(TRUE, is_not_equiv, nomatch = 0L)
+    if (i_not_equiv > 0L)
+        stop(gettextf("element %d of '%s' [%s] not equivalent to integer",
+                      i_not_equiv, name, x),
              call. = FALSE)
     x_int
 }

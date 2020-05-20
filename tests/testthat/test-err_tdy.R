@@ -511,7 +511,7 @@ test_that("'err_tdy_many_to_one' raises expected error with invalid input", {
 })
 
 
-## err_tdy_non_negative_integer_scalar
+## err_tdy_non_negative_integer_scalar ----------------------------------------
 
 test_that("'err_tdy_non_negative_integer_scalar' works with valid inputs", {
     expect_identical(err_tdy_non_negative_integer_scalar(x = 1, name = "x"),
@@ -531,7 +531,25 @@ test_that("'err_tdy_non_negative_integer_scalar' raises expected error with inva
 })
 
 
-## err_tdy_positive_integer_scalar
+## err_tdy_non_negative_integer_vector ----------------------------------------
+
+test_that("'err_tdy_non_negative_integer_vector' works with valid inputs", {
+    expect_identical(err_tdy_non_negative_integer_vector(x = c(1, 2), name = "x"),
+                     1:2)
+    expect_identical(err_tdy_integer_vector(x = numeric(), name = "x"),
+                     integer())
+    expect_identical(err_tdy_integer_vector(x = 0L, name = "x"),
+                     0L)
+})
+
+test_that("'err_tdy_non_negative_integer_vector' raises expected error with invalid input", {
+    expect_error(err_tdy_non_negative_integer_vector(x = c(1, 0.1, 2),
+                                                 name = "x"),
+                 "element 2 of 'x' \\[0.1\\] not equivalent to integer")
+})
+
+
+## err_tdy_positive_integer_scalar --------------------------------------------
 
 test_that("'err_tdy_positive_integer_scalar' works with valid inputs", {
     expect_identical(err_tdy_positive_integer_scalar(x = 1, name = "x"),
@@ -544,12 +562,28 @@ test_that("'err_tdy_positive_integer_scalar' raises expected error with invalid 
     expect_error(err_tdy_positive_integer_scalar(x = 0.1,
                                                  name = "x"),
                  "'x' \\[0.1\\] not equivalent to integer")
-    expect_error(err_tdy_positive_integer_scalar(x = NULL, name = "x"),
+    expect_error(err_tdy_positive_integer_scalar(x = NULL, name = "x", null_ok = FALSE),
                  "'x' is NULL")
 })
 
 
-## err_tdy_same_length
+## err_tdy_positive_integer_vector --------------------------------------------
+
+test_that("'err_tdy_positive_integer_vector' works with valid inputs", {
+    expect_identical(err_tdy_positive_integer_vector(x = c(1, 2), name = "x"),
+                     1:2)
+    expect_identical(err_tdy_integer_vector(x = numeric(), name = "x"),
+                     integer())
+})
+
+test_that("'err_tdy_positive_integer_vector' raises expected error with invalid input", {
+    expect_error(err_tdy_positive_integer_vector(x = c(0.1, 1.0),
+                                                 name = "x"),
+                 "element 1 of 'x' \\[0.1\\] not equivalent to integer")
+})
+
+
+## err_tdy_same_length --------------------------------------------------------
 
 test_that("'err_tdy_same_length' works with valid inputs", {
     expect_identical(err_tdy_same_length(x1 = 1L, x2 = 2, name1 = "x1", name2 = "x2"),
@@ -563,7 +597,7 @@ test_that("'err_tdy_same_length' works with valid inputs", {
 })
 
 
-## err_tdy_unit
+## err_tdy_unit ---------------------------------------------------------------
 
 test_that("'err_tdy_unit' works with valid inputs", {
     expect_identical(err_tdy_unit(x = NULL, name = "x"),
