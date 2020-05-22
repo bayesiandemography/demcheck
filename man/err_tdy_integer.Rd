@@ -6,7 +6,7 @@
 \alias{err_tdy_integer_vector}
 \title{Check and tidy integers or objects that can be coerced to integer}
 \usage{
-err_tdy_integer_scalar(x, name, null_ok = FALSE)
+err_tdy_integer_scalar(x, name, null_ok)
 
 err_tdy_integer_vector(x, name)
 }

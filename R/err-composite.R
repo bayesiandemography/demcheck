@@ -129,7 +129,7 @@ err_first_day_unit_consec <- function(x, name, unit) {
 }
 
 #' @export
-#' @rdname chk_ge_scalar
+#' @rdname chk_ge
 err_ge_scalar <- function(x1, x2, name1, name2) {
     val <- chk_ge_scalar(x1, x2, name1, name2)
     if (is.character(val))
@@ -138,7 +138,7 @@ err_ge_scalar <- function(x1, x2, name1, name2) {
 }
 
 #' @export
-#' @rdname chk_ge_scalar
+#' @rdname chk_ge
 err_ge_vector <- function(x1, x2, name1, name2) {
     val <- chk_ge_vector(x1, x2, name1, name2)
     if (is.character(val))
@@ -147,7 +147,7 @@ err_ge_vector <- function(x1, x2, name1, name2) {
 }
 
 #' @export
-#' @rdname chk_gt_scalar
+#' @rdname chk_gt
 err_gt_scalar <- function(x1, x2, name1, name2) {
     val <- chk_gt_scalar(x1, x2, name1, name2)
     if (is.character(val))
@@ -156,7 +156,7 @@ err_gt_scalar <- function(x1, x2, name1, name2) {
 }
 
 #' @export
-#' @rdname chk_gt_scalar
+#' @rdname chk_gt
 err_gt_vector <- function(x1, x2, name1, name2) {
     val <- chk_gt_vector(x1, x2, name1, name2)
     if (is.character(val))
@@ -168,6 +168,42 @@ err_gt_vector <- function(x1, x2, name1, name2) {
 #' @rdname chk_is_logical_flag
 err_is_logical_flag <- function(x, name) {
     val <- chk_is_logical_flag(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_le
+err_le_scalar <- function(x1, x2, name1, name2) {
+    val <- chk_le_scalar(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_le
+err_le_vector <- function(x1, x2, name1, name2) {
+    val <- chk_le_vector(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_lt
+err_lt_scalar <- function(x1, x2, name1, name2) {
+    val <- chk_lt_scalar(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_lt
+err_lt_vector <- function(x1, x2, name1, name2) {
+    val <- chk_lt_vector(x1, x2, name1, name2)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -204,6 +240,15 @@ err_non_negative_scalar <- function(x, name) {
 #' @rdname chk_non_negative
 err_non_negative_vector <- function(x, name) {
     val <- chk_non_negative_vector(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_not_equal_integer_scalar
+err_not_equal_integer_scalar <- function(x1, x2, name1, name2) {
+    val <- chk_not_equal_integer_scalar(x1, x2, name1, name2)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

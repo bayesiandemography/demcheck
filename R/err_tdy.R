@@ -413,7 +413,7 @@ NULL
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy_integer
-err_tdy_integer_scalar <- function(x, name, null_ok = FALSE) {
+err_tdy_integer_scalar <- function(x, name, null_ok) {
     if (is.null(x)) {
         if (null_ok)
             return(x)

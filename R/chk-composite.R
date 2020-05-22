@@ -559,7 +559,8 @@ chk_first_day_unit_consec <- function(x, name, unit) {
 #' @param x1 A scalar or vector.
 #' @param x2 A scalar or vector the same length as \code{x1}.
 #'
-#' @seealso \code{\link{chk_gt_scalar}}
+#' @seealso \code{\link{chk_gt}}, \code{\link{chk_le}},
+#' \code{\link{chk_lt}}
 #'
 #' @examples
 #' x1 <- 3.1
@@ -568,12 +569,12 @@ chk_first_day_unit_consec <- function(x, name, unit) {
 #' x1 <- c(3.1, 4.2, 5.7)
 #' x2 <- c(3.1, 4.0, 4.2)
 #' chk_ge_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
-#' @name chk_ge_scalar
+#' @name chk_ge
 NULL
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_ge_scalar
+#' @rdname chk_ge
 chk_ge_scalar <- function(x1, x2, name1, name2) {
     if (!is.na(x1) && !is.na(x2) && (x1 < x2))
         return(gettextf("'%s' [%s] is less than '%s' [%s]",
@@ -583,7 +584,7 @@ chk_ge_scalar <- function(x1, x2, name1, name2) {
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_ge_scalar
+#' @rdname chk_ge
 chk_ge_vector <- function(x1, x2, name1, name2) {
     is_lt <- !is.na(x1) & !is.na(x2) & (x1 < x2)
     if (any(is_lt)) {
@@ -595,13 +596,14 @@ chk_ge_vector <- function(x1, x2, name1, name2) {
 }
 
 
-#' Check that 'x1' is strictly greater than 'x2'
+#' Check that 'x1' is greater than 'x2'
 #'
 #' @inheritParams chk_all_x1_in_x2
 #' @param x1 A scalar or vector.
 #' @param x2 A scalar or vector the same length as \code{x1}.
 #'
-#' @seealso \code{\link{chk_ge_scalar}}
+#' @seealso \code{\link{chk_ge}},  \code{\link{chk_le}},
+#' \code{\link{chk_lt}}
 #'
 #' @examples
 #' x1 <- 3.2
@@ -610,12 +612,12 @@ chk_ge_vector <- function(x1, x2, name1, name2) {
 #' x1 <- c(3.2, 4.2, 5.7)
 #' x2 <- c(3.1, 4.0, 4.2)
 #' chk_gt_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
-#' @name chk_gt_scalar
+#' @name chk_gt
 NULL
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_gt_scalar
+#' @rdname chk_gt
 chk_gt_scalar <- function(x1, x2, name1, name2) {
     if (!is.na(x1) && !is.na(x2) && !(x1 > x2))
         return(gettextf("'%s' [%s] is less than or equal to '%s' [%s]",
@@ -625,7 +627,7 @@ chk_gt_scalar <- function(x1, x2, name1, name2) {
 
 ## HAS_TESTS
 #' @export
-#' @rdname chk_gt_scalar
+#' @rdname chk_gt
 chk_gt_vector <- function(x1, x2, name1, name2) {
     is_lt <- !is.na(x1) & !is.na(x2) & !(x1 > x2)
     i <- match(TRUE, is_lt, nomatch = 0L)    
@@ -656,6 +658,92 @@ chk_is_logical_flag <- function(x, name) {
     val <- chk_not_na_scalar(x = x, name = name)
     if (!isTRUE(val))
         return(val)
+    TRUE
+}
+
+
+#' Check that 'x1' is less than or equal to 'x2'
+#'
+#' @inheritParams chk_all_x1_in_x2
+#' @param x1 A scalar or vector.
+#' @param x2 A scalar or vector the same length as \code{x1}.
+#'
+#' @seealso \code{\link{chk_lt}}, \code{\link{chk_ge}},
+#' \code{\link{chk_gt}}
+#'
+#' @examples
+#' x1 <- 2.2
+#' x2 <- 3.1
+#' chk_le_scalar(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- c(3.3, 4.2, 5.7)
+#' x2 <- c(3.3, 4.6, 6.2)
+#' chk_le_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' @name chk_le
+NULL
+
+## HAS_TESTS
+#' @export
+#' @rdname chk_le
+chk_le_scalar <- function(x1, x2, name1, name2) {
+    if (!is.na(x1) && !is.na(x2) && (x1 > x2))
+        return(gettextf("'%s' [%s] is greater than '%s' [%s]",
+                        name1, x1, name2, x2))
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname chk_le
+chk_le_vector <- function(x1, x2, name1, name2) {
+    is_ge <- !is.na(x1) & !is.na(x2) & (x1 > x2)
+    i <- match(TRUE, is_ge, nomatch = 0L)    
+    if (i > 0L) {
+        return(gettextf("element %d of '%s' [%s] is greater than element %d of '%s' [%s]",
+                        i, name1, x1[[i]], i, name2, x2[[i]]))
+    }
+    TRUE
+}
+
+
+#' Check that 'x1' is less than 'x2'
+#'
+#' @inheritParams chk_all_x1_in_x2
+#' @param x1 A scalar or vector.
+#' @param x2 A scalar or vector the same length as \code{x1}.
+#'
+#' @seealso \code{\link{chk_le}}, \code{\link{chk_ge}},
+#' \code{\link{chk_gt}}
+#'
+#' @examples
+#' x1 <- 2.2
+#' x2 <- 3.1
+#' chk_lt_scalar(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- c(3.2, 4.2, 5.7)
+#' x2 <- c(3.3, 4.6, 6.2)
+#' chk_lt_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' @name chk_lt
+NULL
+
+## HAS_TESTS
+#' @export
+#' @rdname chk_lt
+chk_lt_scalar <- function(x1, x2, name1, name2) {
+    if (!is.na(x1) && !is.na(x2) && !(x1 < x2))
+        return(gettextf("'%s' [%s] is greater than or equal to '%s' [%s]",
+                        name1, x1, name2, x2))
+    TRUE
+}
+
+## HAS_TESTS
+#' @export
+#' @rdname chk_lt
+chk_lt_vector <- function(x1, x2, name1, name2) {
+    is_ge <- !is.na(x1) & !is.na(x2) & !(x1 < x2)
+    i <- match(TRUE, is_ge, nomatch = 0L)    
+    if (i > 0L) {
+        return(gettextf("element %d of '%s' [%s] is greater than or equal to element %d of '%s' [%s]",
+                        i, name1, x1[[i]], i, name2, x2[[i]]))
+    }
     TRUE
 }
 
@@ -790,6 +878,29 @@ chk_non_negative_vector <- function(x, name) {
         return(gettextf("element %d of '%s' [%s] is negative",
                         i, name, x[[i]]))
     }
+    TRUE
+}
+
+
+#' Check that integers 'x1' and 'x2' are not equal
+#'
+#' @inheritParams chk_all_x1_in_x2
+#' @param x1 An integer scalar.
+#' @param x2 An integer scalar.
+#'
+#' @seealso \code{\link{chk_le}},
+#' \code{\link{chk_lt}}, \code{\link{chk_ge}},
+#' \code{\link{chk_gt}}
+#'
+#' @examples
+#' x1 <- 2L
+#' x2 <- 3L
+#' chk_not_equal_integer_scalar(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' @export
+chk_not_equal_integer_scalar <- function(x1, x2, name1, name2) {
+    if (!is.na(x1) && !is.na(x2) && (x1 == x2))
+        return(gettextf("'%s' [%d] is equal to '%s' [%d]",
+                        name1, x1, name2, x2))
     TRUE
 }
 
