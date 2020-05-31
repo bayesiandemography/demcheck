@@ -62,14 +62,16 @@ chk_member_dimtype <- function(x, name) {
 #' chk_member_unit(x = x, name = "x")
 #' @export
 chk_member_unit <- function(x, name) {
-    valid_members <- c("month", "quarter", "year")
+    valid_members <- c("month",
+                       "quarter",
+                       "year")
     val <- chk_is_string(x = x,
                          name = name)
     if (!isTRUE(val))
         return(val)
-    i <- pmatch(x, valid_members, nomatch = 0L)
+    i <- match(x, valid_members, nomatch = 0L)
     if (i == 0L)
-        return(gettextf("value for '%s' [\"%s\"] is not a permitted time unit",
+        return(gettextf("value for '%s' [\"%s\"] is not a valid time unit",
                         name, x))
     TRUE
 }

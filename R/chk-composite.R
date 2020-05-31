@@ -557,7 +557,8 @@ chk_first_day_unit_consec <- function(x, name, unit) {
 #'
 #' @inheritParams chk_all_x1_in_x2
 #' @param x1 A scalar or vector.
-#' @param x2 A scalar or vector the same length as \code{x1}.
+#' @param x2 A scalar or vector the same length as \code{x1},
+#' or length 1.
 #'
 #' @seealso \code{\link{chk_gt}}, \code{\link{chk_le}},
 #' \code{\link{chk_lt}}
@@ -568,6 +569,9 @@ chk_first_day_unit_consec <- function(x, name, unit) {
 #' chk_ge_scalar(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
 #' x1 <- c(3.1, 4.2, 5.7)
 #' x2 <- c(3.1, 4.0, 4.2)
+#' chk_ge_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- c(3.1, 4.2, 5.7)
+#' x2 <- 3.1
 #' chk_ge_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
 #' @name chk_ge
 NULL
@@ -586,11 +590,20 @@ chk_ge_scalar <- function(x1, x2, name1, name2) {
 #' @export
 #' @rdname chk_ge
 chk_ge_vector <- function(x1, x2, name1, name2) {
+    n1 <- length(x1)
+    n2 <- length(x2)
+    if ((n2 != n1) && (n2 != 1L))
+        return(gettextf("'%s' has length %d and '%s' has length %d",
+                        name1, n1, name2, n2))
     is_lt <- !is.na(x1) & !is.na(x2) & (x1 < x2)
     if (any(is_lt)) {
         i <- match(TRUE, is_lt)
-        return(gettextf("element %d of '%s' [%s] is less than element %d of '%s' [%s]",
-                        i, name1, x1[[i]], i, name2, x2[[i]]))
+        if (n2 > 1L)
+            return(gettextf("element %d of '%s' [%s] is less than element %d of '%s' [%s]",
+                            i, name1, x1[[i]], i, name2, x2[[i]]))
+        else
+            return(gettextf("element %d of '%s' [%s] is less than '%s' [%s]",
+                            i, name1, x1[[i]], name2, x2))
     }
     TRUE
 }
@@ -600,7 +613,8 @@ chk_ge_vector <- function(x1, x2, name1, name2) {
 #'
 #' @inheritParams chk_all_x1_in_x2
 #' @param x1 A scalar or vector.
-#' @param x2 A scalar or vector the same length as \code{x1}.
+#' @param x2 A scalar or vector the same length as \code{x1},
+#' or length 1.
 #'
 #' @seealso \code{\link{chk_ge}},  \code{\link{chk_le}},
 #' \code{\link{chk_lt}}
@@ -611,6 +625,9 @@ chk_ge_vector <- function(x1, x2, name1, name2) {
 #' chk_gt_scalar(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
 #' x1 <- c(3.2, 4.2, 5.7)
 #' x2 <- c(3.1, 4.0, 4.2)
+#' chk_gt_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- c(3.2, 4.2, 5.7)
+#' x2 <- 3.1
 #' chk_gt_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
 #' @name chk_gt
 NULL
@@ -629,11 +646,20 @@ chk_gt_scalar <- function(x1, x2, name1, name2) {
 #' @export
 #' @rdname chk_gt
 chk_gt_vector <- function(x1, x2, name1, name2) {
+    n1 <- length(x1)
+    n2 <- length(x2)
+    if ((n2 != n1) && (n2 != 1L))
+        return(gettextf("'%s' has length %d and '%s' has length %d",
+                        name1, n1, name2, n2))
     is_lt <- !is.na(x1) & !is.na(x2) & !(x1 > x2)
     i <- match(TRUE, is_lt, nomatch = 0L)    
     if (i > 0L) {
-        return(gettextf("element %d of '%s' [%s] is less than or equal to element %d of '%s' [%s]",
-                        i, name1, x1[[i]], i, name2, x2[[i]]))
+        if (n2 > 1L)
+            return(gettextf("element %d of '%s' [%s] is less than or equal to element %d of '%s' [%s]",
+                            i, name1, x1[[i]], i, name2, x2[[i]]))
+        else
+            return(gettextf("element %d of '%s' [%s] is less than or equal to '%s' [%s]",
+                            i, name1, x1[[i]], name2, x2))            
     }
     TRUE
 }
@@ -666,7 +692,8 @@ chk_is_logical_flag <- function(x, name) {
 #'
 #' @inheritParams chk_all_x1_in_x2
 #' @param x1 A scalar or vector.
-#' @param x2 A scalar or vector the same length as \code{x1}.
+#' @param x2 A scalar or vector the same length as \code{x1},
+#' or length 1.
 #'
 #' @seealso \code{\link{chk_lt}}, \code{\link{chk_ge}},
 #' \code{\link{chk_gt}}
@@ -677,6 +704,9 @@ chk_is_logical_flag <- function(x, name) {
 #' chk_le_scalar(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
 #' x1 <- c(3.3, 4.2, 5.7)
 #' x2 <- c(3.3, 4.6, 6.2)
+#' chk_le_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- c(3.3, 4.2, 5.7)
+#' x2 <- 3.3
 #' chk_le_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
 #' @name chk_le
 NULL
@@ -695,11 +725,20 @@ chk_le_scalar <- function(x1, x2, name1, name2) {
 #' @export
 #' @rdname chk_le
 chk_le_vector <- function(x1, x2, name1, name2) {
+    n1 <- length(x1)
+    n2 <- length(x2)
+    if ((n2 != n1) && (n2 != 1L))
+        return(gettextf("'%s' has length %d and '%s' has length %d",
+                        name1, n1, name2, n2))
     is_ge <- !is.na(x1) & !is.na(x2) & (x1 > x2)
     i <- match(TRUE, is_ge, nomatch = 0L)    
     if (i > 0L) {
-        return(gettextf("element %d of '%s' [%s] is greater than element %d of '%s' [%s]",
-                        i, name1, x1[[i]], i, name2, x2[[i]]))
+        if (n2 > 1L)
+            return(gettextf("element %d of '%s' [%s] is greater than element %d of '%s' [%s]",
+                            i, name1, x1[[i]], i, name2, x2[[i]]))
+        else
+            return(gettextf("element %d of '%s' [%s] is greater than '%s' [%s]",
+                            i, name1, x1[[i]], name2, x2))
     }
     TRUE
 }
@@ -709,7 +748,8 @@ chk_le_vector <- function(x1, x2, name1, name2) {
 #'
 #' @inheritParams chk_all_x1_in_x2
 #' @param x1 A scalar or vector.
-#' @param x2 A scalar or vector the same length as \code{x1}.
+#' @param x2 A scalar or vector the same length as \code{x1},
+#' or length 1.
 #'
 #' @seealso \code{\link{chk_le}}, \code{\link{chk_ge}},
 #' \code{\link{chk_gt}}
@@ -720,6 +760,9 @@ chk_le_vector <- function(x1, x2, name1, name2) {
 #' chk_lt_scalar(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
 #' x1 <- c(3.2, 4.2, 5.7)
 #' x2 <- c(3.3, 4.6, 6.2)
+#' chk_lt_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- c(3.2, 4.2, 5.7)
+#' x2 <- 3.3
 #' chk_lt_vector(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
 #' @name chk_lt
 NULL
@@ -738,11 +781,20 @@ chk_lt_scalar <- function(x1, x2, name1, name2) {
 #' @export
 #' @rdname chk_lt
 chk_lt_vector <- function(x1, x2, name1, name2) {
+    n1 <- length(x1)
+    n2 <- length(x2)
+    if ((n2 != n1) && (n2 != 1L))
+        return(gettextf("'%s' has length %d and '%s' has length %d",
+                        name1, n1, name2, n2))
     is_ge <- !is.na(x1) & !is.na(x2) & !(x1 < x2)
     i <- match(TRUE, is_ge, nomatch = 0L)    
     if (i > 0L) {
-        return(gettextf("element %d of '%s' [%s] is greater than or equal to element %d of '%s' [%s]",
-                        i, name1, x1[[i]], i, name2, x2[[i]]))
+        if (n2 > 1L)
+            return(gettextf("element %d of '%s' [%s] is greater than or equal to element %d of '%s' [%s]",
+                            i, name1, x1[[i]], i, name2, x2[[i]]))
+        else
+            return(gettextf("element %d of '%s' [%s] is greater than or equal to '%s' [%s]",
+                            i, name1, x1[[i]], name2, x2))
     }
     TRUE
 }

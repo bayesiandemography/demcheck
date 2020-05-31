@@ -376,7 +376,7 @@ test_that("'chk_first_day_unit_consec' returns expected message with invalid dat
 
 ## chk_ge_scalar --------------------------------------------------------------
 
-test_that("'chk_ge_scalar' returns TRUE with inputs", {
+test_that("'chk_ge_scalar' returns TRUE with valid inputs", {
     expect_true(chk_ge_scalar(x1 = 3, x2 = 2.9, name1 = "x1", name2 = "x2"))
     expect_true(chk_ge_scalar(x1 = as.Date("2001-10-01"), x2 = as.Date("2001-01-01"),
                                  name1 = "x1", name2 = "x2"))
@@ -394,8 +394,9 @@ test_that("'chk_ge_scalar' returns expected message with invalid inputs", {
 
 ## chk_ge_vector --------------------------------------------------------------
 
-test_that("'chk_ge_vector' returns TRUE with inputs", {
+test_that("'chk_ge_vector' returns TRUE with valid inputs", {
     expect_true(chk_ge_vector(x1 = 3:5, x2 = c(2.9, 4, 5), name1 = "x1", name2 = "x2"))
+    expect_true(chk_ge_vector(x1 = 3:5, x2 = 2.9, name1 = "x1", name2 = "x2"))
     expect_true(chk_ge_vector(x1 = as.Date(c("2001-10-01", "2000-03-03")),
                                  x2 = as.Date(c("2001-01-01", "2000-03-03")),
                                  name1 = "x1", name2 = "x2"))
@@ -408,15 +409,23 @@ test_that("'chk_ge_vector' returns expected message with invalid inputs", {
     expect_identical(chk_ge_vector(x1 = c(2, 3), x2 = c(1, 4),
                                       name1 = "x1", name2 = "x2"),
                      "element 2 of 'x1' [3] is less than element 2 of 'x2' [4]")
-    expect_identical(chk_ge_vector(x1 = as.Date("2000-10-01"), x2 = as.Date("2001-01-01"),
-                                      name1 = "x1", name2 = "x2"),
+    expect_identical(chk_ge_vector(x1 = as.Date(c("2000-10-01", "2020-01-01")),
+                                   x2 = as.Date(c("2001-01-01", "2001-01-01")),
+                                   name1 = "x1", name2 = "x2"),
                      "element 1 of 'x1' [2000-10-01] is less than element 1 of 'x2' [2001-01-01]")
+    expect_identical(chk_ge_vector(x1 = as.Date(c("2000-10-01", "2020-01-01")),
+                                   x2 = as.Date("2001-01-01"),
+                                   name1 = "x1", name2 = "x2"),
+                     "element 1 of 'x1' [2000-10-01] is less than 'x2' [2001-01-01]")
+    expect_identical(chk_ge_vector(x1 = c(2, 3, 10), x2 = c(1, 4),
+                                      name1 = "x1", name2 = "x2"),
+                     "'x1' has length 3 and 'x2' has length 2")
 })
 
 
 ## chk_gt_scalar --------------------------------------------------------------
 
-test_that("'chk_gt_scalar' returns TRUE with inputs", {
+test_that("'chk_gt_scalar' returns TRUE with valid inputs", {
     expect_true(chk_gt_scalar(x1 = 3, x2 = 2.9, name1 = "x1", name2 = "x2"))
     expect_true(chk_gt_scalar(x1 = as.Date("2001-10-01"), x2 = as.Date("2001-01-01"),
                                  name1 = "x1", name2 = "x2"))
@@ -437,8 +446,9 @@ test_that("'chk_gt_scalar' returns expected message with invalid inputs", {
 
 ## chk_gt_vector --------------------------------------------------------------
 
-test_that("'chk_gt_vector' returns TRUE with inputs", {
+test_that("'chk_gt_vector' returns TRUE with valid inputs", {
     expect_true(chk_gt_vector(x1 = 3:5, x2 = c(2.9, 3.5, 4.99999999), name1 = "x1", name2 = "x2"))
+    expect_true(chk_gt_vector(x1 = 3:5, x2 = 2.9, name1 = "x1", name2 = "x2"))
     expect_true(chk_gt_vector(x1 = as.Date(c("2001-10-01", "2000-03-03")),
                                  x2 = as.Date(c("2001-01-01", "2000-03-02")),
                                  name1 = "x1", name2 = "x2"))
@@ -451,9 +461,16 @@ test_that("'chk_gt_vector' returns expected message with invalid inputs", {
     expect_identical(chk_gt_vector(x1 = c(2, 3), x2 = c(1, 4),
                                       name1 = "x1", name2 = "x2"),
                      "element 2 of 'x1' [3] is less than or equal to element 2 of 'x2' [4]")
-    expect_identical(chk_gt_vector(x1 = as.Date("2000-10-01"), x2 = as.Date("2000-10-01"),
+    expect_identical(chk_gt_vector(x1 = c(5, 3), x2 = 4,
+                                   name1 = "x1", name2 = "x2"),
+                     "element 2 of 'x1' [3] is less than or equal to 'x2' [4]")
+    expect_identical(chk_gt_vector(x1 = as.Date(c("2000-10-01", "2020-10-10")),
+                                   x2 = as.Date(c("2000-10-01", "2019-10-10")),
                                       name1 = "x1", name2 = "x2"),
                      "element 1 of 'x1' [2000-10-01] is less than or equal to element 1 of 'x2' [2000-10-01]")
+    expect_identical(chk_gt_vector(x1 = c(2, 3, 10), x2 = c(1, 4),
+                                      name1 = "x1", name2 = "x2"),
+                     "'x1' has length 3 and 'x2' has length 2")
 })
 
 
@@ -481,7 +498,7 @@ test_that("'chk_is_logical_flag' returns expected message with invalid argument"
 
 ## chk_le_scalar --------------------------------------------------------------
 
-test_that("'chk_le_scalar' returns TRUE with inputs", {
+test_that("'chk_le_scalar' returns TRUE with valid inputs", {
     expect_true(chk_le_scalar(x1 = 3, x2 = 3.9, name1 = "x1", name2 = "x2"))
     expect_true(chk_le_scalar(x1 = as.Date("2001-10-01"), x2 = as.Date("2001-10-01"),
                                  name1 = "x1", name2 = "x2"))
@@ -502,8 +519,9 @@ test_that("'chk_le_scalar' returns expected message with invalid inputs", {
 
 ## chk_le_vector --------------------------------------------------------------
 
-test_that("'chk_le_vector' returns TRUE with inputs", {
+test_that("'chk_le_vector' returns TRUE with valid inputs", {
     expect_true(chk_le_vector(x1 = 3:5, x2 = c(3.1, 4.5, 5), name1 = "x1", name2 = "x2"))
+    expect_true(chk_le_vector(x1 = 3:5, x2 = 5.1, name1 = "x1", name2 = "x2"))
     expect_true(chk_le_vector(x1 = as.Date(c("2001-01-02", "2000-03-03")),
                               x2 = as.Date(c("2001-01-02", "2000-03-04")),
                               name1 = "x1", name2 = "x2"))
@@ -516,18 +534,25 @@ test_that("'chk_le_vector' returns expected message with invalid inputs", {
     expect_identical(chk_le_vector(x1 = c(2, 3), x2 = c(3, 2),
                                    name1 = "x1", name2 = "x2"),
                      "element 2 of 'x1' [3] is greater than element 2 of 'x2' [2]")
-    expect_identical(chk_le_vector(x1 = as.Date("2000-10-01"), x2 = as.Date("2000-09-01"),
+    expect_identical(chk_le_vector(x1 = c(2, 3), x2 = 2,
+                                   name1 = "x1", name2 = "x2"),
+                     "element 2 of 'x1' [3] is greater than 'x2' [2]")
+    expect_identical(chk_le_vector(x1 = as.Date(c("2000-10-01", "2000-01-01")),
+                                   x2 = as.Date(c("2000-09-01", "2000-01-01")),
                                    name1 = "x1", name2 = "x2"),
                      "element 1 of 'x1' [2000-10-01] is greater than element 1 of 'x2' [2000-09-01]")
+    expect_identical(chk_le_vector(x1 = c(2, 3, 4), x2 = c(3, 2),
+                                   name1 = "x1", name2 = "x2"),
+                     "'x1' has length 3 and 'x2' has length 2")
 })
 
 
 ## chk_lt_scalar --------------------------------------------------------------
 
-test_that("'chk_lt_scalar' returns TRUE with inputs", {
+test_that("'chk_lt_scalar' returns TRUE with valid inputs", {
     expect_true(chk_lt_scalar(x1 = 3, x2 = 3.9, name1 = "x1", name2 = "x2"))
     expect_true(chk_lt_scalar(x1 = as.Date("2001-10-01"), x2 = as.Date("2001-12-01"),
-                                 name1 = "x1", name2 = "x2"))
+                              name1 = "x1", name2 = "x2"))
     expect_true(chk_lt_scalar(x1 = NA, x2 = 2.9, name1 = "x1", name2 = "x2"))
 })
 
@@ -545,8 +570,9 @@ test_that("'chk_lt_scalar' returns expected message with invalid inputs", {
 
 ## chk_lt_vector --------------------------------------------------------------
 
-test_that("'chk_lt_vector' returns TRUE with inputs", {
+test_that("'chk_lt_vector' returns TRUE with valid inputs", {
     expect_true(chk_lt_vector(x1 = 3:5, x2 = c(3.1, 4.5, 5.000000001), name1 = "x1", name2 = "x2"))
+    expect_true(chk_lt_vector(x1 = 3:5, x2 = 5.1, name1 = "x1", name2 = "x2"))
     expect_true(chk_lt_vector(x1 = as.Date(c("2001-01-01", "2000-03-03")),
                               x2 = as.Date(c("2001-01-02", "2000-03-04")),
                               name1 = "x1", name2 = "x2"))
@@ -559,9 +585,16 @@ test_that("'chk_lt_vector' returns expected message with invalid inputs", {
     expect_identical(chk_lt_vector(x1 = c(2, 3), x2 = c(3, 2),
                                    name1 = "x1", name2 = "x2"),
                      "element 2 of 'x1' [3] is greater than or equal to element 2 of 'x2' [2]")
-    expect_identical(chk_lt_vector(x1 = as.Date("2000-10-01"), x2 = as.Date("2000-09-01"),
+    expect_identical(chk_lt_vector(x1 = c(2, 3), x2 = 3,
+                                   name1 = "x1", name2 = "x2"),
+                     "element 2 of 'x1' [3] is greater than or equal to 'x2' [3]")
+    expect_identical(chk_lt_vector(x1 = as.Date(c("2000-10-01", "2000-10-01")),
+                                   x2 = as.Date(c("2000-09-01", "2000-10-01")),
                                    name1 = "x1", name2 = "x2"),
                      "element 1 of 'x1' [2000-10-01] is greater than or equal to element 1 of 'x2' [2000-09-01]")
+    expect_identical(chk_lt_vector(x1 = c(2, 3, 4), x2 = c(3, 2),
+                                   name1 = "x1", name2 = "x2"),
+                     "'x1' has length 3 and 'x2' has length 2")
 })
 
 
@@ -672,7 +705,7 @@ test_that("'chk_non_negative_vector' returns expected message with invalid argum
 
 ## chk_not_equal_integer_scalar --------------------------------------------------------------
 
-test_that("'chk_not_equal_integer_scalar' returns TRUE with inputs", {
+test_that("'chk_not_equal_integer_scalar' returns TRUE with valid inputs", {
     expect_true(chk_not_equal_integer_scalar(x1 = 3L, x2 = 4L, name1 = "x1", name2 = "x2"))
     expect_true(chk_not_equal_integer_scalar(x1 = NA_integer_, x2 = 2L, name1 = "x1", name2 = "x2"))
 })
