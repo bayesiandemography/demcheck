@@ -6,13 +6,39 @@
 ## whether \code{x} is a valid string, to provide
 ## more helpful error messages to users.
 
+#' Check that 'x' is a valid type of account
+#' component
+#'
+#' @param x A string.
+#' @param name The name for \code{x} that
+#' will be used in error messages.
+#'
+#' @examples
+#' x <- "orig-dest"
+#' chk_member_comp_type(x, name = "x")
+#' @export
+chk_member_comp_type <- function(x, name) {
+    valid_members <- c("increment",
+                       "decrement",
+                       "orig-dest",
+                       "pool")
+    val <- chk_is_string(x = x,
+                         name = name)
+    if (!isTRUE(val))
+        return(val)
+    i <- match(x, valid_members, nomatch = 0L)
+    if (i == 0L)
+        return(gettextf("\"%s\" is not a valid component type",
+                        x))
+    TRUE
+}
+
 
 ## HAS_TESTS
 #' Check that 'x' consists of valid dimtypes
 #'
+#' @inheritParams chk_member_comp_type
 #' @param x A character vector
-#' @param name The name for \code{x} that
-#' will be used in error messages.
 #'
 #' @examples
 #' x <- c("age", "attribute")

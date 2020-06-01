@@ -3,6 +3,15 @@
 
 
 #' @export
+#' @rdname chk_member_comp_type
+err_member_comp_type <- function(x, name) {
+    val <- chk_member_comp_type(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
 #' @rdname chk_member_dimtype
 err_member_dimtype <- function(x, name) {
     val <- chk_member_dimtype(x, name)
