@@ -156,6 +156,26 @@ chk_finite_vector <- function(x, name) {
 }
 
 
+#' Check that a vector has at least one
+#' non-zero element
+#'
+#' @inheritParams chk_all_0_1
+#' @param x A scalar or a vector.
+#'
+#' @seealso \code{\link{chk_all_0_1}}
+#'
+#' @examples
+#' x <- c(0L, 1L, 2L, 0L)
+#' chk_has_nonzero(x = x, name = "x")
+#' @export
+chk_has_nonzero <- function(x, name) {
+    if (!any(x != 0L))
+        return(gettextf("'%s' has no non-zero element",
+                        name))
+    TRUE
+}
+
+
 #' Check that a scalar or vector has type integer
 #'
 #' Checking type, e.g. fails for 1.0.
@@ -251,6 +271,29 @@ chk_is_integer_equiv_vector <- function(x, name) {
     else
         TRUE
 }
+
+
+#' Check that a scalar or vector has type numeric
+#'
+#' Checking type, e.g. fails for 1L.
+#' 
+#' @inheritParams chk_all_0_1
+#' @param x A scalar or a vector.
+#'
+#' @seealso \code{\link{chk_is_integer}} to test for
+#' integer type.
+#'
+#' @examples
+#' x <- 1.0
+#' chk_is_numeric(x, name = "x")
+#' @export
+chk_is_numeric <- function(x, name) {
+    if (!is.numeric(x))
+        return(gettextf("'%s' does not have type \"%s\"",
+                        name, "numeric"))
+    TRUE
+}
+
 
 
 #' Check that a vector has length 1,
@@ -379,28 +422,6 @@ chk_not_na_vector <- function(x, name) {
     if (any(is.na(x)))
         return(gettextf("'%s' has NAs",
                         name))
-    TRUE
-}
-
-
-#' Check that a scalar or vector has type numeric
-#'
-#' Checking type, e.g. fails for 1L.
-#' 
-#' @inheritParams chk_all_0_1
-#' @param x A scalar or a vector.
-#'
-#' @seealso \code{\link{chk_is_integer}} to test for
-#' integer type.
-#'
-#' @examples
-#' x <- 1.0
-#' chk_is_numeric(x, name = "x")
-#' @export
-chk_is_numeric <- function(x, name) {
-    if (!is.numeric(x))
-        return(gettextf("'%s' does not have type \"%s\"",
-                        name, "numeric"))
     TRUE
 }
 

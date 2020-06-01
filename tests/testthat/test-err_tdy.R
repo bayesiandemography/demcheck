@@ -1,7 +1,7 @@
 
 context("err-tdy")
 
-## err_tdy_break_min_max_date
+## err_tdy_break_min_max_date -------------------------------------------------
 
 test_that("'err_tdy_break_min_max_date' works with valid input", {
     expect_identical(err_tdy_break_min_max_date(break_min = "2000-01-01",
@@ -509,6 +509,43 @@ test_that("'err_tdy_many_to_one' raises expected error with invalid input", {
                                      name = "x"),
                  "neither column of 'x' has entirely unique values, as required for many-to-one mapping")
 })
+
+
+## err_tdy_map_dim ------------------------------------------------------------
+
+test_that("'err_tdy_map_dim' works with valid input", {
+    map_dim <- c(1, 3, 2, 0)
+    dim_self <- 1:4
+    dim_oth <- c(1L, 2L, 2L)
+    ans_obtained <- err_tdy_map_dim(map_dim = map_dim,
+                                    dim_self = dim_self,
+                                    dim_oth = dim_oth)
+    ans_expected <- as.integer(map_dim)
+    expect_identical(ans_obtained, ans_expected)
+})
+
+test_that("'err_tdy_map_dim' works with 'dim_self' of length 1", {
+    map_dim <- 2
+    dim_self <- 2L
+    dim_oth <- c(1L, 2L)
+    ans_obtained <- err_tdy_map_dim(map_dim = map_dim,
+                                    dim_self = dim_self,
+                                    dim_oth = dim_oth)
+    ans_expected <- as.integer(map_dim)
+    expect_identical(ans_obtained, ans_expected)
+})
+
+test_that("'err_tdy_map_dim' works with 'dim_oth' of length 1", {
+    map_dim <- c(0L, 1L)
+    dim_self <- 3:4
+    dim_oth <- 4L
+    ans_obtained <- err_tdy_map_dim(map_dim = map_dim,
+                                    dim_self = dim_self,
+                                    dim_oth = dim_oth)
+    ans_expected <- as.integer(map_dim)
+    expect_identical(ans_obtained, ans_expected)
+})
+
 
 
 ## err_tdy_non_negative_integer_scalar ----------------------------------------

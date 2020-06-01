@@ -490,6 +490,59 @@ err_tdy_many_to_one <- function(x, name) {
     x        
 }
 
+#' Check and tidy 'map_dim'
+#'
+#' Check and tidy \code{map_dim}, a mapping between the
+#' dimensions of arrays \code{self} and \code{oth}.
+#' If a dimension of \code{self}
+#' does not map on to a dimension of \code{oth}, then the
+#' corresponding element of \code{map_dim} is zero.
+#' \code{oth} can have dimensions that \code{self}
+#' does not map on to, so \code{map_dim} does not
+#' necessarily contain every number in
+#' \code{seq_along(dim_oth)}.
+#'
+#' The only information about \code{dim_self} and
+#' \code{dim_oth} that \code{err_tdy_map_dim} uses is their
+#' lengths.
+#'
+#' @param map_dim A vector of non-negative integers,
+#' unique apart from any zeros, the same length as
+#' \code{dim_self}.
+#' @param dim_self The dimensions of \code{self}.
+#' @param dim_oth The dimensions of \code{oth}.
+#'
+#' @return \code{map_dim}, coerced to integer.
+#'
+#' @seealso \code{\link{err_tdy_map_pos}}
+#'
+#' @examples
+#' map_dim <- c(3, 1, 0)
+#' dim_self <- c(4L, 6L, 2L)
+#' dim_oth <- c(6L, 3L, 4L, 3L)
+#' err_tdy_map_dim(map_dim = map_dim,
+#'                 dim_self = dim_self,
+#'                 dim_oth = dim_oth)
+#' @export
+err_tdy_map_dim <- function(map_dim, dim_self, dim_oth) {
+    map_dim <- demcheck::err_tdy_non_negative_integer_vector(x = map_dim,
+                                                             name = "dim_oth")
+    demcheck::err_has_nonzero(x = map_dim,
+                              name = "map_dim")
+    demcheck::err_nonzero_unique(x = map_dim,
+                                 name = "map_dim")
+    demcheck::err_length_same(x1 = map_dim,
+                              x2 = dim_self,
+                              name1 = "map_dim",
+                              name2 = "dim_self")
+    demcheck::err_all_x1_in_x2(x1 = map_dim,
+                               x2 = seq_along(dim_oth),
+                               name1 = "map_dim",
+                               name2 = "seq_along(dim_oth)",
+                               exclude_zero = TRUE)
+    map_dim
+}
+
 
 ## HAS_TESTS
 #' Check and tidy 'month_start' argument,

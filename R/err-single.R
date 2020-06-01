@@ -74,6 +74,15 @@ err_finite_vector <- function(x, name) {
     TRUE
 }
 
+#' @export
+#' @rdname chk_has_nonzero
+err_has_nonzero <- function(x, name) {
+    val <- chk_has_nonzero(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
 #' @rdname chk_is_integer
 #' @export
 err_is_integer <- function(x, name) {
@@ -105,6 +114,15 @@ err_is_integer_equiv_scalar <- function(x, name) {
 #' @rdname chk_is_integer_equiv
 err_is_integer_equiv_vector <- function(x, name) {
     val <- chk_is_integer_equiv_vector(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_is_numeric
+err_is_numeric <- function(x, name) {
+    val <- chk_is_numeric(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -177,15 +195,6 @@ err_not_na_scalar <- function(x, name) {
 #' @rdname chk_not_na_dataframe
 err_not_na_vector <- function(x, name) {
     val <- chk_not_na_vector(x, name)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname chk_is_numeric
-err_is_numeric <- function(x, name) {
-    val <- chk_is_numeric(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
