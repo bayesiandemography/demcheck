@@ -957,6 +957,82 @@ chk_not_equal_integer_scalar <- function(x1, x2, name1, name2) {
 }
 
 
+#' Check NULL status of 'x1' given NULL status of 'x2'
+#'
+#' \code{chk_null_if_null} checks that \code{x1} is \code{NULL},
+#' given that \code{x2} is \code{NULL}.
+#'
+#' \code{chk_null_onlyif_null} checks that \code{x1} is only
+#' \code{NULL} when \code{x2} is \code{NULL}.
+#'
+#' \code{chk_null_ifonlyif_null} checks that \code{x1} and
+#' \code{x2} are both \code{NULL} or are both non-\code{NULL}.
+#' 
+#' @inheritParams chk_all_x1_in_x2
+#' @param x1 An argument that could be \code{NULL}.
+#' @param x2 An argument that could be \code{NULL}.
+#'
+#' @examples
+#' x1 <- NULL
+#' x2 <- 2
+#' chk_null_if_null(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- NULL
+#' x2 <- NULL
+#' chk_null_if_null(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- 1
+#' x2 <- NULL
+#' chk_null_onlyif_null(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- NULL
+#' x2 <- NULL
+#' chk_null_onlyif_null(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- 1
+#' x2 <- 2
+#' chk_null_ifonlyif_null(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- NULL
+#' x2 <- NULL
+#' chk_null_ifonlyif_null(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' @name chk_null
+NULL
+
+#' @rdname chk_null
+#' @export
+chk_null_if_null <- function(x1, x2, name1, name2) {
+    if (!is.null(x1) && is.null(x2))
+        return(gettextf("'%s' is %s [%s] but '%s' is %s",
+                        name1, "non-NULL", x1, name2, "NULL"))
+    TRUE
+}
+
+#' @rdname chk_null
+#' @export
+chk_null_onlyif_null <- function(x1, x2, name1, name2) {
+    if (is.null(x1) && !is.null(x2))
+        return(gettextf("'%s' is %s but '%s' is %s [%s]",
+                        name1, "NULL", name2, "non-NULL", x2))
+    TRUE
+}
+
+#' @rdname chk_null
+#' @export
+chk_null_ifonlyif_null <- function(x1, x2, name1, name2) {
+    val <- chk_null_if_null(x1 = x1,
+                            x2 = x2,
+                            name1 = name1,
+                            name2 = name2)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_null_onlyif_null(x1 = x1,
+                                x2 = x2,
+                                name1 = name1,
+                                name2 = name2)
+    if (!isTRUE(val))
+        return(val)
+    TRUE
+}
+
+
+
+
 #' Check that elements of a scalar or vector are positive
 #'
 #' @inheritParams chk_array_metadata_complete

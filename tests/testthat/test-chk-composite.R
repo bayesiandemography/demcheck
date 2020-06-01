@@ -703,7 +703,7 @@ test_that("'chk_non_negative_vector' returns expected message with invalid argum
 })
 
 
-## chk_not_equal_integer_scalar --------------------------------------------------------------
+## chk_not_equal_integer_scalar -----------------------------------------------
 
 test_that("'chk_not_equal_integer_scalar' returns TRUE with valid inputs", {
     expect_true(chk_not_equal_integer_scalar(x1 = 3L, x2 = 4L, name1 = "x1", name2 = "x2"))
@@ -713,6 +713,52 @@ test_that("'chk_not_equal_integer_scalar' returns TRUE with valid inputs", {
 test_that("'chk_not_equal_integer_scalar' returns expected message with invalid inputs", {
     expect_identical(chk_not_equal_integer_scalar(x1 = 2L, x2 = 2L, name1 = "x1", name2 = "x2"),
                      "'x1' [2] is equal to 'x2' [2]")
+})
+
+
+## chk_null_if_null -----------------------------------------------------------
+
+test_that("'chk_null_if_null' returns TRUE with valid inputs", {
+    expect_true(chk_null_if_null(x1 = NULL, x2 = NULL, name1 = "x1", name2 = "x2"))
+    expect_true(chk_null_if_null(x1 = NULL, x2 = 1, name1 = "x1", name2 = "x2"))
+    expect_true(chk_null_if_null(x1 = 1, x2 = 1, name1 = "x1", name2 = "x2"))
+
+})
+
+test_that("'chk_null_if_null' returns expected message with invalid inputs", {
+    expect_identical(chk_null_if_null(x1 = 1, x2 = NULL, name1 = "x1", name2 = "x2"),
+                     "'x1' is non-NULL [1] but 'x2' is NULL")
+})
+
+
+## chk_null_onlyif_null -----------------------------------------------------------
+
+test_that("'chk_null_onlyif_null' returns TRUE with valid inputs", {
+    expect_true(chk_null_onlyif_null(x1 = NULL, x2 = NULL, name1 = "x1", name2 = "x2"))
+    expect_true(chk_null_onlyif_null(x1 = 1, x2 = NULL, name1 = "x1", name2 = "x2"))
+    expect_true(chk_null_onlyif_null(x1 = 1, x2 = 1, name1 = "x1", name2 = "x2"))
+
+})
+
+test_that("'chk_null_onlyif_null' returns expected message with invalid inputs", {
+    expect_identical(chk_null_onlyif_null(x1 = NULL, x2 = 1, name1 = "x1", name2 = "x2"),
+                     "'x1' is NULL but 'x2' is non-NULL [1]")
+})
+
+
+## chk_null_ifonlyif_null -----------------------------------------------------------
+
+test_that("'chk_null_ifonlyif_null' returns TRUE with valid inputs", {
+    expect_true(chk_null_ifonlyif_null(x1 = NULL, x2 = NULL, name1 = "x1", name2 = "x2"))
+    expect_true(chk_null_ifonlyif_null(x1 = 1, x2 = 1, name1 = "x1", name2 = "x2"))
+
+})
+
+test_that("'chk_null_ifonlyif_null' returns expected message with invalid inputs", {
+    expect_identical(chk_null_ifonlyif_null(x1 = 1, x2 = NULL, name1 = "x1", name2 = "x2"),
+                     "'x1' is non-NULL [1] but 'x2' is NULL")
+    expect_identical(chk_null_ifonlyif_null(x1 = NULL, x2 = 1, name1 = "x1", name2 = "x2"),
+                     "'x1' is NULL but 'x2' is non-NULL [1]")
 })
 
 

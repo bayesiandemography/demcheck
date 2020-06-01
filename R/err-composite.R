@@ -254,6 +254,33 @@ err_not_equal_integer_scalar <- function(x1, x2, name1, name2) {
     TRUE
 }
 
+#' @rdname chk_null
+#' @export
+err_null_if_null <- function(x1, x2, name1, name2) {
+    val <- chk_null_if_null(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_null
+#' @export
+err_null_onlyif_null <- function(x1, x2, name1, name2) {
+    val <- chk_null_onlyif_null(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_null
+#' @export
+err_null_ifonlyif_null <- function(x1, x2, name1, name2) {
+    val <- chk_null_ifonlyif_null(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
 #' @export
 #' @rdname chk_positive
 err_positive_scalar <- function(x, name) {
