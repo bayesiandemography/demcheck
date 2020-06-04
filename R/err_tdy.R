@@ -490,6 +490,8 @@ err_tdy_many_to_one <- function(x, name) {
     x        
 }
 
+
+## HAS_TESTS
 #' Check and tidy 'map_dim'
 #'
 #' Check and tidy \code{map_dim}, a mapping between the
@@ -505,6 +507,9 @@ err_tdy_many_to_one <- function(x, name) {
 #' The only information about \code{dim_self} and
 #' \code{dim_oth} that \code{err_tdy_map_dim} uses is their
 #' lengths.
+#'
+#' \code{self} and \code{oth} are both assumed to have positive
+#' length, ie no dimensions with length 0.
 #'
 #' @param map_dim A vector of non-negative integers,
 #' unique apart from any zeros, the same length as
@@ -541,6 +546,106 @@ err_tdy_map_dim <- function(map_dim, dim_self, dim_oth) {
                                name2 = "seq_along(dim_oth)",
                                exclude_zero = TRUE)
     map_dim
+}
+
+
+## HAS_TESTS
+#' Check and tidy 'map_pos'
+#'
+#' Check and tidy \code{map_pos}, a mapping between
+#' positions along dimensions of array \code{self} and
+#' positions along dimensions of array \code{oth}.
+#' \code{map_pos} is a list the same length as
+#' \code{dim_self}. Each element of \code{map_pos}
+#' is a vector, showing, for each position on the dimension
+#' of \code{self}, which postition on the dimension
+#' of \code{oth} it maps on to. Multiple positions
+#' on \code{self} can map on to the same position on \code{oth}.
+#' If a position on \code{self} does not map to a position,
+#' on \code{oth}, the value for the non-mapping position
+#' is \code{0}. If a dimension of \code{self}
+#' does not have a corresponding dimension in
+#' \code{oth}, then corresponding element of \code{map_dim}
+#' is vector of zeros.
+#'
+#' \code{err_tdy_map_pos} assumes that \code{map_dim},
+#' \code{dim_self}, and \code{dim_oth} are all valid.
+#'
+#' \code{self} and \code{oth} are both assumed to have positive
+#' length, ie no dimensions with length 0.
+#'
+#' @param map_pos A list of integer vectors.
+#' @param map_dim A vector of non-negative integers.
+#' @param dim_self The dimensions of \code{self}.
+#' @param dim_oth The dimensions of \code{oth}.
+#'
+#' @return \code{map_pos}, with elements coerced to integer.
+#'
+#' @seealso \code{\link{err_tdy_map_dim}}
+#'
+#' @examples
+#' map_pos <- list(c(1L, 2L, 3L, 4L), c(0L, 1L), c(1L, 2L, 2L))
+#' map_dim <- c(1L, 3L, 2L)
+#' dim_self <- c(4L, 2L, 3L)
+#' dim_oth <- c(4L, 2L, 1L)
+#' err_tdy_map_pos(map_pos = map_pos,
+#'                 map_dim = map_dim,
+#'                 dim_self = dim_self,
+#'                 dim_oth = dim_oth)
+#'
+#' map_pos <- list(c(2L, 1L), c(1L, 1L), c(0L, 0L, 0L))
+#' map_dim <- c(1L, 2L, 0L)
+#' dim_self <- c(2L, 2L, 3L)
+#' dim_oth <- c(2L, 1L)
+#' err_tdy_map_pos(map_pos = map_pos,
+#'                 map_dim = map_dim,
+#'                 dim_self = dim_self,
+#'                 dim_oth = dim_oth)
+#' @export
+err_tdy_map_pos <- function(map_pos, dim_self, dim_oth, map_dim) {
+    ## 'map_pos' same length as 'dim_self'
+    demcheck::err_length_same(x1 = map_pos,
+                              x2 = dim_self,
+                              name1 = "map_pos",
+                              name2 = "dim_self")
+    ## lengths of entries of 'map_pos' consistent with 'dim_self'
+    demcheck::err_lengths_elements_equal_vec(x1 = map_pos,
+                                             x2 = dim_self,
+                                             name1 = "map_pos",
+                                             name2 = "dim_self")
+    for (i_dim_self in seq_along(dim_self)) {
+        val_map_pos <- map_pos[[i_dim_self]]
+        name_val_map_pos <- gettextf("element %d of '%s'",
+                                 i_dim_self, "map_pos")
+        val_map_pos <- demcheck::err_tdy_non_negative_integer_vector(x = val_map_pos,
+                                                                     name = name_val_map_pos)
+        i_dim_oth <- map_dim[[i_dim_self]]
+        is_dim_in_oth <- i_dim_oth > 0L
+        if (is_dim_in_oth) {
+            val_dim_oth <- dim_oth[[i_dim_oth]]
+            s_dim_oth <- seq_len(val_dim_oth)
+            name_s_dim_oth <- gettextf("seq_len(dim_oth[[%d]])", i_dim_oth)
+            demcheck::err_all_x1_in_x2(x1 = val_map_pos,
+                                       x2 = s_dim_oth,
+                                       name1 = name_val_map_pos,
+                                       name2 = name_s_dim_oth,
+                                       exclude_zero = TRUE)
+            demcheck::err_all_x1_in_x2(x1 = s_dim_oth,
+                                       x2 = val_map_pos,
+                                       name1 = name_s_dim_oth,
+                                       name2 = name_val_map_pos,
+                                       exclude_zero = FALSE)
+        }
+        else {
+            if (any(val_map_pos != 0L)) {
+                stop(gettextf("dimension %d of '%s' does not map on to '%s', but %s has non-zero elements",
+                              i_dim_self, "self", "oth", name_val_map_pos),
+                     call. = FALSE)
+            }
+        }
+        map_pos[[i_dim_self]] <- val_map_pos
+    }
+    map_pos
 }
 
 

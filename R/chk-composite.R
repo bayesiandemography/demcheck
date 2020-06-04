@@ -13,6 +13,10 @@
 #' Check \code{x1} is contained in \code{x2}, potentially
 #' after excluding \code{0}s from \code{x1}.
 #'
+#' The error message for \code{chk_all_x1_in_x2} does not
+#' have quotes around the arguments, since these arguments
+#' are often expressions.
+#'
 #' @param x1 A vector, typically integers.
 #' @param x2 A vector, typically integers.
 #' @param name1 The name for \code{x1} that
@@ -37,7 +41,7 @@ chk_all_x1_in_x2 <- function(x1, x2, name1, name2, exclude_zero) {
     i_x2 <- match(x1, x2)
     i_miss <- match(NA_integer_, i_x2, nomatch = 0L)
     if (i_miss > 0L)
-        return(gettextf("element from '%s' not found in '%s' : %d",
+        return(gettextf("element from %s not found in %s : %d",
                         name1, name2, x1[[i_miss]]))
     TRUE    
 }

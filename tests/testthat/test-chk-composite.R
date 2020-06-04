@@ -25,11 +25,11 @@ test_that("'chk_all_x1_in_x2' returns expected message with invalid inputs", {
     expect_identical(chk_all_x1_in_x2(x1 = 1:3, x2 = 1:2,
                                       name1 = "x1", name2 = "x2",
                                       exclude_zero = FALSE),
-                     "element from 'x1' not found in 'x2' : 3")
+                     "element from x1 not found in x2 : 3")
     expect_identical(chk_all_x1_in_x2(x1 = 0L, x2 = 1:2,
                                       name1 = "x1", name2 = "x2",
                                       exclude_zero = FALSE),
-                     "element from 'x1' not found in 'x2' : 0")
+                     "element from x1 not found in x2 : 0")
 })
 
 

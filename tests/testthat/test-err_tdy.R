@@ -547,6 +547,125 @@ test_that("'err_tdy_map_dim' works with 'dim_oth' of length 1", {
 })
 
 
+## err_tdy_map_pos ------------------------------------------------------------
+
+test_that("'err_tdy_map_pos' works when 'self' and 'oth' identical", {
+    map_pos <- list(1:3, 1:4)
+    map_dim <- 1:2
+    dim_self <- 3:4
+    dim_oth <- 3:4
+    ans_obtained <- err_tdy_map_pos(map_pos = map_pos,
+                                    map_dim = map_dim,
+                                    dim_self = dim_self,
+                                    dim_oth = dim_oth)
+    ans_expected <- map_pos
+    expect_identical(ans_obtained, ans_expected)
+})
+
+test_that("'err_tdy_map_pos' works when 'self' and 'oth' identical, apart from permutation", {
+    map_pos <- list(3:1, 4:1)
+    map_dim <- 2:1
+    dim_self <- 3:4
+    dim_oth <- 4:3
+    ans_obtained <- err_tdy_map_pos(map_pos = map_pos,
+                                    map_dim = map_dim,
+                                    dim_self = dim_self,
+                                    dim_oth = dim_oth)
+    ans_expected <- map_pos
+    expect_identical(ans_obtained, ans_expected)
+})
+
+test_that("'err_tdy_map_pos' works when one dimension in 'self' collapsed, and 'oth' has an extra dimension", {
+    map_pos <- list(1:2, 1:3, c(0L, 0L), 1:2)
+    map_dim <- c(1L, 2L, 0L, 3L)
+    dim_self <- c(2L, 3L, 2L, 2L)
+    dim_oth <- c(2L, 3L, 2L, 10L)
+    ans_obtained <- err_tdy_map_pos(map_pos = map_pos,
+                                    map_dim = map_dim,
+                                    dim_self = dim_self,
+                                    dim_oth = dim_oth)
+    ans_expected <- map_pos
+    expect_identical(ans_obtained, ans_expected)
+})
+
+test_that("'err_tdy_map_pos' coerces numeric to integer", {
+    map_pos <- list(c(1, 2), c(1, 2, 3), c(0L, 0L), c(1, 2))
+    map_dim <- c(1L, 2L, 0L, 3L)
+    dim_self <- c(2L, 3L, 2L, 2L)
+    dim_oth <- c(2L, 3L, 2L, 10L)
+    ans_obtained <- err_tdy_map_pos(map_pos = map_pos,
+                                    map_dim = map_dim,
+                                    dim_self = dim_self,
+                                    dim_oth = dim_oth)
+    ans_expected <- lapply(map_pos, as.integer)
+    expect_identical(ans_obtained, ans_expected)
+})
+
+test_that("'err_tdy_map_pos' works when 'self' and 'oth' both have one dimension", {
+    map_pos <- list(c(1L, 0L, 2L))
+    map_dim <- 1L
+    dim_self <- 3L
+    dim_oth <- 2L
+    ans_obtained <- err_tdy_map_pos(map_pos = map_pos,
+                                    map_dim = map_dim,
+                                    dim_self = dim_self,
+                                    dim_oth = dim_oth)
+    ans_expected <- lapply(map_pos, as.integer)
+    expect_identical(ans_obtained, ans_expected)
+})
+
+test_that("'err_tdy_map_pos' raises expected error when position in 'self' does not map on to valid position in 'oth'", {
+    map_pos <- list(1:3, c(1L, 2L, 4L))
+    map_dim <- 1:2
+    dim_self <- c(3L, 3L)
+    dim_oth <- c(3L, 3L)
+    expect_error(err_tdy_map_pos(map_pos = map_pos,
+                                 map_dim = map_dim,
+                                 dim_self = dim_self,
+                                 dim_oth = dim_oth),
+                 "element from element 2 of 'map_pos' not found in seq_len(dim_oth[[2]]) : 4",
+                 fixed = TRUE)
+})
+
+test_that("'err_tdy_map_pos' raises expected error when position in 'oth' not mapped on to by position in 'self'", {
+    map_pos <- list(1:3, c(1L, 2L, 3L, 3L))
+    map_dim <- 1:2
+    dim_self <- c(3L, 4L)
+    dim_oth <- c(3L, 4L)
+    expect_error(err_tdy_map_pos(map_pos = map_pos,
+                                 map_dim = map_dim,
+                                 dim_self = dim_self,
+                                 dim_oth = dim_oth),
+                 "element from seq_len(dim_oth[[2]]) not found in element 2 of 'map_pos' : 4",
+                 fixed = TRUE)
+})
+
+test_that("'err_tdy_map_pos' raises expected error when dimension of 'self' not found in 'oth' has non-zerl elements", {
+    map_pos <- list(1:3, c(0L, 0L, 1L))
+    map_dim <- c(1L, 0L)
+    dim_self <- c(3L, 3L)
+    dim_oth <- 3L
+    expect_error(err_tdy_map_pos(map_pos = map_pos,
+                                 map_dim = map_dim,
+                                 dim_self = dim_self,
+                                 dim_oth = dim_oth),
+                 "dimension 2 of 'self' does not map on to 'oth', but element 2 of 'map_pos' has non-zero elements",
+                 fixed = TRUE)
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## err_tdy_non_negative_integer_scalar ----------------------------------------
 

@@ -27,6 +27,11 @@ from \code{x1} before testing.}
 Check \code{x1} is contained in \code{x2}, potentially
 after excluding \code{0}s from \code{x1}.
 }
+\details{
+The error message for \code{chk_all_x1_in_x2} does not
+have quotes around the arguments, since these arguments
+are often expressions.
+}
 \examples{
 x1 <- c(0L, 1L, 2L, 0L)
 x2 <- 1:3
