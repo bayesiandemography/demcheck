@@ -519,7 +519,8 @@ err_tdy_many_to_one <- function(x, name) {
 #'
 #' @return \code{map_dim}, coerced to integer.
 #'
-#' @seealso \code{\link{err_tdy_map_pos}}
+#' @seealso \code{\link{err_tdy_map_pos}},
+#' \code{\link{chk_map_dim}}
 #'
 #' @examples
 #' map_dim <- c(3, 1, 0)
@@ -530,21 +531,21 @@ err_tdy_many_to_one <- function(x, name) {
 #'                 dim_oth = dim_oth)
 #' @export
 err_tdy_map_dim <- function(map_dim, dim_self, dim_oth) {
-    map_dim <- demcheck::err_tdy_non_negative_integer_vector(x = map_dim,
-                                                             name = "dim_oth")
-    demcheck::err_has_nonzero(x = map_dim,
-                              name = "map_dim")
-    demcheck::err_nonzero_unique(x = map_dim,
-                                 name = "map_dim")
-    demcheck::err_length_same(x1 = map_dim,
-                              x2 = dim_self,
-                              name1 = "map_dim",
-                              name2 = "dim_self")
-    demcheck::err_all_x1_in_x2(x1 = map_dim,
-                               x2 = seq_along(dim_oth),
-                               name1 = "map_dim",
-                               name2 = "seq_along(dim_oth)",
-                               exclude_zero = TRUE)
+    map_dim <- err_tdy_non_negative_integer_vector(x = map_dim,
+                                                   name = "map_dim")
+    err_has_nonzero(x = map_dim,
+                    name = "map_dim")
+    err_nonzero_unique(x = map_dim,
+                       name = "map_dim")
+    err_length_same(x1 = map_dim,
+                    x2 = dim_self,
+                    name1 = "map_dim",
+                    name2 = "dim_self")
+    err_all_x1_in_x2(x1 = map_dim,
+                     x2 = seq_along(dim_oth),
+                     name1 = "map_dim",
+                     name2 = "seq_along(dim_oth)",
+                     exclude_zero = TRUE)
     map_dim
 }
 
@@ -604,37 +605,37 @@ err_tdy_map_dim <- function(map_dim, dim_self, dim_oth) {
 #' @export
 err_tdy_map_pos <- function(map_pos, dim_self, dim_oth, map_dim) {
     ## 'map_pos' same length as 'dim_self'
-    demcheck::err_length_same(x1 = map_pos,
-                              x2 = dim_self,
-                              name1 = "map_pos",
-                              name2 = "dim_self")
+    err_length_same(x1 = map_pos,
+                    x2 = dim_self,
+                    name1 = "map_pos",
+                    name2 = "dim_self")
     ## lengths of entries of 'map_pos' consistent with 'dim_self'
-    demcheck::err_lengths_elements_equal_vec(x1 = map_pos,
-                                             x2 = dim_self,
-                                             name1 = "map_pos",
-                                             name2 = "dim_self")
+    err_lengths_elements_equal_vec(x1 = map_pos,
+                                   x2 = dim_self,
+                                   name1 = "map_pos",
+                                   name2 = "dim_self")
     for (i_dim_self in seq_along(dim_self)) {
         val_map_pos <- map_pos[[i_dim_self]]
         name_val_map_pos <- gettextf("element %d of '%s'",
-                                 i_dim_self, "map_pos")
-        val_map_pos <- demcheck::err_tdy_non_negative_integer_vector(x = val_map_pos,
-                                                                     name = name_val_map_pos)
+                                     i_dim_self, "map_pos")
+        val_map_pos <- err_tdy_non_negative_integer_vector(x = val_map_pos,
+                                                           name = name_val_map_pos)
         i_dim_oth <- map_dim[[i_dim_self]]
         is_dim_in_oth <- i_dim_oth > 0L
         if (is_dim_in_oth) {
             val_dim_oth <- dim_oth[[i_dim_oth]]
             s_dim_oth <- seq_len(val_dim_oth)
             name_s_dim_oth <- gettextf("seq_len(dim_oth[[%d]])", i_dim_oth)
-            demcheck::err_all_x1_in_x2(x1 = val_map_pos,
-                                       x2 = s_dim_oth,
-                                       name1 = name_val_map_pos,
-                                       name2 = name_s_dim_oth,
-                                       exclude_zero = TRUE)
-            demcheck::err_all_x1_in_x2(x1 = s_dim_oth,
-                                       x2 = val_map_pos,
-                                       name1 = name_s_dim_oth,
-                                       name2 = name_val_map_pos,
-                                       exclude_zero = FALSE)
+            err_all_x1_in_x2(x1 = val_map_pos,
+                             x2 = s_dim_oth,
+                             name1 = name_val_map_pos,
+                             name2 = name_s_dim_oth,
+                             exclude_zero = TRUE)
+            err_all_x1_in_x2(x1 = s_dim_oth,
+                             x2 = val_map_pos,
+                             name1 = name_s_dim_oth,
+                             name2 = name_val_map_pos,
+                             exclude_zero = FALSE)
         }
         else {
             if (any(val_map_pos != 0L)) {

@@ -82,7 +82,7 @@ chk_is_date_equiv_scalar <- function(x, name) {
     val <- tryCatch(error = function(e) e,
                     err_tdy_date_scalar(x = x,
                                         name = name))
-    if (methods::is(val, "error"))
+    if (inherits(val, "error"))
         val$message
     else
         TRUE
@@ -95,7 +95,7 @@ chk_is_date_equiv_vector <- function(x, name) {
     val <- tryCatch(error = function(e) e,
                     err_tdy_date_vector(x = x,
                                         name = name))
-    if (methods::is(val, "error"))
+    if (inherits(val, "error"))
         val$message
     else
         TRUE
@@ -253,7 +253,7 @@ chk_is_integer_equiv_scalar <- function(x, name) {
     val <- tryCatch(error = function(e) e,
                     err_tdy_integer_scalar(x = x,
                                            name = name))
-    if (methods::is(val, "error"))
+    if (inherits(val, "error"))
         val$message
     else
         TRUE
@@ -266,7 +266,7 @@ chk_is_integer_equiv_vector <- function(x, name) {
     val <- tryCatch(error = function(e) e,
                     err_tdy_integer_vector(x = x,
                                            name = name))
-    if (methods::is(val, "error"))
+    if (inherits(val, "error"))
         val$message
     else
         TRUE

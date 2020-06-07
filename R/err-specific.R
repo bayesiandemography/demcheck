@@ -11,3 +11,12 @@ err_trans_list <- function(x, name) {
     TRUE
 }
 
+#' @export
+#' @rdname chk_map_dim
+err_map_dim <- function(map_dim, dim_self, dim_oth) {
+    val <- chk_map_dim(map_dim, dim_self, dim_oth)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+

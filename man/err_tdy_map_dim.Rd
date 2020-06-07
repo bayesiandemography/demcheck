@@ -46,5 +46,6 @@ err_tdy_map_dim(map_dim = map_dim,
                 dim_oth = dim_oth)
 }
 \seealso{
-\code{\link{err_tdy_map_pos}}
+\code{\link{err_tdy_map_pos}},
+\code{\link{chk_map_dim}}
 }
