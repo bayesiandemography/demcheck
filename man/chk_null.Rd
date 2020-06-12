@@ -64,3 +64,6 @@ x1 <- NULL
 x2 <- NULL
 chk_null_ifonlyif_null(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
 }
+\seealso{
+\code{\link{chk_zero}}
+}

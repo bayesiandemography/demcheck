@@ -976,6 +976,8 @@ chk_not_equal_integer_scalar <- function(x1, x2, name1, name2) {
 #' @param x1 An argument that could be \code{NULL}.
 #' @param x2 An argument that could be \code{NULL}.
 #'
+#' @seealso \code{\link{chk_zero}}
+#'
 #' @examples
 #' x1 <- NULL
 #' x2 <- 2
@@ -1497,5 +1499,81 @@ chk_names_dimnames_complete <- function(x, name) {
         return(gettextf("names for dimnames of '%s' have duplicate [\"%s\"]",
                         name, nms[[i]]))
     }
+    TRUE
+}
+
+
+#' Check if 'x1' is zero, conditional on whether 'x2' is zero
+#'
+#' \code{chk_zero_if_zero} checks that \code{x1} is \code{0},
+#' given that \code{x2} is \code{0}.
+#'
+#' \code{chk_zero_onlyif_zero} checks that \code{x1} is only
+#' \code{0} when \code{x2} is \code{0}.
+#'
+#' \code{chk_zero_ifonlyif_zero} checks that \code{x1} and
+#' \code{x2} are both \code{0} or are both non-\code{0}.
+#' 
+#' @inheritParams chk_all_x1_in_x2
+#' @param x1 An argument that could be \code{0}.
+#' @param x2 An argument that could be \code{0}.
+#'
+#' @seealso \code{\link{chk_zero}}
+#'
+#' @examples
+#' x1 <- 0
+#' x2 <- 2
+#' chk_zero_if_zero(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- 0
+#' x2 <- 0
+#' chk_zero_if_zero(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- 1
+#' x2 <- 0
+#' chk_zero_onlyif_zero(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- 0
+#' x2 <- 0
+#' chk_zero_onlyif_zero(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- 1
+#' x2 <- 2
+#' chk_zero_ifonlyif_zero(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' x1 <- 0
+#' x2 <- 0
+#' chk_zero_ifonlyif_zero(x1 = x1, x2 = x2, name1 = "x1", name2 = "x2")
+#' @name chk_zero
+NULL
+
+#' @rdname chk_zero
+#' @export
+chk_zero_if_zero <- function(x1, x2, name1, name2) {
+    if (!isTRUE(all.equal(x1, 0L)) && isTRUE(all.equal(x2, 0L)))
+        return(gettextf("'%s' [%s] does not equal %d but '%s' equals %s",
+                        name1, x1, 0L, name2, 0L))
+    TRUE
+}
+
+#' @rdname chk_zero
+#' @export
+chk_zero_onlyif_zero <- function(x1, x2, name1, name2) {
+    if (isTRUE(all.equal(x1, 0L)) && !isTRUE(all.equal(x2, 0L)))
+        return(gettextf("'%s' equals %d but '%s' [%s] does not equal %d",
+                        name1, 0L, name2, x2, 0L))
+    TRUE
+}
+
+#' @rdname chk_zero
+#' @export
+chk_zero_ifonlyif_zero <- function(x1, x2, name1, name2) {
+    val <- chk_zero_if_zero(x1 = x1,
+                            x2 = x2,
+                            name1 = name1,
+                            name2 = name2)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_zero_onlyif_zero(x1 = x1,
+                                x2 = x2,
+                                name1 = name1,
+                                name2 = name2)
+    if (!isTRUE(val))
+        return(val)
     TRUE
 }

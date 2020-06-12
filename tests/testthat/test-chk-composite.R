@@ -1143,3 +1143,49 @@ test_that("'chk_trans_list' returns expected message with invalid argument", {
                                     name = "x_wrong"),
                      "element \"b\" of 'x_wrong' has class \"integer\"")
 })
+
+
+## chk_zero_if_zero -----------------------------------------------------------
+
+test_that("'chk_zero_if_zero' returns TRUE with valid inputs", {
+    expect_true(chk_zero_if_zero(x1 = 0, x2 = 0, name1 = "x1", name2 = "x2"))
+    expect_true(chk_zero_if_zero(x1 = 0, x2 = 1, name1 = "x1", name2 = "x2"))
+    expect_true(chk_zero_if_zero(x1 = 1, x2 = 1, name1 = "x1", name2 = "x2"))
+
+})
+
+test_that("'chk_zero_if_zero' returns expected message with invalid inputs", {
+    expect_identical(chk_zero_if_zero(x1 = 1, x2 = 0, name1 = "x1", name2 = "x2"),
+                     "'x1' [1] does not equal 0 but 'x2' equals 0")
+})
+
+
+## chk_zero_onlyif_zero -----------------------------------------------------------
+
+test_that("'chk_zero_onlyif_zero' returns TRUE with valid inputs", {
+    expect_true(chk_zero_onlyif_zero(x1 = 0, x2 = 0, name1 = "x1", name2 = "x2"))
+    expect_true(chk_zero_onlyif_zero(x1 = 1, x2 = 0, name1 = "x1", name2 = "x2"))
+    expect_true(chk_zero_onlyif_zero(x1 = 1, x2 = 1, name1 = "x1", name2 = "x2"))
+
+})
+
+test_that("'chk_zero_onlyif_zero' returns expected message with invalid inputs", {
+    expect_identical(chk_zero_onlyif_zero(x1 = 0, x2 = 1, name1 = "x1", name2 = "x2"),
+                     "'x1' equals 0 but 'x2' [1] does not equal 0")
+})
+
+
+## chk_zero_ifonlyif_zero -----------------------------------------------------------
+
+test_that("'chk_zero_ifonlyif_zero' returns TRUE with valid inputs", {
+    expect_true(chk_zero_ifonlyif_zero(x1 = 0, x2 = 0, name1 = "x1", name2 = "x2"))
+    expect_true(chk_zero_ifonlyif_zero(x1 = 1, x2 = 1, name1 = "x1", name2 = "x2"))
+
+})
+
+test_that("'chk_zero_ifonlyif_zero' returns expected message with invalid inputs", {
+    expect_identical(chk_zero_ifonlyif_zero(x1 = 1, x2 = 0, name1 = "x1", name2 = "x2"),
+                     "'x1' [1] does not equal 0 but 'x2' equals 0")
+    expect_identical(chk_zero_ifonlyif_zero(x1 = 0, x2 = 1, name1 = "x1", name2 = "x2"),
+                     "'x1' equals 0 but 'x2' [1] does not equal 0")
+})

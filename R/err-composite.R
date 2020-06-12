@@ -416,3 +416,30 @@ err_names_dimnames_complete <- function(x, name) {
     TRUE
 }
 
+#' @rdname chk_zero
+#' @export
+err_zero_if_zero <- function(x1, x2, name1, name2) {
+    val <- chk_zero_if_zero(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_zero
+#' @export
+err_zero_onlyif_zero <- function(x1, x2, name1, name2) {
+    val <- chk_zero_onlyif_zero(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_zero
+#' @export
+err_zero_ifonlyif_zero <- function(x1, x2, name1, name2) {
+    val <- chk_zero_ifonlyif_zero(x1, x2, name1, name2)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
