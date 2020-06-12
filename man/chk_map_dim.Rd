@@ -5,28 +5,22 @@
 \alias{err_map_dim}
 \title{Check 'map_dim'}
 \usage{
-chk_map_dim(map_dim, dim_self, dim_oth)
+chk_map_dim(x, name)
 
-err_map_dim(map_dim, dim_self, dim_oth)
+err_map_dim(x, name)
 }
 \arguments{
-\item{map_dim}{A vector of non-negative integers,
-unique apart from any zeros, the same length as
-\code{dim_self}.}
+\item{x}{A vector of non-negative integers,
+unique apart from any zeros.}
 
-\item{dim_self}{The dimensions of \code{self}.}
-
-\item{dim_oth}{The dimensions of \code{oth}.}
+\item{name}{The name for \code{x} to be used
+in error messages.}
 }
 \description{
-Check that a \code{\link[=err_tdy_map_dim]{map_dim}}
-argument is valid.
+Validity tests for a \code{\link[=err_tdy_map_dim]{map_dim}}
+that only require the object itself.
 }
 \examples{
-map_dim <- c(3, 1, 0)
-dim_self <- c(4L, 6L, 2L)
-dim_oth <- c(6L, 3L, 4L, 3L)
-chk_map_dim(map_dim = map_dim,
-            dim_self = dim_self,
-            dim_oth = dim_oth)
+chk_map_dim(x = c(3L, 1L, 0L),
+            name = "map_dim")
 }

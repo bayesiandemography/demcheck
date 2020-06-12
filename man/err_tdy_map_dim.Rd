@@ -4,16 +4,16 @@
 \alias{err_tdy_map_dim}
 \title{Check and tidy 'map_dim'}
 \usage{
-err_tdy_map_dim(map_dim, dim_self, dim_oth)
+err_tdy_map_dim(map_dim, n_dim_self, n_dim_oth)
 }
 \arguments{
 \item{map_dim}{A vector of non-negative integers,
 unique apart from any zeros, the same length as
 \code{dim_self}.}
 
-\item{dim_self}{The dimensions of \code{self}.}
+\item{n_dim_self}{The number of dimensions of \code{self}.}
 
-\item{dim_oth}{The dimensions of \code{oth}.}
+\item{n_dim_oth}{The number of dimensions of \code{oth}.}
 }
 \value{
 \code{map_dim}, coerced to integer.
@@ -30,20 +30,13 @@ necessarily contain every number in
 \code{seq_along(dim_oth)}.
 }
 \details{
-The only information about \code{dim_self} and
-\code{dim_oth} that \code{err_tdy_map_dim} uses is their
-lengths.
-
 \code{self} and \code{oth} are both assumed to have positive
 length, ie no dimensions with length 0.
 }
 \examples{
-map_dim <- c(3, 1, 0)
-dim_self <- c(4L, 6L, 2L)
-dim_oth <- c(6L, 3L, 4L, 3L)
-err_tdy_map_dim(map_dim = map_dim,
-                dim_self = dim_self,
-                dim_oth = dim_oth)
+err_tdy_map_dim(map_dim = c(3, 1, 0),
+                n_dim_self = 3L,
+                n_dim_oth = 4L)
 }
 \seealso{
 \code{\link{err_tdy_map_pos}},

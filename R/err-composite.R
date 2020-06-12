@@ -326,10 +326,28 @@ err_valid_quantile <- function(x, name) {
     TRUE
 }
 
-#' @rdname chk_valid_quantile
 #' @export
-err_quantile_increasing <- function(x, name) {
-    val <- chk_quantile_increasing(x, name)
+#' @rdname chk_has_dimnames
+err_has_dimnames <- function(x, name) {
+    val <- chk_has_dimnames(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_has_dimnames
+err_has_names_dimnames <- function(x, name) {
+    val <- chk_has_names_dimnames(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#'@export
+#' @rdname chk_length_equals
+err_length_equals <- function(x1, x2, name1, name2) {
+    val <- chk_length_equals(x1, x2, name1, name2)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -381,24 +399,6 @@ err_lt_break_max_date <- function(date, break_max) {
 }
 
 #' @export
-#' @rdname chk_has_dimnames
-err_has_dimnames <- function(x, name) {
-    val <- chk_has_dimnames(x, name)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
-#' @rdname chk_has_dimnames
-err_has_names_dimnames <- function(x, name) {
-    val <- chk_has_names_dimnames(x, name)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
 #' @rdname chk_names_complete
 err_names_complete <- function(x, name) {
     val <- chk_names_complete(x, name)
@@ -411,6 +411,15 @@ err_names_complete <- function(x, name) {
 #' @rdname chk_names_dimnames_complete
 err_names_dimnames_complete <- function(x, name) {
     val <- chk_names_dimnames_complete(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_valid_quantile
+#' @export
+err_quantile_increasing <- function(x, name) {
+    val <- chk_quantile_increasing(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

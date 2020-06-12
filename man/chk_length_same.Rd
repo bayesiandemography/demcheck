@@ -30,5 +30,6 @@ chk_length_same(x1 = x1, x2 = x2,
                 name1 = "x1", name2 = "x2")
 }
 \seealso{
+\code{\link{chk_length_equals}},
 \code{\link{chk_length_same_or_1}}
 }

@@ -515,33 +515,33 @@ test_that("'err_tdy_many_to_one' raises expected error with invalid input", {
 
 test_that("'err_tdy_map_dim' works with valid input", {
     map_dim <- c(1, 3, 2, 0)
-    dim_self <- 1:4
-    dim_oth <- c(1L, 2L, 2L)
+    n_dim_self <- 4L
+    n_dim_oth <- 3L
     ans_obtained <- err_tdy_map_dim(map_dim = map_dim,
-                                    dim_self = dim_self,
-                                    dim_oth = dim_oth)
+                                    n_dim_self = n_dim_self,
+                                    n_dim_oth = n_dim_oth)
     ans_expected <- as.integer(map_dim)
     expect_identical(ans_obtained, ans_expected)
 })
 
-test_that("'err_tdy_map_dim' works with 'dim_self' of length 1", {
+test_that("'err_tdy_map_dim' works with 'n_dim_self' equal to 1", {
     map_dim <- 2
-    dim_self <- 2L
-    dim_oth <- c(1L, 2L)
+    n_dim_self <- 1L
+    n_dim_oth <- 2L
     ans_obtained <- err_tdy_map_dim(map_dim = map_dim,
-                                    dim_self = dim_self,
-                                    dim_oth = dim_oth)
+                                    n_dim_self = n_dim_self,
+                                    n_dim_oth = n_dim_oth)
     ans_expected <- as.integer(map_dim)
     expect_identical(ans_obtained, ans_expected)
 })
 
-test_that("'err_tdy_map_dim' works with 'dim_oth' of length 1", {
+test_that("'err_tdy_map_dim' works with 'n_dim_oth' equal to 1", {
     map_dim <- c(0L, 1L)
-    dim_self <- 3:4
-    dim_oth <- 4L
+    n_dim_self <- 2L
+    n_dim_oth <- 1L
     ans_obtained <- err_tdy_map_dim(map_dim = map_dim,
-                                    dim_self = dim_self,
-                                    dim_oth = dim_oth)
+                                    n_dim_self = n_dim_self,
+                                    n_dim_oth = n_dim_oth)
     ans_expected <- as.integer(map_dim)
     expect_identical(ans_obtained, ans_expected)
 })

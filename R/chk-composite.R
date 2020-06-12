@@ -1201,26 +1201,67 @@ chk_valid_quantile <- function(x, name) {
     TRUE
 }
 
-## HAS_TESTS
-#' @rdname chk_valid_quantile
+
+#' Check that an array has dimnames
+#'
+#' Check that an array has dimnames, and that
+#' those dimnames have names.
+#'
+#' @inheritParams chk_all_0_1
+#' @param x An array.
+#'
+#' @seealso \code{\link{chk_no_dimnames}},
+#' \code{\link{chk_array_metadata_complete}}
+#' 
+#' @examples
+#' x <- array(1:6,
+#'            dim = 3:2,
+#'            dimnames = list(age = c("0-4", "5-9", "10+"),
+#'                            sex = c("Female", "Male")))
+#' chk_has_dimnames(x, name = "x")
+#' chk_has_names_dimnames(x, name = "x")
+#' @name chk_has_dimnames
+NULL
+
 #' @export
-chk_quantile_increasing <- function(x, name) {
-    p <- "%$"
-    numbers <- sub(p, "", x)
-    numbers <- as.numeric(numbers)
-    if (length(x) >= 2L) {
-        is_not_incr <- diff(numbers) <= 0L
-        i_not_incr <- match(TRUE, is_not_incr, nomatch = 0L)
-        if (i_not_incr > 0L) {
-            return(gettextf(paste("'%s' is not strictly increasing : element %d [%s]",
-                                  "is greater than or equal to element %d [%s]"),
-                            name,
-                            i_not_incr,
-                            x[[i_not_incr]],
-                            i_not_incr + 1L,
-                            x[[i_not_incr + 1L]]))
-        }
-    }
+#' @rdname chk_has_dimnames
+chk_has_dimnames <- function(x, name) {
+    if (is.null(dimnames(x)))
+        return(gettextf("'%s' does not have dimnames",
+                        name))
+    TRUE
+}
+
+#' @export
+#' @rdname chk_has_dimnames
+chk_has_names_dimnames <- function(x, name) {
+    if (is.null(names(dimnames(x))))
+        return(gettextf("dimnames for '%s' do not have names",
+                        name))
+    TRUE
+}
+
+
+#' Check that 'x1' has length specified by 'x2'
+#' 
+#' @inheritParams chk_all_x1_in_x2
+#' @param x1 An object.
+#' @param x2 A positive integer.
+#'
+#' @seealso \code{\link{chk_length_same_or_1}},
+#' \code{\link{chk_length_same}}
+#'
+#' @examples
+#' chk_length_equals(x1 = c(1L, 3L, 2L),
+#'                   x2 = 3L,
+#'                   name1 = "x1",
+#'                   name2 = "x2")
+#'@export
+chk_length_equals <- function(x1, x2, name1, name2) {
+    n1 <- length(x1)
+    if (!identical(n1, x2))
+        return(gettextf("length of '%s' [%d] not equal to '%s' [%d]",
+                        name1, n1, name2, x2))
     TRUE
 }
 
@@ -1231,7 +1272,8 @@ chk_quantile_increasing <- function(x, name) {
 #' @param x1 An object.
 #' @param x2 An object.
 #' 
-#' @seealso \code{\link{chk_length_same_or_1}}
+#' @seealso \code{\link{chk_length_equals}},
+#' \code{\link{chk_length_same_or_1}}
 #'
 #' @examples
 #' x1 <- 1:5
@@ -1256,7 +1298,8 @@ chk_length_same <- function(x1, x2, name1, name2) {
 #' @param x1 An object.
 #' @param x2 An object.
 #' 
-#' @seealso \code{\link{chk_length_same}}
+#' @seealso \code{\link{chk_length_equals}},
+# '\code{\link{chk_length_same}}
 #'
 #' @examples
 #' x1 <- 1:5
@@ -1392,46 +1435,6 @@ chk_lt_break_max_date <- function(date, break_max) {
 }
 
 
-#' Check that an array has dimnames
-#'
-#' Check that an array has dimnames, and that
-#' those dimnames have names.
-#'
-#' @inheritParams chk_all_0_1
-#' @param x An array.
-#'
-#' @seealso \code{\link{chk_no_dimnames}},
-#' \code{\link{chk_array_metadata_complete}}
-#' 
-#' @examples
-#' x <- array(1:6,
-#'            dim = 3:2,
-#'            dimnames = list(age = c("0-4", "5-9", "10+"),
-#'                            sex = c("Female", "Male")))
-#' chk_has_dimnames(x, name = "x")
-#' chk_has_names_dimnames(x, name = "x")
-#' @name chk_has_dimnames
-NULL
-
-#' @export
-#' @rdname chk_has_dimnames
-chk_has_dimnames <- function(x, name) {
-    if (is.null(dimnames(x)))
-        return(gettextf("'%s' does not have dimnames",
-                        name))
-    TRUE
-}
-
-#' @export
-#' @rdname chk_has_dimnames
-chk_has_names_dimnames <- function(x, name) {
-    if (is.null(names(dimnames(x))))
-        return(gettextf("dimnames for '%s' do not have names",
-                        name))
-    TRUE
-}
-
-
 ## HAS_TESTS
 #' Check that an object has a complete set of names
 #'
@@ -1498,6 +1501,30 @@ chk_names_dimnames_complete <- function(x, name) {
         i <- match(TRUE, is_duplicated)
         return(gettextf("names for dimnames of '%s' have duplicate [\"%s\"]",
                         name, nms[[i]]))
+    }
+    TRUE
+}
+
+
+## HAS_TESTS
+#' @rdname chk_valid_quantile
+#' @export
+chk_quantile_increasing <- function(x, name) {
+    p <- "%$"
+    numbers <- sub(p, "", x)
+    numbers <- as.numeric(numbers)
+    if (length(x) >= 2L) {
+        is_not_incr <- diff(numbers) <= 0L
+        i_not_incr <- match(TRUE, is_not_incr, nomatch = 0L)
+        if (i_not_incr > 0L) {
+            return(gettextf(paste("'%s' is not strictly increasing : element %d [%s]",
+                                  "is greater than or equal to element %d [%s]"),
+                            name,
+                            i_not_incr,
+                            x[[i_not_incr]],
+                            i_not_incr + 1L,
+                            x[[i_not_incr + 1L]]))
+        }
     }
     TRUE
 }

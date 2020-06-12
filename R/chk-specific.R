@@ -61,51 +61,32 @@ chk_trans_list <- function(x, name) {
 ## HAS_TESTS
 #' Check 'map_dim'
 #'
-#' Check that a \code{\link[=err_tdy_map_dim]{map_dim}}
-#' argument is valid.
+#' Validity tests for a \code{\link[=err_tdy_map_dim]{map_dim}}
+#' that only require the object itself.
 #'
-#' @param map_dim A vector of non-negative integers,
-#' unique apart from any zeros, the same length as
-#' \code{dim_self}.
-#' @param dim_self The dimensions of \code{self}.
-#' @param dim_oth The dimensions of \code{oth}.
+#' @inheritParams chk_trans_list
+#' @param x A vector of non-negative integers,
+#' unique apart from any zeros.
 #'
 #' @examples
-#' map_dim <- c(3, 1, 0)
-#' dim_self <- c(4L, 6L, 2L)
-#' dim_oth <- c(6L, 3L, 4L, 3L)
-#' chk_map_dim(map_dim = map_dim,
-#'             dim_self = dim_self,
-#'             dim_oth = dim_oth)
+#' chk_map_dim(x = c(3L, 1L, 0L),
+#'             name = "map_dim")
 #' @export
-chk_map_dim <- function(map_dim, dim_self, dim_oth) {
-    val <- chk_is_integer(x = map_dim,
-                          name = "map_dim")
+chk_map_dim <- function(x, name) {
+    val <- chk_is_integer(x = x,
+                          name = name)
     if (!isTRUE(val))
         return(val)
-    val <- chk_non_negative_vector(x = map_dim,
-                                   name = "map_dim")
+    val <- chk_non_negative_vector(x = x,
+                                   name = name)
     if (!isTRUE(val))
         return(val)
-    val <- chk_has_nonzero(x = map_dim,
-                           name = "map_dim")
+    val <- chk_has_nonzero(x = x,
+                           name = name)
     if (!isTRUE(val))
         return(val)
-    val <- chk_nonzero_unique(x = map_dim,
-                              name = "map_dim")
-    if (!isTRUE(val))
-        return(val)
-    val <- chk_length_same(x1 = map_dim,
-                           x2 = dim_self,
-                           name1 = "map_dim",
-                           name2 = "dim_self")
-    if (!isTRUE(val))
-        return(val)
-    val <- chk_all_x1_in_x2(x1 = map_dim,
-                            x2 = seq_along(dim_oth),
-                            name1 = "map_dim",
-                            name2 = "seq_along(dim_oth)",
-                            exclude_zero = TRUE)
+    val <- chk_nonzero_unique(x = x,
+                              name = name)
     if (!isTRUE(val))
         return(val)
     TRUE

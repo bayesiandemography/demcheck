@@ -504,18 +504,14 @@ err_tdy_many_to_one <- function(x, name) {
 #' necessarily contain every number in
 #' \code{seq_along(dim_oth)}.
 #'
-#' The only information about \code{dim_self} and
-#' \code{dim_oth} that \code{err_tdy_map_dim} uses is their
-#' lengths.
-#'
 #' \code{self} and \code{oth} are both assumed to have positive
 #' length, ie no dimensions with length 0.
 #'
 #' @param map_dim A vector of non-negative integers,
 #' unique apart from any zeros, the same length as
 #' \code{dim_self}.
-#' @param dim_self The dimensions of \code{self}.
-#' @param dim_oth The dimensions of \code{oth}.
+#' @param n_dim_self The number of dimensions of \code{self}.
+#' @param n_dim_oth The number of dimensions of \code{oth}.
 #'
 #' @return \code{map_dim}, coerced to integer.
 #'
@@ -523,28 +519,25 @@ err_tdy_many_to_one <- function(x, name) {
 #' \code{\link{chk_map_dim}}
 #'
 #' @examples
-#' map_dim <- c(3, 1, 0)
-#' dim_self <- c(4L, 6L, 2L)
-#' dim_oth <- c(6L, 3L, 4L, 3L)
-#' err_tdy_map_dim(map_dim = map_dim,
-#'                 dim_self = dim_self,
-#'                 dim_oth = dim_oth)
+#' err_tdy_map_dim(map_dim = c(3, 1, 0),
+#'                 n_dim_self = 3L,
+#'                 n_dim_oth = 4L)
 #' @export
-err_tdy_map_dim <- function(map_dim, dim_self, dim_oth) {
+err_tdy_map_dim <- function(map_dim, n_dim_self, n_dim_oth) {
     map_dim <- err_tdy_non_negative_integer_vector(x = map_dim,
                                                    name = "map_dim")
     err_has_nonzero(x = map_dim,
                     name = "map_dim")
     err_nonzero_unique(x = map_dim,
                        name = "map_dim")
-    err_length_same(x1 = map_dim,
-                    x2 = dim_self,
-                    name1 = "map_dim",
-                    name2 = "dim_self")
+    err_length_equals(x1 = map_dim,
+                      x2 = n_dim_self,
+                      name1 = "map_dim",
+                      name2 = "n_dim_self")
     err_all_x1_in_x2(x1 = map_dim,
-                     x2 = seq_along(dim_oth),
+                     x2 = seq_len(n_dim_oth),
                      name1 = "map_dim",
-                     name2 = "seq_along(dim_oth)",
+                     name2 = "seq_len(n_dim_oth)",
                      exclude_zero = TRUE)
     map_dim
 }

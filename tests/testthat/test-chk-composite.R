@@ -882,6 +882,33 @@ test_that("'chk_valid_quantile' returns expected message with invalid argument",
 })
 
 
+## chk_length_equals ------------------------------------------------------------
+
+test_that("'chk_length_equals' returns TRUE with valid inputs", {
+    expect_true(chk_length_equals(x1 = 1:3,
+                                  x2 = 3L,
+                                  name1 = "x1",
+                                  name2 = "x2"))
+    expect_true(chk_length_equals(x1 = character(),
+                                  x2 = 0L,
+                                  name1 = "x1",
+                                  name2 = "x2"))
+})
+
+test_that("'chk_length_equals' returns expected message with invalid inputs", {
+    expect_identical(chk_length_equals(x1 = integer(),
+                                       x2 = 3L,
+                                       name1 = "x1",
+                                       name2 = "x2"),
+                     "length of 'x1' [0] not equal to 'x2' [3]")
+    expect_identical(chk_length_equals(x1 = 1L,
+                                       x2 = 0L,
+                                       name1 = "x1",
+                                       name2 = "x2"),
+                     "length of 'x1' [1] not equal to 'x2' [0]")
+})
+
+
 ## chk_length_same ------------------------------------------------------------
 
 test_that("'chk_length_same' returns TRUE with valid vector", {
