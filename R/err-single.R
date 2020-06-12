@@ -56,6 +56,24 @@ err_is_date_or_numeric <- function(x, name) {
     TRUE
 }
 
+#' @rdname chk_is_na
+#' @export
+err_is_na_scalar <- function(x, name) {
+    val <- chk_is_na_scalar(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_is_na
+#' @export
+err_is_na_vector <- function(x, name) {
+    val <- chk_is_na_vector(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
 #' @export
 #' @rdname chk_finite_scalar
 err_finite_scalar <- function(x, name) {
@@ -165,7 +183,7 @@ err_not_blank_vector <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_not_na_dataframe
+#' @rdname chk_not_na
 err_not_na_dataframe <- function(x, name) {
     val <- chk_not_na_dataframe(x, name)
     if (is.character(val))
@@ -174,7 +192,7 @@ err_not_na_dataframe <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_not_na_dataframe
+#' @rdname chk_not_na
 err_not_na_list <- function(x, name) {
     val <- chk_not_na_list(x, name)
     if (is.character(val))
@@ -183,7 +201,7 @@ err_not_na_list <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_not_na_dataframe
+#' @rdname chk_not_na
 err_not_na_scalar <- function(x, name) {
     val <- chk_not_na_scalar(x, name)
     if (is.character(val))
@@ -192,7 +210,7 @@ err_not_na_scalar <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_not_na_dataframe
+#' @rdname chk_not_na
 err_not_na_vector <- function(x, name) {
     val <- chk_not_na_vector(x, name)
     if (is.character(val))

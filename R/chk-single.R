@@ -124,6 +124,43 @@ chk_is_date_or_numeric <- function(x, name) {
 }
 
 
+#' Check that a scalar is NA, or a vector
+#' is all NA
+#'
+#' @inheritParams chk_all_0_1
+#' @param x A scalar or a vector.
+#'
+#' @seealso \code{\link{chk_not_na}}
+#'
+#' @examples
+#' x <- NA
+#' chk_is_na_scalar(x, name = "x")
+#' x <- c(NA_integer_, NA_integer_)
+#' chk_is_na_vector(x, name = "x")
+#' @name chk_is_na
+NULL
+
+#' @rdname chk_is_na
+#' @export
+chk_is_na_scalar <- function(x, name) {
+    if (!is.na(x))
+        return(gettextf("'%s' is not %s",
+                        "name", "NA"))
+    TRUE
+}
+
+#' @rdname chk_is_na
+#' @export
+chk_is_na_vector <- function(x, name) {
+    is_not_na <- !is.na(x)
+    i_not_na <- match(TRUE, is_not_na, nomatch = 0L)
+    if (i_not_na > 0L)
+        return(gettextf("element %d of '%s' [%s] is not %s",
+                        i_not_na, "name", x[[i_not_na]], "NA"))
+    TRUE
+}
+
+
 #' Check that a scalar or vector only has finite values
 #'
 #' @inheritParams chk_all_0_1
@@ -380,11 +417,11 @@ chk_not_blank_vector <- function(x, name) {
 #' chk_not_na_scalar(x, name = "x")
 #' x <- 4:1
 #' chk_not_na_vector(x, name = "x")
-#' @name chk_not_na_dataframe
+#' @name chk_not_na
 NULL
 
 #' @export
-#' @rdname chk_not_na_dataframe
+#' @rdname chk_not_na
 chk_not_na_dataframe <- function(x, name) {
     for (i in seq_along(x)) {
         element_i <- x[[i]]
@@ -396,7 +433,7 @@ chk_not_na_dataframe <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_not_na_dataframe
+#' @rdname chk_not_na
 chk_not_na_list <- function(x, name) {
     for (i in seq_along(x)) {
         element_i <- x[[i]]
@@ -408,7 +445,7 @@ chk_not_na_list <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_not_na_dataframe
+#' @rdname chk_not_na
 chk_not_na_scalar <- function(x, name) {
     if (is.na(x))
         return(gettextf("'%s' is NA",
@@ -417,7 +454,7 @@ chk_not_na_scalar <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_not_na_dataframe
+#' @rdname chk_not_na
 chk_not_na_vector <- function(x, name) {
     if (any(is.na(x)))
         return(gettextf("'%s' has NAs",
