@@ -1502,6 +1502,41 @@ chk_names_dimnames_complete <- function(x, name) {
 }
 
 
+#' Check that an initial 'pos' argument consists
+#' entirely of 1s
+#'
+#' @inheritParams chk_array_metadata_complete
+#' @param x An integer vector with positive length,
+#' consisting entirely of 1s.
+#'
+#' @seealso \code{\link{chk_positive_dim}}
+#'
+#' @examples
+#' chk_pos_initial(x = c(1L, 1L, 1L),
+#'                 name = "pos")
+#' @export
+chk_pos_initial <- function(x, name) {
+    val <- demcheck::chk_is_integer(x = x,
+                                    name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- demcheck::chk_positive_length(x = x,
+                                         name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- demcheck::chk_positive_vector(x = x,
+                                         name = name)
+    if (!isTRUE(val))
+        return(val)
+    is_not_one <- x != 1L
+    i_not_one <- match(TRUE, is_not_one, nomatch = 0L)
+    if (i_not_one > 0L)
+        return(gettextf("element %d of '%s' [%d] is not equal to %d",
+                        i_not_one, name, x[[i_not_one]], 1L))
+    TRUE
+}
+
+
 #' Check a 'dim' argument for an array with
 #' positive length
 #'
@@ -1511,6 +1546,8 @@ chk_names_dimnames_complete <- function(x, name) {
 #'
 #' @inheritParams chk_array_metadata_complete
 #' @param x An integer vector.
+#'
+#' @seealso \code{\link{chk_pos_initial}}
 #'
 #' @examples
 #' chk_positive_dim(x = c(2L, 1L, 3L),

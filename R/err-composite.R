@@ -318,15 +318,6 @@ err_strictly_increasing <- function(x, name) {
 }
 
 #' @export
-#' @rdname chk_valid_quantile
-err_valid_quantile <- function(x, name) {
-    val <- chk_valid_quantile(x, name)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @export
 #' @rdname chk_has_dimnames
 err_has_dimnames <- function(x, name) {
     val <- chk_has_dimnames(x, name)
@@ -339,6 +330,15 @@ err_has_dimnames <- function(x, name) {
 #' @rdname chk_has_dimnames
 err_has_names_dimnames <- function(x, name) {
     val <- chk_has_names_dimnames(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_indices_distinct
+err_indices_distinct <- function(indices, names, exclude_zero) {
+    val <- chk_indices_distinct(indices, names, exclude_zero)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -411,6 +411,33 @@ err_names_complete <- function(x, name) {
 #' @rdname chk_names_dimnames_complete
 err_names_dimnames_complete <- function(x, name) {
     val <- chk_names_dimnames_complete(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_pos_initial
+err_pos_initial <- function(x, name) {
+    val <- chk_pos_initial(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_positive_dim
+err_positive_dim <- function(x, name) {
+    val <- chk_positive_dim(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_valid_quantile
+err_valid_quantile <- function(x, name) {
+    val <- chk_valid_quantile(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
