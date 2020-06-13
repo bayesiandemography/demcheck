@@ -882,6 +882,25 @@ test_that("'chk_valid_quantile' returns expected message with invalid argument",
 })
 
 
+## chk_indices_distinct -------------------------------------------------------
+
+test_that("'chk_indices_distinct' returns TRUE with valid inputs", {
+    expect_true(chk_indices_distinct(indices = list(1:2, 3L),
+                                     names = c("i1", "i2"),
+                                     exclude_zero = FALSE))
+    expect_true(chk_indices_distinct(indices = list(0:2, 3L, 0L),
+                                     names = c("i1", "i2", "i3"),
+                                     exclude_zero = TRUE))
+})
+
+test_that("'chk_indices_distinct' returns expected message with invalid inputs", {
+    expect_identical(chk_indices_distinct(indices = list(0:2, 0L),
+                                          names = c("i1", "i2"),
+                                          exclude_zero = FALSE),
+                     "indices 'i1' [0,1,2], 'i2' [0] overlap")
+})
+
+
 ## chk_length_equals ------------------------------------------------------------
 
 test_that("'chk_length_equals' returns TRUE with valid inputs", {

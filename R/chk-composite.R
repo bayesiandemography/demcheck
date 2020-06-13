@@ -1157,49 +1157,6 @@ chk_strictly_increasing <- function(x, name) {
 }
 
 
-#' Check that a vector is a valid quantile
-#'
-#' \code{chk_valid_quantile} checks that the elements
-#' of \code{x} conform to R conventions about
-#' formatting quantiles. \code{chk_quantile_increasing}
-#' assumes that \code{x} is correctly formatted,
-#' and checks that the elements are strictly increasing.
-#'
-#' @inheritParams chk_array_metadata_complete
-#' @param x A character vector.
-#'
-#' @examples
-#' x <- c("2.5%", "50%", "97.5")
-#' chk_valid_quantile(x, name = "x")
-#' chk_quantile_increasing(x, name = "x")
-#' @name chk_valid_quantile
-NULL
-
-## HAS_TESTS
-#' @name chk_valid_quantile
-#' @export
-chk_valid_quantile <- function(x, name) {
-    p <- "^[0-9.]+%$" # excludes negative numbers
-    is_na <- is.na(x)
-    is_invalid <- !is_na & !grepl(p, x)
-    i_invalid <- match(TRUE, is_invalid, nomatch = 0L)
-    if (i_invalid > 0L)
-        return(gettextf("\"%s\" is not a valid quantile",
-                        x[[i_invalid]]))
-    x_num <- sub("%$", "", x)
-    x_num <- suppressWarnings(as.numeric(x_num))
-    is_invalid <- !is_na & is.na(x_num)
-    i_invalid <- match(TRUE, is_invalid, nomatch = 0L)
-    if (i_invalid > 0L)
-        return(gettextf("\"%s\" is not a valid quantile",
-                        x[[i_invalid]]))
-    is_gt_100 <- !is_na & (x_num > 100)
-    i_gt_100 <- match(TRUE, is_gt_100, nomatch = 0L)
-    if (i_gt_100 > 0L)
-        return(gettextf("\"%s\" is not a valid quantile : greater than %s",
-                        x[[i_gt_100]], "100%"))
-    TRUE
-}
 
 
 #' Check that an array has dimnames
@@ -1240,6 +1197,45 @@ chk_has_names_dimnames <- function(x, name) {
                         name))
     TRUE
 }
+
+
+#' Check that dimension indices all refer
+#' to different dimensions
+#'
+#' @param indices A list of integer vectors
+#' (typically of length 1).
+#' @param names A character vector with the names
+#' of the indices.
+#' @param exclude_zero Logical. Whether to
+#' exclude zeros in \code{indices} before
+#' testing for uniqueness.
+#'
+#' @examples
+#' indices <- list(3L, 1:2, 0L, 6:5)
+#' names <- c("i_time", "i_orig", "i_age", "i_dest")
+#' exclude_zero <- TRUE
+#' chk_indices_distinct(indices = indices,
+#'                      names = names,
+#'                      exclude_zero = exclude_zero)
+#' @export
+chk_indices_distinct <- function(indices, names, exclude_zero) {
+    indices_all <- unlist(indices)
+    if (exclude_zero)
+        indices_all <- indices_all[indices_all != 0L]
+    has_duplicates <- any(duplicated(indices_all))
+    if (has_duplicates) {
+        names <- sprintf("'%s'", names)
+        indices <- vapply(indices, paste, character(1L), collapse = ",")
+        indices <- sprintf("[%s]", indices)
+        names_indices <- paste(names, indices)
+        names_indices <- paste(names, indices, collapse = ", ")
+        return(gettextf("indices %s overlap",
+                        names_indices))
+    }
+    TRUE
+}
+
+
 
 
 #' Check that 'x1' has length specified by 'x2'
@@ -1506,7 +1502,81 @@ chk_names_dimnames_complete <- function(x, name) {
 }
 
 
+#' Check a 'dim' argument for an array with
+#' positive length
+#'
+#' Check that \code{x} is a valid \code{dim}
+#' argument for an array in which all dimensions
+#' have length greater than 0.
+#'
+#' @inheritParams chk_array_metadata_complete
+#' @param x An integer vector.
+#'
+#' @examples
+#' chk_positive_dim(x = c(2L, 1L, 3L),
+#'                  name = "x")
+#' @export
+chk_positive_dim <- function(x, name) {
+    val <- demcheck::chk_is_integer(x = x,
+                                    name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- demcheck::chk_positive_length(x = x,
+                                         name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- demcheck::chk_positive_vector(x = x,
+                                         name = name)
+    if (!isTRUE(val))
+        return(val)
+    TRUE
+}
+
+
 ## HAS_TESTS
+#' Check that a vector is a valid quantile
+#'
+#' \code{chk_valid_quantile} checks that the elements
+#' of \code{x} conform to R conventions about
+#' formatting quantiles. \code{chk_quantile_increasing}
+#' assumes that \code{x} is correctly formatted,
+#' and checks that the elements are strictly increasing.
+#'
+#' @inheritParams chk_array_metadata_complete
+#' @param x A character vector.
+#'
+#' @examples
+#' x <- c("2.5%", "50%", "97.5")
+#' chk_valid_quantile(x, name = "x")
+#' chk_quantile_increasing(x, name = "x")
+#' @name chk_valid_quantile
+NULL
+
+#' @name chk_valid_quantile
+#' @export
+chk_valid_quantile <- function(x, name) {
+    p <- "^[0-9.]+%$" # excludes negative numbers
+    is_na <- is.na(x)
+    is_invalid <- !is_na & !grepl(p, x)
+    i_invalid <- match(TRUE, is_invalid, nomatch = 0L)
+    if (i_invalid > 0L)
+        return(gettextf("\"%s\" is not a valid quantile",
+                        x[[i_invalid]]))
+    x_num <- sub("%$", "", x)
+    x_num <- suppressWarnings(as.numeric(x_num))
+    is_invalid <- !is_na & is.na(x_num)
+    i_invalid <- match(TRUE, is_invalid, nomatch = 0L)
+    if (i_invalid > 0L)
+        return(gettextf("\"%s\" is not a valid quantile",
+                        x[[i_invalid]]))
+    is_gt_100 <- !is_na & (x_num > 100)
+    i_gt_100 <- match(TRUE, is_gt_100, nomatch = 0L)
+    if (i_gt_100 > 0L)
+        return(gettextf("\"%s\" is not a valid quantile : greater than %s",
+                        x[[i_gt_100]], "100%"))
+    TRUE
+}
+
 #' @rdname chk_valid_quantile
 #' @export
 chk_quantile_increasing <- function(x, name) {
