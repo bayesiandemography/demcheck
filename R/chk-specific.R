@@ -68,6 +68,8 @@ chk_trans_list <- function(x, name) {
 #' @param x A vector of non-negative integers,
 #' unique apart from any zeros.
 #'
+#' @seealso \code{\link{chk_map_pos}}
+#'
 #' @examples
 #' chk_map_dim(x = c(3L, 1L, 0L),
 #'             name = "map_dim")
@@ -89,5 +91,48 @@ chk_map_dim <- function(x, name) {
                               name = name)
     if (!isTRUE(val))
         return(val)
+    TRUE
+}
+
+
+## HAS_TESTS
+#' Check 'map_dim'
+#'
+#' Validity tests for a \code{\link[=err_tdy_map_pos]{map_pos}}
+#' that only require the object itself.
+#'
+#' @inheritParams chk_trans_list
+#' @param x A list of integer vectors.
+#'
+#' @seealso \code{\link{chk_map_pos}}
+#'
+#' @examples
+#' x <- list(c(2L, 0L), 1:3)
+#' chk_map_pos(x = x,
+#'             name = "x")
+#' @export
+chk_map_pos <- function(x, name) {
+    val <- chk_is_class_list(x = x,
+                             name = name,
+                             class = "integer")
+    if (!isTRUE(val))
+        return(val)
+    for (i in seq_along(x)) {
+        x_i <- x[[i]]
+        name_i <- sprintf("element %d of '%s'",
+                          i, name)
+        val <- chk_is_integer(x = x_i,
+                              name = name_i)
+        if (!isTRUE(val))
+            return(val)
+        val <- chk_positive_length(x = x_i,
+                                   name = name_i)
+        if (!isTRUE(val))
+            return(val)
+        val <- chk_non_negative_vector(x = x_i,
+                                       name = name_i)
+        if (!isTRUE(val))
+            return(val)
+    }
     TRUE
 }

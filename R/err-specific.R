@@ -20,3 +20,12 @@ err_map_dim <- function(x, name) {
     TRUE
 }
 
+#' @export
+#' @rdname chk_map_pos
+err_map_pos <- function(x, name) {
+    val <- chk_map_pos(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
