@@ -3,6 +3,15 @@
 
 
 #' @export
+#' @rdname chk_comp_type_indices
+err_comp_type_indices <- function(i_comp_type_self, indices_orig_self, i_direction_self) {
+    val <- chk_comp_type_indices(i_comp_type_self, indices_orig_self, i_direction_self)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
 #' @rdname chk_trans_list
 err_trans_list <- function(x, name) {
     val <- chk_trans_list(x, name)

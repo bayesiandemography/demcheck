@@ -1,4 +1,38 @@
 
+## chk_comp_type_indices --------------------------------------------------
+
+test_that("'chk_comp_type_indices' works with valid input", {
+    expect_true(chk_comp_type_indices(i_comp_type_self = 1L,
+                                      indices_orig_self = 0L,
+                                      i_direction_self = 0L))
+    expect_true(chk_comp_type_indices(i_comp_type_self = 3L,
+                                      indices_orig_self = 1:2,
+                                      i_direction_self = 0L))
+    expect_true(chk_comp_type_indices(i_comp_type_self = 4L,
+                                      indices_orig_self = 0L,
+                                      i_direction_self = 1L))
+})
+
+test_that("'chk_comp_type_indices' returns expected message with invalid inputs", {
+    expect_identical(chk_comp_type_indices(i_comp_type_self = 3L,
+                                           indices_orig_self = 0L,
+                                           i_direction_self = 0L),
+                     "'i_comp_type_self' is 3 but 'indices_orig_self' is 0")
+    expect_identical(chk_comp_type_indices(i_comp_type_self = 4L,
+                                           indices_orig_self = 1L,
+                                           i_direction_self = 0L),
+                     "'i_comp_type_self' is 4 but 'indices_orig_self' is not 0")
+    expect_identical(chk_comp_type_indices(i_comp_type_self = 4L,
+                                           indices_orig_self = 0L,
+                                           i_direction_self = 0L),
+                     "'i_comp_type_self' is 4 but 'i_direction_self' is 0")
+    expect_identical(chk_comp_type_indices(i_comp_type_self = 1L,
+                                           indices_orig_self = 0L,
+                                           i_direction_self = 5L),
+                     "'i_comp_type_self' is 1 but 'i_direction_self' is not 0")
+})
+
+
 ## chk_map_dim ------------------------------------------------------------
 
 test_that("'chk_map_dim' works with valid input", {

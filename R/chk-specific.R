@@ -1,4 +1,50 @@
 
+#' Check that 'i_comp_type_self' consistent with
+#' 'indices_orig_self' and 'i_direction_self'
+#'
+#' @param i_comp_type_self Integer between 1 and 4
+#' @param indices_orig_self Integer vector
+#' @param i_direction_self Integer scalar
+#'
+#' @examples
+#' chk_comp_type_indices(i_comp_type_self = 3L,
+#'                       indices_orig_self = 2L,
+#'                       i_direction_self = 0L)
+#' @export
+chk_comp_type_indices <- function(i_comp_type_self, indices_orig_self, i_direction_self) {
+    is_orig <- identical(i_comp_type_self, 3L)
+    is_pool <- identical(i_comp_type_self, 4L)
+    has_ind_orig <- !identical(indices_orig_self, 0L)
+    has_ind_direction <- !identical(i_direction_self, 0L)
+    if (is_orig && !has_ind_orig)
+        return(gettextf("'%s' is %d but '%s' is %d",
+                        "i_comp_type_self",
+                        i_comp_type_self,
+                        "indices_orig_self",
+                        0L))
+    if (!is_orig && has_ind_orig)
+        return(gettextf("'%s' is %d but '%s' is not %d",
+                        "i_comp_type_self",
+                        i_comp_type_self,
+                        "indices_orig_self",
+                        0L))
+    if (is_pool && !has_ind_direction)
+        return(gettextf("'%s' is %d but '%s' is %d",
+                        "i_comp_type_self",
+                        i_comp_type_self,
+                        "i_direction_self",
+                        0L))
+    if (!is_pool && has_ind_direction)
+        return(gettextf("'%s' is %d but '%s' is not %d",
+                        "i_comp_type_self",
+                        i_comp_type_self,
+                        "i_direction_self",
+                        0L))
+    TRUE
+}
+
+
+
 ## HAS_TESTS
 #' Check that a list describing general transitions between
 #' states is valid
