@@ -765,13 +765,19 @@ test_that("'chk_null_ifonlyif_null' returns expected message with invalid inputs
 ## chk_pos_initial ------------------------------------------------------------
 
 test_that("'chk_pos_initial' returns TRUE with valid input", {
-    expect_true(chk_pos_initial(x = c(1L, 1L), name = "x"))
-    expect_true(chk_pos_initial(x = 1L, name = "x"))
+    expect_true(chk_pos_initial(x = c(1L, 1L), name = "x", zero_ok = TRUE))
+    expect_true(chk_pos_initial(x = c(1L, 1L), name = "x", zero_ok = FALSE))
+    expect_true(chk_pos_initial(x = 1L, name = "x", zero_ok = TRUE))
+    expect_true(chk_pos_initial(x = c(0L, 1L), name = "x", zero_ok = TRUE))
 })
                                 
 test_that("'chk_pos_initial' returns expected message with invalid inputs", {
-    expect_identical(chk_pos_initial(x = c(1L, 1L, 2L), name = "x"),
+    expect_identical(chk_pos_initial(x = c(1L, 1L, 2L), name = "x", zero_ok = FALSE),
                      "element 3 of 'x' [2] is not equal to 1")
+    expect_identical(chk_pos_initial(x = c(1L, 1L, 2L), name = "x", zero_ok = TRUE),
+                     "element 3 of 'x' [2] is not equal to 0 or 1")
+    expect_identical(chk_pos_initial(x = c(1L, 1L, 0L), name = "x", zero_ok = FALSE),
+                     "element 3 of 'x' [0] is non-positive")
 })
 
 

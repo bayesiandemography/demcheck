@@ -418,8 +418,8 @@ err_names_dimnames_complete <- function(x, name) {
 
 #' @export
 #' @rdname chk_pos_initial
-err_pos_initial <- function(x, name) {
-    val <- chk_pos_initial(x, name)
+err_pos_initial <- function(x, name, zero_ok) {
+    val <- chk_pos_initial(x, name, zero_ok)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

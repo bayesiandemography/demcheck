@@ -1502,20 +1502,29 @@ chk_names_dimnames_complete <- function(x, name) {
 }
 
 
-#' Check that an initial 'pos' argument consists
-#' entirely of 1s
+#' Check that an initial 'pos' argument
+#'
+#' Check if \code{x} consists entirely of \code{1}s
+#' (when \code{zero_ok} is \code{FALSE}), or of
+#' \code{1}s and \code{0}s (when \code{zero_ok}
+#' is \code{TRUE}).
 #'
 #' @inheritParams chk_array_metadata_complete
-#' @param x An integer vector with positive length,
-#' consisting entirely of 1s.
+#' @param x An integer vector with positive length
+#' @param zero_ok Whether \code{code} can
+#' contain 0s.
 #'
 #' @seealso \code{\link{chk_positive_dim}}
 #'
 #' @examples
 #' chk_pos_initial(x = c(1L, 1L, 1L),
-#'                 name = "pos")
+#'                 name = "pos",
+#'                 zero_ok = FALSE)
+#' chk_pos_initial(x = c(1L, 0L, 1L),
+#'                 name = "pos",
+#'                 zero_ok = TRUE)
 #' @export
-chk_pos_initial <- function(x, name) {
+chk_pos_initial <- function(x, name, zero_ok) {
     val <- chk_is_integer(x = x,
                           name = name)
     if (!isTRUE(val))
@@ -1524,15 +1533,28 @@ chk_pos_initial <- function(x, name) {
                                name = name)
     if (!isTRUE(val))
         return(val)
-    val <- chk_positive_vector(x = x,
-                               name = name)
-    if (!isTRUE(val))
-        return(val)
-    is_not_one <- x != 1L
-    i_not_one <- match(TRUE, is_not_one, nomatch = 0L)
-    if (i_not_one > 0L)
-        return(gettextf("element %d of '%s' [%d] is not equal to %d",
-                        i_not_one, name, x[[i_not_one]], 1L))
+    if (zero_ok) {
+        val <- chk_non_negative_vector(x = x,
+                                       name = name)
+        if (!isTRUE(val))
+            return(val)
+        is_not_zero_one <- !(x %in% c(0L, 1L))
+        i_not_zero_one <- match(TRUE, is_not_zero_one, nomatch = 0L)
+        if (i_not_zero_one > 0L)
+            return(gettextf("element %d of '%s' [%d] is not equal to %d or %d",
+                            i_not_zero_one, name, x[[i_not_zero_one]], 0L, 1L))
+    }
+    else {
+        val <- chk_positive_vector(x = x,
+                                   name = name)
+        if (!isTRUE(val))
+            return(val)
+        is_not_one <- x != 1L
+        i_not_one <- match(TRUE, is_not_one, nomatch = 0L)
+        if (i_not_one > 0L)
+            return(gettextf("element %d of '%s' [%d] is not equal to %d",
+                            i_not_one, name, x[[i_not_one]], 1L))
+    }
     TRUE
 }
 

@@ -3,27 +3,34 @@
 \name{chk_pos_initial}
 \alias{chk_pos_initial}
 \alias{err_pos_initial}
-\title{Check that an initial 'pos' argument consists
-entirely of 1s}
+\title{Check that an initial 'pos' argument}
 \usage{
-chk_pos_initial(x, name)
+chk_pos_initial(x, name, zero_ok)
 
-err_pos_initial(x, name)
+err_pos_initial(x, name, zero_ok)
 }
 \arguments{
-\item{x}{An integer vector with positive length,
-consisting entirely of 1s.}
+\item{x}{An integer vector with positive length}
 
 \item{name}{The name for \code{x} that
 will be used in error messages.}
+
+\item{zero_ok}{Whether \code{code} can
+contain 0s.}
 }
 \description{
-Check that an initial 'pos' argument consists
-entirely of 1s
+Check if \code{x} consists entirely of \code{1}s
+(when \code{zero_ok} is \code{FALSE}), or of
+\code{1}s and \code{0}s (when \code{zero_ok}
+is \code{TRUE}).
 }
 \examples{
 chk_pos_initial(x = c(1L, 1L, 1L),
-                name = "pos")
+                name = "pos",
+                zero_ok = FALSE)
+chk_pos_initial(x = c(1L, 0L, 1L),
+                name = "pos",
+                zero_ok = TRUE)
 }
 \seealso{
 \code{\link{chk_positive_dim}}
