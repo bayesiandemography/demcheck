@@ -308,8 +308,17 @@ err_is_string <- function(x, name) {
     TRUE
 }
 
+#' @rdname chk_increasing
 #' @export
-#' @rdname chk_strictly_increasing
+err_increasing <- function(x, name) {
+    val <- chk_increasing(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_increasing
+#' @export
 err_strictly_increasing <- function(x, name) {
     val <- chk_strictly_increasing(x, name)
     if (is.character(val))

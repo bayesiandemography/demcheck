@@ -1125,14 +1125,50 @@ chk_is_string <- function(x, name) {
 
 ## HAS_TESTS
 #' Check that elements in a vector of
-#' numbers or dates are strictly increasing
+#' numbers or dates are increasing
+#' or strictly increasing
+#'
+#' \code{chk_increasing} checks that each value is equal to
+#' or greater than the one before it;
+#' \code{chk_strictly_increasing} checks that each value is
+#' greater than the one before it.
 #'
 #' @inheritParams chk_array_metadata_complete
-#' @param x A numeric vector
+#' @param x A vector of dates or numbers.
 #'
 #' @examples
+#' x <- c(1:4, 4)
+#' chk_increasing(x, name = "x")
 #' x <- 1:5
 #' chk_strictly_increasing(x, name = "x")
+#' @name chk_increasing
+NULL
+
+#' @rdname chk_increasing
+#' @export
+chk_increasing <- function(x, name) {
+    val <- chk_is_date_or_numeric(x = x, name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_not_na_vector(x = x, name = name)
+    if (!isTRUE(val))
+        return(val)
+    if (length(x) >= 2L) {
+        is_not_incr <- diff(x) < 0L
+        i_not_incr <- match(TRUE, is_not_incr, nomatch = 0L)
+        if (i_not_incr > 0L) {
+            return(gettextf("'%s' is not increasing : element %d [%s] is greater than element %d [%s]",
+                            name,
+                            i_not_incr,
+                            x[[i_not_incr]],
+                            i_not_incr + 1L,
+                            x[[i_not_incr + 1L]]))
+        }
+    }
+    TRUE
+}
+
+#' @rdname chk_increasing
 #' @export
 chk_strictly_increasing <- function(x, name) {
     val <- chk_is_date_or_numeric(x = x, name = name)

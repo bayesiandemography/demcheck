@@ -852,6 +852,36 @@ test_that("'chk_is_string' returns expected message with invalid argument", {
 })
 
 
+## chk_increasing -------------------------------------------------
+
+test_that("'chk_increasing' returns TRUE with valid vector", {
+    expect_true(chk_increasing(x = 1,
+                               name = "x"))
+    expect_true(chk_increasing(x = c(1:3, 3),
+                               name = "x"))
+    expect_true(chk_increasing(x = c(-Inf, 0, Inf),
+                               name = "x"))
+    expect_true(chk_increasing(x = as.Date(c("2001-01-01", "2002-01-01", "2002-01-01")),
+                               name = "x"))
+})
+
+test_that("'chk_increasing' returns expected message with invalid argument", {
+    expect_identical(chk_increasing(x = "a",
+                                    name = "x"),
+                     "'x' does not have class \"Date\" or \"numeric\"")
+    expect_identical(chk_increasing(x = NA_integer_,
+                                    name = "x"),
+                     "'x' has NAs")
+    expect_identical(chk_increasing(x = c(1, 3, 2),
+                                    name = "x"),
+                     "'x' is not increasing : element 2 [3] is greater than element 3 [2]")
+    expect_identical(chk_increasing(x = as.Date(c("2002-01-02", "2002-01-01")),
+                                    name = "x"),
+                     paste("'x' is not increasing : element 1 [2002-01-02]",
+                           "is greater than element 2 [2002-01-01]"))
+})
+
+
 ## chk_strictly_increasing -------------------------------------------------
 
 test_that("'chk_strictly_increasing' returns TRUE with valid vector", {
