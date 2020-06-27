@@ -428,11 +428,11 @@ NULL
 #' @rdname chk_first_day_unit_scalar
 chk_first_day_unit_scalar <- function(x, name, unit) {
     val <- chk_length_1(x = x,
-                           name = name)
+                        name = name)
     if (!isTRUE(val))
         return(val)
     val <- chk_not_na_scalar(x = x,
-                                name = name)
+                             name = name)
     if (!isTRUE(val))
         return(val)
     val <- chk_is_date_equiv_scalar(x = x,
@@ -476,12 +476,12 @@ chk_first_day_unit_scalar <- function(x, name, unit) {
 #' @rdname chk_first_day_unit_scalar
 chk_first_day_unit_vector <- function(x, name, unit) {
     val <- chk_not_na_vector(x = x,
-                                name = name)
+                             name = name)
     n <- length(x)
     if (n == 0L)
         return(TRUE)
     val <- chk_not_na_vector(x = x,
-                                name = name)
+                             name = name)
     if (!isTRUE(val))
         return(val)
     val <- chk_is_date_equiv_vector(x = x,
@@ -836,7 +836,7 @@ chk_multiple_of <- function(x1, x2, name1, name2, null_ok) {
     else {
         if (x1 %% x2 != 0L)
             return(gettextf("'%s' [%s] is not a multiple of '%s' [%s]",
-                          name1, x1, name2, x2))
+                            name1, x1, name2, x2))
     }
     TRUE
 }
@@ -899,11 +899,11 @@ NULL
 #' @rdname chk_non_negative
 chk_non_negative_scalar <- function(x, name) {
     val <- chk_length_1(x = x,
-                           name = name)
+                        name = name)
     if (!isTRUE(val))
         return(val)
     val <- chk_not_na_scalar(x = x,
-                                name = name)
+                             name = name)
     if (!isTRUE(val))
         return(val)
     val <- chk_is_numeric(x = x,
@@ -921,7 +921,7 @@ chk_non_negative_scalar <- function(x, name) {
 #' @rdname chk_non_negative
 chk_non_negative_vector <- function(x, name) {
     val <- chk_not_na_vector(x = x,
-                                name = name)
+                             name = name)
     if (!isTRUE(val))
         return(val)
     val <- chk_is_numeric(x = x,
@@ -1059,11 +1059,11 @@ NULL
 #' @rdname chk_positive
 chk_positive_scalar <- function(x, name) {
     val <- chk_length_1(x = x,
-                           name = name)
+                        name = name)
     if (!isTRUE(val))
         return(val)
     val <- chk_not_na_scalar(x = x,
-                                name = name)
+                             name = name)
     if (!isTRUE(val))
         return(val)
     val <- chk_is_numeric(x = x,
@@ -1081,7 +1081,7 @@ chk_positive_scalar <- function(x, name) {
 #' @rdname chk_positive
 chk_positive_vector <- function(x, name) {
     val <- chk_not_na_vector(x = x,
-                                name = name)
+                             name = name)
     if (!isTRUE(val))
         return(val)
     val <- chk_is_numeric(x = x,
@@ -1295,7 +1295,7 @@ chk_length_same <- function(x1, x2, name1, name2) {
 #' @param x2 An object.
 #' 
 #' @seealso \code{\link{chk_length_equals}},
-# '\code{\link{chk_length_same}}
+                                        # '\code{\link{chk_length_same}}
 #'
 #' @examples
 #' x1 <- 1:5
@@ -1348,7 +1348,7 @@ chk_lengths_elements_equal_vec <- function(x1, x2, name1, name2) {
     }
     TRUE
 }    
-        
+
 
 ## HAS_TESTS
 #' Check that implied ages are less than 'break_max'
@@ -1516,16 +1516,16 @@ chk_names_dimnames_complete <- function(x, name) {
 #'                 name = "pos")
 #' @export
 chk_pos_initial <- function(x, name) {
-    val <- demcheck::chk_is_integer(x = x,
-                                    name = name)
+    val <- chk_is_integer(x = x,
+                          name = name)
     if (!isTRUE(val))
         return(val)
-    val <- demcheck::chk_positive_length(x = x,
-                                         name = name)
+    val <- chk_positive_length(x = x,
+                               name = name)
     if (!isTRUE(val))
         return(val)
-    val <- demcheck::chk_positive_vector(x = x,
-                                         name = name)
+    val <- chk_positive_vector(x = x,
+                               name = name)
     if (!isTRUE(val))
         return(val)
     is_not_one <- x != 1L
@@ -1554,16 +1554,16 @@ chk_pos_initial <- function(x, name) {
 #'                  name = "x")
 #' @export
 chk_positive_dim <- function(x, name) {
-    val <- demcheck::chk_is_integer(x = x,
-                                    name = name)
+    val <- chk_is_integer(x = x,
+                          name = name)
     if (!isTRUE(val))
         return(val)
-    val <- demcheck::chk_positive_length(x = x,
-                                         name = name)
+    val <- chk_positive_length(x = x,
+                               name = name)
     if (!isTRUE(val))
         return(val)
-    val <- demcheck::chk_positive_vector(x = x,
-                                         name = name)
+    val <- chk_positive_vector(x = x,
+                               name = name)
     if (!isTRUE(val))
         return(val)
     TRUE

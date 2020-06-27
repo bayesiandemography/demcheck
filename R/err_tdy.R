@@ -650,8 +650,6 @@ err_tdy_map_pos <- function(map_pos, dim_self, dim_oth, map_dim) {
 #' @inheritParams err_tdy_date_scalar
 #' @param x An abbreviated month name.
 #'
-#' @seealso \code{\link[demprep]{date_to_period_year}},
-#' 
 #' @examples
 #' x <- "Feb"
 #' err_tdy_month_start(x = x, name = "x")

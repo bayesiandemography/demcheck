@@ -21,6 +21,3 @@ used in defining years
 x <- "Feb"
 err_tdy_month_start(x = x, name = "x")
 }
-\seealso{
-\code{\link[demprep]{date_to_period_year}},
-}

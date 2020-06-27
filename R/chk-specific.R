@@ -1,4 +1,5 @@
 
+## HAS_TESTS
 #' Check that 'i_comp_type_self' consistent with
 #' 'indices_orig_self' and 'i_direction_self'
 #'
