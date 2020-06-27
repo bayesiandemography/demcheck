@@ -44,7 +44,6 @@ chk_comp_type_indices <- function(i_comp_type_self, indices_orig_self, i_directi
 }
 
 
-
 ## HAS_TESTS
 #' Check that a list describing general transitions between
 #' states is valid
