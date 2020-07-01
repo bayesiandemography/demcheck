@@ -29,6 +29,24 @@ err_character_complete <- function(x, name) {
     TRUE
 }
 
+#' @rdname chk_collapsed
+#' @export
+err_collapsed <- function(index, map_dim, name_index, name_dim) {
+    val <- chk_collapsed(index, map_dim, name_index, name_dim)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_collapsed
+#' @export
+err_not_collapsed <- function(index, map_dim, name_index, name_dim) {
+    val <- chk_not_collapsed(index, map_dim, name_index, name_dim)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
 #' @export
 #' @rdname chk_dimnames_complete
 err_dimnames_complete <- function(x, name) {

@@ -24,9 +24,9 @@ err_strictly_increasing(x, name)
 will be used in error messages.}
 }
 \description{
-\code{chk_increasing} checks that a value is equal to
+\code{chk_increasing} checks that each value is equal to
 or greater than the one before it;
-\code{chk_strictly_increasing} checks that a value is
+\code{chk_strictly_increasing} checks that each value is
 greater than the one before it.
 }
 \examples{

@@ -71,6 +71,53 @@ test_that("'chk_character_complete' returns expected message with invalid charac
 })
 
 
+## chk_collapsed --------------------------------------------------------------
+
+test_that("'chk_collapsed' returns TRUE with valid inputs", {
+    expect_true(chk_collapsed(index = 1:2,
+                              map_dim = c(0L, 0L, 1L, 2L, 3L),
+                              name_index = "indices_orig_self",
+                              name_dim = "origin"))
+    expect_true(chk_collapsed(index = integer(),
+                              map_dim = c(0L, 0L, 1L, 2L, 3L),
+                              name_index = "indices_orig_self",
+                              name_dim = "origin"))
+})
+
+test_that("'chk_collapsed' returns expected message with invalid argument", {
+    expect_identical(chk_collapsed(index = 1:2,
+                                   map_dim = c(0L, 4L, 1L, 2L, 3L),
+                                   name_index = "indices_orig_self",
+                                   name_dim = "origin"),
+                     paste("origin dimension identified by 'indices_orig_self' is not collapsed,",
+                           "according to 'map_dim'"))
+})
+
+
+## chk_not_collapsed --------------------------------------------------------------
+
+test_that("'chk_not_collapsed' returns TRUE with valid inputs", {
+    expect_true(chk_not_collapsed(index = 3:4,
+                                  map_dim = c(0L, 0L, 1L, 2L, 3L),
+                                  name_index = "indices_dest_self",
+                                  name_dim = "destination"))
+    expect_true(chk_not_collapsed(index = integer(),
+                                  map_dim = c(0L, 0L, 1L, 2L, 3L),
+                                  name_index = "indices_dest_self",
+                                  name_dim = "destination"))
+})
+
+test_that("'chk_not_collapsed' returns expected message with invalid argument", {
+    expect_identical(chk_not_collapsed(index = 1:2,
+                                       map_dim = c(0L, 0L, 1L, 0L, 2L),
+                                       name_index = "indices_dest_self",
+                                       name_dim = "destination"),
+                     paste("destination dimension identified by 'indices_dest_self' is collapsed,",
+                           "according to 'map_dim'"))
+})
+
+
+
 ## chk_dimnames_complete ------------------------------------------------------
 
 test_that("'chk_dimnames_complete' returns TRUE with valid array", {
