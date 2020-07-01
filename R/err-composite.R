@@ -29,19 +29,19 @@ err_character_complete <- function(x, name) {
     TRUE
 }
 
-#' @rdname chk_collapsed
+#' @rdname chk_omitted
 #' @export
-err_collapsed <- function(index, map_dim, name_index, name_dim) {
-    val <- chk_collapsed(index, map_dim, name_index, name_dim)
+err_omitted <- function(index, map_dim, name_index, name_dim) {
+    val <- chk_omitted(index, map_dim, name_index, name_dim)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
-#' @rdname chk_collapsed
+#' @rdname chk_omitted
 #' @export
-err_not_collapsed <- function(index, map_dim, name_index, name_dim) {
-    val <- chk_not_collapsed(index, map_dim, name_index, name_dim)
+err_not_omitted <- function(index, map_dim, name_index, name_dim) {
+    val <- chk_not_omitted(index, map_dim, name_index, name_dim)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

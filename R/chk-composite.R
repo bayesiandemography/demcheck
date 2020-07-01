@@ -114,47 +114,47 @@ chk_character_complete <- function(x, name) {
 }
 
 
-#' Check whether dimension(s) identified by an index are collapsed,
-#' or not collapsed, according to 'map_dim'
+#' Check whether dimension(s) identified by an index are omitted,
+#' or not omitted, according to 'map_dim'
 #'
-#' \code{chk_collapsed} checks that a dimension \emph{is} collapsed,
-#' and \code{chk_not_collapsed} checks that a dimension \emph{is not}
-#' collapsed.
+#' \code{chk_omitted} checks that a dimension \emph{is} omitted,
+#' and \code{chk_not_omitted} checks that a dimension \emph{is not}
+#' omitted.
 #'
 #' @param index An integer vector, identifying dimensions of array \code{self}
 #' @param map_dim Integer vector mapping dimensions of array \code{self} to
 #' dimensions of array \code{oth}.
 #' @param name_index Name of \code{index}.
-#' @param name_dim Name of the dimension that should or should not be collapsed.
+#' @param name_dim Name of the dimension that should or should not be omitted.
 #'
 #' @seealso \code{\link{chk_map_dim}}
 #' 
 #' @examples
-#' chk_collapsed(index = 2L,
+#' chk_omitted(index = 2L,
 #'               map_dim = c(1L, 0L, 2L),
 #'               name_index = "indices_orig_self",
 #'               name_dim = "origin")
-#' chk_not_collapsed(index = 3L,
+#' chk_not_omitted(index = 3L,
 #'                   map_dim = c(1L, 0L, 2L),
 #'                   name_index = "indices_dest_self",
 #'                   name_dim = "destination")
-#' @name chk_collapsed
+#' @name chk_omitted
 NULL
 
-#' @rdname chk_collapsed
+#' @rdname chk_omitted
 #' @export
-chk_collapsed <- function(index, map_dim, name_index, name_dim) {
+chk_omitted <- function(index, map_dim, name_index, name_dim) {
     if (any(map_dim[index] > 0L))
-        return(gettextf("%s dimension identified by '%s' is not collapsed, according to '%s'",
+        return(gettextf("%s dimension identified by '%s' is not omitted, according to '%s'",
                         name_dim, name_index, "map_dim"))
     TRUE
 }
 
-#' @rdname chk_collapsed
+#' @rdname chk_omitted
 #' @export
-chk_not_collapsed <- function(index, map_dim, name_index, name_dim) {
+chk_not_omitted <- function(index, map_dim, name_index, name_dim) {
     if (any(map_dim[index] == 0L))
-        return(gettextf("%s dimension identified by '%s' is collapsed, according to '%s'",
+        return(gettextf("%s dimension identified by '%s' is omitted, according to '%s'",
                         name_dim, name_index, "map_dim"))
     TRUE
 }
