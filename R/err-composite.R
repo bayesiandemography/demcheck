@@ -29,6 +29,15 @@ err_character_complete <- function(x, name) {
     TRUE
 }
 
+#' @export
+#' @rdname chk_dim_min_length
+err_dim_min_length <- function(length_actual, length_min, name) {
+    val <- chk_dim_min_length(length_actual, length_min, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
 #' @rdname chk_omitted
 #' @export
 err_omitted <- function(index, map_dim, name_index, name_dim) {

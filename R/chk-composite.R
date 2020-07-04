@@ -114,6 +114,25 @@ chk_character_complete <- function(x, name) {
 }
 
 
+#' Check that a dimension equals or exceeeds a minimum length
+#'
+#' @param length_actual The actual length of the dimension.
+#' @param length_min The minimum length of the dimension.
+#' @param name The name of the dimension
+#'
+#' @examples
+#' chk_dim_min_length(length_actual = 5L,
+#'                    length_min = 2L,
+#'                    name = "age")
+#' @export
+chk_dim_min_length <- function(length_actual, length_min, name) {
+    if (length_actual < length_min)
+        return(gettextf("length of %s dimension [%d] less than minimum [%d]",
+                        name, length_actual, length_min))
+    TRUE
+}
+
+
 #' Check whether dimension(s) identified by an index are omitted,
 #' or not omitted, according to 'map_dim'
 #'

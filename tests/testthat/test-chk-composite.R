@@ -71,6 +71,22 @@ test_that("'chk_character_complete' returns expected message with invalid charac
 })
 
 
+## chk_dim_min_length -----------------------------------------------------
+
+test_that("'chk_dim_min_length' returns TRUE with valid character vector", {
+    expect_true(chk_dim_min_length(length_actual = 4L,
+                                   length_min = 4L,
+                                   name = "time"))
+})
+
+test_that("'chk_dim_min_length' returns expected message with invalid character vector", {
+    expect_identical(chk_dim_min_length(length_actual = 2L,
+                                        length_min = 3L,
+                                        name = "time"),
+                     "length of time dimension [2] less than minimum [3]")
+})
+
+
 ## chk_omitted --------------------------------------------------------------
 
 test_that("'chk_omitted' returns TRUE with valid inputs", {
