@@ -6,3 +6,5 @@
 ^make_err\.awk$
 ^README\.Rmd$
 ^\.travis\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$

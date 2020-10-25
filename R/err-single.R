@@ -93,6 +93,15 @@ err_finite_vector <- function(x, name) {
 }
 
 #' @export
+#' @rdname chk_has_non_na
+err_has_non_na <- function(x, name) {
+    val <- chk_has_non_na(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
 #' @rdname chk_has_nonzero
 err_has_nonzero <- function(x, name) {
     val <- chk_has_nonzero(x, name)

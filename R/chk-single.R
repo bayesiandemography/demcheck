@@ -194,12 +194,31 @@ chk_finite_vector <- function(x, name) {
 
 
 #' Check that a vector has at least one
+#' non-NA element
+#'
+#' @inheritParams chk_all_0_1
+#' @param x A scalar or a vector.
+#'
+#' @seealso \code{\link{chk_has_nonzero}}
+#'
+#' @examples
+#' x <- c(0L, NA, NA)
+#' chk_has_non_na(x = x, name = "x")
+#' @export
+chk_has_non_na <- function(x, name) {
+    if (!any(!is.na(x)))
+        return(gettextf("'%s' has no non-NA elements",
+                        name))
+    TRUE
+}
+
+#' Check that a vector has at least one
 #' non-zero element
 #'
 #' @inheritParams chk_all_0_1
 #' @param x A scalar or a vector.
 #'
-#' @seealso \code{\link{chk_all_0_1}}
+#' @seealso \code{\link{chk_has_non_na}}
 #'
 #' @examples
 #' x <- c(0L, 1L, 2L, 0L)
@@ -207,7 +226,7 @@ chk_finite_vector <- function(x, name) {
 #' @export
 chk_has_nonzero <- function(x, name) {
     if (!any(x != 0L))
-        return(gettextf("'%s' has no non-zero element",
+        return(gettextf("'%s' has no non-zero elements",
                         name))
     TRUE
 }
