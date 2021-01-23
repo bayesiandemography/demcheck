@@ -444,7 +444,7 @@ NULL
 chk_not_na_dataframe <- function(x, name) {
     for (i in seq_along(x)) {
         element_i <- x[[i]]
-        if (any(is.na(element_i)))
+        if (anyNA(element_i))
             return(gettextf("column %d of '%s' has NAs",
                             i, name))
     }                                
@@ -456,7 +456,7 @@ chk_not_na_dataframe <- function(x, name) {
 chk_not_na_list <- function(x, name) {
     for (i in seq_along(x)) {
         element_i <- x[[i]]
-        if (any(is.na(element_i)))
+        if (anyNA(element_i))
             return(gettextf("element %d of '%s' has NAs",
                             i, name))
     }                                
@@ -475,7 +475,7 @@ chk_not_na_scalar <- function(x, name) {
 #' @export
 #' @rdname chk_not_na
 chk_not_na_vector <- function(x, name) {
-    if (any(is.na(x)))
+    if (anyNA(x))
         return(gettextf("'%s' has NAs",
                         name))
     TRUE

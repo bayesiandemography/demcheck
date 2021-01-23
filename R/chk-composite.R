@@ -98,7 +98,7 @@ chk_array_metadata_complete <- function(x, name) {
 #' chk_character_complete(x, name = "x")
 #' @export
 chk_character_complete <- function(x, name) {
-    if (any(is.na(x)))
+    if (anyNA(x))
         return(gettextf("'%s' has NAs",
                         name))
     if (!all(nzchar(x)))
@@ -1551,7 +1551,7 @@ chk_names_complete <- function(x, name) {
     if ((length(x) > 0L) && is.null(nms))
         return(gettextf("'%s' does not have names",
                         name))
-    if (any(is.na(nms)))
+    if (anyNA(nms))
         return(gettextf("names for '%s' have NAs",
                         name))
     if (!all(nzchar(nms)))
@@ -1587,7 +1587,7 @@ chk_names_complete <- function(x, name) {
 #' @export
 chk_names_dimnames_complete <- function(x, name) {
     nms <- names(dimnames(x))
-    if (any(is.na(nms)))
+    if (anyNA(nms))
         return(gettextf("names for dimnames of '%s' have NAs",
                         name))
     if (!all(nzchar(nms)))
