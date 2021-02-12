@@ -257,6 +257,40 @@ chk_dimtypes_mutually_compatible <- function(dimtypes) {
     TRUE
 }
 
+## HASzbg_TESTS
+#' Check all elements of an integer vector are
+#' within a given range
+#'
+#' NAs are permitted
+#' 
+#' @inheritParams chk_array_metadata_complete
+#' @param x An integer vector.
+#' @param min Minimum permissible value. An integer.
+#' @param max Maximum permissible value. An integer.
+#'
+#' @examples
+#' chk_integer_in_range(x = c(1L, 7L, NA),
+#'                      min = 1L,
+#'                      max = 12L,
+#'                      name = "x")
+#' @export
+chk_integer_in_range <- function(x, min, max, name) {
+    x_obs <- x[!is.na(x)]
+    if (length(x_obs) > 0L) {
+        is_too_low <- x_obs < min
+        i_too_low <- match(TRUE, is_too_low, nomatch = 0L)
+        if (i_too_low > 0L)
+            return(gettextf("element of '%s' [%d] is less than %d",
+                            name, x_obs[[i_too_low]], min))
+        is_too_high <- x_obs > max
+        i_too_high <- match(TRUE, is_too_high, nomatch = 0L)
+        if (i_too_high > 0L)
+            return(gettextf("element of '%s' [%d] is greater than %d",
+                            name, x_obs[[i_too_high]], max))
+    }
+    TRUE
+}
+
 ## HAS_TESTS
 #' Check that dimensions that should have pairs do
 #' in fact have them
@@ -1691,7 +1725,6 @@ chk_positive_dim <- function(x, name) {
         return(val)
     TRUE
 }
-
 
 ## HAS_TESTS
 #' Check that a vector is a valid quantile

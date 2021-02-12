@@ -642,6 +642,65 @@ err_tdy_map_pos <- function(map_pos, dim_self, dim_oth, map_dim) {
     map_pos
 }
 
+#' Check and tidy numeric or character vector
+#' of months
+#'
+#' Convert a numeric or character vector of month
+#' indices or codes to an integer vector.
+#' The vector can contain NAs.
+#'
+#' @inheritParams err_tdy_date_scalar
+#' @param x A numeric or character vector.
+#'
+#' @examples
+#' err_tdy_month(x = c(1, NA, 12, 5),
+#'               name = "x")
+#' err_tdy_month(x = c("01", NA, "12", "05"),
+#'               name = "x")
+#' err_tdy_month(x = c("Jan", NA, "Dec", "May"),
+#'               name = "x")
+#' err_tdy_month(x = c("January", NA, "December", "May"),
+#'               name = "x")
+#' @export
+err_tdy_month <- function(x, name) {
+    is_obs <- !is.na(x)
+    x_obs <- x[is_obs]
+    ## 1, 2, ..., 12
+    if (is.numeric(x)) {
+        ans <- demcheck::err_tdy_integer_vector(x = x,
+                                                name = name)
+        err_integer_in_range(x = x,
+                             min = 1L,
+                             max = 12L,
+                             name = name)
+    }
+    else if (is.character(x)) {
+        ## "01", "02", ..., "12"
+        tab_2digit <- sprintf("%02.0f", 1:12)
+        ans <- match(x, tab_2digit, nomatch = 0L)
+        is_invalid <- is_obs & (ans == 0L)
+        if (any(is_invalid)) {
+            ## "Jan", "Feb", ..., "Dec"
+            ans <- match(x, month.abb, nomatch = 0L)
+            is_invalid <- is_obs & (ans == 0L)
+            if (any(is_invalid)) {
+                ## "January", "February", ..., "December"
+                ans <- match(x, month.name, nomatch = 0L)
+                is_invalid <- is_obs & (ans == 0L)
+                if (any(is_invalid))
+                    stop(gettextf("elements of '%s' cannot be interpreted as codes or names of months",
+                                  name))
+            }
+        }
+    }
+    else {
+        stop(gettextf("'%s' has class \"%s\"",
+                      name, class(x)))
+    }
+    ans[!is_obs] <- NA_integer_
+    ans
+}
+
 
 ## HAS_TESTS
 #' Check and tidy 'month_start' argument,

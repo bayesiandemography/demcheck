@@ -210,21 +210,52 @@ test_that("'chk_dimtypes_mutually_compatible' returns expected message with inva
 
 ## chk_names_pairs_complete ------------------------------------------------
 
+test_that("'chk_integer_in_range' returns TRUE with valid input", {
+    expect_true(chk_integer_in_range(x = c(1:5, NA),
+                                     min = 1L,
+                                     max = 5L,
+                                     name = "x"))
+    expect_true(chk_integer_in_range(x = NA_integer_,
+                                     min = 1L,
+                                     max = 5L,
+                                     name = "x"))
+    expect_true(chk_integer_in_range(x = integer(),
+                                     min = 1L,
+                                     max = 5L,
+                                     name = "x"))
+})
+                
+test_that("'chk_integer_in_range' returns expected message with invalid input", {
+    expect_identical(chk_integer_in_range(x = c(1:5, NA, 0L),
+                                          min = 1L,
+                                          max = 5L,
+                                          name = "x"),
+                     "element of 'x' [0] is less than 1")
+    expect_identical(chk_integer_in_range(x = c(1:5, NA, 6L),
+                                          min = 1L,
+                                          max = 5L,
+                                          name = "x"),
+                     "element of 'x' [6] is greater than 5")
+})
+
+
+## chk_names_pairs_complete ------------------------------------------------
+
 test_that("'chk_names_pairs_complete' returns TRUE with valid input", {
     expect_true(chk_names_pairs_complete(names = c("age",
-                                                      "reg_orig",
-                                                      "eth_child",
-                                                      "reg_dest",
-                                                      "eth_parent")))
+                                                   "reg_orig",
+                                                   "eth_child",
+                                                   "reg_dest",
+                                                   "eth_parent")))
     expect_true(chk_names_pairs_complete(names = character()))
 })
 
 test_that("'chk_names_pairs_complete' returns expected message with invalid input", {
     expect_identical(chk_names_pairs_complete(names = c("age",
-                                                           "reg_orig",
-                                                           "eth",
-                                                           "reg_dest",
-                                                           "eth_parent")),
+                                                        "reg_orig",
+                                                        "eth",
+                                                        "reg_dest",
+                                                        "eth_parent")),
                      paste("dimension \"eth_parent\" with dimtype \"parent\" does not have",
                            "paired dimension \"eth_child\" with dimtype \"child\""))
 })

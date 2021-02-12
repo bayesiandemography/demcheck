@@ -403,7 +403,40 @@ test_that("'err_tdy_date_dob' returns dates with valid input", {
 })
 
 
-## err_tdy_month_start
+## err_tdy_month --------------------------------------------------------------
+
+test_that("'err_tdy_month' returns integer vector with valid input", {
+    expect_identical(err_tdy_month(x = c(7, 2, NA, 12),
+                                   name = "x"),
+                     c(7L, 2L, NA, 12L))
+    expect_identical(err_tdy_month(x = c("07", "02", NA, "12"),
+                                   name = "x"),
+                     c(7L, 2L, NA, 12L))
+    expect_identical(err_tdy_month(x = c("Jul", "Feb", NA, "Dec"),
+                                   name = "x"),
+                     c(7L, 2L, NA, 12L))
+    expect_identical(err_tdy_month(x = c("July", "February", NA, "December"),
+                                   name = "x"),
+                     c(7L, 2L, NA, 12L))
+    expect_identical(err_tdy_month(x = NA_integer_,
+                                   name = "x"),
+                     NA_integer_)
+    expect_identical(err_tdy_month(x = numeric(),
+                                   name = "x"),
+                     integer())
+    expect_identical(err_tdy_month(x = character(),
+                                   name = "x"),
+                     integer())
+})
+
+test_that("'err_tdy_month' raises expected error with invalid input", {
+    expect_error(err_tdy_month(x = "wrong",
+                               name = "x"),
+                 "elements of 'x' cannot be interpreted as codes or names of months")
+})
+
+
+## err_tdy_month_start --------------------------------------------------------
 
 test_that("'err_tdy_month_start' returns day and month with valid input", {
     expect_identical(err_tdy_month_start("January"),

@@ -75,6 +75,15 @@ err_dimtypes_mutually_compatible <- function(dimtypes) {
 }
 
 #' @export
+#' @rdname chk_integer_in_range
+err_integer_in_range <- function(x, min, max, name) {
+    val <- chk_integer_in_range(x, min, max, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
 #' @rdname chk_names_pairs_complete
 err_names_pairs_complete <- function(names) {
     val <- chk_names_pairs_complete(names)
