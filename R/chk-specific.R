@@ -74,7 +74,7 @@ chk_trans_list <- function(x, name) {
             next
         }
         else if (is.character(element)) {
-            if (any(is.na(element)))
+            if (anyNA(element))
                 return(gettextf("element \"%s\" of '%s' has NAs",
                                 name_element, name))
             if (any(!nzchar(element)))
