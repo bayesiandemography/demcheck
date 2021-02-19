@@ -257,7 +257,7 @@ chk_dimtypes_mutually_compatible <- function(dimtypes) {
     TRUE
 }
 
-## HASzbg_TESTS
+## HAS_TESTS
 #' Check all elements of an integer vector are
 #' within a given range
 #'
@@ -980,6 +980,8 @@ chk_multiple_of_n <- function(x, name, n, null_ok) {
 
 #' Check that elements of a scalar or vector are non-negative
 #'
+#' NAs are ignored.
+#'
 #' @inheritParams chk_array_metadata_complete
 #' @param x A scalar or vector.
 #'
@@ -988,7 +990,9 @@ chk_multiple_of_n <- function(x, name, n, null_ok) {
 #' @examples
 #' x <- 0.1
 #' chk_non_negative_scalar(x, name = "x")
-#' x <- c(0.1, 0, 100)
+#' x <- NA_integer_
+#' chk_non_negative_scalar(x, name = "x")
+#' x <- c(0.1, 0, NA)
 #' chk_non_negative_vector(x, name = "x")
 #' @name chk_non_negative
 NULL
@@ -1001,15 +1005,11 @@ chk_non_negative_scalar <- function(x, name) {
                         name = name)
     if (!isTRUE(val))
         return(val)
-    val <- chk_not_na_scalar(x = x,
-                             name = name)
-    if (!isTRUE(val))
-        return(val)
     val <- chk_is_numeric(x = x,
                           name = name)
     if (!isTRUE(val))
         return(val)
-    if (x < 0L)
+    if (!is.na(x) & (x < 0L))
         return(gettextf("'%s' [%s] is negative",
                         name, x))
     TRUE
@@ -1019,15 +1019,11 @@ chk_non_negative_scalar <- function(x, name) {
 #' @export
 #' @rdname chk_non_negative
 chk_non_negative_vector <- function(x, name) {
-    val <- chk_not_na_vector(x = x,
-                             name = name)
-    if (!isTRUE(val))
-        return(val)
     val <- chk_is_numeric(x = x,
                           name = name)
     if (!isTRUE(val))
         return(val)
-    is_neg <- x < 0L
+    is_neg <- !is.na(x) & (x < 0L)
     if (any(is_neg)) {
         i <- match(TRUE, is_neg)
         return(gettextf("element %d of '%s' [%s] is negative",
@@ -1140,6 +1136,8 @@ chk_null_ifonlyif_null <- function(x1, x2, name1, name2) {
 
 #' Check that elements of a scalar or vector are positive
 #'
+#' NAs are ignored.
+#'
 #' @inheritParams chk_array_metadata_complete
 #' @param x A scalar or vector.
 #'
@@ -1148,7 +1146,9 @@ chk_null_ifonlyif_null <- function(x1, x2, name1, name2) {
 #' @examples
 #' x <- 0.1
 #' chk_positive_scalar(x, name = "x")
-#' x <- c(0.1, 0.0001, 100)
+#' x <- NA_integer_
+#' chk_positive_scalar(x, name = "x")
+#' x <- c(0.1, 0.0001, 100, NA)
 #' chk_positive_vector(x, name = "x")
 #' @name chk_positive
 NULL
@@ -1161,15 +1161,11 @@ chk_positive_scalar <- function(x, name) {
                         name = name)
     if (!isTRUE(val))
         return(val)
-    val <- chk_not_na_scalar(x = x,
-                             name = name)
-    if (!isTRUE(val))
-        return(val)
     val <- chk_is_numeric(x = x,
                           name = name)
     if (!isTRUE(val))
         return(val)
-    if (x <= 0L)
+    if (!is.na(x) & (x <= 0L))
         return(gettextf("'%s' [%s] is non-positive",
                         name, x))
     TRUE
@@ -1179,15 +1175,11 @@ chk_positive_scalar <- function(x, name) {
 #' @export
 #' @rdname chk_positive
 chk_positive_vector <- function(x, name) {
-    val <- chk_not_na_vector(x = x,
-                             name = name)
-    if (!isTRUE(val))
-        return(val)
     val <- chk_is_numeric(x = x,
                           name = name)
     if (!isTRUE(val))
         return(val)
-    is_non_pos <- x <= 0L
+    is_non_pos <- !is.na(x) & (x <= 0L)
     if (any(is_non_pos)) {
         i <- match(TRUE, is_non_pos)
         return(gettextf("element %d of '%s' [%s] is non-positive",
@@ -1664,6 +1656,10 @@ chk_pos_initial <- function(x, name, zero_ok) {
                           name = name)
     if (!isTRUE(val))
         return(val)
+    val <- chk_not_na_vector(x = x,
+                             name = name)
+    if (!isTRUE(val))
+        return(val)
     val <- chk_positive_length(x = x,
                                name = name)
     if (!isTRUE(val))
@@ -1717,6 +1713,10 @@ chk_positive_dim <- function(x, name) {
         return(val)
     val <- chk_positive_length(x = x,
                                name = name)
+    if (!isTRUE(val))
+        return(val)
+    val <- chk_not_na_vector(x = x,
+                             name = name)
     if (!isTRUE(val))
         return(val)
     val <- chk_positive_vector(x = x,

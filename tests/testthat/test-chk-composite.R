@@ -754,23 +754,22 @@ test_that("'chk_multiple_of_n' returns expected message with invalid argument", 
 
 test_that("'chk_non_negative_scalar' returns TRUE with valid input", {
     expect_true(chk_non_negative_scalar(x = 1L,
-                                           name = "x"))
+                                        name = "x"))
     expect_true(chk_non_negative_scalar(x = 0,
-                                           name = "x"))
+                                        name = "x"))
+    expect_true(chk_non_negative_scalar(x = NA_real_,
+                                        name = "x"))
 })
 
 test_that("'chk_non_negative_scalar' returns expected message with invalid argument", {
-    expect_identical(chk_non_negative_scalar(x = NA_integer_,
-                                            name = "x"),
-                     "'x' is NA")
     expect_identical(chk_non_negative_scalar(x = c(1, 1),
-                                   name = "x"),
+                                             name = "x"),
                      "'x' does not have length 1")
     expect_identical(chk_non_negative_scalar(x = "1",
-                                            name = "x"),
+                                             name = "x"),
                      "'x' does not have type \"numeric\"")
     expect_identical(chk_non_negative_scalar(x = -0.001,
-                                                name = "x"),
+                                             name = "x"),
                      "'x' [-0.001] is negative")
 })
 
@@ -779,20 +778,17 @@ test_that("'chk_non_negative_scalar' returns expected message with invalid argum
 
 test_that("'chk_non_negative_vector' returns TRUE with valid input", {
     expect_true(chk_non_negative_vector(x = c(0, 0.001),
-                                           name = "x"))
-    expect_true(chk_non_negative_vector(x = c(0.001, 0, Inf),
-                                       name = "x"))
+                                        name = "x"))
+    expect_true(chk_non_negative_vector(x = c(0.001, 0, Inf, NA),
+                                        name = "x"))
 })
 
 test_that("'chk_non_negative_vector' returns expected message with invalid argument", {
-    expect_identical(chk_non_negative_vector(x = c(NA_integer_, 1L),
-                                            name = "x"),
-                     "'x' has NAs")
     expect_identical(chk_non_negative_vector(x = c("1", "2"),
-                                            name = "x"),
+                                             name = "x"),
                      "'x' does not have type \"numeric\"")
     expect_identical(chk_non_negative_vector(x = c(0.1, -0.1),
-                                            name = "x"),
+                                             name = "x"),
                      "element 2 of 'x' [-0.1] is negative")
 })
 
@@ -879,15 +875,14 @@ test_that("'chk_pos_initial' returns expected message with invalid inputs", {
 
 test_that("'chk_positive_scalar' returns TRUE with valid input", {
     expect_true(chk_positive_scalar(x = 1L,
-                                       name = "x"))
+                                    name = "x"))
     expect_true(chk_positive_scalar(x = 0.001,
-                                       name = "x"))
+                                    name = "x"))
+    expect_true(chk_positive_scalar(x = NA_real_,
+                                    name = "x"))
 })
 
 test_that("'chk_positive_scalar' returns expected message with invalid argument", {
-    expect_identical(chk_positive_scalar(x = NA_integer_,
-                                            name = "x"),
-                     "'x' is NA")
     expect_identical(chk_positive_scalar(x = c(1, 1),
                                    name = "x"),
                      "'x' does not have length 1")
@@ -904,15 +899,12 @@ test_that("'chk_positive_scalar' returns expected message with invalid argument"
 
 test_that("'chk_positive_vector' returns TRUE with valid input", {
     expect_true(chk_positive_vector(x = c(1, 0.001),
-                                       name = "x"))
-    expect_true(chk_positive_vector(x = c(0.001, Inf),
-                                       name = "x"))
+                                    name = "x"))
+    expect_true(chk_positive_vector(x = c(0.001, Inf, NA),
+                                    name = "x"))
 })
 
 test_that("'chk_positive_vector' returns expected message with invalid argument", {
-    expect_identical(chk_positive_vector(x = c(NA_integer_, 1L),
-                                            name = "x"),
-                     "'x' has NAs")
     expect_identical(chk_positive_vector(x = c("1", "2"),
                                             name = "x"),
                      "'x' does not have type \"numeric\"")

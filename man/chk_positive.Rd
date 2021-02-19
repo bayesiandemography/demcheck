@@ -23,12 +23,14 @@ err_positive_vector(x, name)
 will be used in error messages.}
 }
 \description{
-Check that elements of a scalar or vector are positive
+NAs are ignored.
 }
 \examples{
 x <- 0.1
 chk_positive_scalar(x, name = "x")
-x <- c(0.1, 0.0001, 100)
+x <- NA_integer_
+chk_positive_scalar(x, name = "x")
+x <- c(0.1, 0.0001, 100, NA)
 chk_positive_vector(x, name = "x")
 }
 \seealso{

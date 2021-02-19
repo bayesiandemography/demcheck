@@ -125,6 +125,10 @@ chk_map_dim <- function(x, name) {
                           name = name)
     if (!isTRUE(val))
         return(val)
+    val <- chk_not_na_vector(x = x,
+                             name = name)
+    if (!isTRUE(val))
+        return(val)
     val <- chk_non_negative_vector(x = x,
                                    name = name)
     if (!isTRUE(val))
@@ -173,6 +177,10 @@ chk_map_pos <- function(x, name) {
             return(val)
         val <- chk_positive_length(x = x_i,
                                    name = name_i)
+        if (!isTRUE(val))
+            return(val)
+        val <- chk_not_na_vector(x = x_i,
+                                 name = name_i)
         if (!isTRUE(val))
             return(val)
         val <- chk_non_negative_vector(x = x_i,
