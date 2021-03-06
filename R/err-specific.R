@@ -38,3 +38,12 @@ err_map_pos <- function(x, name) {
     TRUE
 }
 
+#' @export
+#' @rdname chk_no_open_age
+err_no_open_age <- function(x) {
+    val <- chk_no_open_age(x)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+

@@ -30,6 +30,15 @@ err_character_complete <- function(x, name) {
 }
 
 #' @export
+#' @rdname chk_difference_divisible
+err_difference_divisible <- function(x1, x2, y, name1, name2, name_y) {
+    val <- chk_difference_divisible(x1, x2, y, name1, name2, name_y)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
 #' @rdname chk_dim_min_length
 err_dim_min_length <- function(length_actual, length_min, name) {
     val <- chk_dim_min_length(length_actual, length_min, name)

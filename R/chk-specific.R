@@ -1,4 +1,6 @@
 
+## Highly specialised checks.
+
 ## HAS_TESTS
 #' Check that 'i_comp_type_self' consistent with
 #' 'indices_orig_self' and 'i_direction_self'
@@ -190,3 +192,25 @@ chk_map_pos <- function(x, name) {
     }
     TRUE
 }
+
+
+#' Check that labels do not have any open age groups,
+#' assuming that 'open_last' is FALSE
+#'
+#' @param x A character vector with age labels.
+#'
+#' @examples
+#' chk_no_open_age(c("0-4", "5", "100"))
+#'
+#' @export
+chk_no_open_age <- function(x) {
+    p_open <- "[0-9]+\\+$"
+    is_open <- grepl(p_open, x)
+    i_open <- match(TRUE, is_open, nomatch = 0L)
+    if (i_open > 0L)
+        return(gettextf("'%s' is %s but age group \"%s\" is open",
+                        "open_last", "FALSE", x[[i_open]]))
+    TRUE
+}
+
+

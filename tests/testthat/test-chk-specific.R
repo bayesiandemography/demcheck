@@ -61,3 +61,14 @@ test_that("'chk_map_dim' returns expected message with invalid inputs", {
 })
 
 
+## chk_no_open_age ------------------------------------------------------------
+
+test_that("'chk_no_open_age' works with valid input", {
+    expect_true(chk_no_open_age(x = c("0", "77", "50-90", NA)))
+    expect_true(chk_no_open_age(x = character()))
+})
+    
+test_that("'chk_map_dim' returns expected message with invalid inputs", {
+    expect_identical(chk_no_open_age(x = c("0", "77", "100+", "50-90", NA)),
+                     "'open_last' is FALSE but age group \"100+\" is open")    
+})
