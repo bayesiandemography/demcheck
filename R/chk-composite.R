@@ -114,6 +114,34 @@ chk_character_complete <- function(x, name) {
 }
 
 
+## HAS_TESTS
+#' Check that differences between two variables
+#' is divisible by a third variable
+#'
+#' @inheritParams chk_all_x1_in_x2
+#' @param x1 The larger variable.
+#' @param x2 The smaller variable.
+#' @param y The third variable
+#' @param name_y The name for \code{y} that will
+#' be used in error messages.
+#'
+#' @examples
+#' chk_difference_divisible(x1 = 50,
+#'                          x2 = 15,
+#'                          y = 5,
+#'                          name1 = "x1",
+#'                          name2 = "x2",
+#'                          name_y = "y")
+#' @export
+chk_difference_divisible <- function(x1, x2, y, name1, name2, name_y) {
+    if ((x1 - x2) %% y != 0L)
+        return(gettextf("difference between '%s' [%d] and '%s' [%d] not divisible by '%s' [%d]",
+                        name1, x1, name2, x2, name_y, y))
+    TRUE
+}
+
+
+## HAS_TESTS
 #' Check that a dimension equals or exceeeds a minimum length
 #'
 #' @param length_actual The actual length of the dimension.

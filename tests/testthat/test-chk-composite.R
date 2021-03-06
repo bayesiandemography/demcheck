@@ -71,6 +71,28 @@ test_that("'chk_character_complete' returns expected message with invalid charac
 })
 
 
+## chk_difference_divisible --------------------------------------------------
+
+test_that("'chk_difference_divisible' works with valid inputs", {
+    expect_true(chk_difference_divisible(x1 = 100,
+                                         x2 = 0,
+                                         y = 10,
+                                         name1 = "x1",
+                                         name2 = "x2",
+                                         name_y = "y"))
+})
+
+test_that("'chk_difference divisible' returns expected message with invalid inputs", {
+    expect_identical(chk_difference_divisible(x1 = 100,
+                                              x2 = 0,
+                                              y = 9,
+                                              name1 = "x1",
+                                              name2 = "x2",
+                                              name_y = "y"),
+                     "difference between 'x1' [100] and 'x2' [0] not divisible by 'y' [9]")
+})
+
+
 ## chk_dim_min_length -----------------------------------------------------
 
 test_that("'chk_dim_min_length' returns TRUE with valid character vector", {
