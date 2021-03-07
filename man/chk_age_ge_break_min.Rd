@@ -8,25 +8,25 @@
 \title{Check that all age groups fall within limits
 imposed by 'break_min' or 'break_max'}
 \usage{
-chk_age_ge_break_min(labels, lower, break_min)
+chk_age_ge_break_min(labels, age_low, break_min)
 
-chk_age_lt_break_max(labels, upper, break_max)
+chk_age_lt_break_max(labels, age_up, break_max)
 
-err_age_ge_break_min(labels, lower, break_min)
+err_age_ge_break_min(labels, age_low, break_min)
 
-err_age_lt_break_max(labels, upper, break_max)
+err_age_lt_break_max(labels, age_up, break_max)
 }
 \arguments{
 \item{labels}{A vector of age group labels.}
 
-\item{lower}{A numeric vector. The lower
+\item{age_low}{A numeric vector. The lower
 breaks for the age groups.}
 
 \item{break_min}{Integer. Ages must be equal
 to or greater than this.
 for \code{age}.}
 
-\item{upper}{A numeric vector. The upper
+\item{age_up}{A numeric vector. The upper
 breaks for the age groups.}
 
 \item{break_max}{Integer. Ages must be
@@ -37,9 +37,9 @@ All age groups are assumed to be closed.
 }
 \examples{
 chk_age_ge_break_min(labels = c("15-19", "20", "100-104"),
-                     lower = c(15, 20, 100, NA),
+                     age_low = c(15, 20, 100, NA),
                      break_min = 15)
 chk_age_lt_break_max(labels = c("20-24", "45-49", NA),
-                     upper = c(25, 50, NA),
+                     age_up = c(25, 50, NA),
                      break_max = 50)
 }

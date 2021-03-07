@@ -5,16 +5,16 @@ context("chk-composite")
 
 test_that("'chk_age_ge_break_min' returns TRUE with valid inputs", {
     expect_true(chk_age_ge_break_min(labels = c("15-19", "20-24", NA),
-                                     lower = c(15, 20, NA),
+                                     age_low = c(15, 20, NA),
                                      break_min = 15))
     expect_true(chk_age_ge_break_min(labels = character(),
-                                     lower = integer(),
+                                     age_low = integer(),
                                      break_min = 15))
 })
 
 test_that("'chk_age_ge_break_min' returns expected message with invalid inputs", {
     expect_identical(chk_age_ge_break_min(labels = c("15-19", "20-24", NA),
-                                          lower = c(15, 20, NA),
+                                          age_low = c(15, 20, NA),
                                           break_min = 20),
                      "age group \"15-19\" below 'break_min' [20]")
 })
@@ -23,16 +23,16 @@ test_that("'chk_age_ge_break_min' returns expected message with invalid inputs",
 
 test_that("'chk_age_lt_break_max' returns TRUE with valid inputs", {
     expect_true(chk_age_lt_break_max(labels = c("15-19", "20-24", NA),
-                                     upper = c(20, 25, NA),
+                                     age_up = c(20, 25, NA),
                                      break_max = 25))
     expect_true(chk_age_lt_break_max(labels = character(),
-                                     upper = integer(),
+                                     age_up = integer(),
                                      break_max = 25))
 })
 
 test_that("'chk_age_lt_break_max' returns expected message with invalid inputs", {
     expect_identical(chk_age_lt_break_max(labels = c("15-19", "20-24", NA),
-                                          upper = c(20, 25, NA),
+                                          age_up = c(20, 25, NA),
                                           break_max = 20),
                      "age group \"20-24\" above 'break_max' [20]")
 })
