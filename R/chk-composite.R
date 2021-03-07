@@ -60,9 +60,6 @@ chk_age_lt_break_max <- function(labels, upper, break_max) {
 }
                    
 
-
-
-
 ## HAS_TESTS
 #' Check whether all elements of 'x1' are in 'x2'
 #'
