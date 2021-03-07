@@ -7,6 +7,62 @@
 ## has no \code{NA}s, and whether \code{all(diff(x)) == 1L}.
 
 
+#' Check that all age groups fall within limits
+#' imposed by 'break_min' or 'break_max'
+#'
+#' All age groups are assumed to be closed.
+#'
+#' @param labels A vector of age group labels.
+#' @param lower A numeric vector. The lower
+#' breaks for the age groups.
+#' @param upper A numeric vector. The upper
+#' breaks for the age groups.
+#' @param break_min Integer. Ages must be equal
+#' to or greater than this.
+#' for \code{age}.
+#' @param break_max Integer. Ages must be
+#' lower than this.
+#'
+#' @examples
+#' chk_age_ge_break_min(labels = c("15-19", "20", "100-104"),
+#'                      lower = c(15, 20, 100, NA),
+#'                      break_min = 15)
+#' chk_age_lt_break_max(labels = c("20-24", "45-49", NA),
+#'                      upper = c(25, 50, NA),
+#'                      break_max = 50)
+#' @name chk_age_ge_break_min
+NULL
+
+#' @export
+#' @rdname chk_age_ge_break_min
+chk_age_ge_break_min <- function(labels, lower, break_min) {
+    is_too_low <- !is.na(lower) & (lower < break_min)
+    i_too_low <- match(TRUE, is_too_low, nomatch = 0L)
+    if (i_too_low > 0L)
+        return(gettextf("age group \"%s\" below '%s' [%d]",
+                        labels[[i_too_low]],
+                        "break_min",
+                        break_min))
+    TRUE
+}
+
+#' @export
+#' @rdname chk_age_ge_break_min
+chk_age_lt_break_max <- function(labels, upper, break_max) {
+    is_too_high <- !is.na(upper) & (upper > break_max)
+    i_too_high <- match(TRUE, is_too_high, nomatch = 0L)
+    if (i_too_high > 0L)
+        return(gettextf("age group \"%s\" above '%s' [%d]",
+                        labels[[i_too_high]],
+                        "break_max",
+                        break_max))
+    TRUE
+}
+                   
+
+
+
+
 ## HAS_TESTS
 #' Check whether all elements of 'x1' are in 'x2'
 #'

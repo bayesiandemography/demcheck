@@ -3,6 +3,24 @@
 
 
 #' @export
+#' @rdname chk_age_ge_break_min
+err_age_ge_break_min <- function(labels, lower, break_min) {
+    val <- chk_age_ge_break_min(labels, lower, break_min)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_age_ge_break_min
+err_age_lt_break_max <- function(labels, upper, break_max) {
+    val <- chk_age_lt_break_max(labels, upper, break_max)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
 #' @rdname chk_all_x1_in_x2
 err_all_x1_in_x2 <- function(x1, x2, name1, name2, exclude_zero) {
     val <- chk_all_x1_in_x2(x1, x2, name1, name2, exclude_zero)

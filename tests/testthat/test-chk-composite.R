@@ -1,6 +1,43 @@
 
 context("chk-composite")
 
+## chk_age_ge_break_min -------------------------------------------------------
+
+test_that("'chk_age_ge_break_min' returns TRUE with valid inputs", {
+    expect_true(chk_age_ge_break_min(labels = c("15-19", "20-24", NA),
+                                     lower = c(15, 20, NA),
+                                     break_min = 15))
+    expect_true(chk_age_ge_break_min(labels = character(),
+                                     lower = integer(),
+                                     break_min = 15))
+})
+
+test_that("'chk_age_ge_break_min' returns expected message with invalid inputs", {
+    expect_identical(chk_age_ge_break_min(labels = c("15-19", "20-24", NA),
+                                          lower = c(15, 20, NA),
+                                          break_min = 20),
+                     "age group \"15-19\" below 'break_min' [20]")
+})
+
+## chk_age_lt_break_max -------------------------------------------------------
+
+test_that("'chk_age_lt_break_max' returns TRUE with valid inputs", {
+    expect_true(chk_age_lt_break_max(labels = c("15-19", "20-24", NA),
+                                     upper = c(20, 25, NA),
+                                     break_max = 25))
+    expect_true(chk_age_lt_break_max(labels = character(),
+                                     upper = integer(),
+                                     break_max = 25))
+})
+
+test_that("'chk_age_lt_break_max' returns expected message with invalid inputs", {
+    expect_identical(chk_age_lt_break_max(labels = c("15-19", "20-24", NA),
+                                          upper = c(20, 25, NA),
+                                          break_max = 20),
+                     "age group \"20-24\" above 'break_max' [20]")
+})
+
+
 ## chk_all_x1_in_x2 -----------------------------------------------------------
 
 test_that("'chk_all_x1_in_x2' returns TRUE with valid inputs", {
