@@ -27,7 +27,7 @@
 #' chk_age_ge_break_min(labels = c("15-19", "20", "100-104"),
 #'                      age_low = c(15, 20, 100, NA),
 #'                      break_min = 15)
-#' chk_age_lt_break_max(labels = c("20-24", "45-49", NA),
+#' chk_age_le_break_max(labels = c("20-24", "45-49", NA),
 #'                      age_up = c(25, 50, NA),
 #'                      break_max = 50)
 #' @name chk_age_ge_break_min
@@ -48,7 +48,7 @@ chk_age_ge_break_min <- function(labels, age_low, break_min) {
 
 #' @export
 #' @rdname chk_age_ge_break_min
-chk_age_lt_break_max <- function(labels, age_up, break_max) {
+chk_age_le_break_max <- function(labels, age_up, break_max) {
     is_too_high <- !is.na(age_up) & (age_up > break_max)
     i_too_high <- match(TRUE, is_too_high, nomatch = 0L)
     if (i_too_high > 0L)

@@ -19,19 +19,19 @@ test_that("'chk_age_ge_break_min' returns expected message with invalid inputs",
                      "age group \"15-19\" below 'break_min' [20]")
 })
 
-## chk_age_lt_break_max -------------------------------------------------------
+## chk_age_le_break_max -------------------------------------------------------
 
-test_that("'chk_age_lt_break_max' returns TRUE with valid inputs", {
-    expect_true(chk_age_lt_break_max(labels = c("15-19", "20-24", NA),
+test_that("'chk_age_le_break_max' returns TRUE with valid inputs", {
+    expect_true(chk_age_le_break_max(labels = c("15-19", "20-24", NA),
                                      age_up = c(20, 25, NA),
                                      break_max = 25))
-    expect_true(chk_age_lt_break_max(labels = character(),
+    expect_true(chk_age_le_break_max(labels = character(),
                                      age_up = integer(),
                                      break_max = 25))
 })
 
-test_that("'chk_age_lt_break_max' returns expected message with invalid inputs", {
-    expect_identical(chk_age_lt_break_max(labels = c("15-19", "20-24", NA),
+test_that("'chk_age_le_break_max' returns expected message with invalid inputs", {
+    expect_identical(chk_age_le_break_max(labels = c("15-19", "20-24", NA),
                                           age_up = c(20, 25, NA),
                                           break_max = 20),
                      "age group \"20-24\" above 'break_max' [20]")
