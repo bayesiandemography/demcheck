@@ -214,7 +214,7 @@ chk_dim_min_length <- function(length_actual, length_min, name) {
 }
 
 
-## NO_TESTS
+## HAS_TESTS
 #' Check that invervals defined by 'age_low' and 'age_high'
 #' fall within intervals defined by 'breaks'
 #'
