@@ -65,6 +65,15 @@ err_dim_min_length <- function(length_actual, length_min, name) {
     TRUE
 }
 
+#' @export
+#' @rdname chk_intervals_inside_breaks
+err_intervals_inside_breaks <- function(age_low, age_up, breaks, labels) {
+    val <- chk_intervals_inside_breaks(age_low, age_up, breaks, labels)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
 #' @rdname chk_omitted
 #' @export
 err_omitted <- function(index, map_dim, name_index, name_dim) {

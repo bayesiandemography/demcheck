@@ -146,6 +146,36 @@ test_that("'chk_dim_min_length' returns expected message with invalid character 
 })
 
 
+## chk_intervals_inide_breaks -------------------------------------------------
+    
+test_that("'chk_intervals_inside_breaks' returns TRUE with valid inputs", {
+    expect_true(chk_intervals_inside_breaks(age_low = c(0L, 5L, 10L, 15L),
+                                           age_up = c(5L, 10L, 15L, NA),
+                                           labels = c("0-4", "5-9", "10-14", "15+"),
+                                           breaks = c(0, 5, 10, 15)))
+    expect_true(chk_intervals_inside_breaks(age_low = 0:4,
+                                           age_up = 1:5,
+                                           labels = c("0", "1", "2", "3", "4"),
+                                           breaks = 0:10))
+    expect_true(chk_intervals_inside_breaks(age_low = integer(),
+                                           age_up = integer(),
+                                           labels = charcter(),
+                                           breaks = 0:10))
+    expect_true(chk_intervals_inside_breaks(age_low = NA_integer_,
+                                           age_up = NA_integer_,
+                                           labels = NA_character_,
+                                           breaks = 0:10))
+})
+                
+test_that("'chk_intervals_inside_breaks' returns expected message with invalid argument", {
+    expect_identical(chk_intervals_inside_breaks(age_low = c(0L, 5L, 10L, 15L),
+                                                age_up = c(6L, 10L, 15L, NA),
+                                                labels = c("0-5", "5-9", "10-14", "15+"),
+                                                breaks = c(0, 5, 10, 15)),
+                     "age group \"0-5\" intersects two or more intervals")
+})
+
+
 ## chk_omitted --------------------------------------------------------------
 
 test_that("'chk_omitted' returns TRUE with valid inputs", {

@@ -214,6 +214,35 @@ chk_dim_min_length <- function(length_actual, length_min, name) {
 }
 
 
+## NO_TESTS
+#' Check that invervals defined by 'age_low' and 'age_high'
+#' fall within intervals defined by 'breaks'
+#'
+#' @inheritParams chk_age_ge_break_min
+#' @param breaks Vector of strictly increasing integers.
+#'
+#' @examples
+#' chk_intervals_inside_breaks(age_low = c(0, 1, 5, 10),
+#'                             age_up = c(1, 5, 10, NA),
+#'                             breaks = c(0, 5, 10, 15),
+#'                             labels = c("0", "1-4", "5-9", "10+"))
+#' @export
+chk_intervals_inside_breaks <- function(age_low, age_up, breaks, labels) {
+    i_int_low <- findInterval(age_low, breaks)
+    i_int_up <- findInterval(age_up, breaks)
+    up_is_break <- age_up %in% breaks
+    is_valid <- (is.na(age_low)
+        | is.na(age_up)
+        | (!up_is_break & (i_int_up == i_int_low))
+        | (up_is_break & (i_int_up == i_int_low + 1L)))
+    i_invalid <- match(FALSE, is_valid, nomatch = 0L)
+    if (i_invalid > 0L)
+        return(gettextf("age group \"%s\" intersects two or more intervals",
+                        labels[[i_invalid]]))
+    TRUE
+}
+
+
 #' Check whether dimension(s) identified by an index are omitted,
 #' or not omitted, according to 'map_dim'
 #'
