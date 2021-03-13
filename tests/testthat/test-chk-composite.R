@@ -19,6 +19,7 @@ test_that("'chk_age_ge_break_min' returns expected message with invalid inputs",
                      "age group \"15-19\" below 'break_min' [20]")
 })
 
+
 ## chk_age_le_break_max -------------------------------------------------------
 
 test_that("'chk_age_le_break_max' returns TRUE with valid inputs", {
@@ -35,6 +36,32 @@ test_that("'chk_age_le_break_max' returns expected message with invalid inputs",
                                           age_up = c(20, 25, NA),
                                           break_max = 20),
                      "age group \"20-24\" above 'break_max' [20]")
+})
+
+
+## chk_age_diff_gt_one -------------------------------------------------------
+
+test_that("'chk_age_diff_gt_one' returns TRUE with valid inputs", {
+    expect_true(chk_age_diff_gt_one(age_low = c(15, 20, 25),
+                                    age_up = c(20, 25, NA),
+                                    is_low_up = c(TRUE, TRUE, FALSE),
+                                    labels = c("15-19", "20-24", "25+")))
+    expect_true(chk_age_diff_gt_one(age_low = c(15, 20, 25),
+                                    age_up = c(16, 21, NA),
+                                    is_low_up = c(FALSE, FALSE, FALSE),
+                                    labels = c("15", "20", "25+")))
+    expect_true(chk_age_diff_gt_one(age_low = integer(),
+                                    age_up = integer(),
+                                    is_low_up = logical(),
+                                    labels = character()))
+})
+
+test_that("'chk_age_diff_gt_one' returns expected message with invalid inputs", {
+    expect_identical(chk_age_diff_gt_one(age_low = c(15, 20, NA),
+                                         age_up = c(16, 25, NA),
+                                         is_low_up = c(TRUE, FALSE, FALSE),
+                                         labels = c("15-15", "20-24", NA)),
+                     "\"15-15\" not a valid age group label : difference between upper and lower limits less than or equal to 1")
 })
 
 

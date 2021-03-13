@@ -21,6 +21,15 @@ err_age_le_break_max <- function(labels, age_up, break_max) {
 }
 
 #' @export
+#' @rdname chk_age_diff_gt_one
+err_age_diff_gt_one <- function(age_low, age_up, is_low_up, labels) {
+    val <- chk_age_diff_gt_one(age_low, age_up, is_low_up, labels)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
 #' @rdname chk_all_x1_in_x2
 err_all_x1_in_x2 <- function(x1, x2, name1, name2, exclude_zero) {
     val <- chk_all_x1_in_x2(x1, x2, name1, name2, exclude_zero)

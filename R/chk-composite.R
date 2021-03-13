@@ -58,7 +58,35 @@ chk_age_le_break_max <- function(labels, age_up, break_max) {
                         break_max))
     TRUE
 }
-                   
+
+
+## HAS_TESTS
+#' Check that difference between upper and lower limits of
+#' age groups greater than 1
+#'
+#' Check applies to age groups with labels that have
+#' a "low-up" format, ie not single-year age groups,
+#' not open age groups, and not missing.
+#'
+#' @inheritParams chk_age_ge_break_min
+#' @param is_low_up Logical. Whether label
+#' has "low-up" format, eg "15-19".
+#'
+#' @examples
+#' chk_age_diff_gt_one(age_low = c(0, 1, 5, 10),
+#'                     age_up = c(1, 5, 10, NA),
+#'                     is_low_up = c(TRUE, TRUE, TRUE, FALSE),
+#'                     labels = c("0", "1-4", "5-9", "10+"))
+#' @export
+chk_age_diff_gt_one <- function(age_low, age_up, is_low_up, labels) {
+    is_diff_le <- age_up[is_low_up] - age_low[is_low_up] <= 1L
+    i_diff_le <- match(TRUE, is_diff_le, nomatch = 0L)
+    if (i_diff_le > 0L)
+        return(gettextf("\"%s\" not a valid age group label : difference between upper and lower limits less than or equal to 1",
+                        labels[is_low_up][[i_diff_le]]))
+    TRUE
+}
+
 
 ## HAS_TESTS
 #' Check whether all elements of 'x1' are in 'x2'
