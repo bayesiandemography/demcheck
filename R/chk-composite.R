@@ -24,18 +24,18 @@
 #' lower than this.
 #'
 #' @examples
-#' chk_age_ge_break_min(labels = c("15-19", "20", "100-104"),
-#'                      age_low = c(15, 20, 100, NA),
-#'                      break_min = 15)
-#' chk_age_le_break_max(labels = c("20-24", "45-49", NA),
-#'                      age_up = c(25, 50, NA),
-#'                      break_max = 50)
-#' @name chk_age_ge_break_min
+#' chk_age_label_ge_break_min(labels = c("15-19", "20", "100-104"),
+#'                            age_low = c(15, 20, 100, NA),
+#'                            break_min = 15)
+#' chk_age_label_le_break_max(labels = c("20-24", "45-49", NA),
+#'                           age_up = c(25, 50, NA),
+#'                           break_max = 50)
+#' @name chk_age_label_ge_break_min
 NULL
 
 #' @export
-#' @rdname chk_age_ge_break_min
-chk_age_ge_break_min <- function(labels, age_low, break_min) {
+#' @rdname chk_age_label_ge_break_min
+chk_age_label_ge_break_min <- function(labels, age_low, break_min) {
     is_too_low <- !is.na(age_low) & (age_low < break_min)
     i_too_low <- match(TRUE, is_too_low, nomatch = 0L)
     if (i_too_low > 0L)
@@ -47,8 +47,8 @@ chk_age_ge_break_min <- function(labels, age_low, break_min) {
 }
 
 #' @export
-#' @rdname chk_age_ge_break_min
-chk_age_le_break_max <- function(labels, age_up, break_max) {
+#' @rdname chk_age_label_ge_break_min
+chk_age_label_le_break_max <- function(labels, age_up, break_max) {
     is_too_high <- !is.na(age_up) & (age_up > break_max)
     i_too_high <- match(TRUE, is_too_high, nomatch = 0L)
     if (i_too_high > 0L)
@@ -68,7 +68,7 @@ chk_age_le_break_max <- function(labels, age_up, break_max) {
 #' a "low-up" format, ie not single-year age groups,
 #' not open age groups, and not missing.
 #'
-#' @inheritParams chk_age_ge_break_min
+#' @inheritParams chk_age_label_ge_break_min
 #' @param is_low_up Logical. Whether label
 #' has "low-up" format, eg "15-19".
 #'
@@ -246,7 +246,7 @@ chk_dim_min_length <- function(length_actual, length_min, name) {
 #' Check that invervals defined by 'age_low' and 'age_high'
 #' fall within intervals defined by 'breaks'
 #'
-#' @inheritParams chk_age_ge_break_min
+#' @inheritParams chk_age_label_ge_break_min
 #' @param breaks Vector of strictly increasing integers.
 #'
 #' @examples

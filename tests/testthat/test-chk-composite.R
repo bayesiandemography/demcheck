@@ -1,38 +1,38 @@
 
 context("chk-composite")
 
-## chk_age_ge_break_min -------------------------------------------------------
+## chk_age_label_ge_break_min -------------------------------------------------
 
-test_that("'chk_age_ge_break_min' returns TRUE with valid inputs", {
-    expect_true(chk_age_ge_break_min(labels = c("15-19", "20-24", NA),
+test_that("'chk_age_label_ge_break_min' returns TRUE with valid inputs", {
+    expect_true(chk_age_label_ge_break_min(labels = c("15-19", "20-24", NA),
                                      age_low = c(15, 20, NA),
                                      break_min = 15))
-    expect_true(chk_age_ge_break_min(labels = character(),
+    expect_true(chk_age_label_ge_break_min(labels = character(),
                                      age_low = integer(),
                                      break_min = 15))
 })
 
-test_that("'chk_age_ge_break_min' returns expected message with invalid inputs", {
-    expect_identical(chk_age_ge_break_min(labels = c("15-19", "20-24", NA),
+test_that("'chk_age_label_ge_break_min' returns expected message with invalid inputs", {
+    expect_identical(chk_age_label_ge_break_min(labels = c("15-19", "20-24", NA),
                                           age_low = c(15, 20, NA),
                                           break_min = 20),
                      "age group \"15-19\" below 'break_min' [20]")
 })
 
 
-## chk_age_le_break_max -------------------------------------------------------
+## chk_age_label_le_break_max -------------------------------------------------
 
-test_that("'chk_age_le_break_max' returns TRUE with valid inputs", {
-    expect_true(chk_age_le_break_max(labels = c("15-19", "20-24", NA),
+test_that("'chk_age_label_le_break_max' returns TRUE with valid inputs", {
+    expect_true(chk_age_label_le_break_max(labels = c("15-19", "20-24", NA),
                                      age_up = c(20, 25, NA),
                                      break_max = 25))
-    expect_true(chk_age_le_break_max(labels = character(),
+    expect_true(chk_age_label_le_break_max(labels = character(),
                                      age_up = integer(),
                                      break_max = 25))
 })
 
-test_that("'chk_age_le_break_max' returns expected message with invalid inputs", {
-    expect_identical(chk_age_le_break_max(labels = c("15-19", "20-24", NA),
+test_that("'chk_age_label_le_break_max' returns expected message with invalid inputs", {
+    expect_identical(chk_age_label_le_break_max(labels = c("15-19", "20-24", NA),
                                           age_up = c(20, 25, NA),
                                           break_max = 20),
                      "age group \"20-24\" above 'break_max' [20]")

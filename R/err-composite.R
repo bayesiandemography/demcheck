@@ -3,18 +3,18 @@
 
 
 #' @export
-#' @rdname chk_age_ge_break_min
-err_age_ge_break_min <- function(labels, age_low, break_min) {
-    val <- chk_age_ge_break_min(labels, age_low, break_min)
+#' @rdname chk_age_label_ge_break_min
+err_age_label_ge_break_min <- function(labels, age_low, break_min) {
+    val <- chk_age_label_ge_break_min(labels, age_low, break_min)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname chk_age_ge_break_min
-err_age_le_break_max <- function(labels, age_up, break_max) {
-    val <- chk_age_le_break_max(labels, age_up, break_max)
+#' @rdname chk_age_label_ge_break_min
+err_age_label_le_break_max <- function(labels, age_up, break_max) {
+    val <- chk_age_label_le_break_max(labels, age_up, break_max)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
