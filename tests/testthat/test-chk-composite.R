@@ -1,67 +1,67 @@
 
 context("chk-composite")
 
-## chk_age_label_ge_break_min -------------------------------------------------
+## chk_interval_label_ge_break_min --------------------------------------------
 
-test_that("'chk_age_label_ge_break_min' returns TRUE with valid inputs", {
-    expect_true(chk_age_label_ge_break_min(labels = c("15-19", "20-24", NA),
-                                     age_low = c(15, 20, NA),
-                                     break_min = 15))
-    expect_true(chk_age_label_ge_break_min(labels = character(),
-                                     age_low = integer(),
-                                     break_min = 15))
+test_that("'chk_interval_label_ge_break_min' returns TRUE with valid inputs", {
+    expect_true(chk_interval_label_ge_break_min(labels = c("15-19", "20-24", NA),
+                                                int_low = c(15, 20, NA),
+                                                break_min = 15))
+    expect_true(chk_interval_label_ge_break_min(labels = character(),
+                                                int_low = integer(),
+                                                break_min = 15))
 })
 
-test_that("'chk_age_label_ge_break_min' returns expected message with invalid inputs", {
-    expect_identical(chk_age_label_ge_break_min(labels = c("15-19", "20-24", NA),
-                                          age_low = c(15, 20, NA),
-                                          break_min = 20),
-                     "age group \"15-19\" below 'break_min' [20]")
-})
-
-
-## chk_age_label_le_break_max -------------------------------------------------
-
-test_that("'chk_age_label_le_break_max' returns TRUE with valid inputs", {
-    expect_true(chk_age_label_le_break_max(labels = c("15-19", "20-24", NA),
-                                     age_up = c(20, 25, NA),
-                                     break_max = 25))
-    expect_true(chk_age_label_le_break_max(labels = character(),
-                                     age_up = integer(),
-                                     break_max = 25))
-})
-
-test_that("'chk_age_label_le_break_max' returns expected message with invalid inputs", {
-    expect_identical(chk_age_label_le_break_max(labels = c("15-19", "20-24", NA),
-                                          age_up = c(20, 25, NA),
-                                          break_max = 20),
-                     "age group \"20-24\" above 'break_max' [20]")
+test_that("'chk_interval_label_ge_break_min' returns expected message with invalid inputs", {
+    expect_identical(chk_interval_label_ge_break_min(labels = c("15-19", "20-24", NA),
+                                                     int_low = c(15, 20, NA),
+                                                     break_min = 20),
+                     "interval \"15-19\" below 'break_min' [20]")
 })
 
 
-## chk_age_diff_gt_one -------------------------------------------------------
+## chk_interval_label_le_break_max --------------------------------------------
 
-test_that("'chk_age_diff_gt_one' returns TRUE with valid inputs", {
-    expect_true(chk_age_diff_gt_one(age_low = c(15, 20, 25),
-                                    age_up = c(20, 25, NA),
-                                    is_low_up = c(TRUE, TRUE, FALSE),
-                                    labels = c("15-19", "20-24", "25+")))
-    expect_true(chk_age_diff_gt_one(age_low = c(15, 20, 25),
-                                    age_up = c(16, 21, NA),
-                                    is_low_up = c(FALSE, FALSE, FALSE),
-                                    labels = c("15", "20", "25+")))
-    expect_true(chk_age_diff_gt_one(age_low = integer(),
-                                    age_up = integer(),
-                                    is_low_up = logical(),
-                                    labels = character()))
+test_that("'chk_interval_label_le_break_max' returns TRUE with valid inputs", {
+    expect_true(chk_interval_label_le_break_max(labels = c("15-19", "20-24", NA),
+                                                int_up = c(20, 25, NA),
+                                                break_max = 25))
+    expect_true(chk_interval_label_le_break_max(labels = character(),
+                                                int_up = integer(),
+                                                break_max = 25))
 })
 
-test_that("'chk_age_diff_gt_one' returns expected message with invalid inputs", {
-    expect_identical(chk_age_diff_gt_one(age_low = c(15, 20, NA),
-                                         age_up = c(16, 25, NA),
-                                         is_low_up = c(TRUE, FALSE, FALSE),
-                                         labels = c("15-15", "20-24", NA)),
-                     "\"15-15\" not a valid age group label : difference between upper and lower limits less than or equal to 1")
+test_that("'chk_interval_label_le_break_max' returns expected message with invalid inputs", {
+    expect_identical(chk_interval_label_le_break_max(labels = c("15-19", "20-24", NA),
+                                                     int_up = c(20, 25, NA),
+                                                     break_max = 20),
+                     "interval \"20-24\" above 'break_max' [20]")
+})
+
+
+## chk_interval_diff_gt_one ---------------------------------------------------
+
+test_that("'chk_interval_diff_gt_one' returns TRUE with valid inputs", {
+    expect_true(chk_interval_diff_gt_one(int_low = c(15, 20, 25),
+                                         int_up = c(20, 25, NA),
+                                         is_low_up = c(TRUE, TRUE, FALSE),
+                                         labels = c("15-19", "20-24", "25+")))
+    expect_true(chk_interval_diff_gt_one(int_low = c(15, 20, 25),
+                                         int_up = c(16, 21, NA),
+                                         is_low_up = c(FALSE, FALSE, FALSE),
+                                         labels = c("15", "20", "25+")))
+    expect_true(chk_interval_diff_gt_one(int_low = integer(),
+                                         int_up = integer(),
+                                         is_low_up = logical(),
+                                         labels = character()))
+})
+
+test_that("'chk_interval_diff_gt_one' returns expected message with invalid inputs", {
+    expect_identical(chk_interval_diff_gt_one(int_low = c(15, 20, NA),
+                                              int_up = c(16, 25, NA),
+                                              is_low_up = c(TRUE, FALSE, FALSE),
+                                              labels = c("15-15", "20-24", NA)),
+                     "\"15-15\" not a valid interval label : difference between upper and lower limits less than or equal to 1")
 })
 
 
@@ -176,30 +176,30 @@ test_that("'chk_dim_min_length' returns expected message with invalid character 
 ## chk_intervals_inide_breaks -------------------------------------------------
     
 test_that("'chk_intervals_inside_breaks' returns TRUE with valid inputs", {
-    expect_true(chk_intervals_inside_breaks(age_low = c(0L, 5L, 10L, 15L),
-                                           age_up = c(5L, 10L, 15L, NA),
+    expect_true(chk_intervals_inside_breaks(int_low = c(0L, 5L, 10L, 15L),
+                                           int_up = c(5L, 10L, 15L, NA),
                                            labels = c("0-4", "5-9", "10-14", "15+"),
                                            breaks = c(0, 5, 10, 15)))
-    expect_true(chk_intervals_inside_breaks(age_low = 0:4,
-                                           age_up = 1:5,
+    expect_true(chk_intervals_inside_breaks(int_low = 0:4,
+                                           int_up = 1:5,
                                            labels = c("0", "1", "2", "3", "4"),
                                            breaks = 0:10))
-    expect_true(chk_intervals_inside_breaks(age_low = integer(),
-                                           age_up = integer(),
+    expect_true(chk_intervals_inside_breaks(int_low = integer(),
+                                           int_up = integer(),
                                            labels = charcter(),
                                            breaks = 0:10))
-    expect_true(chk_intervals_inside_breaks(age_low = NA_integer_,
-                                           age_up = NA_integer_,
+    expect_true(chk_intervals_inside_breaks(int_low = NA_integer_,
+                                           int_up = NA_integer_,
                                            labels = NA_character_,
                                            breaks = 0:10))
 })
                 
 test_that("'chk_intervals_inside_breaks' returns expected message with invalid argument", {
-    expect_identical(chk_intervals_inside_breaks(age_low = c(0L, 5L, 10L, 15L),
-                                                age_up = c(6L, 10L, 15L, NA),
+    expect_identical(chk_intervals_inside_breaks(int_low = c(0L, 5L, 10L, 15L),
+                                                int_up = c(6L, 10L, 15L, NA),
                                                 labels = c("0-5", "5-9", "10-14", "15+"),
                                                 breaks = c(0, 5, 10, 15)),
-                     "age group \"0-5\" intersects two or more intervals")
+                     "\"0-5\" intersects two or more intervals")
 })
 
 

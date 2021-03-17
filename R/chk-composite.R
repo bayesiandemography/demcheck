@@ -7,39 +7,38 @@
 ## has no \code{NA}s, and whether \code{all(diff(x)) == 1L}.
 
 
-#' Check that all age groups fall within limits
+#' Check that all intervals fall within limits
 #' imposed by 'break_min' or 'break_max'
 #'
 #' All age groups are assumed to be closed.
 #'
-#' @param labels A vector of age group labels.
-#' @param age_low A numeric vector. The lower
-#' breaks for the age groups.
-#' @param age_up A numeric vector. The upper
-#' breaks for the age groups.
-#' @param break_min Integer. Ages must be equal
-#' to or greater than this.
-#' for \code{age}.
-#' @param break_max Integer. Ages must be
-#' lower than this.
+#' @param labels A vector of interval labels.
+#' @param int_low An integer vector. The lower
+#' breaks for the intervals.
+#' @param int_up An integer vector. The upper
+#' breaks for the intervals.
+#' @param break_min Integer. Lower limit for all intervals,
+#' expect for left open interval if present.
+#' @param break_max Integer. Upper limit for all intervals,
+#' except for right open interval if preseent.
 #'
 #' @examples
-#' chk_age_label_ge_break_min(labels = c("15-19", "20", "100-104"),
-#'                            age_low = c(15, 20, 100, NA),
-#'                            break_min = 15)
-#' chk_age_label_le_break_max(labels = c("20-24", "45-49", NA),
-#'                           age_up = c(25, 50, NA),
-#'                           break_max = 50)
-#' @name chk_age_label_ge_break_min
+#' chk_interval_label_ge_break_min(labels = c("15-19", "20", "100-104"),
+#'                                 int_low = c(15, 20, 100, NA),
+#'                                 break_min = 15)
+#' chk_interval_label_le_break_max(labels = c("20-24", "45-49", NA),
+#'                                 int_up = c(25, 50, NA),
+#'                                 break_max = 50)
+#' @name chk_interval_label_ge_break_min
 NULL
 
 #' @export
-#' @rdname chk_age_label_ge_break_min
-chk_age_label_ge_break_min <- function(labels, age_low, break_min) {
-    is_too_low <- !is.na(age_low) & (age_low < break_min)
+#' @rdname chk_interval_label_ge_break_min
+chk_interval_label_ge_break_min <- function(labels, int_low, break_min) {
+    is_too_low <- !is.na(int_low) & (int_low < break_min)
     i_too_low <- match(TRUE, is_too_low, nomatch = 0L)
     if (i_too_low > 0L)
-        return(gettextf("age group \"%s\" below '%s' [%d]",
+        return(gettextf("interval \"%s\" below '%s' [%d]",
                         labels[[i_too_low]],
                         "break_min",
                         break_min))
@@ -47,12 +46,12 @@ chk_age_label_ge_break_min <- function(labels, age_low, break_min) {
 }
 
 #' @export
-#' @rdname chk_age_label_ge_break_min
-chk_age_label_le_break_max <- function(labels, age_up, break_max) {
-    is_too_high <- !is.na(age_up) & (age_up > break_max)
+#' @rdname chk_interval_label_ge_break_min
+chk_interval_label_le_break_max <- function(labels, int_up, break_max) {
+    is_too_high <- !is.na(int_up) & (int_up > break_max)
     i_too_high <- match(TRUE, is_too_high, nomatch = 0L)
     if (i_too_high > 0L)
-        return(gettextf("age group \"%s\" above '%s' [%d]",
+        return(gettextf("interval \"%s\" above '%s' [%d]",
                         labels[[i_too_high]],
                         "break_max",
                         break_max))
@@ -62,27 +61,27 @@ chk_age_label_le_break_max <- function(labels, age_up, break_max) {
 
 ## HAS_TESTS
 #' Check that difference between upper and lower limits of
-#' age groups greater than 1
+#' interval greater than 1
 #'
-#' Check applies to age groups with labels that have
+#' Check applies to intervals with labels that have
 #' a "low-up" format, ie not single-year age groups,
-#' not open age groups, and not missing.
+#' not open age groups or cohorts, and not missing.
 #'
-#' @inheritParams chk_age_label_ge_break_min
+#' @inheritParams chk_interval_label_ge_break_min
 #' @param is_low_up Logical. Whether label
 #' has "low-up" format, eg "15-19".
 #'
 #' @examples
-#' chk_age_diff_gt_one(age_low = c(0, 1, 5, 10),
-#'                     age_up = c(1, 5, 10, NA),
-#'                     is_low_up = c(TRUE, TRUE, TRUE, FALSE),
-#'                     labels = c("0", "1-4", "5-9", "10+"))
+#' chk_interval_diff_gt_one(int_low = c(0, 1, 5, 10),
+#'                          int_up = c(1, 5, 10, NA),
+#'                          is_low_up = c(TRUE, TRUE, TRUE, FALSE),
+#'                          labels = c("0", "1-4", "5-9", "10+"))
 #' @export
-chk_age_diff_gt_one <- function(age_low, age_up, is_low_up, labels) {
-    is_diff_le <- age_up[is_low_up] - age_low[is_low_up] <= 1L
+chk_interval_diff_gt_one <- function(int_low, int_up, is_low_up, labels) {
+    is_diff_le <- int_up[is_low_up] - int_low[is_low_up] <= 1L
     i_diff_le <- match(TRUE, is_diff_le, nomatch = 0L)
     if (i_diff_le > 0L)
-        return(gettextf("\"%s\" not a valid age group label : difference between upper and lower limits less than or equal to 1",
+        return(gettextf("\"%s\" not a valid interval label : difference between upper and lower limits less than or equal to 1",
                         labels[is_low_up][[i_diff_le]]))
     TRUE
 }
@@ -243,29 +242,29 @@ chk_dim_min_length <- function(length_actual, length_min, name) {
 
 
 ## HAS_TESTS
-#' Check that invervals defined by 'age_low' and 'age_high'
+#' Check that invervals defined by 'int_low' and 'int_high'
 #' fall within intervals defined by 'breaks'
 #'
-#' @inheritParams chk_age_label_ge_break_min
+#' @inheritParams chk_interval_label_ge_break_min
 #' @param breaks Vector of strictly increasing integers.
 #'
 #' @examples
-#' chk_intervals_inside_breaks(age_low = c(0, 1, 5, 10),
-#'                             age_up = c(1, 5, 10, NA),
+#' chk_intervals_inside_breaks(int_low = c(0, 1, 5, 10),
+#'                             int_up = c(1, 5, 10, NA),
 #'                             breaks = c(0, 5, 10, 15),
 #'                             labels = c("0", "1-4", "5-9", "10+"))
 #' @export
-chk_intervals_inside_breaks <- function(age_low, age_up, breaks, labels) {
-    i_int_low <- findInterval(age_low, breaks)
-    i_int_up <- findInterval(age_up, breaks)
-    up_is_break <- age_up %in% breaks
-    is_valid <- (is.na(age_low)
-        | is.na(age_up)
+chk_intervals_inside_breaks <- function(int_low, int_up, breaks, labels) {
+    i_int_low <- findInterval(int_low, breaks)
+    i_int_up <- findInterval(int_up, breaks)
+    up_is_break <- int_up %in% breaks
+    is_valid <- (is.na(int_low)
+        | is.na(int_up)
         | (!up_is_break & (i_int_up == i_int_low))
         | (up_is_break & (i_int_up == i_int_low + 1L)))
     i_invalid <- match(FALSE, is_valid, nomatch = 0L)
     if (i_invalid > 0L)
-        return(gettextf("age group \"%s\" intersects two or more intervals",
+        return(gettextf("\"%s\" intersects two or more intervals",
                         labels[[i_invalid]]))
     TRUE
 }

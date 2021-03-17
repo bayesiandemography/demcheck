@@ -3,27 +3,27 @@
 
 
 #' @export
-#' @rdname chk_age_label_ge_break_min
-err_age_label_ge_break_min <- function(labels, age_low, break_min) {
-    val <- chk_age_label_ge_break_min(labels, age_low, break_min)
+#' @rdname chk_interval_label_ge_break_min
+err_interval_label_ge_break_min <- function(labels, int_low, break_min) {
+    val <- chk_interval_label_ge_break_min(labels, int_low, break_min)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname chk_age_label_ge_break_min
-err_age_label_le_break_max <- function(labels, age_up, break_max) {
-    val <- chk_age_label_le_break_max(labels, age_up, break_max)
+#' @rdname chk_interval_label_ge_break_min
+err_interval_label_le_break_max <- function(labels, int_up, break_max) {
+    val <- chk_interval_label_le_break_max(labels, int_up, break_max)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
 #' @export
-#' @rdname chk_age_diff_gt_one
-err_age_diff_gt_one <- function(age_low, age_up, is_low_up, labels) {
-    val <- chk_age_diff_gt_one(age_low, age_up, is_low_up, labels)
+#' @rdname chk_interval_diff_gt_one
+err_interval_diff_gt_one <- function(int_low, int_up, is_low_up, labels) {
+    val <- chk_interval_diff_gt_one(int_low, int_up, is_low_up, labels)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -76,8 +76,8 @@ err_dim_min_length <- function(length_actual, length_min, name) {
 
 #' @export
 #' @rdname chk_intervals_inside_breaks
-err_intervals_inside_breaks <- function(age_low, age_up, breaks, labels) {
-    val <- chk_intervals_inside_breaks(age_low, age_up, breaks, labels)
+err_intervals_inside_breaks <- function(int_low, int_up, breaks, labels) {
+    val <- chk_intervals_inside_breaks(int_low, int_up, breaks, labels)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

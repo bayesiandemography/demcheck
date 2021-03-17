@@ -3,31 +3,31 @@
 \name{chk_intervals_inside_breaks}
 \alias{chk_intervals_inside_breaks}
 \alias{err_intervals_inside_breaks}
-\title{Check that invervals defined by 'age_low' and 'age_high'
+\title{Check that invervals defined by 'int_low' and 'int_high'
 fall within intervals defined by 'breaks'}
 \usage{
-chk_intervals_inside_breaks(age_low, age_up, breaks, labels)
+chk_intervals_inside_breaks(int_low, int_up, breaks, labels)
 
-err_intervals_inside_breaks(age_low, age_up, breaks, labels)
+err_intervals_inside_breaks(int_low, int_up, breaks, labels)
 }
 \arguments{
-\item{age_low}{A numeric vector. The lower
-breaks for the age groups.}
+\item{int_low}{An integer vector. The lower
+breaks for the intervals.}
 
-\item{age_up}{A numeric vector. The upper
-breaks for the age groups.}
+\item{int_up}{An integer vector. The upper
+breaks for the intervals.}
 
 \item{breaks}{Vector of strictly increasing integers.}
 
-\item{labels}{A vector of age group labels.}
+\item{labels}{A vector of interval labels.}
 }
 \description{
-Check that invervals defined by 'age_low' and 'age_high'
+Check that invervals defined by 'int_low' and 'int_high'
 fall within intervals defined by 'breaks'
 }
 \examples{
-chk_intervals_inside_breaks(age_low = c(0, 1, 5, 10),
-                            age_up = c(1, 5, 10, NA),
+chk_intervals_inside_breaks(int_low = c(0, 1, 5, 10),
+                            int_up = c(1, 5, 10, NA),
                             breaks = c(0, 5, 10, 15),
                             labels = c("0", "1-4", "5-9", "10+"))
 }
