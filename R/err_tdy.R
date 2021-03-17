@@ -156,8 +156,10 @@ err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok, equal_o
 #' @param open_first Whether the first interval is open on the left.
 #'
 #' @seealso \code{\link{err_tdy_breaks_date_period}},
-#' \code{\link{err_tdy_breaks_integer_age}}
-#' \code{\link{err_tdy_breaks_integer_enum}}
+#' \code{\link{err_tdy_breaks_integer_age}},
+#' \code{\link{err_tdy_breaks_integer_cohort}},
+#' \code{\link{err_tdy_breaks_integer_enum}},
+#' \code{\link{err_tdy_breaks_integer_period}}
 #'
 #' @examples
 #' breaks <- c("2000-01-01", "2010-01-01", "2020-01-01")
@@ -194,8 +196,10 @@ err_tdy_breaks_date_cohort <- function(breaks, open_first) {
 #' @inheritParams err_tdy_breaks_date_cohort
 #'
 #' @seealso \code{\link{err_tdy_breaks_date_cohort}},
-#' \code{\link{err_tdy_breaks_integer_age}}
-#' \code{\link{err_tdy_breaks_integer_enum}}
+#' \code{\link{err_tdy_breaks_integer_age}},
+#' \code{\link{err_tdy_breaks_integer_cohort}},
+#' \code{\link{err_tdy_breaks_integer_enum}},
+#' \code{\link{err_tdy_breaks_integer_period}}
 #'
 #' @examples
 #' breaks <- c("2000-01-01", "2010-01-01", "2020-01-01")
@@ -225,7 +229,9 @@ err_tdy_breaks_date_period <- function(breaks) {
 #'
 #' @seealso \code{\link{err_tdy_breaks_date_cohort}},
 #' \code{\link{err_tdy_breaks_date_period}},
-#' \code{\link{err_tdy_breaks_integer_enum}}
+#' \code{\link{err_tdy_breaks_integer_cohort}},
+#' \code{\link{err_tdy_breaks_integer_enum}},
+#' \code{\link{err_tdy_breaks_integer_period}}
 #'
 #' @examples
 #' breaks <- c(0L, 15L, 65L)
@@ -258,6 +264,47 @@ err_tdy_breaks_integer_age <- function(breaks, open_last) {
 }
 
 
+## NO_TESTS
+#' Check and tidy a vector of integer breaks used to define periods
+#'
+#' @inheritParams err_tdy_breaks_integer_age
+#' @param open_first Whether the first interval is open on the left.
+#'
+#' @seealso \code{\link{err_tdy_breaks_date_cohort}},
+#' \code{\link{err_tdy_breaks_date_period}},
+#' \code{\link{err_tdy_breaks_integer_age}},
+#' \code{\link{err_tdy_breaks_integer_enum}},
+#' \code{\link{err_tdy_breaks_integer_period}}
+#'
+#' @examples
+#' breaks <- c(2000, 2010, 2020)
+#' err_tdy_breaks_integer_cohort(breaks,
+#'                               open_first = TRUE)
+#' @export
+err_tdy_breaks_integer_cohort <- function(breaks, open_first) {
+    n <- length(breaks)
+    if (n == 0L) {
+        if (open_first)
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          "breaks", 0L, "open_first", "TRUE"))
+    }
+    if (n == 1L) {
+        if (!open_first)
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          "breaks", 1L, "open_first", "FALSE"))
+    }
+    err_not_na_vector(x = breaks,
+                      name = "breaks")
+    err_finite_vector(x = breaks,
+                      name = "breaks")
+    err_is_integer_equiv_vector(x = breaks,
+                                name = "breaks")
+    err_strictly_increasing(x = breaks,
+                            name = "breaks")
+    as.integer(breaks)
+}
+
+
 ## HAS_TESTS
 #' Check and tidy a vector of breaks used to define enumerations
 #'
@@ -266,7 +313,9 @@ err_tdy_breaks_integer_age <- function(breaks, open_last) {
 #'
 #' @seealso \code{\link{err_tdy_breaks_date_cohort}},
 #' \code{\link{err_tdy_breaks_date_period}},
-#' \code{\link{err_tdy_breaks_integer_age}}
+#' \code{\link{err_tdy_breaks_integer_age}},
+#' \code{\link{err_tdy_breaks_integer_cohort}},
+#' \code{\link{err_tdy_breaks_integer_period}}
 #'
 #' @examples
 #' breaks <- c(0, 1000, 5000, 20000)
@@ -297,6 +346,39 @@ err_tdy_breaks_integer_enum <- function(breaks, open_first, open_last) {
                                 name = "breaks")
     err_strictly_increasing(x = breaks,
                                name = "breaks")
+    as.integer(breaks)
+}
+
+
+## NO_TESTS
+#' Check and tidy a vector of integer breaks used to define periods
+#'
+#' @inheritParams err_tdy_breaks_integer_age
+#'
+#' @seealso \code{\link{err_tdy_breaks_date_cohort}},
+#' \code{\link{err_tdy_breaks_date_period}},
+#' \code{\link{err_tdy_breaks_integer_age}},
+#' \code{\link{err_tdy_breaks_integer_cohort}},
+#' \code{\link{err_tdy_breaks_integer_enum}}
+#'
+#' @examples
+#' breaks <- c(2000, 2010, 2020)
+#' err_tdy_breaks_integer_period(breaks)
+#' @export
+err_tdy_breaks_integer_period <- function(breaks) {
+    n <- length(breaks)
+    if (n == 1L) {
+        stop(gettextf("'%s' has length %d",
+                      "breaks", 1L))
+    }
+    err_not_na_vector(x = breaks,
+                      name = "breaks")
+    err_finite_vector(x = breaks,
+                      name = "breaks")
+    err_is_integer_equiv_vector(x = breaks,
+                                name = "breaks")
+    err_strictly_increasing(x = breaks,
+                            name = "breaks")
     as.integer(breaks)
 }
 

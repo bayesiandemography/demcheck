@@ -83,7 +83,7 @@ test_that("'err_tdy_break_min_max_date' raises expected error with invalid input
 })
 
 
-## err_tdy_break_min_max_integer
+## err_tdy_break_min_max_integer ----------------------------------------------
 
 test_that("'err_tdy_break_min_max_integer' works with valid input", {
     expect_identical(err_tdy_break_min_max_integer(break_min = 0,
@@ -154,7 +154,7 @@ test_that("'err_tdy_break_min_max_integer' raises expected error with invalid in
 })
 
 
-## err_tdy_breaks_date_cohort
+## err_tdy_breaks_date_cohort -------------------------------------------------
 
 test_that("'err_tdy_breaks_date_cohort' returns breaks with valid input", {
     expect_identical(err_tdy_breaks_date_cohort(breaks = c("2000-01-01", "2001-01-01"),
@@ -192,7 +192,7 @@ test_that("'err_tdy_breaks_date_cohort' raises expected error with invalid input
 })
 
 
-## err_tdy_breaks_date_period
+## err_tdy_breaks_date_period -------------------------------------------------
 
 test_that("'err_tdy_breaks_date_period' returns breaks with valid input", {
     expect_identical(err_tdy_breaks_date_period(breaks = c("2000-01-01", "2001-01-01")),
@@ -217,7 +217,7 @@ test_that("'err_tdy_breaks_date_period' raises expected error with invalid input
 })
 
 
-## err_tdy_breaks_integer_age
+## err_tdy_breaks_integer_age -------------------------------------------------
 
 test_that("'err_tdy_breaks_integer_age' returns breaks with valid input", {
     expect_identical(err_tdy_breaks_integer_age(breaks = 0:4,
@@ -264,7 +264,38 @@ test_that("'err_tdy_breaks_integer_age' raises expected error with invalid input
                  "'breaks' is not strictly increasing : element 1 \\[1\\] is greater than or equal to element 2 \\[0\\]")
 })
 
-## err_tdy_breaks_integer_enum
+
+## err_tdy_breaks_integer_cohort ----------------------------------------------
+
+test_that("'err_tdy_breaks_integer_cohort' returns breaks with valid input", {
+    expect_identical(err_tdy_breaks_integer_cohort(breaks = 2000:2004,
+                                                   open_first = FALSE),
+                     2000:2004)
+    expect_identical(err_tdy_breaks_integer_cohort(breaks = seq(1900, 2000, 5),
+                                                   open_first = FALSE),
+                     seq.int(1900L, 2000L, 5L))
+    expect_identical(err_tdy_breaks_integer_cohort(breaks = c(0, 1),
+                                                   open_first = TRUE),
+                     c(0L, 1L))
+    expect_identical(err_tdy_breaks_integer_cohort(breaks = integer(),
+                                                   open_first = FALSE),
+                     integer())
+    expect_identical(err_tdy_breaks_integer_cohort(breaks = 0,
+                                                   open_first = TRUE),
+                     0L)
+})
+    
+test_that("'err_tdy_breaks_integer_cohort' raises expected error with invalid input", {
+    expect_error(err_tdy_breaks_integer_cohort(breaks = numeric(),
+                                             open_first = TRUE),
+                 "'breaks' has length 0 but 'open_first' is TRUE")
+    expect_error(err_tdy_breaks_integer_cohort(breaks = 10,
+                                             open_first = FALSE),
+                 "'breaks' has length 1 but 'open_first' is FALSE")
+})
+
+
+## err_tdy_breaks_integer_enum ------------------------------------------------
 
 test_that("'err_tdy_breaks_integer_enum' returns breaks with valid input", {
     expect_identical(err_tdy_breaks_integer_enum(breaks = 0:4,
@@ -322,10 +353,29 @@ test_that("'err_tdy_breaks_integer_enum' raises expected error with invalid inpu
                                              open_first = FALSE,
                                              open_last = FALSE),
                  "'breaks' is not strictly increasing : element 1 \\[1\\] is greater than or equal to element 2 \\[0\\]")
-})    
+})
 
 
-## err_tdy_date_scalar
+## err_tdy_breaks_integer_period ----------------------------------------------
+
+test_that("'err_tdy_breaks_integer_period' returns breaks with valid input", {
+    expect_identical(err_tdy_breaks_integer_period(breaks = 2000:2004),
+                     2000:2004)
+    expect_identical(err_tdy_breaks_integer_period(breaks = seq(1900, 2000, 5)),
+                     seq.int(1900L, 2000L, 5L))
+    expect_identical(err_tdy_breaks_integer_period(breaks = c(0, 1)),
+                     c(0L, 1L))
+    expect_identical(err_tdy_breaks_integer_period(breaks = integer()),
+                     integer())
+})
+    
+test_that("'err_tdy_breaks_integer_period' raises expected error with invalid input", {
+    expect_error(err_tdy_breaks_integer_period(breaks = 10),
+                 "'breaks' has length 1")
+})
+
+
+## err_tdy_date_scalar --------------------------------------------------------
 
 test_that("'err_tdy_date_scalar' returns dates with valid input", {
     x <- "2001-01-01"
@@ -358,7 +408,7 @@ test_that("'err_tdy_date_scalar' raises expected error with invalid input", {
 })
 
 
-## err_tdy_date_vector
+## err_tdy_date_vector --------------------------------------------------------
 
 test_that("'err_tdy_date_vector' returns dates with valid input", {
     x <- c("2001-01-01", "2002-01-01")
@@ -392,7 +442,7 @@ test_that("'err_tdy_date_vector' raises expected error with invalid input", {
 })
 
 
-## err_tdy_date_dob
+## err_tdy_date_dob -----------------------------------------------------------
 
 test_that("'err_tdy_date_dob' returns dates with valid input", {
     date <- as.Date(c("2001-01-01", "2002-01-01"))
@@ -456,7 +506,7 @@ test_that("'err_tdy_month_start' raises expected error with invalid input", {
 })
     
 
-## err_tdy_integer_scalar
+## err_tdy_integer_scalar -----------------------------------------------------
 
 test_that("'err_tdy_integer_scalar' works with valid inputs", {
     expect_identical(err_tdy_integer_scalar(x = 1, name = "x"),
@@ -482,7 +532,7 @@ test_that("'err_tdy_integer_scalar' raises expected error with invalid input", {
 })
 
 
-## err_tdy_integer_vector
+## err_tdy_integer_vector -----------------------------------------------------
 
 test_that("'err_tdy_integer_vector' works with valid inputs", {
     expect_identical(err_tdy_integer_vector(x = c(1, NA, 22, -1), name = "x"),
@@ -507,7 +557,7 @@ test_that("'err_tdy_integer_vector' raises expected error with invalid input", {
 })
 
 
-## err_tdy_many_to_one
+## err_tdy_many_to_one --------------------------------------------------------
 
 test_that("'err_tdy_many_to_one' works with valid inputs", {
     x <- data.frame(a = 1:2, b = c("z", "z"))

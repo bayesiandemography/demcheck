@@ -25,5 +25,7 @@ err_tdy_breaks_integer_enum(breaks,
 \seealso{
 \code{\link{err_tdy_breaks_date_cohort}},
 \code{\link{err_tdy_breaks_date_period}},
-\code{\link{err_tdy_breaks_integer_age}}
+\code{\link{err_tdy_breaks_integer_age}},
+\code{\link{err_tdy_breaks_integer_cohort}},
+\code{\link{err_tdy_breaks_integer_period}}
 }
