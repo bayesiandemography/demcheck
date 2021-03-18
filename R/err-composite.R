@@ -20,8 +20,17 @@ err_interval_label_le_break_max <- function(labels, int_up, break_max) {
     TRUE
 }
 
+#' @rdname chk_interval_diff_ge_one
 #' @export
-#' @rdname chk_interval_diff_gt_one
+err_interval_diff_ge_one <- function(int_low, int_up, is_low_up, labels) {
+    val <- chk_interval_diff_ge_one(int_low, int_up, is_low_up, labels)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_interval_diff_ge_one
+#' @export
 err_interval_diff_gt_one <- function(int_low, int_up, is_low_up, labels) {
     val <- chk_interval_diff_gt_one(int_low, int_up, is_low_up, labels)
     if (is.character(val))

@@ -61,7 +61,7 @@ chk_interval_label_le_break_max <- function(labels, int_up, break_max) {
 
 ## HAS_TESTS
 #' Check that difference between upper and lower limits of
-#' interval greater than 1
+#' interval greater than or equal to 1
 #'
 #' Check applies to intervals with labels that have
 #' a "low-up" format, ie not single-year age groups,
@@ -76,6 +76,21 @@ chk_interval_label_le_break_max <- function(labels, int_up, break_max) {
 #'                          int_up = c(1, 5, 10, NA),
 #'                          is_low_up = c(TRUE, TRUE, TRUE, FALSE),
 #'                          labels = c("0", "1-4", "5-9", "10+"))
+#' @name chk_interval_diff_ge_one
+NULL
+
+#' @rdname chk_interval_diff_ge_one
+#' @export
+chk_interval_diff_ge_one <- function(int_low, int_up, is_low_up, labels) {
+    is_diff_lt <- int_up[is_low_up] - int_low[is_low_up] < 1L
+    i_diff_lt <- match(TRUE, is_diff_lt, nomatch = 0L)
+    if (i_diff_lt > 0L)
+        return(gettextf("\"%s\" not a valid interval label : difference between upper and lower limits less than 1",
+                        labels[is_low_up][[i_diff_lt]]))
+    TRUE
+}
+
+#' @rdname chk_interval_diff_ge_one
 #' @export
 chk_interval_diff_gt_one <- function(int_low, int_up, is_low_up, labels) {
     is_diff_le <- int_up[is_low_up] - int_low[is_low_up] <= 1L
