@@ -204,12 +204,32 @@ chk_map_pos <- function(x, name) {
 #'
 #' @export
 chk_no_open_age <- function(x) {
-    p_open <- "[0-9]+\\+$"
+    p_open <- "^[0-9]+\\+$"
     is_open <- grepl(p_open, x)
     i_open <- match(TRUE, is_open, nomatch = 0L)
     if (i_open > 0L)
         return(gettextf("'%s' is %s but age group \"%s\" is open",
                         "open_last", "FALSE", x[[i_open]]))
+    TRUE
+}
+
+
+#' Check that labels do not have any open cohorts,
+#' assuming that 'open_first' is FALSE
+#'
+#' @param x A character vector with cohort labels.
+#'
+#' @examples
+#' chk_no_open_cohort(c("2000-2005", "2005-2010", "2010-2015"))
+#'
+#' @export
+chk_no_open_cohort <- function(x) {
+    p_open <- "^<-?[0-9]+$"
+    is_open <- grepl(p_open, x)
+    i_open <- match(TRUE, is_open, nomatch = 0L)
+    if (i_open > 0L)
+        return(gettextf("'%s' is %s but cohort \"%s\" is open",
+                        "open_first", "FALSE", x[[i_open]]))
     TRUE
 }
 

@@ -47,3 +47,12 @@ err_no_open_age <- function(x) {
     TRUE
 }
 
+#' @export
+#' @rdname chk_no_open_cohort
+err_no_open_cohort <- function(x) {
+    val <- chk_no_open_cohort(x)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+

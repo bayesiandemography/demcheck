@@ -68,7 +68,22 @@ test_that("'chk_no_open_age' works with valid input", {
     expect_true(chk_no_open_age(x = character()))
 })
     
-test_that("'chk_map_dim' returns expected message with invalid inputs", {
+test_that("'chk_no_open_age' returns expected message with invalid inputs", {
     expect_identical(chk_no_open_age(x = c("0", "77", "100+", "50-90", NA)),
                      "'open_last' is FALSE but age group \"100+\" is open")    
+})
+
+
+## chk_no_open_cohort ---------------------------------------------------------
+
+test_that("'chk_no_open_cohort' works with valid input", {
+    expect_true(chk_no_open_cohort(x = c("2000", "2077", "1950-1990", NA)))
+    expect_true(chk_no_open_cohort(x = character()))
+})
+    
+test_that("'chk_no_open_age' returns expected message with invalid inputs", {
+    expect_identical(chk_no_open_cohort(x = c("<2000", "2077", "1950-1990", NA)),
+                     "'open_first' is FALSE but cohort \"<2000\" is open")    
+    expect_identical(chk_no_open_cohort(x = c("2000", "2077", "<-500", NA)),
+                     "'open_first' is FALSE but cohort \"<-500\" is open")    
 })
