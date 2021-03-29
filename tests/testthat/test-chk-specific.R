@@ -100,6 +100,10 @@ test_that("'chk_open_left_le_break_min' works with valid input", {
                                            int_up = integer(),
                                            is_open = logical(),
                                            break_min = 2000L))
+    expect_true(chk_open_left_le_break_min(labels = c("<2005", "2077", "1950-1990", NA),
+                                           int_up = c(2005L, 2078L, 1990L, NA),
+                                           is_open = c(TRUE, FALSE, FALSE, FALSE),
+                                           break_min = NULL))
 })
     
 test_that("'chk_open_left_le_break_min' returns expected message with invalid inputs", {
@@ -122,6 +126,10 @@ test_that("'chk_open_right_ge_break_max' works with valid input", {
                                             int_low = integer(),
                                             is_open = logical(),
                                             break_max = 2000L))
+    expect_true(chk_open_right_ge_break_max(labels = c("2095+", "2077", "1950-1990", NA),
+                                                 int_low = c(2095L, 2077L, 1950L, NA),
+                                                 is_open = c(TRUE, FALSE, FALSE, FALSE),
+                                                 break_max = NULL))
 })
     
 test_that("'chk_open_right_ge_break_max' returns expected message with invalid inputs", {

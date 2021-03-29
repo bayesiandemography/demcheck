@@ -264,22 +264,26 @@ NULL
 #' @rdname chk_open_left_le_break_min
 #' @export
 chk_open_left_le_break_min <- function(labels, int_up, is_open, break_min) {
-    is_gt_break_min <- !is.na(int_up) & (int_up > break_min) & is_open
-    i_gt_break_min <- match(TRUE, is_gt_break_min, nomatch = 0L)
-    if (i_gt_break_min > 0L)
-        return(gettextf("upper limit of open interval \"%s\" is greater than '%s' [%d]",
-                        labels[[i_gt_break_min]], "break_min", break_min))
+    if (!is.null(break_min)) {
+        is_gt_break_min <- !is.na(int_up) & (int_up > break_min) & is_open
+        i_gt_break_min <- match(TRUE, is_gt_break_min, nomatch = 0L)
+        if (i_gt_break_min > 0L)
+            return(gettextf("upper limit of open interval \"%s\" is greater than '%s' [%d]",
+                            labels[[i_gt_break_min]], "break_min", break_min))
+    }
     TRUE
 }
 
 #' @rdname chk_open_left_le_break_min
 #' @export
 chk_open_right_ge_break_max <- function(labels, int_low, is_open, break_max) {
-    is_lt_break_max <- !is.na(int_low) & (int_low < break_max) & is_open
-    i_lt_break_max <- match(TRUE, is_lt_break_max, nomatch = 0L)
-    if (i_lt_break_max > 0L)
-        return(gettextf("lower limit of open interval \"%s\" is less than '%s' [%d]",
-                        labels[[i_lt_break_max]], "break_max", break_max))
+    if (!is.null(break_max)) {
+        is_lt_break_max <- !is.na(int_low) & (int_low < break_max) & is_open
+        i_lt_break_max <- match(TRUE, is_lt_break_max, nomatch = 0L)
+        if (i_lt_break_max > 0L)
+            return(gettextf("lower limit of open interval \"%s\" is less than '%s' [%d]",
+                            labels[[i_lt_break_max]], "break_max", break_max))
+    }
     TRUE
 }
 
