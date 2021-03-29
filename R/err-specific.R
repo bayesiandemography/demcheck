@@ -56,3 +56,21 @@ err_no_open_cohort <- function(x) {
     TRUE
 }
 
+#' @rdname chk_open_left_le_break_min
+#' @export
+err_open_left_le_break_min <- function(labels, int_up, is_open, break_min) {
+    val <- chk_open_left_le_break_min(labels, int_up, is_open, break_min)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_open_left_le_break_min
+#' @export
+err_open_right_ge_break_max <- function(labels, int_low, is_open, break_max) {
+    val <- chk_open_right_ge_break_max(labels, int_low, is_open, break_max)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+

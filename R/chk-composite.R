@@ -1283,9 +1283,6 @@ chk_null_ifonlyif_null <- function(x1, x2, name1, name2) {
     TRUE
 }
 
-
-
-
 #' Check that elements of a scalar or vector are positive
 #'
 #' NAs are ignored.

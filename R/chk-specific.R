@@ -234,3 +234,54 @@ chk_no_open_cohort <- function(x) {
 }
 
 
+#' Check that open intervals do not overlap with 'break_min' or 'break_max'
+#'
+#' \code{chk_open_left_le_break_min} assumes that intervals are open
+#' on the left, and checks that they do not exceed \code{break_min}.
+#'
+#' \code{chk_open_right_ge_break_max} assumes that intervals open
+#' on the right, and checks that they do not exceed \code{break_max}.
+#'
+#' @param labels A character vector with age labels.
+#' @param int_low Lower limits of intervals.
+#' @param int_up Upper limits of intervals.
+#' @param is_open Logical vector - whether each interval is open
+#' @param break_min Lowest break.
+#' @param break_max Highest break.
+#'
+#' @examples
+#' chk_open_left_le_break_min(labels = c("2005-2010", "<2000", NA),
+#'                            int_up = c(2010, 2000, NA),
+#'                            is_open = c(FALSE, TRUE, FALSE),
+#'                            break_min = 2000)
+#' chk_open_right_ge_break_max(labels = c("2005-2010", "2010+", NA),
+#'                             int_low = c(2005, 2010, NA),
+#'                             is_open = c(FALSE, TRUE, FALSE),
+#'                             break_max = 2010)
+#' @name chk_open_left_le_break_min
+NULL
+
+#' @rdname chk_open_left_le_break_min
+#' @export
+chk_open_left_le_break_min <- function(labels, int_up, is_open, break_min) {
+    is_gt_break_min <- !is.na(int_up) & (int_up > break_min) & is_open
+    i_gt_break_min <- match(TRUE, is_gt_break_min, nomatch = 0L)
+    if (i_gt_break_min > 0L)
+        return(gettextf("upper limit of open interval \"%s\" is greater than '%s' [%d]",
+                        labels[[i_gt_break_min]], "break_min", break_min))
+    TRUE
+}
+
+#' @rdname chk_open_left_le_break_min
+#' @export
+chk_open_right_ge_break_max <- function(labels, int_low, is_open, break_max) {
+    is_lt_break_max <- !is.na(int_low) & (int_low < break_max) & is_open
+    i_lt_break_max <- match(TRUE, is_lt_break_max, nomatch = 0L)
+    if (i_lt_break_max > 0L)
+        return(gettextf("lower limit of open interval \"%s\" is less than '%s' [%d]",
+                        labels[[i_lt_break_max]], "break_max", break_max))
+    TRUE
+}
+
+
+

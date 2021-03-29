@@ -87,3 +87,47 @@ test_that("'chk_no_open_age' returns expected message with invalid inputs", {
     expect_identical(chk_no_open_cohort(x = c("2000", "2077", "<-500", NA)),
                      "'open_first' is FALSE but cohort \"<-500\" is open")    
 })
+
+
+## chk_open_left_le_break_min -------------------------------------------------
+
+test_that("'chk_open_left_le_break_min' works with valid input", {
+    expect_true(chk_open_left_le_break_min(labels = c("<2000", "2077", "1950-1990", NA),
+                                           int_up = c(2000L, 2078L, 1990L, NA),
+                                           is_open = c(TRUE, FALSE, FALSE, FALSE),
+                                           break_min = 2000L))
+    expect_true(chk_open_left_le_break_min(labels = character(),
+                                           int_up = integer(),
+                                           is_open = logical(),
+                                           break_min = 2000L))
+})
+    
+test_that("'chk_open_left_le_break_min' returns expected message with invalid inputs", {
+    expect_identical(chk_open_left_le_break_min(labels = c("<2005", "2077", "1950-1990", NA),
+                                           int_up = c(2005L, 2078L, 1990L, NA),
+                                           is_open = c(TRUE, FALSE, FALSE, FALSE),
+                                           break_min = 2000L),
+                    "upper limit of open interval \"<2005\" is greater than 'break_min' [2000]")
+})
+
+
+## chk_open_right_ge_break_max ------------------------------------------------
+
+test_that("'chk_open_right_ge_break_max' works with valid input", {
+    expect_true(chk_open_right_ge_break_max(labels = c("2100+", "2077", "1950-1990", NA),
+                                            int_low = c(2100L, 2077L, 1950L, NA),
+                                            is_open = c(TRUE, FALSE, FALSE, FALSE),
+                                            break_max = 2100L))
+    expect_true(chk_open_right_ge_break_max(labels = character(),
+                                            int_low = integer(),
+                                            is_open = logical(),
+                                            break_max = 2000L))
+})
+    
+test_that("'chk_open_right_ge_break_max' returns expected message with invalid inputs", {
+    expect_identical(chk_open_right_ge_break_max(labels = c("2095+", "2077", "1950-1990", NA),
+                                                 int_low = c(2095L, 2077L, 1950L, NA),
+                                                 is_open = c(TRUE, FALSE, FALSE, FALSE),
+                                                 break_max = 2100L),
+                     "lower limit of open interval \"2095+\" is less than 'break_max' [2100]")
+})
