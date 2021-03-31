@@ -56,6 +56,15 @@ err_is_date_or_numeric <- function(x, name) {
     TRUE
 }
 
+#' @export
+#' @rdname chk_is_factor
+err_is_factor <- function(x, name) {
+    val <- chk_is_factor(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
 #' @rdname chk_is_na
 #' @export
 err_is_na_scalar <- function(x, name) {

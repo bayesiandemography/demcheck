@@ -124,6 +124,23 @@ chk_is_date_or_numeric <- function(x, name) {
 }
 
 
+#' Check that a value has type "factor"
+#'
+#' @inheritParams chk_all_0_1
+#' @param x A vector.
+#'
+#' @examples
+#' x <- c("a", "b", "c")
+#' chk_is_factor(x, name = "x")
+#' @export
+chk_is_factor <- function(x, name) {
+    if (!is.factor(x))
+        return(gettextf("'%s' does not have type \"%s\"",
+                        name, "factor"))
+    TRUE
+}
+
+
 #' Check that a scalar is NA, or a vector
 #' is all NA
 #'
