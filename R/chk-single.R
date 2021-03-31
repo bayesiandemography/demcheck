@@ -130,7 +130,7 @@ chk_is_date_or_numeric <- function(x, name) {
 #' @param x A vector.
 #'
 #' @examples
-#' x <- c("a", "b", "c")
+#' x <- factor(c("a", "b", "c"))
 #' chk_is_factor(x, name = "x")
 #' @export
 chk_is_factor <- function(x, name) {

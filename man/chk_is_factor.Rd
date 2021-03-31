@@ -19,6 +19,6 @@ will be used in error messages.}
 Check that a value has type "factor"
 }
 \examples{
-x <- c("a", "b", "c")
+x <- factor(c("a", "b", "c"))
 chk_is_factor(x, name = "x")
 }
