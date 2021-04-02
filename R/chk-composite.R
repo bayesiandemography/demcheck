@@ -726,15 +726,9 @@ chk_first_day_unit_scalar <- function(x, name, unit) {
 #' @export
 #' @rdname chk_first_day_unit_scalar
 chk_first_day_unit_vector <- function(x, name, unit) {
-    val <- chk_not_na_vector(x = x,
-                             name = name)
-    n <- length(x)
+    n <- sum(!is.na(x))
     if (n == 0L)
         return(TRUE)
-    val <- chk_not_na_vector(x = x,
-                             name = name)
-    if (!isTRUE(val))
-        return(val)
     val <- chk_is_date_equiv_vector(x = x,
                                     name = name)
     if (!isTRUE(val))
@@ -746,21 +740,22 @@ chk_first_day_unit_vector <- function(x, name, unit) {
         return(val)
     year <- as.integer(format(x, "%Y"))
     unit_is_year <- identical(unit, "year")
+    year_min <- min(year, na.rm = TRUE)
+    year_max <- max(year, na.rm = TRUE)
     if (unit_is_year) {
-        month <- format(x, "%m")
-        month_start <- month[[1L]]
-        from <- as.Date(sprintf("%d-%s-01", min(year), month_start))
-        to <- as.Date(sprintf("%d-%s-01", max(year) + 1L, month_start))
+        month_start <- format(x[!is.na(x)][[1L]], "%m")
+        from <- as.Date(sprintf("%d-%s-01", year_min, month_start))
+        to <- as.Date(sprintf("%d-%s-01", year_max + 1L, month_start))
     }
     else {
-        from <- as.Date(sprintf("%d-01-01", min(year)))
-        to <- as.Date(sprintf("%d-01-01", max(year) + 1L))
+        from <- as.Date(sprintf("%d-01-01", year_min))
+        to <- as.Date(sprintf("%d-01-01", year_max + 1L))
     }
     seq_expected <- seq.Date(from = from,
                              to = to,
                              by = unit)
-    is_not_in_seq <- !(x %in% seq_expected)
-    i_not_in_seq <- match(TRUE, is_not_in_seq, nomatch = 0L)
+    is_in_seq <- is.na(x) | (x %in% seq_expected)
+    i_not_in_seq <- match(FALSE, is_in_seq, nomatch = 0L)
     if (i_not_in_seq > 0L) {
         msg <- gettextf("element %d [\"%s\"] of '%s' is not the first day of the %s",
                         i_not_in_seq,
