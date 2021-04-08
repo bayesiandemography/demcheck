@@ -158,7 +158,6 @@ err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok, equal_o
 #' @seealso \code{\link{err_tdy_breaks_date_period}},
 #' \code{\link{err_tdy_breaks_integer_age}},
 #' \code{\link{err_tdy_breaks_integer_cohort}},
-#' \code{\link{err_tdy_breaks_integer_enum}},
 #' \code{\link{err_tdy_breaks_integer_period}}
 #'
 #' @examples
@@ -198,7 +197,7 @@ err_tdy_breaks_date_cohort <- function(breaks, open_first) {
 #' @seealso \code{\link{err_tdy_breaks_date_cohort}},
 #' \code{\link{err_tdy_breaks_integer_age}},
 #' \code{\link{err_tdy_breaks_integer_cohort}},
-#' \code{\link{err_tdy_breaks_integer_enum}},
+#' \code{\link{err_tdy_lower_upper_enumeration}},
 #' \code{\link{err_tdy_breaks_integer_period}}
 #'
 #' @examples
@@ -230,7 +229,7 @@ err_tdy_breaks_date_period <- function(breaks) {
 #' @seealso \code{\link{err_tdy_breaks_date_cohort}},
 #' \code{\link{err_tdy_breaks_date_period}},
 #' \code{\link{err_tdy_breaks_integer_cohort}},
-#' \code{\link{err_tdy_breaks_integer_enum}},
+#' \code{\link{err_tdy_lower_upper_enumeration}},
 #' \code{\link{err_tdy_breaks_integer_period}}
 #'
 #' @examples
@@ -273,7 +272,7 @@ err_tdy_breaks_integer_age <- function(breaks, open_last) {
 #' @seealso \code{\link{err_tdy_breaks_date_cohort}},
 #' \code{\link{err_tdy_breaks_date_period}},
 #' \code{\link{err_tdy_breaks_integer_age}},
-#' \code{\link{err_tdy_breaks_integer_enum}},
+#' \code{\link{err_tdy_lower_upper_enumeration}},
 #' \code{\link{err_tdy_breaks_integer_period}}
 #'
 #' @examples
@@ -306,10 +305,20 @@ err_tdy_breaks_integer_cohort <- function(breaks, open_first) {
 
 
 ## HAS_TESTS
-#' Check and tidy a vector of breaks used to define enumerations
+#' Check and tidy 'lower' and 'upper' vectors used to
+#' define enumerations
 #'
-#' @inheritParams err_tdy_breaks_integer_age
-#' @param open_first Whether the first interval is open on the left.
+#' The first element of 'lower' can be \code{NA},
+#' implying that the first interval is open.
+#' The last element of 'upper' can be \code{NA},
+#' implying that the last interval is open.
+#'
+#' There can be gaps between intervals, but intervals
+#' must not overlap. The width of every interval
+#' must be at least 1.
+#' 
+#' @param lower A vector that can be coerced to integer.
+#' @param upper A vector that can be coerced to integer.
 #'
 #' @seealso \code{\link{err_tdy_breaks_date_cohort}},
 #' \code{\link{err_tdy_breaks_date_period}},
@@ -318,35 +327,57 @@ err_tdy_breaks_integer_cohort <- function(breaks, open_first) {
 #' \code{\link{err_tdy_breaks_integer_period}}
 #'
 #' @examples
-#' breaks <- c(0, 1000, 5000, 20000)
-#' err_tdy_breaks_integer_enum(breaks,
-#'                             open_first = TRUE,
-#'                             open_last = TRUE)
+#' lower <- c(NA, 0, 5, 20)
+#' upper <- c(0, 5, 10, NA)
+#' err_tdy_lower_upper_enumeration(lower = lower,
+#'                                 upper = upper)
 #' @export
-err_tdy_breaks_integer_enum <- function(breaks, open_first, open_last) {
-    n <- length(breaks)
-    if (n == 0L) {
-        if (open_first)
-            stop(gettextf("'%s' has length %d but '%s' is %s",
-                          "breaks", 0L, "open_first", "TRUE"))
-        if (open_last)
-            stop(gettextf("'%s' has length %d but '%s' is %s",
-                          "breaks", 0L, "open_last", "TRUE"))
+err_tdy_lower_upper_enumeration <- function(lower, upper) {
+    err_length_same(x1 = lower,
+                    x2 = upper,
+                    name1 = "lower",
+                    name2 = "upper")
+    n <- length(lower)
+    if (identical(n, 0L)) {
+        ans <- list(lower = integer(),
+                    upper = integer())
+        return(ans)
     }
-    if (n == 1L) {
-        if (!open_first && !open_last)
-            stop(gettextf("'%s' has length %d but '%s' and '%s' are both %s",
-                          "breaks", 1L, "open_first", "open_last", "FALSE"))
+    err_not_na_vector(x = lower[-1L], ## allow for first interval open
+                      name = "lower")
+    err_not_na_vector(x = upper[-n], ## allow for last interval open
+                      name = "upper")
+    for (name in c("lower", "upper")) {
+        x <- get(name)
+        err_finite_vector(x = x[!is.na(x)],
+                          name = name)
+        err_is_integer_equiv_vector(x = x[!is.na(x)],
+                                    name = name)
+        err_strictly_increasing(x = x[!is.na(x)],
+                                name = name)
+        assign(x = name, value = as.integer(x))
     }
-    err_not_na_vector(x = breaks,
-                         name = "breaks")
-    err_finite_vector(x = breaks,
-                         name = "breaks")
-    err_is_integer_equiv_vector(x = breaks,
-                                name = "breaks")
-    err_strictly_increasing(x = breaks,
-                               name = "breaks")
-    as.integer(breaks)
+    for (i in 1:n) {
+        low <- lower[[i]]
+        up <- upper[[i]]
+        if (!is.na(low) && !is.na(up) && (up <= low))
+            stop(gettextf("element %d of '%s' [%d] less than or equal to element %d of '%s' [%d]",
+                          i, "upper", up, i, "lower", low),
+                 call. = FALSE)
+    }
+    if (n >= 2L) {
+        for (i in 2:n) {
+            low <- lower[[i]]
+            up <- upper[[i - 1L]]
+            if (low < up)
+                stop(gettextf("element %d of '%s' [%d] less than element %d of '%s' [%d]",
+                              i, "lower", low, i - 1L, "upper", up),
+                     call. = FALSE)
+        }
+    }
+    ans <- list(lower = lower,
+                upper = upper)
+    ans
 }
 
 
@@ -359,7 +390,7 @@ err_tdy_breaks_integer_enum <- function(breaks, open_first, open_last) {
 #' \code{\link{err_tdy_breaks_date_period}},
 #' \code{\link{err_tdy_breaks_integer_age}},
 #' \code{\link{err_tdy_breaks_integer_cohort}},
-#' \code{\link{err_tdy_breaks_integer_enum}}
+#' \code{\link{err_tdy_lower_upper_enumeration}}
 #'
 #' @examples
 #' breaks <- c(2000, 2010, 2020)

@@ -295,64 +295,38 @@ test_that("'err_tdy_breaks_integer_cohort' raises expected error with invalid in
 })
 
 
-## err_tdy_breaks_integer_enum ------------------------------------------------
+## err_tdy_lower_upper_enumeration --------------------------------------------
 
-test_that("'err_tdy_breaks_integer_enum' returns breaks with valid input", {
-    expect_identical(err_tdy_breaks_integer_enum(breaks = 0:4,
-                                                 open_first = FALSE,
-                                                 open_last = FALSE),
-                     0:4)
-    expect_identical(err_tdy_breaks_integer_enum(breaks = c(-100, 0, 5),
-                                                 open_first = FALSE,
-                                                 open_last = FALSE),
-                     c(-100L, 0L, 5L))
-    expect_identical(err_tdy_breaks_integer_enum(breaks = c(0, 1),
-                                                 open_first = TRUE,
-                                                 open_last = FALSE),
-                     c(0L, 1L))
-    expect_identical(err_tdy_breaks_integer_enum(breaks = c(100, 101),
-                                                 open_first = TRUE,
-                                                 open_last = FALSE),
-                     c(100L, 101L))
-    expect_identical(err_tdy_breaks_integer_enum(breaks = integer(),
-                                                 open_first = FALSE,
-                                                 open_last = FALSE),
-                     integer())
-    expect_identical(err_tdy_breaks_integer_enum(breaks = 0,
-                                                 open_first = TRUE,
-                                                 open_last = TRUE),
-                     0L)
+test_that("'err_tdy_lower_upper_enumeration' returns list with valid input", {
+    expect_identical(err_tdy_lower_upper_enumeration(lower = 0:3,
+                                                     upper = 1:4),
+                     list(lower = 0:3,
+                          upper = 1:4))
+    expect_identical(err_tdy_lower_upper_enumeration(lower = c(-100, 0),
+                                                     upper = c(0, 5)),
+                     list(lower = c(-100L, 0L),
+                          upper = c(0L, 5L)))
+    expect_identical(err_tdy_lower_upper_enumeration(lower = c(NA, 0),
+                                                     upper = c(0, 1)),
+                     list(lower = c(NA, 0L),
+                          upper = c(0L, 1L)))
+    expect_identical(err_tdy_lower_upper_enumeration(lower = 0,
+                                                     upper = NA_real_),
+                     list(lower = 0L,
+                          upper = NA_integer_))
+    expect_identical(err_tdy_lower_upper_enumeration(lower = integer(),
+                                                     upper = integer()),
+                     list(lower = integer(),
+                          upper = integer()))
 })
     
-test_that("'err_tdy_breaks_integer_enum' raises expected error with invalid input", {
-    expect_error(err_tdy_breaks_integer_enum(breaks = numeric(),
-                                             open_first = FALSE,
-                                             open_last = TRUE),
-                 "'breaks' has length 0 but 'open_last' is TRUE")
-    expect_error(err_tdy_breaks_integer_enum(breaks = numeric(),
-                                             open_first = TRUE,
-                                             open_last = FALSE),
-                 "'breaks' has length 0 but 'open_first' is TRUE")
-    expect_error(err_tdy_breaks_integer_enum(breaks = 10,
-                                             open_first = FALSE,
-                                             open_last = FALSE),
-                 "'breaks' has length 1 but 'open_first' and 'open_last' are both FALSE")
-    expect_error(err_tdy_breaks_integer_enum(breaks = c(0L, NA),
-                                             open_first = FALSE,
-                                             open_last = FALSE),
-                 "'breaks' has NAs")
-    expect_error(err_tdy_breaks_integer_enum(breaks = c(0L, Inf),
-                                             open_first = FALSE,
-                                             open_last = FALSE),
-                 "'breaks' has infinite values")
-    expect_error(err_tdy_breaks_integer_enum(breaks = c(0L, 1.1),
-                                             open_first = FALSE,
-                                             open_last = FALSE),
-                 "value '1.1' in 'breaks' not equivalent to integer")
-    expect_error(err_tdy_breaks_integer_enum(breaks = c(1L, 0L),
-                                             open_first = FALSE,
-                                             open_last = FALSE),
-                 "'breaks' is not strictly increasing : element 1 \\[1\\] is greater than or equal to element 2 \\[0\\]")
+test_that("'err_tdy_lower_upper_enumeration' raises expected error with invalid input", {
+    expect_error(err_tdy_lower_upper_enumeration(lower = 10,
+                                                 upper = 10),
+                 "element 1 of 'upper' \\[10\\] less than or equal to element 1 of 'lower' \\[10\\]")
+    expect_error(err_tdy_lower_upper_enumeration(lower = c(0L, 5L),
+                                                 upper = c(10L, 15L)),
+                 "element 2 of 'lower' \\[5\\] less than element 1 of 'upper' \\[10\\]")
 })
 
 

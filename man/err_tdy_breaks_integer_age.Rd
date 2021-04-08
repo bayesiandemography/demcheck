@@ -23,6 +23,6 @@ err_tdy_breaks_integer_age(breaks,
 \code{\link{err_tdy_breaks_date_cohort}},
 \code{\link{err_tdy_breaks_date_period}},
 \code{\link{err_tdy_breaks_integer_cohort}},
-\code{\link{err_tdy_breaks_integer_enum}},
+\code{\link{err_tdy_lower_upper_enumeration}},
 \code{\link{err_tdy_breaks_integer_period}}
 }
