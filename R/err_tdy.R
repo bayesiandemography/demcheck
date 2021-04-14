@@ -780,8 +780,8 @@ err_tdy_month <- function(x, name) {
     x_obs <- x[is_obs]
     ## 1, 2, ..., 12
     if (is.numeric(x)) {
-        ans <- demcheck::err_tdy_integer_vector(x = x,
-                                                name = name)
+        ans <- err_tdy_integer_vector(x = x,
+                                      name = name)
         err_integer_in_range(x = x,
                              min = 1L,
                              max = 12L,

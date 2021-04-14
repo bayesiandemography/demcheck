@@ -1,6 +1,35 @@
 
 context("chk-single")
 
+## chk_at_most_one_na_vector --------------------------------------------------
+
+test_that("'chk_at_most_one_na_vector' returns TRUE with valid inputs", {
+    expect_true(chk_at_most_one_na_vector(x = c(0L, NA, 1L), name = "x"))
+    expect_true(chk_at_most_one_na_vector(x = c(0L, 1L), name = "x"))
+    expect_true(chk_at_most_one_na_vector(x = character(), name = "x"))
+    expect_true(chk_at_most_one_na_vector(x = NA, name = "x"))
+})
+
+test_that("'chk_at_most_one_na_vector' returns expected string with invalid inputs", {
+    expect_identical(chk_at_most_one_na_vector(x = c(0L, 1L, NA, NA), name = "x"),
+                     "'x' has 2 NAs")
+})
+
+## chk_at_most_one_na_list --------------------------------------------------
+
+test_that("'chk_at_most_one_na_list' returns TRUE with valid inputs", {
+    expect_true(chk_at_most_one_na_list(x = list(c(0L, NA, 1L), 1L), name = "x"))
+    expect_true(chk_at_most_one_na_list(x = list(c(0L, 1L), c(NA, NA)), name = "x"))
+    expect_true(chk_at_most_one_na_list(x = list(character()), name = "x"))
+    expect_true(chk_at_most_one_na_list(x = list(c(NA, NA)), name = "x"))
+})
+
+test_that("'chk_at_most_one_na_list' returns expected string with invalid inputs", {
+    expect_identical(chk_at_most_one_na_list(x = list(c(NA, NA), NA), name = "x"),
+                     "'x' has 2 items where all elements are NAs")
+})
+
+
 ## chk_is_date_equiv_scalar ---------------------------------------------------
 
 test_that("'chk_is_date_equiv_scalar' returns TRUE with valid dates", {
@@ -80,6 +109,128 @@ test_that("'chk_is_integer_equiv_vector' returns expected string with invalid in
                                                  name = "x"),
                      "value 'a' in 'x' not equivalent to integer")
 })
+
+
+## chk_items_increasing ----------------------------------------------------------
+
+test_that("'chk_items_increasing' returns TRUE with valid inputs", {
+    expect_true(chk_items_increasing(x = list(c(0L, 2L), integer(), c(0, NA, 2, 3)),
+                                     strict = TRUE,
+                                     name = "x"))
+    expect_true(chk_items_increasing(x = list(c(0L, 0L, 2L), integer(), c(0, NA, 2, 3)),
+                                     strict = FALSE,
+                                     name = "x"))
+    expect_true(chk_items_increasing(x = list(), strict = TRUE, name = "x"))
+})
+
+test_that("'chk_items_increasing' returns expected string with invalid input", {
+    expect_identical(chk_items_increasing(x = list(0L, c(0L, 0L)),
+                                          strict = TRUE,
+                                          name = "x"),
+                     "elements of item 2 of 'x' not strictly increasing")
+    expect_identical(chk_items_increasing(x = list(0L, c(0L, -1L)),
+                                          strict = FALSE,
+                                          name = "x"),
+                     "elements of item 2 of 'x' not increasing")
+})
+
+
+## chk_items_integer ----------------------------------------------------------
+
+test_that("'chk_items_integer' returns TRUE with valid inputs", {
+    expect_true(chk_items_integer(x = list(c(0L, 2L), integer()),
+                                  name = "x"))
+    expect_true(chk_items_integer(x = list(), name = "x"))
+})
+
+test_that("'chk_items_integer' returns expected string with invalid input", {
+    expect_identical(chk_items_integer(x = list(0L, 0),
+                                       name = "x"),
+                     "item 2 of 'x' has class \"numeric\"")
+})
+
+
+## chk_items_length_k ---------------------------------------------------------
+
+test_that("'chk_items_length_k' returns TRUE with valid inputs", {
+    expect_true(chk_items_length_k(x = list(c(0L, 2L), c("a", "b")),
+                                   k = 2L,
+                                   name = "x"))
+    expect_true(chk_items_length_k(x = list(), k = 2L, name = "x"))
+})
+
+test_that("'chk_items_length_k' returns expected string with invalid input", {
+    expect_identical(chk_items_length_k(x = list(0L, 0),
+                                        k = 2L,
+                                        name = "x"),
+                     "item 1 of 'x' has length 1")
+})
+
+
+## chk_items_no_na ------------------------------------------------------------
+
+test_that("'chk_items_no_na' returns TRUE with valid inputs", {
+    expect_true(chk_items_no_na(x = list(c(0L, 2L), NA, c("a", "b"), c(1, NA, 3)),
+                                except = list(c(2L, 1L), c(4L, 2L)),
+                                name = "x"))
+    expect_true(chk_items_no_na(x = list(), except = list(), name = "x"))
+})
+
+test_that("'chk_items_no_na' returns expected string with invalid input", {
+    expect_identical(chk_items_no_na(x = list(0L, NA, c(1, NA)),
+                                     except = list(c(2L, 1L)),
+                                     name = "x"),
+                     "item 3 of 'x' has NA")
+})
+
+
+## chk_no_duplicates ----------------------------------------------------------
+
+test_that("'chk_no_duplicates' returns TRUE with valid inputs", {
+    expect_true(chk_no_duplicates(x = c(0L, 2L, 1L, NA), name = "x"))
+    expect_true(chk_no_duplicates(x = integer(), name = "x"))
+})
+
+test_that("'chk_no_duplicates' returns expected string with invalid input", {
+    expect_identical(chk_no_duplicates(x = c(0L, 1L, 1L),
+                                       name = "x"),
+                     "element 3 of 'x' [1] is duplicate")
+})
+
+
+## chk_no_open_first ----------------------------------------------------------
+
+test_that("'chk_no_open_first' returns TRUE with valid inputs", {
+    expect_true(chk_no_open_first(x = c("2000 Feb", "2021 Mar", NA),
+                                  name = "x",
+                                  unit = "month"))
+    expect_true(chk_no_open_first(x = c("2000 Q1", "2021 Q2", NA),
+                                  name = "x",
+                                  unit = "quarter"))
+    expect_true(chk_no_open_first(x = c("2000", "2021", NA),
+                                  name = "x",
+                                  unit = "year"))
+    expect_true(chk_no_open_first(x = character(),
+                                  name = "x",
+                                  unit = "year"))
+})
+
+test_that("'chk_no_open_first' returns expected string with invalid input", {
+    expect_identical(chk_no_open_first(x = c("2000 Feb", "<2021 Mar", NA),
+                                  name = "x",
+                                  unit = "month"),
+                     "'x' has open interval [\"<2021 Mar\"]")
+    expect_identical(chk_no_open_first(x = c("2000 Q1", "<2021 Q2", NA),
+                                  name = "x",
+                                  unit = "quarter"),
+                     "'x' has open interval [\"<2021 Q2\"]")
+    expect_identical(chk_no_open_first(x = c("2000", "<2021", NA),
+                                  name = "x",
+                                  unit = "year"),
+                     "'x' has open interval [\"<2021\"]")
+})
+
+
 
 
 ## chk_nonzero_unique ---------------------------------------------------------

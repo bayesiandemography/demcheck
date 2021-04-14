@@ -234,6 +234,89 @@ chk_no_open_cohort <- function(x) {
 }
 
 
+#' Check that pairs of numbers specifying 
+#' labels do not overlap
+#'
+#' Look for cases where the first pair starts at or below the
+#' second pair, and finished in or above the second pair.
+#' Function 'outer' covers all combinations of pairs,
+#' in both orders, so looking only at overlaps from below
+#' finds all overlaps.
+#'
+#' Different functions are needed for intervals and
+#' quantities because intervals allow the second number
+#' of the lower pair to equal the first number of the upper pair,
+#' while quantities do not. The labels, which the
+#' check functions use in return values, also differ.
+#'
+#' 
+#' @inheritParams chk_trans_list
+#' @param x A list of integer vectors of length 2.
+#'
+#' @examples
+#' values <- list(c(NA, 20L), c(20L, 30L), c(30L, NA)) 
+#' chk_no_overlap_intervals(values)
+#'
+#' values <- list(c(NA, 19L), c(20L, 29L), c(30L, NA)) 
+#' chk_no_overlap_quantities(values)
+#' @name chk_no_overlap_intervals
+NULL
+
+#' @rdname chk_no_overlap_intervals
+#' @export
+chk_no_overlap_intervals <- function(x, name) {
+    n <- length(x)
+    if (n >= 2L) {
+        e1 <- sapply(x, `[[`, 1L)
+        e2 <- sapply(x, `[[`, 2L)
+        e1[is.na(e1)] <- min(e1, e2, na.rm = TRUE) - 1L
+        e2[is.na(e2)] <- max(e1, e2, na.rm = TRUE) + 1L
+        is_invalid_starts_below <- outer(e1, e1, `<`) & outer(e2, e1, `>`)
+        is_invalid_starts_same <- outer(e1, e1, `==`)
+        is_invalid <- is_invalid_starts_below | is_invalid_starts_same
+        diag(is_invalid) <- FALSE
+        if (any(is_invalid)) {
+            indices_invalid <- which(is_invalid, arr.ind = TRUE)
+            first <- x[[indices_invalid[1L, 1L]]]
+            second <- x[[indices_invalid[1L, 2L]]]
+            lab_first <- make_label_intervals(first)
+            lab_second <- make_label_intervals(second)
+            val <- gettextf("problem with elements of '%s' : \"%s\" overlaps with \"%s\"",
+                            name, lab_first, lab_second)
+            return(val)
+        }
+    }
+    TRUE
+}
+
+#' @rdname chk_no_overlap_intervals
+#' @export
+chk_no_overlap_quantities <- function(x, name) {
+    n <- length(x)
+    if (n >= 2L) {
+        e1 <- sapply(x, `[[`, 1L)
+        e2 <- sapply(x, `[[`, 2L)
+        e1[is.na(e1)] <- min(e1, e2, na.rm = TRUE) - 1L
+        e2[is.na(e2)] <- max(e1, e2, na.rm = TRUE) + 1L
+        is_invalid_starts_below <- outer(e1, e1, `<`) & outer(e2, e1, `>=`)
+        is_invalid_starts_same <- outer(e1, e1, `==`)
+        is_invalid <- is_invalid_starts_below | is_invalid_starts_same
+        diag(is_invalid) <- FALSE
+        if (any(is_invalid)) {
+            indices_invalid <- which(is_invalid, arr.ind = TRUE)
+            first <- x[[indices_invalid[1L, 1L]]]
+            second <- x[[indices_invalid[1L, 2L]]]
+            lab_first <- make_label_quantities(first)
+            lab_second <- make_label_quantities(second)
+            val <- gettextf("problem with elements of '%s' : \"%s\" overlaps with \"%s\"",
+                            name, lab_first, lab_second)
+            return(val)
+        }
+    }
+    TRUE
+}
+
+
 #' Check that open intervals do not overlap with 'break_min' or 'break_max'
 #'
 #' \code{chk_open_left_le_break_min} assumes that intervals are open

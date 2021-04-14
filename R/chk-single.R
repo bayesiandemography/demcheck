@@ -21,6 +21,46 @@ chk_all_0_1 <- function(x, name) {
     TRUE
 }
 
+## HAS_TESTS
+#' Check that a vector or list has 0 or 1 NAs
+#'
+#' In the case of a list, an item is 'NA'
+#' if it has at least one element,
+#' and of these elements are NA
+#'
+#' @inheritParams chk_all_0_1
+#'
+#' @examples
+#' x <- c(0L, 1L, NA)
+#' chk_at_most_one_na_vector(x, name = "x")
+#' x <- c(c(0L, 1L), c(2L, NA))
+#' chk_at_most_one_na_list(x, name = "x")
+#' @name chk_at_most_one_na_vector
+NULL
+
+#' @rdname chk_at_most_one_na_vector
+#' @export
+chk_at_most_one_na_vector <- function(x, name) {
+    n_na <- sum(is.na(x))
+    if (n_na > 1L)
+        return(gettextf("'%s' has %d NAs",
+                        name, n_na))
+    TRUE
+}
+
+#' @rdname chk_at_most_one_na_vector
+#' @export
+chk_at_most_one_na_list <- function(x, name) {
+    is_positive_length <- sapply(x, length) > 0L
+    is_all_na <- sapply(lapply(x, is.na), all)
+    n_na <- sum(is_positive_length & is_all_na)
+    if (n_na > 1L)
+        return(gettextf("'%s' has %d items where all elements are NAs",
+                        name, n_na))
+    TRUE
+}
+
+
 
 #' Check that a value has type "character"
 #'
@@ -174,6 +214,134 @@ chk_is_na_vector <- function(x, name) {
     if (i_not_na > 0L)
         return(gettextf("element %d of '%s' [%s] is not %s",
                         i_not_na, "name", x[[i_not_na]], "NA"))
+    TRUE
+}
+
+
+#' Check that elements within each item
+#' are increasing or strictly increasing
+#'
+#' NAs are ignored.
+#'
+#' @inheritParams chk_all_0_1
+#' @param x A list.
+#' @param strict Logical. Whether elements should be
+#' strictly increasing
+#'
+#' @examples
+#' x <- list(c(0L, c(1L, 1L, 2L), 3:1, c(NA, 5, 10)))
+#' chk_items_increasing(x = x,
+#'                      strict = FALSE,
+#'                      name = "x")
+#' x <- list(c(0L, c(1L, NA, 2L), 3:1, c(NA, 5, 10)))
+#' chk_items_increasing(x = x,
+#'                      strict = TRUE,
+#'                      name = "x")
+#' @export
+chk_items_increasing <- function(x, strict, name) {
+    for (i in seq_along(x)) {
+        item <- x[[i]]
+        item <- item[!is.na(item)]
+        if (length(item) > 1L) {
+            diff <- diff(item)
+            if (strict) {
+                if (any(diff <= 0L)) {
+                    val <- gettextf("elements of item %d of '%s' not strictly increasing",
+                                    i, name)
+                    return(val)
+                }
+            }
+            else {
+                if (any(diff < 0L)) {
+                    val <- gettextf("elements of item %d of '%s' not increasing",
+                                    i, name)
+                    return(val)
+                }
+            }
+        }
+    }
+    TRUE
+}
+
+
+#' Check that all items in a list are integer vectors
+#'
+#' @inheritParams chk_all_0_1
+#' @param x A list.
+#'
+#' @examples
+#' x <- list(integer(), 1:3, 0L)
+#' chk_items_integer(x = x,
+#'                   name = "x")
+#' @export
+chk_items_integer <- function(x, name) {
+    for (i in seq_along(x)) {
+        item <- x[[i]]
+        if (!is.integer(item)) {
+            val <- gettextf("item %d of '%s' has class \"%s\"",
+                            i, name, class(item))
+            return(val)
+        }
+    }
+    TRUE
+}
+
+
+#' Check that all items in a list have length k
+#'
+#' @inheritParams chk_all_0_1
+#' @param x A list.
+#' @param k The required length of each item.
+#'
+#' @examples
+#' x <- list(3:1, 1:3, c("a", "b", "c"))
+#' chk_items_length_k(x = x,
+#'                    k = 3L,
+#'                    name = "x")
+#' @export
+chk_items_length_k <- function(x, k, name) {
+    for (i in seq_along(x)) {
+        item <- x[[i]]
+        length <- length(item)
+        if (!identical(length, k)) {
+            val <- gettextf("item %d of '%s' has length %d",
+                            i, name, length)
+            return(val)
+        }
+    }
+    TRUE
+}
+
+
+#' Check that not items have NAs, except where
+#' specified in 'except' argument
+#'
+#' @inheritParams chk_all_0_1
+#' @param x A list.
+#' @param except A list of integer vectors, each of which is length 2.
+#'
+#' @examples
+#' x <- list(c(0L, NA, 1L), 3:1, c(NA, "b", "c"), 1L)
+#' chk_items_no_na(x = x,
+#'                 except = list(c(1L, 2L), c(3L, 1L)),
+#'                 name = "x")
+#' @export
+chk_items_no_na <- function(x, except, name) {
+    i_item_na_allowed <- sapply(except, `[[`, 1L)
+    i_element_na_allowed <- sapply(except, `[[`, 2L)
+    for (i in seq_along(x)) {
+        item <- x[[i]]
+        item_has_exclusion <- i_item_na_allowed == i
+        if (any(item_has_exclusion)) {
+            i_exclude <- i_element_na_allowed[item_has_exclusion]
+            item <- item[-i_exclude]
+        }
+        if (anyNA(item)) {
+            val <- gettextf("item %d of '%s' has NA",
+                            i, name)
+            return(val)
+        }
+    }
     TRUE
 }
 
@@ -368,7 +536,6 @@ chk_is_numeric <- function(x, name) {
 }
 
 
-
 #' Check that a vector has length 1,
 #' ie is a scalar
 #' 
@@ -387,6 +554,23 @@ chk_length_1 <- function(x, name) {
 }
 
 
+#' Check that a vector has class "list"
+#' 
+#' @inheritParams chk_all_0_1
+#' @param x A vector.
+#'
+#' @examples
+#' x <- list(1L, "a", NA)
+#' chk_is_list(x, name = "x")
+#' @export
+chk_is_list <- function(x, name) {
+    if (!is.list(x))
+        return(gettextf("'%s' does not have type \"%s\"",
+                        name, "list"))
+    TRUE
+}
+
+
 #' Check that a vector has type "logical"
 #' 
 #' @inheritParams chk_all_0_1
@@ -400,6 +584,61 @@ chk_is_logical <- function(x, name) {
     if (!is.logical(x))
         return(gettextf("'%s' does not have type \"%s\"",
                         name, "logical"))
+    TRUE
+}
+
+
+#' Check that a vector has no duplicates
+#'
+#' @inheritParams chk_all_0_1
+#' @param x A character scalar or vector.
+#'
+#' @examples
+#' x <- c(0L, 5L, 10L, NA)
+#' chk_no_duplicates(x, name = "x")
+#' @export
+chk_no_duplicates <- function(x, name) {
+    is_duplicate <- duplicated(x)
+    i_duplicate <- match(TRUE, is_duplicate, nomatch = 0L)
+    if (i_duplicate > 0L)
+        return(gettextf("element %d of '%s' [%s] is duplicate",
+                        i_duplicate, name, x[[i_duplicate]]))
+    TRUE
+}
+
+#' Check that calendar labels not open on left
+#'
+#' @inheritParams chk_all_0_1
+#' @param x A character vector of calender interval labels.
+#' @param unit The time unit: \code{"year"}, \code{"quarter"}
+#' or \code{"month"}.
+#'
+#' @examples
+#' chk_no_open_first(x = c("2000 Jan", "2005 Aug", "2006 Nov"),
+#'                      name = "x",
+#'                      unit = "month")
+#' chk_no_open_first(c("2000 Q1", "2005 Q3", "2006 Q2"),
+#'                      name = "x",
+#'                      unit = "quarter")
+#' chk_no_open_first(c("2000", "2005", "2006"),
+#'                      name = "x",
+#'                      unit = "year")
+#' @export
+chk_no_open_first <- function(x, name, unit) {
+    if (unit == "month")
+        p_open <- paste(sprintf("^<[0-9]+ %s$", month.abb), collapse = "|")
+    else if (unit == "quarter")
+        p_open <- "^<[0-9]+ Q[1-4]$"
+    else if (unit == "year")
+        p_open <- "^<[0-9]+$"
+    else
+        stop(gettextf("cannot handle unit \"%s\"",
+                      unit))
+    is_open <- grepl(p_open, x)
+    i_open <- match(TRUE, is_open, nomatch = 0L)
+    if (i_open > 0L)
+        return(gettextf("'%s' has open interval [\"%s\"]",
+                        name, x[[i_open]]))
     TRUE
 }
 

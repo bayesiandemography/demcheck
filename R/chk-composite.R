@@ -1507,6 +1507,47 @@ chk_indices_distinct <- function(indices, names, exclude_zero) {
 }
 
 
+#' Check that a label has the correct format for a
+#' single quarter or month
+#' 
+#' @inheritParams chk_all_0_1
+#' @param x A string.
+#'
+#' @examples
+#' chk_valid_label_single_month("2001 Jan", name = "x")
+#' chk_valid_label_single_quarter("2001 Q1", name = "x")
+#' @name chk_valid_label_single_month
+NULL
+
+#' @rdname chk_valid_label_single_month
+#' @export
+chk_valid_label_single_month <- function(x, name) {
+    p <- paste(sprintf("^[0-9]+ %s$", month.abb), collapse = "|")
+    val <- chk_is_string(x = x,
+                         name = name)
+    if (!isTRUE(val))
+        return(val)
+    if (!grepl(p, x))
+        return(gettextf("invalid value for '%s' [\"%s\"]",
+                        name, x))
+    TRUE
+}
+
+#' @rdname chk_valid_label_single_month
+#' @export
+chk_valid_label_single_quarter <- function(x, name) {
+    p <- "^[0-9]+ Q[1-4]$"
+    val <- chk_is_string(x = x,
+                         name = name)
+    if (!isTRUE(val))
+        return(val)
+    if (!grepl(p, x))
+        return(gettextf("invalid value for '%s' [\"%s\"]",
+                        name, x))
+    TRUE
+}
+
+
 
 
 #' Check that 'x1' has length specified by 'x2'

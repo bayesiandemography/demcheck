@@ -11,6 +11,24 @@ err_all_0_1 <- function(x, name) {
     TRUE
 }
 
+#' @rdname chk_at_most_one_na_vector
+#' @export
+err_at_most_one_na_vector <- function(x, name) {
+    val <- chk_at_most_one_na_vector(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_at_most_one_na_vector
+#' @export
+err_at_most_one_na_list <- function(x, name) {
+    val <- chk_at_most_one_na_list(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
 #' @export
 #' @rdname chk_is_character
 err_is_character <- function(x, name) {
@@ -78,6 +96,42 @@ err_is_na_scalar <- function(x, name) {
 #' @export
 err_is_na_vector <- function(x, name) {
     val <- chk_is_na_vector(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_items_increasing
+err_items_increasing <- function(x, strict, name) {
+    val <- chk_items_increasing(x, strict, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_items_integer
+err_items_integer <- function(x, name) {
+    val <- chk_items_integer(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_items_length_k
+err_items_length_k <- function(x, k, name) {
+    val <- chk_items_length_k(x, k, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_items_no_na
+err_items_no_na <- function(x, except, name) {
+    val <- chk_items_no_na(x, except, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -174,9 +228,36 @@ err_length_1 <- function(x, name) {
 }
 
 #' @export
+#' @rdname chk_is_list
+err_is_list <- function(x, name) {
+    val <- chk_is_list(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
 #' @rdname chk_is_logical
 err_is_logical <- function(x, name) {
     val <- chk_is_logical(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_no_duplicates
+err_no_duplicates <- function(x, name) {
+    val <- chk_no_duplicates(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_no_open_first
+err_no_open_first <- function(x, name, unit) {
+    val <- chk_no_open_first(x, name, unit)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

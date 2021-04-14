@@ -1468,6 +1468,36 @@ test_that("'chk_trans_list' returns expected message with invalid argument", {
 })
 
 
+## chk_valid_label_single_month -----------------------------------------------
+
+test_that("'chk_valid_label_single_month' returns TRUE with valid inputs", {
+    for (mon in month.abb) {
+        x <- sprintf("2000 %s", mon)
+        expect_true(chk_valid_label_single_month(x = x, name = "x"))
+    }
+})
+
+test_that("'chk_valid_label_single_month' returns expected message with invalid inputs", {
+    expect_identical(chk_valid_label_single_month(x = "2000 XXX", name = "x"),
+                     "invalid value for 'x' [\"2000 XXX\"]")
+})
+
+
+## chk_valid_label_single_quarter ---------------------------------------------
+
+test_that("'chk_valid_label_single_quarter' returns TRUE with valid inputs", {
+    for (i in 1:4) {
+        x <- sprintf("2000 Q%d", i)
+        expect_true(chk_valid_label_single_quarter(x = x, name = "x"))
+    }
+})
+
+test_that("'chk_valid_label_single_quarter' returns expected message with invalid inputs", {
+    expect_identical(chk_valid_label_single_quarter(x = "2000 Q5", name = "x"),
+                     "invalid value for 'x' [\"2000 Q5\"]")
+})
+
+
 ## chk_zero_if_zero -----------------------------------------------------------
 
 test_that("'chk_zero_if_zero' returns TRUE with valid inputs", {

@@ -443,6 +443,24 @@ err_indices_distinct <- function(indices, names, exclude_zero) {
     TRUE
 }
 
+#' @rdname chk_valid_label_single_month
+#' @export
+err_valid_label_single_month <- function(x, name) {
+    val <- chk_valid_label_single_month(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_valid_label_single_month
+#' @export
+err_valid_label_single_quarter <- function(x, name) {
+    val <- chk_valid_label_single_quarter(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
 #'@export
 #' @rdname chk_length_equals
 err_length_equals <- function(x1, x2, name1, name2) {

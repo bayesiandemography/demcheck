@@ -108,10 +108,100 @@ test_that("'chk_open_left_le_break_min' works with valid input", {
     
 test_that("'chk_open_left_le_break_min' returns expected message with invalid inputs", {
     expect_identical(chk_open_left_le_break_min(labels = c("<2005", "2077", "1950-1990", NA),
-                                           int_up = c(2005L, 2078L, 1990L, NA),
-                                           is_open = c(TRUE, FALSE, FALSE, FALSE),
-                                           break_min = 2000L),
-                    "upper limit of open interval \"<2005\" is greater than 'break_min' [2000]")
+                                                int_up = c(2005L, 2078L, 1990L, NA),
+                                                is_open = c(TRUE, FALSE, FALSE, FALSE),
+                                                break_min = 2000L),
+                     "upper limit of open interval \"<2005\" is greater than 'break_min' [2000]")
+})
+
+
+## chk_overlap_intervals -----------------------------------------------------
+
+test_that("'chk_no_overlap_intervals' works with valid input", {
+    expect_true(chk_no_overlap_intervals(x = list(c(NA, 2000L),
+                                                  c(2000L, 2001L),
+                                                  c(2001L, 2005L),
+                                                  c(2005L, 2010L),
+                                                  c(2010L, NA)),
+                                         name = "x"))
+    expect_true(chk_no_overlap_intervals(x = list(c(2000L, 2001L),
+                                                  c(2005L, 2010L),
+                                                  c(2001L, 2005L),
+                                                  c(NA, 2000L),
+                                                  c(2010L, NA)),
+                                         name = "x"))
+    expect_true(chk_no_overlap_intervals(x = list(c(0L, 1L)),
+                                         name = "x"))
+    expect_true(chk_no_overlap_intervals(x = list(),
+                                         name = "x"))
+})
+    
+test_that("'chk_no_overlap_intervals' returns expected message with invalid inputs", {
+    expect_identical(chk_no_overlap_intervals(x = list(c(NA, 2000L),
+                                                       c(2000L, 2002L),
+                                                       c(2001L, 2005L),
+                                                       c(2005L, 2010L),
+                                                       c(2010L, NA)),
+                                              name = "x"),
+                     "problem with elements of 'x' : \"2000--2002\" overlaps with \"2001--2005\"")
+    expect_identical(chk_no_overlap_intervals(x = list(c(0L, 1L),
+                                                       c(0L, 1L)),
+                                              name = "x"),
+                     "problem with elements of 'x' : \"0--1\" overlaps with \"0--1\"")
+    expect_identical(chk_no_overlap_intervals(x = list(c(NA, 1L),
+                                                       c(0L, 1L)),
+                                              name = "x"),
+                     "problem with elements of 'x' : \"--1\" overlaps with \"0--1\"")
+    expect_identical(chk_no_overlap_intervals(x = list(c(0L, 0L),
+                                                       c(10L, NA),
+                                                       c(1L, 5L),
+                                                       c(NA, -1L),
+                                                       c(4L, 9L)),
+                                              name = "x"),
+                     "problem with elements of 'x' : \"1--5\" overlaps with \"4--9\"")
+})
+
+
+## chk_overlap_quantities -----------------------------------------------------
+
+test_that("'chk_no_overlap_quantities' works with valid input", {
+    expect_true(chk_no_overlap_quantities(x = list(c(NA, -1L),
+                                                   c(0L, 0L),
+                                                   c(1L, 4L),
+                                                   c(5L, 9L),
+                                                   c(10L, NA)),
+                                          name = "x"))
+    expect_true(chk_no_overlap_quantities(x = list(c(0L, 0L),
+                                                   c(10L, NA),
+                                                   c(1L, 4L),
+                                                   c(NA, -1L),
+                                                   c(5L, 9L)),
+                                          name = "x"))
+    expect_true(chk_no_overlap_quantities(x = list(c(0L, 1L)),
+                                          name = "x"))
+    expect_true(chk_no_overlap_quantities(x = list(),
+                                          name = "x"))
+})
+    
+test_that("'chk_no_overlap_quantities' returns expected message with invalid inputs", {
+    expect_identical(chk_no_overlap_quantities(x = list(c(0L, 1L),
+                                                        c(10L, NA),
+                                                        c(1L, 4L),
+                                                        c(NA, -1L),
+                                                        c(5L, 9L)),
+                                               name = "x"),
+                     "problem with elements of 'x' : \"0-1\" overlaps with \"1-4\"")
+    expect_identical(chk_no_overlap_quantities(x = list(c(NA, 0L),
+                                                        c(0L, 0L)),
+                                               name = "x"),
+                     "problem with elements of 'x' : \"<=0\" overlaps with \"0\"")
+    expect_identical(chk_no_overlap_quantities(x = list(c(0L, 0L),
+                                                        c(10L, NA),
+                                                        c(1L, 5L),
+                                                        c(NA, -1L),
+                                                        c(5L, 9L)),
+                                               name = "x"),
+                     "problem with elements of 'x' : \"1-5\" overlaps with \"5-9\"")
 })
 
 

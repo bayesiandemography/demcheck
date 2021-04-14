@@ -56,6 +56,24 @@ err_no_open_cohort <- function(x) {
     TRUE
 }
 
+#' @rdname chk_no_overlap_intervals
+#' @export
+err_no_overlap_intervals <- function(x, name) {
+    val <- chk_no_overlap_intervals(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @rdname chk_no_overlap_intervals
+#' @export
+err_no_overlap_quantities <- function(x, name) {
+    val <- chk_no_overlap_quantities(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
 #' @rdname chk_open_left_le_break_min
 #' @export
 err_open_left_le_break_min <- function(labels, int_up, is_open, break_min) {
