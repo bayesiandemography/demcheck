@@ -6,7 +6,7 @@
 \alias{err_tdy_integer_vector}
 \title{Check and tidy integers or objects that can be coerced to integer}
 \usage{
-err_tdy_integer_scalar(x, name, null_ok)
+err_tdy_integer_scalar(x, name)
 
 err_tdy_integer_vector(x, name)
 }
@@ -16,17 +16,13 @@ that can be coerced to integer}
 
 \item{name}{The name for \code{x} that
 will be used in error messages.}
-
-\item{null_ok}{Whether to allow \code{x} to be \code{NULL}.}
 }
 \description{
 Check and tidy integers or objects that can be coerced to integer
 }
 \examples{
 x <- 1.0
-err_tdy_integer_scalar(x = x, name = "x", null_ok = FALSE)
-x <- NULL
-err_tdy_integer_scalar(x = x, name = "x", null_ok = TRUE)
+err_tdy_integer_scalar(x = x, name = "x")
 x <- 3:1
 err_tdy_integer_vector(x = x, name = "x")
 }

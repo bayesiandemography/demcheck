@@ -121,28 +121,28 @@ err_tdy_break_min_max_integer <- function(break_min, break_max, null_ok, equal_o
                           "break_max", "NULL"),
                  call. = FALSE)
     }
-    break_min <- err_tdy_non_negative_integer_scalar(x = break_min, 
-                                                     name = "break_min",
-                                                     null_ok = null_ok)
-    if (equal_ok)
-        break_max <- err_tdy_non_negative_integer_scalar(x = break_max,
-                                                        name = "break_max",
-                                                        null_ok = null_ok)
-    else    
-        break_max <- err_tdy_positive_integer_scalar(x = break_max,
-                                                     name = "break_max",
-                                                     null_ok = null_ok)
+    if (!min_null)
+        break_min <- err_tdy_non_negative_integer_scalar(x = break_min, 
+                                                         name = "break_min")
+    if (!max_null) {
+        if (equal_ok)
+            break_max <- err_tdy_non_negative_integer_scalar(x = break_max,
+                                                             name = "break_max")
+        else    
+            break_max <- err_tdy_positive_integer_scalar(x = break_max,
+                                                         name = "break_max")
+    }
     if (!min_null && !max_null) {
         if (equal_ok)
             err_ge_scalar(x1 = break_max,
-                             x2 = break_min,
-                             name1 = "break_max",
-                             name2 = "break_min")
+                          x2 = break_min,
+                          name1 = "break_max",
+                          name2 = "break_min")
         else
             err_gt_scalar(x1 = break_max,
-                             x2 = break_min,
-                             name1 = "break_max",
-                             name2 = "break_min")            
+                          x2 = break_min,
+                          name1 = "break_max",
+                          name2 = "break_min")            
     }
     list(break_min = break_min,
          break_max = break_max)
@@ -509,15 +509,12 @@ err_tdy_date_dob <- function(date, dob) {
 #' @inheritParams err_tdy_date_scalar
 #' @param x A scalar or vector of integers, or quantities
 #' that can be coerced to integer
-#' @param null_ok Whether to allow \code{x} to be \code{NULL}.
 #'
 #' @seealso \code{\link{err_tdy_date_scalar}}
 #'
 #' @examples
 #' x <- 1.0
-#' err_tdy_integer_scalar(x = x, name = "x", null_ok = FALSE)
-#' x <- NULL
-#' err_tdy_integer_scalar(x = x, name = "x", null_ok = TRUE)
+#' err_tdy_integer_scalar(x = x, name = "x")
 #' x <- 3:1
 #' err_tdy_integer_vector(x = x, name = "x")
 #' @name err_tdy_integer
@@ -526,14 +523,11 @@ NULL
 ## HAS_TESTS
 #' @export
 #' @rdname err_tdy_integer
-err_tdy_integer_scalar <- function(x, name, null_ok) {
+err_tdy_integer_scalar <- function(x, name) {
     if (is.null(x)) {
-        if (null_ok)
-            return(x)
-        else
-            stop(gettextf("'%s' is %s",
-                          name, "NULL"),
-                 call. = FALSE)
+        stop(gettextf("'%s' is %s",
+                      name, "NULL"),
+             call. = FALSE)
     }
     err_length_1(x = x,
                     name = name)
@@ -849,15 +843,12 @@ err_tdy_month_start <- function(x, name) {
 #' @inheritParams err_tdy_date_scalar
 #' @param x An integer scalar or vector, or somthing that
 #' can be coerced to one.
-#' @param null_ok Whether \code{x} can be \code{NULL}.
 #'
 #' @seealso \code{\link{err_tdy_positive_integer}}
 #'
 #' @examples
 #' x <- 3.0
-#' err_tdy_non_negative_integer_scalar(x = x, name = "x", null_ok = FALSE)
-#' x <- NULL
-#' err_tdy_non_negative_integer_scalar(x = x, name = "x", null_ok = TRUE)
+#' err_tdy_non_negative_integer_scalar(x = x, name = "x")
 #' x <- c(3.0, 0.0, 4.0)
 #' err_tdy_non_negative_integer_vector(x = x, name = "x")
 #' @name err_tdy_non_negative_integer
@@ -865,11 +856,8 @@ NULL
 
 #' @rdname err_tdy_non_negative_integer
 #' @export
-err_tdy_non_negative_integer_scalar <- function(x, name, null_ok) {
+err_tdy_non_negative_integer_scalar <- function(x, name) {
     if (is.null(x)) {
-        if (null_ok)
-            return(x)
-        else
             stop(gettextf("'%s' is %s",
                           name, "NULL"),
                  call. = FALSE)
@@ -912,15 +900,12 @@ err_tdy_non_negative_integer_vector <- function(x, name) {
 #' @inheritParams err_tdy_date_scalar
 #' @param x An integer scalar or vector, or somthing that
 #' can be coerced to one.
-#' @param null_ok Whether \code{x} can be \code{NULL}.
 #' 
 #' @seealso \code{\link{err_tdy_non_negative_integer_scalar}}
 #'
 #' @examples
 #' x <- 3.0
 #' err_tdy_positive_integer_scalar(x = x, name = "x")
-#' x <- NULL
-#' err_tdy_positive_integer_scalar(x = x, name = "x", null_ok = TRUE)
 #' x <- c(3.0, 1.0, 4.0)
 #' err_tdy_positive_integer_vector(x = x, name = "x")
 #' @name err_tdy_positive_integer
@@ -928,14 +913,11 @@ NULL
 
 #' @rdname err_tdy_positive_integer
 #' @export
-err_tdy_positive_integer_scalar <- function(x, name, null_ok) {
+err_tdy_positive_integer_scalar <- function(x, name) {
     if (is.null(x)) {
-        if (null_ok)
-            return(x)
-        else
-            stop(gettextf("'%s' is %s",
-                          name, "NULL"),
-                 call. = FALSE)
+        stop(gettextf("'%s' is %s",
+                      name, "NULL"),
+             call. = FALSE)
     }
     err_positive_scalar(x = x,
                         name = name)

@@ -6,7 +6,7 @@
 \alias{err_tdy_non_negative_integer_vector}
 \title{Check and tidy a non-negative integer scalar or vector}
 \usage{
-err_tdy_non_negative_integer_scalar(x, name, null_ok)
+err_tdy_non_negative_integer_scalar(x, name)
 
 err_tdy_non_negative_integer_vector(x, name)
 }
@@ -16,17 +16,13 @@ can be coerced to one.}
 
 \item{name}{The name for \code{x} that
 will be used in error messages.}
-
-\item{null_ok}{Whether \code{x} can be \code{NULL}.}
 }
 \description{
 Check and tidy a non-negative integer scalar or vector
 }
 \examples{
 x <- 3.0
-err_tdy_non_negative_integer_scalar(x = x, name = "x", null_ok = FALSE)
-x <- NULL
-err_tdy_non_negative_integer_scalar(x = x, name = "x", null_ok = TRUE)
+err_tdy_non_negative_integer_scalar(x = x, name = "x")
 x <- c(3.0, 0.0, 4.0)
 err_tdy_non_negative_integer_vector(x = x, name = "x")
 }

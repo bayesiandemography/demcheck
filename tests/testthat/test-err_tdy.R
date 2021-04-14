@@ -487,11 +487,11 @@ test_that("'err_tdy_integer_scalar' works with valid inputs", {
                      1L)
     expect_identical(err_tdy_integer_scalar(x = NA, name = "x"),
                      NA_integer_)
-    expect_identical(err_tdy_integer_scalar(x = NULL, name = "x", null_ok = TRUE),
-                     NULL)
 })
 
 test_that("'err_tdy_integer_scalar' raises expected error with invalid input", {
+    expect_error(err_tdy_integer_scalar(x = NULL, name = "x"),
+                 "'x' is NULL")
     expect_error(err_tdy_integer_scalar(x = 0.2,
                                  name = "x"),
                  "'x' \\[0.2\\] not equivalent to integer")
@@ -711,36 +711,21 @@ test_that("'err_tdy_map_pos' raises expected error when dimension of 'self' not 
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## err_tdy_non_negative_integer_scalar ----------------------------------------
 
 test_that("'err_tdy_non_negative_integer_scalar' works with valid inputs", {
     expect_identical(err_tdy_non_negative_integer_scalar(x = 1, name = "x"),
                      1L)
-    expect_identical(err_tdy_integer_scalar(x = NULL, name = "x", null_ok = TRUE),
-                     NULL)
-    expect_identical(err_tdy_integer_scalar(x = 0L, name = "x", null_ok = TRUE),
+    expect_identical(err_tdy_integer_scalar(x = 0L, name = "x"),
                      0L)
 })
 
 test_that("'err_tdy_non_negative_integer_scalar' raises expected error with invalid input", {
+    expect_error(err_tdy_integer_scalar(x = NULL, name = "x"),
+                 "'x' is NULL")
     expect_error(err_tdy_non_negative_integer_scalar(x = 0.1,
                                                  name = "x"),
                  "'x' \\[0.1\\] not equivalent to integer")
-    expect_error(err_tdy_non_negative_integer_scalar(x = NULL, name = "x", null_ok = FALSE),
-                 "'x' is NULL")
 })
 
 
@@ -767,15 +752,13 @@ test_that("'err_tdy_non_negative_integer_vector' raises expected error with inva
 test_that("'err_tdy_positive_integer_scalar' works with valid inputs", {
     expect_identical(err_tdy_positive_integer_scalar(x = 1, name = "x"),
                      1L)
-    expect_identical(err_tdy_integer_scalar(x = NULL, name = "x", null_ok = TRUE),
-                     NULL)
 })
 
 test_that("'err_tdy_positive_integer_scalar' raises expected error with invalid input", {
     expect_error(err_tdy_positive_integer_scalar(x = 0.1,
                                                  name = "x"),
                  "'x' \\[0.1\\] not equivalent to integer")
-    expect_error(err_tdy_positive_integer_scalar(x = NULL, name = "x", null_ok = FALSE),
+    expect_error(err_tdy_positive_integer_scalar(x = NULL, name = "x"),
                  "'x' is NULL")
 })
 
