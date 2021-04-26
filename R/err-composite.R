@@ -301,8 +301,8 @@ err_lt_vector <- function(x1, x2, name1, name2) {
 
 #' @export
 #' @rdname chk_multiple_of
-err_multiple_of <- function(x1, x2, name1, name2, null_ok) {
-    val <- chk_multiple_of(x1, x2, name1, name2, null_ok)
+err_multiple_of <- function(x1, x2, name1, name2) {
+    val <- chk_multiple_of(x1, x2, name1, name2)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
@@ -310,8 +310,8 @@ err_multiple_of <- function(x1, x2, name1, name2, null_ok) {
 
 #' @export
 #' @rdname chk_multiple_of_n
-err_multiple_of_n <- function(x, name, n, null_ok) {
-    val <- chk_multiple_of_n(x, name, n, null_ok)
+err_multiple_of_n <- function(x, name, n) {
+    val <- chk_multiple_of_n(x, name, n)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

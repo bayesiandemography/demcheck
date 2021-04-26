@@ -111,6 +111,21 @@ test_that("'chk_is_integer_equiv_vector' returns expected string with invalid in
 })
 
 
+## chk_items_date -------------------------------------------------------------
+
+test_that("'chk_items_date' returns TRUE with valid inputs", {
+    expect_true(chk_items_date(x = list(as.Date("2000-01-01"), as.Date(character())),
+                                  name = "x"))
+    expect_true(chk_items_date(x = list(), name = "x"))
+})
+
+test_that("'chk_items_date' returns expected string with invalid input", {
+    expect_identical(chk_items_date(x = list(as.Date(character()), 0),
+                                    name = "x"),
+                     "item 2 of 'x' has class \"numeric\"")
+})
+
+
 ## chk_items_increasing ----------------------------------------------------------
 
 test_that("'chk_items_increasing' returns TRUE with valid inputs", {
@@ -181,6 +196,25 @@ test_that("'chk_items_no_na' returns expected string with invalid input", {
                                      except = list(c(2L, 1L)),
                                      name = "x"),
                      "item 3 of 'x' has NA")
+})
+
+
+## chk_items_one_greater ------------------------------------------------------
+
+test_that("'chk_items_one_greater' returns TRUE with valid inputs", {
+    expect_true(chk_items_one_greater(x = list(c(0L, 1L),
+                                               c(NA_integer_, NA_integer_),
+                                               c(NA, -5L),
+                                               c(10L, NA)),
+                                      name = "x"))
+    expect_true(chk_items_one_greater(x = list(), name = "x"))
+})
+
+test_that("'chk_items_one_greater' returns expected string with invalid input", {
+    expect_identical(chk_items_one_greater(x = list(c(0L, 1L),
+                                                    c(12L, 14L)),
+                                           name = "x"),
+                     "second element [14] of item 2 is not one greater than first element [12]")
 })
 
 

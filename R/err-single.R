@@ -102,6 +102,15 @@ err_is_na_vector <- function(x, name) {
 }
 
 #' @export
+#' @rdname chk_items_date
+err_items_date <- function(x, name) {
+    val <- chk_items_date(x, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
 #' @rdname chk_items_increasing
 err_items_increasing <- function(x, strict, name) {
     val <- chk_items_increasing(x, strict, name)
@@ -132,6 +141,15 @@ err_items_length_k <- function(x, k, name) {
 #' @rdname chk_items_no_na
 err_items_no_na <- function(x, except, name) {
     val <- chk_items_no_na(x, except, name)
+    if (is.character(val))
+        stop(val, call. = FALSE)
+    TRUE
+}
+
+#' @export
+#' @rdname chk_items_one_greater
+err_items_one_greater <- function(x, name) {
+    val <- chk_items_one_greater(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE

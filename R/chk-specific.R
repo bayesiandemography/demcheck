@@ -243,32 +243,50 @@ chk_no_open_cohort <- function(x) {
 #' in both orders, so looking only at overlaps from below
 #' finds all overlaps.
 #'
-#' Different functions are needed for intervals and
-#' quantities because intervals allow the second number
+#' Intervals allow the second number
 #' of the lower pair to equal the first number of the upper pair,
-#' while quantities do not. The labels, which the
-#' check functions use in return values, also differ.
-#'
+#' while quantities do not.
 #' 
 #' @inheritParams chk_trans_list
 #' @param x A list of integer vectors of length 2.
 #'
 #' @examples
-#' values <- list(c(NA, 20L), c(20L, 30L), c(30L, NA)) 
-#' chk_no_overlap_intervals(values)
+#' x <- list(c(NA, NA), c(NA, 20L), c(30L, NA), c(20L, 30L)) 
+#' chk_no_overlap_intervals(x = x,
+#'                          name = "x")
 #'
-#' values <- list(c(NA, 19L), c(20L, 29L), c(30L, NA)) 
-#' chk_no_overlap_quantities(values)
+#' x <- list(c(NA, 19L), c(NA, NA), c(30L, NA), c(20L, 29L)) 
+#' chk_no_overlap_quantities(x = x,
+#'                           name = "x")
+#'
+#' x <- list(as.Date(c(NA, "2020-10-01")),
+#'           as.Date(c(NA, NA)),
+#'           as.Date(c("2020-01-01", "2020-04-01")))
+#' chk_no_overlap_quarters(x = x,
+#'                         name = "x")
+#'
+#' x <- list(as.Date(c(NA, "2020-10-01")),
+#'           as.Date(c(NA, NA)),
+#'           as.Date(c("2020-01-01", "2020-02-01")))
+#' chk_no_overlap_months(x = x,
+#'                       name = "x")
 #' @name chk_no_overlap_intervals
 NULL
 
 #' @rdname chk_no_overlap_intervals
 #' @export
 chk_no_overlap_intervals <- function(x, name) {
+    e1 <- sapply(x, `[[`, 1L)
+    e2 <- sapply(x, `[[`, 2L)
+    is_both_na <- is.na(e1) & is.na(e2)
+    if (sum(is_both_na) > 1L)
+        return(gettextf("problem with elements of '%s' : more than one item where both elements are NA",
+                        name))
+    x <- x[!is_both_na]
     n <- length(x)
     if (n >= 2L) {
-        e1 <- sapply(x, `[[`, 1L)
-        e2 <- sapply(x, `[[`, 2L)
+        e1 <- e1[!is_both_na]
+        e2 <- e2[!is_both_na]
         e1[is.na(e1)] <- min(e1, e2, na.rm = TRUE) - 1L
         e2[is.na(e2)] <- max(e1, e2, na.rm = TRUE) + 1L
         is_invalid_starts_below <- outer(e1, e1, `<`) & outer(e2, e1, `>`)
@@ -281,9 +299,8 @@ chk_no_overlap_intervals <- function(x, name) {
             second <- x[[indices_invalid[1L, 2L]]]
             lab_first <- make_label_intervals(first)
             lab_second <- make_label_intervals(second)
-            val <- gettextf("problem with elements of '%s' : \"%s\" overlaps with \"%s\"",
-                            name, lab_first, lab_second)
-            return(val)
+            return(gettextf("problem with elements of '%s' : \"%s\" overlaps with \"%s\"",
+                            name, lab_first, lab_second))
         }
     }
     TRUE
@@ -292,10 +309,17 @@ chk_no_overlap_intervals <- function(x, name) {
 #' @rdname chk_no_overlap_intervals
 #' @export
 chk_no_overlap_quantities <- function(x, name) {
+    e1 <- sapply(x, `[[`, 1L)
+    e2 <- sapply(x, `[[`, 2L)
+    is_both_na <- is.na(e1) & is.na(e2)
+    if (sum(is_both_na) > 1L)
+        return(gettextf("problem with elements of '%s' : more than one item where both elements are NA",
+                        name))
+    x <- x[!is_both_na]
     n <- length(x)
     if (n >= 2L) {
-        e1 <- sapply(x, `[[`, 1L)
-        e2 <- sapply(x, `[[`, 2L)
+        e1 <- e1[!is_both_na]
+        e2 <- e2[!is_both_na]
         e1[is.na(e1)] <- min(e1, e2, na.rm = TRUE) - 1L
         e2[is.na(e2)] <- max(e1, e2, na.rm = TRUE) + 1L
         is_invalid_starts_below <- outer(e1, e1, `<`) & outer(e2, e1, `>=`)
@@ -308,9 +332,76 @@ chk_no_overlap_quantities <- function(x, name) {
             second <- x[[indices_invalid[1L, 2L]]]
             lab_first <- make_label_quantities(first)
             lab_second <- make_label_quantities(second)
-            val <- gettextf("problem with elements of '%s' : \"%s\" overlaps with \"%s\"",
-                            name, lab_first, lab_second)
-            return(val)
+            return(gettextf("problem with elements of '%s' : \"%s\" overlaps with \"%s\"",
+                            name, lab_first, lab_second))
+        }
+    }
+    TRUE
+}
+
+#' @rdname chk_no_overlap_intervals
+#' @export
+chk_no_overlap_months <- function(x, name) {
+    x_int <- lapply(x, as.integer)
+    e1 <- sapply(x_int, `[[`, 1L)
+    e2 <- sapply(x_int, `[[`, 2L)
+    is_both_na <- is.na(e1) & is.na(e2)
+    if (sum(is_both_na) > 1L)
+        return(gettextf("problem with elements of '%s' : more than one item where both elements are NA",
+                        name))
+    x <- x[!is_both_na]
+    n <- length(x)
+    if (n >= 2L) {
+        e1 <- e1[!is_both_na]
+        e2 <- e2[!is_both_na]
+        e1[is.na(e1)] <- min(e1, e2, na.rm = TRUE) - 1L
+        e2[is.na(e2)] <- max(e1, e2, na.rm = TRUE) + 1L
+        is_invalid_starts_below <- outer(e1, e1, `<`) & outer(e2, e1, `>`)
+        is_invalid_starts_same <- outer(e1, e1, `==`)
+        is_invalid <- is_invalid_starts_below | is_invalid_starts_same
+        diag(is_invalid) <- FALSE
+        if (any(is_invalid)) {
+            indices_invalid <- which(is_invalid, arr.ind = TRUE)
+            first <- x[[indices_invalid[1L, 1L]]]
+            second <- x[[indices_invalid[1L, 2L]]]
+            lab_first <- make_label_months(first)
+            lab_second <- make_label_months(second)
+            return(gettextf("problem with elements of '%s' : \"%s\" overlaps with \"%s\"",
+                            name, lab_first, lab_second))
+        }
+    }
+    TRUE
+}
+
+#' @rdname chk_no_overlap_intervals
+#' @export
+chk_no_overlap_quarters <- function(x, name) {
+    x_int <- lapply(x, as.integer)
+    e1 <- sapply(x_int, `[[`, 1L)
+    e2 <- sapply(x_int, `[[`, 2L)
+    is_both_na <- is.na(e1) & is.na(e2)
+    if (sum(is_both_na) > 1L)
+        return(gettextf("problem with elements of '%s' : more than one item where both elements are NA",
+                        name))
+    x <- x[!is_both_na]
+    n <- length(x)
+    if (n >= 2L) {
+        e1 <- e1[!is_both_na]
+        e2 <- e2[!is_both_na]
+        e1[is.na(e1)] <- min(e1, e2, na.rm = TRUE) - 1L
+        e2[is.na(e2)] <- max(e1, e2, na.rm = TRUE) + 1L
+        is_invalid_starts_below <- outer(e1, e1, `<`) & outer(e2, e1, `>`)
+        is_invalid_starts_same <- outer(e1, e1, `==`)
+        is_invalid <- is_invalid_starts_below | is_invalid_starts_same
+        diag(is_invalid) <- FALSE
+        if (any(is_invalid)) {
+            indices_invalid <- which(is_invalid, arr.ind = TRUE)
+            first <- x[[indices_invalid[1L, 1L]]]
+            second <- x[[indices_invalid[1L, 2L]]]
+            lab_first <- make_label_quarters(first)
+            lab_second <- make_label_quarters(second)
+            return(gettextf("problem with elements of '%s' : \"%s\" overlaps with \"%s\"",
+                            name, lab_first, lab_second))
         }
     }
     TRUE

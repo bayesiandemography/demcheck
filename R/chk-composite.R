@@ -1058,26 +1058,21 @@ chk_lt_vector <- function(x1, x2, name1, name2) {
 #' @inheritParams chk_all_x1_in_x2
 #' @param x1 A scalar.
 #' @param x2 A scalar.
-#' @param null_ok Whether \code{x1} can be \code{NULL},
 #' 
 #' @seealso \code{\link{chk_multiple_of_n}}
 #'
 #' @examples
 #' x1 <- 10L
 #' x2 <- 2L
-#' chk_multiple_of(x1 = x1, x2 = x2,
-#'                 name1 = "x1", name2 = "x2",
-#'                 null_ok = FALSE)
-#' x1 <- NULL
-#' chk_multiple_of(x1 = x1, x2 = x2,
-#'                 name1 = "x1", name2 = "x2",
-#'                 null_ok = TRUE)
+#' chk_multiple_of(x1 = x1,
+#'                 x2 = x2,
+#'                 name1 = "x1",
+#'                 name2 = "x2")
 #' @export
-chk_multiple_of <- function(x1, x2, name1, name2, null_ok) {
+chk_multiple_of <- function(x1, x2, name1, name2) {
     if (is.null(x1)) {
-        if (!null_ok)
-            return(gettextf("'%s' is %s",
-                            name1, "NULL"))
+        return(gettextf("'%s' is %s",
+                        name1, "NULL"))
     }
     else {
         if (x1 %% x2 != 0L)
@@ -1099,22 +1094,16 @@ chk_multiple_of <- function(x1, x2, name1, name2, null_ok) {
 #' @inheritParams chk_array_metadata_complete
 #' @param x A scalar.
 #' @param n A scalar.
-#' @param null_ok Whether \code{x} can be \code{NULL},
 #' 
 #' @examples
 #' x <- 10L
 #' n <- 2L
-#' chk_multiple_of_n(x = x, n = n, name = "x",
-#'                   null_ok = FALSE)
-#' x <- NULL
-#' chk_multiple_of_n(x = x, n = n, name = "x",
-#'                   null_ok = FALSE)
+#' chk_multiple_of_n(x = x, n = n, name = "x")
 #' @export
-chk_multiple_of_n <- function(x, name, n, null_ok) {
+chk_multiple_of_n <- function(x, name, n) {
     if (is.null(x)) {
-        if (!null_ok)
-            return(gettextf("'%s' is %s",
-                            name, "NULL"))
+        return(gettextf("'%s' is %s",
+                        name, "NULL"))
     }
     else {
         if (x %% n != 0L)

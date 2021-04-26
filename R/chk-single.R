@@ -218,6 +218,30 @@ chk_is_na_vector <- function(x, name) {
 }
 
 
+#' Check that all items in a list are Date vectors
+#'
+#' @inheritParams chk_all_0_1
+#' @param x A list.
+#'
+#' @examples
+#' x <- list(as.Date(character()),
+#'           as.Date(c("2000-01-01", "2001-02-01")))
+#' chk_items_date(x = x,
+#'                name = "x")
+#' @export
+chk_items_date <- function(x, name) {
+    for (i in seq_along(x)) {
+        item <- x[[i]]
+        if (!inherits(item, "Date")) {
+            return(gettextf("item %d of '%s' has class \"%s\"",
+                            i, name, class(item)))
+        }
+    }
+    TRUE
+}
+
+
+## HAS_TESTS
 #' Check that elements within each item
 #' are increasing or strictly increasing
 #'
@@ -340,6 +364,36 @@ chk_items_no_na <- function(x, except, name) {
             val <- gettextf("item %d of '%s' has NA",
                             i, name)
             return(val)
+        }
+    }
+    TRUE
+}
+
+
+## HAS_TESTS
+#' Check that, in items of list, second element
+#' one greater than first
+#'
+#' NAs are ignored.
+#'
+#' @inheritParams chk_all_0_1
+#' @param x A list.
+#'
+#' @examples
+#' x <- list(c(0L, 1L), c(1L, 2L), c(NA, 100L), c(NA, 5L))
+#' chk_items_one_greater(x = x,
+#'                       name = "x")
+#' @export
+chk_items_one_greater <- function(x, name) {
+    for (i in seq_along(x)) {
+        item <- x[[i]]
+        if (!anyNA(item)) {
+            el1 <- item[[1L]]
+            el2 <- item[[2L]]
+            if (!identical(el2 - el1, 1L)) {
+                return(gettextf("second element [%d] of item %d is not one greater than first element [%d]",
+                                el2, i, el1))
+            }
         }
     }
     TRUE

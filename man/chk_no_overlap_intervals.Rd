@@ -3,8 +3,12 @@
 \name{chk_no_overlap_intervals}
 \alias{chk_no_overlap_intervals}
 \alias{chk_no_overlap_quantities}
+\alias{chk_no_overlap_months}
+\alias{chk_no_overlap_quarters}
 \alias{err_no_overlap_intervals}
 \alias{err_no_overlap_quantities}
+\alias{err_no_overlap_months}
+\alias{err_no_overlap_quarters}
 \title{Check that pairs of numbers specifying 
 labels do not overlap}
 \usage{
@@ -12,9 +16,17 @@ chk_no_overlap_intervals(x, name)
 
 chk_no_overlap_quantities(x, name)
 
+chk_no_overlap_months(x, name)
+
+chk_no_overlap_quarters(x, name)
+
 err_no_overlap_intervals(x, name)
 
 err_no_overlap_quantities(x, name)
+
+err_no_overlap_months(x, name)
+
+err_no_overlap_quarters(x, name)
 }
 \arguments{
 \item{x}{A list of integer vectors of length 2.}
@@ -30,16 +42,28 @@ in both orders, so looking only at overlaps from below
 finds all overlaps.
 }
 \details{
-Different functions are needed for intervals and
-quantities because intervals allow the second number
+Intervals allow the second number
 of the lower pair to equal the first number of the upper pair,
-while quantities do not. The labels, which the
-check functions use in return values, also differ.
+while quantities do not.
 }
 \examples{
-values <- list(c(NA, 20L), c(20L, 30L), c(30L, NA)) 
-chk_no_overlap_intervals(values)
+x <- list(c(NA, NA), c(NA, 20L), c(30L, NA), c(20L, 30L)) 
+chk_no_overlap_intervals(x = x,
+                         name = "x")
 
-values <- list(c(NA, 19L), c(20L, 29L), c(30L, NA)) 
-chk_no_overlap_quantities(values)
+x <- list(c(NA, 19L), c(NA, NA), c(30L, NA), c(20L, 29L)) 
+chk_no_overlap_quantities(x = x,
+                          name = "x")
+
+x <- list(as.Date(c(NA, "2020-10-01")),
+          as.Date(c(NA, NA)),
+          as.Date(c("2020-01-01", "2020-04-01")))
+chk_no_overlap_quarters(x = x,
+                        name = "x")
+
+x <- list(as.Date(c(NA, "2020-10-01")),
+          as.Date(c(NA, NA)),
+          as.Date(c("2020-01-01", "2020-02-01")))
+chk_no_overlap_months(x = x,
+                      name = "x")
 }

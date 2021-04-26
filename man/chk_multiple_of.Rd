@@ -5,9 +5,9 @@
 \alias{err_multiple_of}
 \title{Check that 'x1' is a multiple of 'x2'}
 \usage{
-chk_multiple_of(x1, x2, name1, name2, null_ok)
+chk_multiple_of(x1, x2, name1, name2)
 
-err_multiple_of(x1, x2, name1, name2, null_ok)
+err_multiple_of(x1, x2, name1, name2)
 }
 \arguments{
 \item{x1}{A scalar.}
@@ -19,8 +19,6 @@ will be used in error messages.}
 
 \item{name2}{The name for \code{x2} that
 will be used in error messages.}
-
-\item{null_ok}{Whether \code{x1} can be \code{NULL},}
 }
 \description{
 If \code{null_ok} is \code{TRUE} and \code{x1}
@@ -29,13 +27,10 @@ is \code{NULL} then the test succeeds.
 \examples{
 x1 <- 10L
 x2 <- 2L
-chk_multiple_of(x1 = x1, x2 = x2,
-                name1 = "x1", name2 = "x2",
-                null_ok = FALSE)
-x1 <- NULL
-chk_multiple_of(x1 = x1, x2 = x2,
-                name1 = "x1", name2 = "x2",
-                null_ok = TRUE)
+chk_multiple_of(x1 = x1,
+                x2 = x2,
+                name1 = "x1",
+                name2 = "x2")
 }
 \seealso{
 \code{\link{chk_multiple_of_n}}

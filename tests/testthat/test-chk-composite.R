@@ -838,29 +838,21 @@ test_that("'chk_lt_vector' returns expected message with invalid inputs", {
 
 test_that("'chk_multiple_of' returns TRUE with valid inputs", {
     expect_true(chk_multiple_of(x1 = 30L,
-                                   x2 = 5L,
-                                   name1 = "x1",
-                                   name2 = "x2",
-                                   null_ok = FALSE))
-    expect_true(chk_multiple_of(x1 = NULL,
-                                   x2 = 5L,
-                                   name1 = "x1",
-                                   name2 = "x2",
-                                   null_ok = TRUE))
+                                x2 = 5L,
+                                name1 = "x1",
+                                name2 = "x2"))
 })
 
 test_that("'chk_multiple_of' returns expected message with invalid argument", {
     expect_identical(chk_multiple_of(x1 = NULL,
-                                        x2 = 5L,
-                                        name1 = "x1",
-                                        name2 = "x2",
-                                        null_ok = FALSE),
+                                     x2 = 5L,
+                                     name1 = "x1",
+                                     name2 = "x2"),
                      "'x1' is NULL")
     expect_identical(chk_multiple_of(x1 = 31L,
-                                        x2 = 5L,
-                                        name1 = "x1",
-                                        name2 = "x2",
-                                        null_ok = FALSE),
+                                     x2 = 5L,
+                                     name1 = "x1",
+                                     name2 = "x2"),
                      "'x1' [31] is not a multiple of 'x2' [5]")
 })
 
@@ -869,30 +861,23 @@ test_that("'chk_multiple_of' returns expected message with invalid argument", {
 
 test_that("'chk_multiple_of_n' returns TRUE with valid inputs", {
     expect_true(chk_multiple_of_n(x = 30L,
-                                     name = "x",
-                                     n = 5L,
-                                     null_ok = FALSE))
-    expect_true(chk_multiple_of_n(x = NULL,
-                                     name = "x",
-                                     n = 5L,
-                                     null_ok = TRUE))
+                                  name = "x",
+                                  n = 5L))
 })
 
 test_that("'chk_multiple_of_n' returns expected message with invalid argument", {
     expect_identical(chk_multiple_of_n(x = NULL,
-                                          name = "x",
-                                          n = 5L,
-                                          null_ok = FALSE),
+                                       name = "x",
+                                       n = 5L),
                      "'x' is NULL")
     expect_identical(chk_multiple_of_n(x = 31L,
-                                          name = "x",
-                                          n = 5L,
-                                          null_ok = FALSE),
+                                       name = "x",
+                                       n = 5L),
                      "'x' [31] is not a multiple of 5")
 })
 
 
-## chk_non_negative_scalar
+## chk_non_negative_scalar ----------------------------------------------------
 
 test_that("'chk_non_negative_scalar' returns TRUE with valid input", {
     expect_true(chk_non_negative_scalar(x = 1L,

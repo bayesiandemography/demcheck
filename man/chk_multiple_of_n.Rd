@@ -5,9 +5,9 @@
 \alias{err_multiple_of_n}
 \title{Check that 'x1' is a multiple of 'n'}
 \usage{
-chk_multiple_of_n(x, name, n, null_ok)
+chk_multiple_of_n(x, name, n)
 
-err_multiple_of_n(x, name, n, null_ok)
+err_multiple_of_n(x, name, n)
 }
 \arguments{
 \item{x}{A scalar.}
@@ -16,8 +16,6 @@ err_multiple_of_n(x, name, n, null_ok)
 will be used in error messages.}
 
 \item{n}{A scalar.}
-
-\item{null_ok}{Whether \code{x} can be \code{NULL},}
 }
 \description{
 \code{chk_multiple_of_n} differs from
@@ -29,9 +27,5 @@ variable \code{"n"}.
 \examples{
 x <- 10L
 n <- 2L
-chk_multiple_of_n(x = x, n = n, name = "x",
-                  null_ok = FALSE)
-x <- NULL
-chk_multiple_of_n(x = x, n = n, name = "x",
-                  null_ok = FALSE)
+chk_multiple_of_n(x = x, n = n, name = "x")
 }
