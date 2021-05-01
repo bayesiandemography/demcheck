@@ -21,6 +21,11 @@ Checks:
   \item no duplicates
 }
 }
+\details{
+Function also called by \code{\link{chk_values_triangles}},
+\code{\link{chk_values_directions}}, and
+\code{\link{chk_values_quantiles}}.
+}
 \examples{
 x <- c("Thailand", "Laos", "Cambodia")
 chk_values_categories(x = x, name = "x")

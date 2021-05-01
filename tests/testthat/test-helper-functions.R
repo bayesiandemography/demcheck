@@ -1,17 +1,19 @@
 
+context("helper-functions")
+
 ## make_label -----------------------------------------------------------------
 
 test_that("'make_label_intervals' gives expected result with valid inputs", {
     expect_identical(make_label_intervals(c(NA_integer_, NA_integer_)),
                      NA_character_)
     expect_identical(make_label_intervals(c(NA, 0L)),
-                     "--0")
+                     "<0")
     expect_identical(make_label_intervals(c(100L, NA)),
-                     "100--")
+                     "100+")
     expect_identical(make_label_intervals(c(20L, 21L)),
-                     "20--21")
+                     "20-21")
     expect_identical(make_label_intervals(c(20L, 24L)),
-                     "20--24")
+                     "20-24")
 })
 
 test_that("'make_label_quantities' gives expected result with valid inputs", {

@@ -56,25 +56,16 @@ err_no_open_cohort <- function(x) {
     TRUE
 }
 
-#' @rdname chk_no_overlap_intervals
+#' @rdname chk_no_overlap
 #' @export
-err_no_overlap_intervals <- function(x, name) {
-    val <- chk_no_overlap_intervals(x, name)
+err_no_overlap_pairs <- function(x, name) {
+    val <- chk_no_overlap_pairs(x, name)
     if (is.character(val))
         stop(val, call. = FALSE)
     TRUE
 }
 
-#' @rdname chk_no_overlap_intervals
-#' @export
-err_no_overlap_quantities <- function(x, name) {
-    val <- chk_no_overlap_quantities(x, name)
-    if (is.character(val))
-        stop(val, call. = FALSE)
-    TRUE
-}
-
-#' @rdname chk_no_overlap_intervals
+#' @rdname chk_no_overlap
 #' @export
 err_no_overlap_months <- function(x, name) {
     val <- chk_no_overlap_months(x, name)
@@ -83,7 +74,7 @@ err_no_overlap_months <- function(x, name) {
     TRUE
 }
 
-#' @rdname chk_no_overlap_intervals
+#' @rdname chk_no_overlap
 #' @export
 err_no_overlap_quarters <- function(x, name) {
     val <- chk_no_overlap_quarters(x, name)

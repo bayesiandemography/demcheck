@@ -252,12 +252,8 @@ chk_no_open_cohort <- function(x) {
 #'
 #' @examples
 #' x <- list(c(NA, NA), c(NA, 20L), c(30L, NA), c(20L, 30L)) 
-#' chk_no_overlap_intervals(x = x,
-#'                          name = "x")
-#'
-#' x <- list(c(NA, 19L), c(NA, NA), c(30L, NA), c(20L, 29L)) 
-#' chk_no_overlap_quantities(x = x,
-#'                           name = "x")
+#' chk_no_overlap_pairs(x = x,
+#'                      name = "x")
 #'
 #' x <- list(as.Date(c(NA, "2020-10-01")),
 #'           as.Date(c(NA, NA)),
@@ -270,12 +266,12 @@ chk_no_open_cohort <- function(x) {
 #'           as.Date(c("2020-01-01", "2020-02-01")))
 #' chk_no_overlap_months(x = x,
 #'                       name = "x")
-#' @name chk_no_overlap_intervals
+#' @name chk_no_overlap
 NULL
 
-#' @rdname chk_no_overlap_intervals
+#' @rdname chk_no_overlap
 #' @export
-chk_no_overlap_intervals <- function(x, name) {
+chk_no_overlap_pairs <- function(x, name) {
     e1 <- sapply(x, `[[`, 1L)
     e2 <- sapply(x, `[[`, 2L)
     is_both_na <- is.na(e1) & is.na(e2)
@@ -306,40 +302,7 @@ chk_no_overlap_intervals <- function(x, name) {
     TRUE
 }
 
-#' @rdname chk_no_overlap_intervals
-#' @export
-chk_no_overlap_quantities <- function(x, name) {
-    e1 <- sapply(x, `[[`, 1L)
-    e2 <- sapply(x, `[[`, 2L)
-    is_both_na <- is.na(e1) & is.na(e2)
-    if (sum(is_both_na) > 1L)
-        return(gettextf("problem with elements of '%s' : more than one item where both elements are NA",
-                        name))
-    x <- x[!is_both_na]
-    n <- length(x)
-    if (n >= 2L) {
-        e1 <- e1[!is_both_na]
-        e2 <- e2[!is_both_na]
-        e1[is.na(e1)] <- min(e1, e2, na.rm = TRUE) - 1L
-        e2[is.na(e2)] <- max(e1, e2, na.rm = TRUE) + 1L
-        is_invalid_starts_below <- outer(e1, e1, `<`) & outer(e2, e1, `>=`)
-        is_invalid_starts_same <- outer(e1, e1, `==`)
-        is_invalid <- is_invalid_starts_below | is_invalid_starts_same
-        diag(is_invalid) <- FALSE
-        if (any(is_invalid)) {
-            indices_invalid <- which(is_invalid, arr.ind = TRUE)
-            first <- x[[indices_invalid[1L, 1L]]]
-            second <- x[[indices_invalid[1L, 2L]]]
-            lab_first <- make_label_quantities(first)
-            lab_second <- make_label_quantities(second)
-            return(gettextf("problem with elements of '%s' : \"%s\" overlaps with \"%s\"",
-                            name, lab_first, lab_second))
-        }
-    }
-    TRUE
-}
-
-#' @rdname chk_no_overlap_intervals
+#' @rdname chk_no_overlap
 #' @export
 chk_no_overlap_months <- function(x, name) {
     x_int <- lapply(x, as.integer)
@@ -373,7 +336,7 @@ chk_no_overlap_months <- function(x, name) {
     TRUE
 }
 
-#' @rdname chk_no_overlap_intervals
+#' @rdname chk_no_overlap
 #' @export
 chk_no_overlap_quarters <- function(x, name) {
     x_int <- lapply(x, as.integer)

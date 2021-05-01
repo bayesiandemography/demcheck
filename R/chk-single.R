@@ -654,9 +654,13 @@ chk_is_logical <- function(x, name) {
 chk_no_duplicates <- function(x, name) {
     is_duplicate <- duplicated(x)
     i_duplicate <- match(TRUE, is_duplicate, nomatch = 0L)
-    if (i_duplicate > 0L)
-        return(gettextf("element %d of '%s' [%s] is duplicate",
-                        i_duplicate, name, x[[i_duplicate]]))
+    if (i_duplicate > 0L) {
+        if (is.character(x))
+            fmt <- "element %d of '%s' [\"%s\"] is duplicate"
+        else
+            fmt <- "element %d of '%s' [%s] is duplicate"
+        return(gettextf(fmt, i_duplicate, name, x[[i_duplicate]]))
+    }
     TRUE
 }
 

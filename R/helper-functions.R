@@ -1,4 +1,6 @@
 
+## formatting -----------------------------------------------------------------
+
 string_subset_vec <- function(vec) {
     n <- length(vec)
     if (n <= 3L)
@@ -8,6 +10,7 @@ string_subset_vec <- function(vec) {
               "...",
               sep = ", ")
 }
+
 
 ## make_label -----------------------------------------------------------------
 
@@ -20,11 +23,11 @@ make_label_intervals <- function(x) {
     if (is_na_1 && is_na_2)
         NA_character_
     else if (is_na_1 && !is_na_2)
-        paste0("--", x2)
+        paste0("<", x2)
     else if (!is_na_1 && is_na_2)
-        paste0(x1, "--")
+        paste0(x1, "+")
     else
-        paste0(x1, "--", x2)
+        paste0(x1, "-", x2)
 }
 
 

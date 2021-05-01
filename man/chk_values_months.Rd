@@ -7,7 +7,7 @@
 chk_values_months(x, name)
 }
 \arguments{
-\item{x}{A list of integer vectors, 
+\item{x}{A list of Date vectors, 
 each of which has length 2.}
 
 \item{name}{The name for \code{x} that

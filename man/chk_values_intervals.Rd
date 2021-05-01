@@ -21,6 +21,9 @@ Checks:
   \item intervals do not overlap
 }
 }
+\details{
+Identical to \code{\link{chk_values_quantities}}
+}
 \examples{
 x <- list(c(100L, NA), c(0L, 5L), c(NA, 0L), c(5L, 50L))
 chk_values_intervals(x = x, name = "x")

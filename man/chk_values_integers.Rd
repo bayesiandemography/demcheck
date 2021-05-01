@@ -2,7 +2,7 @@
 % Please edit documentation in R/chk-values.R
 \name{chk_values_integers}
 \alias{chk_values_integers}
-\title{Check values for Integer labels}
+\title{Check values for Integers labels}
 \usage{
 chk_values_integers(x, name)
 }
@@ -14,9 +14,6 @@ each of which has length 2.}
 will be used in error messages.}
 }
 \description{
-Specialised version of Intervals labels.
-}
-\details{
 Checks:
 \itemize{
   \item is list of integer vectors of length 2

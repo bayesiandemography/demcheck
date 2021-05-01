@@ -4,7 +4,7 @@
 
 ## Categories -----------------------------------------------------------------
 
-## NO_TESTS
+## HAS_TESTS
 #' Check values for Categories labels
 #'
 #' Checks:
@@ -14,6 +14,10 @@
 #'   \item no blanks (zero-length strings)
 #'   \item no duplicates
 #' }
+#'
+#' Function also called by \code{\link{chk_values_triangles}},
+#' \code{\link{chk_values_directions}}, and
+#' \code{\link{chk_values_quantiles}}.
 #' 
 #' @param x A character vector.
 #' @param name The name for \code{x} that
@@ -35,8 +39,8 @@ chk_values_categories <- function(x, name) {
     if (!isTRUE(val))
         return(val)
     ## no blanks
-    val <- chk_no_blanks(x = x,
-                         name = name)
+    val <- chk_not_blank_vector(x = x,
+                                name = name)
     if (!isTRUE(val))
         return(val)
     ## no duplicates
@@ -47,10 +51,7 @@ chk_values_categories <- function(x, name) {
     TRUE
 }
 
-
-## Specialised classes --------------------------------------------------------
-
-## NO_TESTS
+## HAS_TESTS
 #' Check values for Triangles labels
 #'
 #' Checks:
@@ -68,14 +69,8 @@ chk_values_categories <- function(x, name) {
 #' @export
 chk_values_triangles <- function(x, name) {
     expected_set <- c("Lower", "Upper", NA)
-    ## is character
-    val <- chk_is_character(x = x,
-                            name = name)
-    if (!isTRUE(val))
-        return(val)
-    ## no duplicates
-    val <- chk_no_duplicates(x = x,
-                             name = name)
+    val <- chk_values_categories(x = x,
+                                 name = name)
     if (!isTRUE(val))
         return(val)
     ## members of expected set
@@ -87,7 +82,7 @@ chk_values_triangles <- function(x, name) {
     TRUE
 }
 
-## NO_TESTS
+## HAS_TESTS
 #' Check values for Directions labels
 #'
 #' Checks:
@@ -105,14 +100,8 @@ chk_values_triangles <- function(x, name) {
 #' @export
 chk_values_directions <- function(x, name) {
     expected_set <- c("In", "Out", NA)
-    ## is character
-    val <- chk_is_character(x = x,
-                            name = name)
-    if (!isTRUE(val))
-        return(val)
-    ## no duplicates
-    val <- chk_no_duplicates(x = x,
-                             name = name)
+    val <- chk_values_categories(x = x,
+                                 name = name)
     if (!isTRUE(val))
         return(val)
     ## members of expected set
@@ -124,7 +113,7 @@ chk_values_directions <- function(x, name) {
     TRUE
 }
 
-## NO_TESTS
+## HAS_TESTS
 #' Check values for Quantiles labels
 #'
 #' Checks:
@@ -141,14 +130,8 @@ chk_values_directions <- function(x, name) {
 #' chk_values_quantiles(x = x, name = "x")
 #' @export
 chk_values_quantiles <- function(x, name) {
-    ## is character
-    val <- chk_is_character(x = x,
-                            name = name)
-    if (!isTRUE(val))
-        return(val)
-    ## no duplicates
-    val <- chk_no_duplicates(x = x,
-                             name = name)
+    val <- chk_values_categories(x = x,
+                                 name = name)
     if (!isTRUE(val))
         return(val)
     ## have correct format for quantiles
@@ -160,12 +143,63 @@ chk_values_quantiles <- function(x, name) {
 }
 
 
-## Numeric --------------------------------------------------------------------
+## Pairs ----------------------------------------------------------------------
 
-## NO_TESTS
-#' Check values for Integer labels
+## HAS_TESTS
+#' Checking function for subclasses of Pairs virtual superclass
 #'
-#' Specialised version of Intervals labels.
+#' Function called by \code{\link{chk_values_integers}},
+#' \code{\link{chk_values_intervals}},
+#' \code{\link{chk_values_quantities}},
+#' \code{\link{chk_values_quarters}},
+#' \code{\link{chk_values_months}}, and
+#' \code{\link{chk_values_dateranges}},
+#'
+#' Checks:
+#' \itemize{
+#'   \item is list of vectors of length 2
+#'   \item second element of each vector greater than first
+#'   \item intervals do not overlap (including NAs)
+#' }
+#' 
+#' @inheritParams chk_values_categories
+#' @param x A list of vectors, 
+#' each of which has length 2.
+#'
+#' @examples
+#' x <- list(c(100L, NA), c(0L, 5L), c(NA, 0L), c(5L, 50L))
+#' chk_values_pairs(x = x, name = "x")
+#' x <- list(as.Date(c("2001-01-01", "2002-01-01")))
+#' chk_values_pairs(x = x, name = "x")
+#' @export
+chk_values_pairs <- function(x, name) {
+    ## x is list
+    val <- chk_is_list(x = x,
+                       name = name)
+    if (!isTRUE(val))
+        return(val)
+    ## all items in list have length 2
+    val <- chk_items_length_k(x = x,
+                              k = 2L,
+                              name = name)
+    if (!isTRUE(val))
+        return(val)
+    ## second element greater than first element
+    val <- chk_items_increasing(x = x,
+                                strict = TRUE,
+                                name = name)
+    if (!isTRUE(val))
+        return(val)
+    ## values do not overlap (including NAs)
+    val <- chk_no_overlap_pairs(x = x,
+                                name = name)
+    if (!isTRUE(val))
+        return(val)
+    TRUE
+}
+
+## HAS_TESTS
+#' Check values for Integers labels
 #'
 #' Checks:
 #' \itemize{
@@ -183,9 +217,8 @@ chk_values_quantiles <- function(x, name) {
 #' chk_values_integers(x = x, name = "x")
 #' @export
 chk_values_integers <- function(x, name) {
-    ## x is list
-    val <- chk_is_list(x = x,
-                       name = name)
+    val <- chk_values_pairs(x = x,
+                            name = name)
     if (!isTRUE(val))
         return(val)
     ## all items in list are integer
@@ -193,28 +226,15 @@ chk_values_integers <- function(x, name) {
                              name = name)
     if (!isTRUE(val))
         return(val)
-    ## all items in list have length 2
-    val <- chk_items_length_k(x = x,
-                              k = 2L,
-                              name = name)
-    if (!isTRUE(val))
-        return(val)
     ## second element one greater than first element
     val <- chk_items_one_greater(x = x,
                                  name = name)
     if (!isTRUE(val))
         return(val)
-    ## values do not overlap
-    val <- chk_no_overlap_intervals(x = x,
-                                    name = name)
-    if (!isTRUE(val))
-        return(val)
     TRUE
 }
 
-
-
-## NO_TESTS
+## HAS_TESTS
 #' Check values for Intervals labels
 #'
 #' Checks:
@@ -223,6 +243,8 @@ chk_values_integers <- function(x, name) {
 #'   \item second element of each vector greater than first
 #'   \item intervals do not overlap
 #' }
+#'
+#' Identical to \code{\link{chk_values_quantities}}
 #' 
 #' @inheritParams chk_values_categories
 #' @param x A list of integer vectors, 
@@ -233,9 +255,8 @@ chk_values_integers <- function(x, name) {
 #' chk_values_intervals(x = x, name = "x")
 #' @export
 chk_values_intervals <- function(x, name) {
-    ## x is list
-    val <- chk_is_list(x = x,
-                       name = name)
+    val <- chk_values_pairs(x = x,
+                            name = name)
     if (!isTRUE(val))
         return(val)
     ## all items in list are integer
@@ -243,49 +264,32 @@ chk_values_intervals <- function(x, name) {
                              name = name)
     if (!isTRUE(val))
         return(val)
-    ## all items in list have length 2
-    val <- chk_items_length_k(x = x,
-                              k = 2L,
-                              name = name)
-    if (!isTRUE(val))
-        return(val)
-    ## second element greater than first element
-    val <- chk_items_increasing(x = x,
-                                strict = TRUE,
-                                name = name)
-    if (!isTRUE(val))
-        return(val)
-    ## values do not overlap
-    val <- chk_no_overlap_intervals(x = x,
-                                    name = name)
-    if (!isTRUE(val))
-        return(val)
     TRUE
 }
 
-
-## NO_TESTS
+## HAS_TESTS
 #' Check values for Quantities labels
 #'
 #' Checks:
 #' \itemize{
 #'   \item is list of integer vectors of length 2
-#'   \item second element of each vector greater than or equal to first
-#'   \item pairs do not overlap
+#'   \item second element of each vector greater than first
+#'   \item intervals do not overlap
 #' }
+#'
+#' Identical to \code{\link{chk_values_intervals}}
 #' 
 #' @inheritParams chk_values_categories
 #' @param x A list of integer vectors, 
 #' each of which has length 2.
 #'
 #' @examples
-#' x <- list(c(100L, NA), c(0L, 4L), c(NA, -1L), c(5L, 49L))
+#' x <- list(c(100L, NA), c(0L, 5L), c(NA, 0L), c(5L, 50L))
 #' chk_values_quantities(x = x, name = "x")
 #' @export
 chk_values_quantities <- function(x, name) {
-    ## x is list
-    val <- chk_is_list(x = x,
-                       name = name)
+    val <- chk_values_pairs(x = x,
+                            name = name)
     if (!isTRUE(val))
         return(val)
     ## all items in list are integer
@@ -293,30 +297,10 @@ chk_values_quantities <- function(x, name) {
                              name = name)
     if (!isTRUE(val))
         return(val)
-    ## all items in list have length 2
-    val <- chk_items_length_k(x = x,
-                              k = 2L,
-                              name = name)
-    if (!isTRUE(val))
-        return(val)
-    ## second element greater than or equal to first element
-    val <- chk_items_increasing(x = x,
-                                strict = FALSE,
-                                name = name)
-    if (!isTRUE(val))
-        return(val)
-    ## values do not overlap
-    val <- chk_no_overlap_quantities(x = x,
-                                     name = name)
-    if (!isTRUE(val))
-        return(val)
     TRUE
 }
 
-
-## Calendar -------------------------------------------------------------------
-
-## NO_TESTS
+## HAS_TESTS
 #' Check values for Quarters labels
 #'
 #' Checks:
@@ -328,7 +312,7 @@ chk_values_quantities <- function(x, name) {
 #' }
 #' 
 #' @inheritParams chk_values_categories
-#' @param x A list of integer vectors, 
+#' @param x A list of Date vectors, 
 #' each of which has length 2.
 #'
 #' @examples
@@ -338,20 +322,13 @@ chk_values_quantities <- function(x, name) {
 #' chk_values_quarters(x = x, name = "x")
 #' @export
 chk_values_quarters <- function(x, name) {
-    ## x is list
-    val <- chk_is_list(x = x,
-                       name = name)
+    val <- chk_values_pairs(x = x,
+                            name = name)
     if (!isTRUE(val))
         return(val)
     ## all items in list are Date
     val <- chk_items_date(x = x,
                           name = name)
-    if (!isTRUE(val))
-        return(val)
-    ## all items in list have length 2
-    val <- chk_items_length_k(x = x,
-                              k = 2L,
-                              name = name)
     if (!isTRUE(val))
         return(val)
     for (i in seq_along(x)) {
@@ -383,16 +360,10 @@ chk_values_quarters <- function(x, name) {
                                 i, name, second, first))
         }
     }
-    ## values do not overlap
-    val <- chk_no_overlap_intervals(x = x,
-                                    name = name)
-    if (!isTRUE(val))
-        return(val)
     TRUE
 }
 
-
-## NO_TESTS
+## HAS_TESTS
 #' Check values for Months labels
 #'
 #' Checks:
@@ -404,7 +375,7 @@ chk_values_quarters <- function(x, name) {
 #' }
 #' 
 #' @inheritParams chk_values_categories
-#' @param x A list of integer vectors, 
+#' @param x A list of Date vectors, 
 #' each of which has length 2.
 #'
 #' @examples
@@ -414,20 +385,13 @@ chk_values_quarters <- function(x, name) {
 #' chk_values_months(x = x, name = "x")
 #' @export
 chk_values_months <- function(x, name) {
-    ## x is list
-    val <- chk_is_list(x = x,
-                       name = name)
+    val <- chk_values_pairs(x = x,
+                            name = name)
     if (!isTRUE(val))
         return(val)
     ## all items in list are Date
-    val <- chk_items_integer(x = x,
-                             name = name)
-    if (!isTRUE(val))
-        return(val)
-    ## all items in list have length 2
-    val <- chk_items_length_k(x = x,
-                              k = 2L,
-                              name = name)
+    val <- chk_items_date(x = x,
+                          name = name)
     if (!isTRUE(val))
         return(val)
     for (i in seq_along(x)) {
@@ -457,16 +421,46 @@ chk_values_months <- function(x, name) {
                                 i, name, second, first))
         }
     }
-    ## values do not overlap
-    val <- chk_no_overlap_intervals(x = x,
-                                    name = name)
+    TRUE
+}
+
+## HAS_TESTS
+#' Check values for DateRanges labels
+#'
+#' Checks:
+#' \itemize{
+#'   \item is list of date vectors of length 2
+#'   \item second element is later than first (if neither NA)
+#'   \item intervals do not overlap
+#' }
+#' 
+#' @inheritParams chk_values_categories
+#' @param x A list of Date vectors, 
+#' each of which has length 2.
+#'
+#' @examples
+#' x <- list(as.Date(c("2000-01-03", "2000-01-03")),
+#'           as.Date(c(NA, "2000-01-02")),
+#'           as.Date(c(NA, NA)))
+#' chk_values_dateranges(x = x, name = "x")
+#' @export
+chk_values_dateranges <- function(x, name) {
+    val <- chk_values_pairs(x = x,
+                            name = name)
+    if (!isTRUE(val))
+        return(val)
+    ## all items in list are Date
+    val <- chk_items_date(x = x,
+                             name = name)
     if (!isTRUE(val))
         return(val)
     TRUE
 }
 
 
-## NO_TESTS
+## DatePoints -----------------------------------------------------------------
+
+## HAS_TESTS
 #' Check values for DatePoints labels
 #'
 #' Checks:
@@ -488,6 +482,11 @@ chk_values_datepoints <- function(x, name) {
                        name = name)
     if (!isTRUE(val))
         return(val)
+    ## at most one NA
+    val <- chk_at_most_one_na_vector(x = x,
+                                     name = name)
+    if (!isTRUE(val))
+        return(val)
     ## no duplicates
     val <- chk_no_duplicates(x = x,
                              name = name)
@@ -497,59 +496,3 @@ chk_values_datepoints <- function(x, name) {
 }
 
 
-## NO_TESTS
-#' Check values for DateRanges labels
-#'
-#' Checks:
-#' \itemize{
-#'   \item is list of date vectors of length 2
-#'   \item second element is later than first (if neither NA)
-#'   \item intervals do not overlap
-#' }
-#' 
-#' @inheritParams chk_values_categories
-#' @param x A list of integer vectors, 
-#' each of which has length 2.
-#'
-#' @examples
-#' x <- list(as.Date(c("2000-01-03", "2000-01-03")),
-#'           as.Date(c(NA, "2000-01-02")),
-#'           as.Date(c(NA, NA)))
-#' chk_values_dateranges(x = x, name = "x")
-#' @export
-chk_values_dateranges <- function(x, name) {
-    ## x is list
-    val <- chk_is_list(x = x,
-                       name = name)
-    if (!isTRUE(val))
-        return(val)
-    ## all items in list are Date
-    val <- chk_items_date(x = x,
-                             name = name)
-    if (!isTRUE(val))
-        return(val)
-    ## all items in list have length 2
-    val <- chk_items_length_k(x = x,
-                              k = 2L,
-                              name = name)
-    if (!isTRUE(val))
-        return(val)
-    ## second element is later than first
-    for (i in seq_along(x)) {
-        item <- x[[i]]
-        first <- item[[1L]]
-        second <- item[[2L]]
-        if (!is.na(first) && !is.na(second)) {
-            if (second <= first)
-                return(gettextf(paste("problem with item %d of '%s' : second element [\"%s\"]",
-                                      "equal to or less than first element [\"%s\"]"),
-                                i, name, second, first))
-        }
-    }
-    ## values do not overlap
-    val <- chk_no_overlap_intervals(x = x,
-                                    name = name)
-    if (!isTRUE(val))
-        return(val)
-    TRUE
-}

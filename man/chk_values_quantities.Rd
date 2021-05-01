@@ -17,11 +17,14 @@ will be used in error messages.}
 Checks:
 \itemize{
   \item is list of integer vectors of length 2
-  \item second element of each vector greater than or equal to first
-  \item pairs do not overlap
+  \item second element of each vector greater than first
+  \item intervals do not overlap
 }
+}
+\details{
+Identical to \code{\link{chk_values_intervals}}
 }
 \examples{
-x <- list(c(100L, NA), c(0L, 4L), c(NA, -1L), c(5L, 49L))
+x <- list(c(100L, NA), c(0L, 5L), c(NA, 0L), c(5L, 50L))
 chk_values_quantities(x = x, name = "x")
 }
