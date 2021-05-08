@@ -951,6 +951,71 @@ err_tdy_positive_integer_vector <- function(x, name) {
 
 
 ## HAS_TESTS
+#' Check and tidy month label
+#'
+#' Check that label valid, and return
+#' date of first day of month.
+#' Allows 0 or more spaces is case insensitive.
+#' 
+#' @inheritParams err_tdy_date_scalar
+#' @param x A month label.
+#'
+#' @examples
+#' err_tdy_month_label(x = "2000 Jan", name = "x")
+#' err_tdy_month_label(x = "2000Jan", name = "x")
+#' err_tdy_month_label(x = "2000 JAN", name = "x")
+#' @export
+err_tdy_month_label <- function(x, name) {
+    ## more permissive than standard month regexp:
+    p <- sprintf("^([0-9]+) *(%s)$", paste(month.abb, collapse = "|"))
+    err_is_string(x = x,
+                  name = name)
+    if (!grepl(p, x, ignore.case = TRUE))
+        stop(gettextf("invalid value for '%s' : \"%s\"",
+                      name, x),
+             call. = FALSE)
+    year <- sub(p, "\\1", x, ignore.case = TRUE)
+    month <- sub(p, "\\2", x, ignore.case = TRUE)
+    ans <- sprintf("%s-%s-01", year, month)
+    ans <- as.Date(ans, format = "%Y-%b-%d")
+    ans
+}
+
+
+## HAS_TESTS
+#' Check and tidy quarter label
+#'
+#' Check that label valid, and return
+#' date of first day of quarter.
+#' Allows 0 or more spaces and lower-case
+#' q.
+#' 
+#' @inheritParams err_tdy_date_scalar
+#' @param x A quarter label.
+#'
+#' @examples
+#' err_tdy_quarter_label(x = "2000 Q1", name = "x")
+#' err_tdy_quarter_label(x = "2000Q1", name = "x")
+#' err_tdy_quarter_label(x = "2000 q1", name = "x")
+#' @export
+err_tdy_quarter_label <- function(x, name) {
+    p <-"^([0-9]+) *[qQ]([1-4])" ## more permissive than standard quarter regexp
+    err_is_string(x = x,
+                  name = name)
+    if (!grepl(p, x))
+        stop(gettextf("invalid value for '%s' : \"%s\"",
+                      name, x),
+             call. = FALSE)
+    year <- sub(p, "\\1", x)
+    quarter <- as.integer(sub(p, "\\2", x))
+    month <- (quarter - 1L) * 3L + 1L
+    ans <- sprintf("%s-%d-01", year, month)
+    ans <- as.Date(ans)
+    ans
+}
+
+
+## HAS_TESTS
 #' Ensure that two vectors have same length,
 #' if necessary by replicating a length-1 vector
 #'

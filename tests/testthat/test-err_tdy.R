@@ -779,6 +779,44 @@ test_that("'err_tdy_positive_integer_vector' raises expected error with invalid 
 })
 
 
+## err_tdy_month_label ------------------------------------------------------
+
+test_that("'err_tdy_month_label' works with valid inputs", {
+    expect_identical(err_tdy_month_label("2020 Jan", name = "x"),
+                     as.Date("2020-01-01"))
+    expect_identical(err_tdy_month_label("2020Feb", name = "x"),
+                     as.Date("2020-02-01"))
+    expect_identical(err_tdy_month_label("2020 MAR", name = "x"),
+                     as.Date("2020-03-01"))
+    expect_identical(err_tdy_month_label("2020   aPr", name = "x"),
+                     as.Date("2020-04-01"))
+})
+
+test_that("'err_tdy_month_label' raises expected error with invalid input", {
+    expect_error(err_tdy_month_label("2020 Janu", name = "x"),
+                 "invalid value for 'x' : \"2020 Janu\"")
+})
+
+
+## err_tdy_quarter_label ------------------------------------------------------
+
+test_that("'err_tdy_quarter_label' works with valid inputs", {
+    expect_identical(err_tdy_quarter_label("2020 Q1", name = "x"),
+                     as.Date("2020-01-01"))
+    expect_identical(err_tdy_quarter_label("2020Q2", name = "x"),
+                     as.Date("2020-04-01"))
+    expect_identical(err_tdy_quarter_label("2020 q3", name = "x"),
+                     as.Date("2020-07-01"))
+    expect_identical(err_tdy_quarter_label("2020   q4", name = "x"),
+                     as.Date("2020-10-01"))
+})
+
+test_that("'err_tdy_quarter_label' raises expected error with invalid input", {
+    expect_error(err_tdy_quarter_label("2020 Q5", name = "x"),
+                 "invalid value for 'x' : \"2020 Q5\"")
+})
+
+
 ## err_tdy_same_length --------------------------------------------------------
 
 test_that("'err_tdy_same_length' works with valid inputs", {
