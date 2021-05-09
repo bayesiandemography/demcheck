@@ -283,11 +283,17 @@ err_tdy_breaks_integer_age <- function(breaks, open_last) {
 err_tdy_breaks_integer_cohort <- function(breaks, open_first) {
     n <- length(breaks)
     if (n == 0L) {
+        if (is.null(open_first))
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          "breaks", 0L, "open_first", "NULL"))
         if (open_first)
             stop(gettextf("'%s' has length %d but '%s' is %s",
                           "breaks", 0L, "open_first", "TRUE"))
     }
     if (n == 1L) {
+        if (is.null(open_first))
+            stop(gettextf("'%s' has length %d but '%s' is %s",
+                          "breaks", 1L, "open_first", "NULL"))
         if (!open_first)
             stop(gettextf("'%s' has length %d but '%s' is %s",
                           "breaks", 1L, "open_first", "FALSE"))

@@ -285,12 +285,19 @@ test_that("'err_tdy_breaks_integer_cohort' returns breaks with valid input", {
                      0L)
 })
     
+
 test_that("'err_tdy_breaks_integer_cohort' raises expected error with invalid input", {
     expect_error(err_tdy_breaks_integer_cohort(breaks = numeric(),
-                                             open_first = TRUE),
+                                               open_first = NULL),
+                 "'breaks' has length 0 but 'open_first' is NULL")
+    expect_error(err_tdy_breaks_integer_cohort(breaks = numeric(),
+                                               open_first = TRUE),
                  "'breaks' has length 0 but 'open_first' is TRUE")
     expect_error(err_tdy_breaks_integer_cohort(breaks = 10,
-                                             open_first = FALSE),
+                                               open_first = NULL),
+                 "'breaks' has length 1 but 'open_first' is NULL")
+    expect_error(err_tdy_breaks_integer_cohort(breaks = 10,
+                                               open_first = FALSE),
                  "'breaks' has length 1 but 'open_first' is FALSE")
 })
 
