@@ -26,8 +26,6 @@ make_label_intervals <- function(x) {
         paste0("<", x2)
     else if (!is_na_1 && is_na_2)
         paste0(x1, "+")
-    else if (x2 == x1 + 1L)
-        as.character(x1)
     else    
         paste0(x1, "-", x2)
 }

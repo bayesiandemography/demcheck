@@ -155,7 +155,7 @@ test_that("'chk_no_overlap_pairs' returns expected message with invalid inputs",
                                                    c(NA_integer_, NA_integer_),
                                                    c(0L, 1L)),
                                           name = "x"),
-                     "problem with elements of 'x' : \"0\" overlaps with \"0\"")
+                     "problem with elements of 'x' : \"0-1\" overlaps with \"0-1\"")
     expect_identical(chk_no_overlap_pairs(x = list(c(5L, NA),
                                                    c(NA_integer_, NA_integer_),
                                                    c(0L, NA)),
@@ -165,7 +165,7 @@ test_that("'chk_no_overlap_pairs' returns expected message with invalid inputs",
                                                    c(NA_integer_, NA_integer_),
                                                    c(0L, 1L)),
                                           name = "x"),
-                     "problem with elements of 'x' : \"<1\" overlaps with \"0\"")
+                     "problem with elements of 'x' : \"<1\" overlaps with \"0-1\"")
     expect_identical(chk_no_overlap_pairs(x = list(c(0L, 0L),
                                                    c(10L, NA),
                                                    c(NA_integer_, NA_integer_),

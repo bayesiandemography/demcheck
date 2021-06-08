@@ -11,7 +11,7 @@ test_that("'make_label_intervals' gives expected result with valid inputs", {
     expect_identical(make_label_intervals(c(100L, NA)),
                      "100+")
     expect_identical(make_label_intervals(c(20L, 21L)),
-                     "20")
+                     "20-21")
     expect_identical(make_label_intervals(c(20L, 25L)),
                      "20-25")
 })
