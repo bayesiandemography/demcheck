@@ -794,11 +794,11 @@ err_tdy_month <- function(x, name) {
         is_invalid <- is_obs & (ans == 0L)
         if (any(is_invalid)) {
             ## "Jan", "Feb", ..., "Dec"
-            ans <- match(x, month.abb, nomatch = 0L)
+            ans <- match(x, base::month.abb, nomatch = 0L)
             is_invalid <- is_obs & (ans == 0L)
             if (any(is_invalid)) {
                 ## "January", "February", ..., "December"
-                ans <- match(x, month.name, nomatch = 0L)
+                ans <- match(x, base::month.name, nomatch = 0L)
                 is_invalid <- is_obs & (ans == 0L)
                 if (any(is_invalid))
                     stop(gettextf("elements of '%s' cannot be interpreted as codes or names of months",
@@ -829,8 +829,8 @@ err_tdy_month <- function(x, name) {
 err_tdy_month_start <- function(x, name) {
     err_is_string(x = x,
                   name = name)
-    valid_abb <- month.abb
-    valid_full <- month.name
+    valid_abb <- base::month.abb
+    valid_full <- base::month.name
     i <- match(tolower(x), tolower(valid_abb), nomatch = 0L)
     if (i > 0L)
         return(valid_abb[[i]])
@@ -973,7 +973,7 @@ err_tdy_positive_integer_vector <- function(x, name) {
 #' @export
 err_tdy_month_label <- function(x, name) {
     ## more permissive than standard month regexp:
-    p <- sprintf("^([0-9]+) *(%s)$", paste(month.abb, collapse = "|"))
+    p <- sprintf("^([0-9]+) *(%s)$", paste(base::month.abb, collapse = "|"))
     err_is_string(x = x,
                   name = name)
     if (!grepl(p, x, ignore.case = TRUE))

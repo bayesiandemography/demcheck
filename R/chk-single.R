@@ -684,7 +684,7 @@ chk_no_duplicates <- function(x, name) {
 #' @export
 chk_no_open_first <- function(x, name, unit) {
     if (unit == "month")
-        p_open <- paste(sprintf("^<[0-9]+ %s$", month.abb), collapse = "|")
+        p_open <- paste(sprintf("^<[0-9]+ %s$", base::month.abb), collapse = "|")
     else if (unit == "quarter")
         p_open <- "^<[0-9]+ Q[1-4]$"
     else if (unit == "year")

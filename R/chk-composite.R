@@ -1511,7 +1511,7 @@ NULL
 #' @rdname chk_valid_label_single_month
 #' @export
 chk_valid_label_single_month <- function(x, name) {
-    p <- paste(sprintf("^[0-9]+ %s$", month.abb), collapse = "|")
+    p <- paste(sprintf("^[0-9]+ %s$", base::month.abb), collapse = "|")
     val <- chk_is_string(x = x,
                          name = name)
     if (!isTRUE(val))
